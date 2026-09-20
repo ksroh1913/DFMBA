@@ -2,3 +2,7 @@
 __pycache__/
 *.pyc
 .claude/
+
+# API 원자료. collect/*.py 로 언제든 다시 받을 수 있고 용량이 커서 제외
+# (실거래가 건별 원자료는 수백 MB 규모)
+raw/
