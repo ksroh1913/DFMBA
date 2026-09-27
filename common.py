@@ -192,6 +192,7 @@ def parse_rone_region(cls_fullnm):
     계층 깊이가 통계표마다 달라서 마지막 조각으로 판정한다.
       '경기'                          -> ('경기', '')
       '전남광주>광주'                  -> ('광주', '')      통합코드 하위의 기존 시도
+      '전남광주>(구)광주'              -> ('광주', '')      통합 이전 명칭을 쓰는 표
       '경기>계'                        -> ('경기', '')      거래현황/미분양 계열의 시도 합계행
       '서울>강남구'                    -> ('서울', '강남구')
       '서울>강북지역>도심권>종로구'     -> ('서울', '종로구')  가격지수 계열의 4단 계층
@@ -201,6 +202,10 @@ def parse_rone_region(cls_fullnm):
         return None
     parts = cls_fullnm.split(">")
     last, first = parts[-1], parts[0]
+    # 전남·광주 통합 이후 일부 표는 통합 이전 시도를 '(구)광주'처럼 표기한다.
+    # 값이 관할 시군구 합계와 일치함을 확인했으므로 해당 시도 합계로 취급한다.
+    if last.startswith("(구)") and last[3:] in REGION_SET:
+        return last[3:], ""
     if last in REGION_SET:
         return last, ""
     if last == "계" and first in REGION_SET and len(parts) == 2:
