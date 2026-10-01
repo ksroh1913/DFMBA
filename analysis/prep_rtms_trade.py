@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
+※ 데이터사전 변수가 아닌 분석용 산출물 (V006·V007 실거래 원본을 가공). 결과는 analysis/output/ 에 저장.
 [전처리] 아파트 매매 실거래가 - 건별 원자료를 자치구·월별로 집계
 
-입력: raw/molit/apt_trade_<시군구코드>.csv (건별)
-출력: processed/서울_아파트_매매실거래_월별집계.csv
+입력: raw:molit/apt_trade_<시군구코드>.csv (건별)
+출력: analysis/output/서울_아파트_매매실거래_월별집계.csv
 
 이 데이터의 특성:
   - 유일하게 "건별" 원자료라서 집계 기준을 바꿔도 재수집이 불필요하다
@@ -16,7 +17,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from common import SEOUL_GU, load_raw, write_processed  # noqa: E402
+from common import SEOUL_GU, load_raw, write_analysis  # noqa: E402
 
 
 def median(values):
@@ -64,7 +65,7 @@ def main():
         ])
 
     rows.sort(key=lambda r: (r[1], r[2]))
-    path = write_processed(
+    path = write_analysis(
         "서울_아파트_매매실거래_월별집계",
         ["광역지자체", "자치구", "연월", "거래건수", "평균거래금액(만원)",
          "중위거래금액(만원)", "평균전용면적(㎡)", "평균단가(만원_전용㎡당)"],
