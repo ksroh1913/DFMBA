@@ -254,7 +254,7 @@ def v001_targets(sido, gu):
     col = colof(sido, "V001_")
 
     # 시도: 구계열 비율 연결
-    sido["Y_V001_연결"] = sido[col]
+    sido["Y_V001_월세통합가격지수(구지수연결)"] = sido[col]
     oldr = {}
     for nm, g in old.groupby("CLS_FULLNM"):
         reg = parse_rone_region(nm)
@@ -270,9 +270,9 @@ def v001_targets(sido, gu):
                            설명=f"현행 V001(2015.06)={float(cur.iloc[0]):.3f} ÷ 구계열(2015.06)={s[201506]:.3f}"))
         idx = sido.index[(sido["region"] == r) & (sido["month"] < 201506)]
         vals[idx] = sido.loc[idx, "month"].map(s) * k
-    n = fill(sido, "Y_V001_연결", vals, "연결_구계열")
-    log("V001", "Y_V001_연결", "비율 연결 (목표변수)", "구계열 x [현행(2015.06) ÷ 구계열(2015.06)]", n, 0,
-        f"{len(oldr)}개 시도(서울·경기·인천 2011~, 5개 광역시 2013.05~). 나머지 9개 시도는 원자료 없음")
+    n = fill(sido, "Y_V001_월세통합가격지수(구지수연결)", vals, "연결_구계열")
+    log("V001", "Y_V001_월세통합가격지수(구지수연결)", "비율 연결 (목표변수)", "구계열 x [현행(2015.06) ÷ 구계열(2015.06)]", n, 0,
+        f"{len(oldr)}개 시도(서울·경기·인천 2011~, 5개 광역시 2012.05~). 나머지 9개 시도는 원자료 없음")
 
     # 서울 구: 권역 역산 (학습용)
     zone = {}
@@ -282,7 +282,7 @@ def v001_targets(sido, gu):
         if parts[0] == "서울" and len(parts) == 4:
             zone[parts[3]] = "서울>" + parts[1]
     colg = colof(gu, "V001_")
-    gu["Y_V001_학습용"] = gu[colg]
+    gu["Y_V001_월세통합가격지수(권역역산_학습용)"] = gu[colg]
     vals = pd.Series(np.nan, index=gu.index)
     for g, z in zone.items():
         s = old[old["CLS_FULLNM"] == z].set_index("ym")["v"]
@@ -291,14 +291,14 @@ def v001_targets(sido, gu):
             continue
         idx = gu.index[(gu["region"] == g) & (gu["month"] < 201506)]
         vals[idx] = float(base.iloc[0]) * gu.loc[idx, "month"].map(s) / s[201506]
-    n = fill(gu, "Y_V001_학습용", vals, "역산_권역_학습용")
+    n = fill(gu, "Y_V001_월세통합가격지수(권역역산_학습용)", vals, "역산_권역_학습용")
     gu["Y_평가사용가능"] = gu[colg].notna().astype(int)
     sido["Y_평가사용가능"] = sido[col].notna().astype(int)
     for zn in ("서울>강남지역", "서울>강북지역"):
         s = old[old["CLS_FULLNM"] == zn].set_index("ym")["v"]
         PARAMS.append(dict(항목=f"V001 권역 기준값 {zn}", 값=round(s[201506], 4),
                            설명="구계열 2015.06. 구 역산 = 구 V001(2015.06) x 권역(t) ÷ 이 값"))
-    log("V001", "Y_V001_학습용", "권역 역산 (목표변수, 학습 전용)",
+    log("V001", "Y_V001_월세통합가격지수(권역역산_학습용)", "권역 역산 (목표변수, 학습 전용)",
         "구 V001(2015.06) x 소속 권역 구계열(t) ÷ 권역 구계열(2015.06)", 0, n,
         "강남 11개·강북 14개 구. 2015.06 이전 구별 차이가 없는 값이라 평가에서 제외(Y_평가사용가능=0)")
 
@@ -679,7 +679,12 @@ def write(sido, gu, sido_al, gu_al, q, y, h, months, colvid, lcol):
     details = fill_details([
         ("s1", sido, "month", "region", 17), ("g1", gu, "month", "region", 25),
         ("g2", gu_al, "month", "region", 25), ("q", q, "기간", None, None)])
-    clean = lambda df: df[[c for c in df.columns if "__" not in c]]
+    # V001 공식 원본 열은 목표값(Y_V001_월세통합가격지수…)에 들어 있으므로 데이터 시트에서 뺀다(설명변수 아님)
+    def clean(df):
+        cols = [c for c in df.columns if "__" not in c and not c.startswith("V001_")]
+        ids = [c for c in cols if c in ("panel", "region", "region_code", "month")]
+        ys = [c for c in cols if c.startswith("Y_")]  # 목표값은 식별 열 바로 뒤
+        return df[ids + ys + [c for c in cols if c not in ids and c not in ys]]
     ml = lambda df: df[[c for c in df.columns if not ml_excluded(c)]]
     out = {"s1": clean(sido), "g1": clean(gu), "s2": ml(clean(sido_al)), "g2": ml(clean(gu_al)),
            "q": clean(q), "h": clean(h), "y": clean(y)}
@@ -705,8 +710,14 @@ def write(sido, gu, sido_al, gu_al, q, y, h, months, colvid, lcol):
         ("분기·반기·연간", "분기_/반기_/연간_1차_결측보완 시트는 기준기간 기준 원표. 공표 시차를 반영한 2차 값은 따로 시트를 두지 않고 "
                       "17시도·서울25구_2차_공표시점반영(ML용) 시트 안에 열로 들어 있음(공표월부터 다음 공표 전까지 같은 값). "
                       "예: 가계신용 2026년 2분기 값은 8/19 공표 → 2차 시트 2026.08~ 행에 들어감"),
-        ("목표변수", "Y_ 로 시작. 2차 시트에서도 밀지 않음. 서울 구 Y_V001_학습용의 2015.06 이전 값은 권역 역산값이라 학습에만 쓰고, "
-                 "평가는 Y_평가사용가능 = 1 인 행만"),
+        ("목표변수", "Y_ 로 시작. 2차 시트에서도 밀지 않음. 시도 = Y_V001_월세통합가격지수(구지수연결)(2015.06 이전을 월세가격지수(구)로 비율 연결), "
+                 "서울 구 = Y_V001_월세통합가격지수(권역역산_학습용)(2015.06 이전을 강남/강북 권역 구계열로 역산)"),
+        ("V001 월세통합지수", "목표변수로만 둔다(설명변수 열 없음). 2015.06 이후는 공식 지수 그대로, 이전은 위 방법으로 채운 값. "
+                         "공식 값인지 채운 값인지는 Y_평가사용가능 으로 구분. 지수의 과거값을 입력으로 쓰려면 모델에서 목표값을 직접 시차 처리"),
+        ("Y_평가사용가능", "그 행의 목표값이 공식 월세통합지수이면 1(2015.06 이후), 연결·역산으로 채운 값이거나 빈칸이면 0. "
+                        "학습은 채운 값까지 전부 쓰고, 성능 평가는 1인 행만 쓴다. 채운 값을 정답으로 평가하면 실제 시장이 아니라 "
+                        "보완 방식을 얼마나 따라 했는지를 재게 되기 때문. 특히 서울 구의 역산값은 같은 권역 구들이 똑같이 움직여 "
+                        "구별 차이를 평가할 수 없음. 시도 연결값도 기준이 다른 지수를 이은 것이라 보수적으로 0"),
         ("보완 우선순위", "0이 확실한 것 → 같은 표본으로 역산 → 겹치는 시점 비율로 연결 → 대용 → 불가하면 빈칸 유지"),
         ("빈칸", "보완 후에도 남은 빈칸은 0이 아님(미공표·미작성·지역 없음). 세종은 2012.07 출범 전 값이 없음"),
         ("시트 구성", "1_개요 / 2_데이터목록 / 3_전처리방법 / 4_공표시차규칙 / 17시도·서울25구_1차_결측보완 / "
@@ -740,7 +751,7 @@ def write(sido, gu, sido_al, gu_al, q, y, h, months, colvid, lcol):
                       "변수명": v.get("name", ""), "주기": "월" if monthly else FREQ_KO.get(v.get("freq"), ""),
                       "공표 시차(개월)": r["lag"],
                       "공표일": ("말일" if r.get("day") == 31 else f"{r['day']}일경") if r.get("day") else "월 단위만 공식",
-                      "2차 시트 적용": lag_text(vid, "M" if monthly else v.get("freq", "")),
+                      "2차 시트 적용": "밀지 않음 (목표변수)" if vid == "V001" else lag_text(vid, "M" if monthly else v.get("freq", "")),
                       "공식 근거": r["evidence"], "출처": r["source"]})
     rules = pd.DataFrame(rules)
 
