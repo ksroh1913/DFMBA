@@ -3,7 +3,7 @@
 raw/ 폴더 구성표: 수집 코드가 쓰는 (출처, 원래 이름) -> raw/ 아래 실제 파일 위치.
 
   raw/<1차 동인 폴더>/<Master ID>_<데이터명>_<원 표 ID>.csv
-  raw/<1차 동인 폴더>/V006_아파트전월세실거래/V006_<시군구코드>_<구>.csv   (실거래는 구별 파일)
+  raw/<1차 동인 폴더>/V006_아파트전월세실거래/<시도>/V006_<시군구코드>_<시군구>.csv   (실거래는 시군구별 파일)
   raw/7_보완용_사전외/보완_<도움 주는 ID>_<데이터명>.csv               (데이터사전 변수 아님)
 
 동인은 데이터사전 Variable_Master 의 1차 동인. 수집·전처리 코드는 지금처럼
@@ -85,7 +85,7 @@ FILES = {
     ("supplement", "kosis_주택건설_소분류_DT_MLTM_5373"): (SUP, "보완_V023_주택건설소분류_준공_DT_MLTM_5373"),
 }
 
-# 국토부 실거래 - 구별 파일을 변수별 하위 폴더에
+# 국토부 실거래 - 시군구별 파일을 변수별·시도별 하위 폴더에 (코드표는 sgg_codes.py)
 MOLIT = {
     "apt_rent": (D4, "V006_아파트전월세실거래"),
     "apt_trade": (D3, "V007_아파트매매실거래"),
@@ -96,9 +96,12 @@ def locate(source, name):
     """(출처, 원래 이름) -> raw/ 아래 상대 경로 조각 리스트 (마지막이 파일명.csv)"""
     if source == "molit":
         kind, code = name.rsplit("_", 1)
-        from common import SEOUL_GU
         folder, sub = MOLIT[kind]
-        return [folder, sub, f"{sub[:4]}_{code}_{SEOUL_GU.get(code, '')}.csv".replace("_.csv", ".csv")]
+        if code == "수집기록":  # 시군구·월별 조회 기록 (0건인 달도 다시 묻지 않게)
+            return [folder, sub, f"_{sub[:4]}_수집기록.csv"]
+        from sgg_codes import SGG
+        sido, sgg = SGG[code]
+        return [folder, sub, sido, f"{sub[:4]}_{code}_{sgg}.csv"]
     if (source, name) not in FILES:
         raise KeyError(f"raw_layout.FILES 에 없는 raw 파일: {source}/{name} - 표에 위치를 추가하세요")
     folder, fname = FILES[(source, name)]

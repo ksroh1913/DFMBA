@@ -8,7 +8,8 @@
 수집 대상:
   apt_trade : 아파트 매매 실거래가 상세자료 (RTMSDataSvcAptTradeDev), 2006.01~   V007
   apt_rent  : 아파트 전월세 실거래가        (RTMSDataSvcAptRent),      2011.01~   V006
-  지역 범위 : 서울 25개 자치구
+  지역 범위 : 전국 시군구 256개 (sgg_codes.py). 서울 매매만 2006.01~, 나머지는 2011.01~ (패널 시작)
+             API 가 과거 거래도 현재 코드로 돌려주므로 현재 코드만 순회한다(sgg_codes.py 참조).
 
 --------------------------------------------------------------------------------
 과거 계약의 취소·해제를 어떻게 다루는가 (실측 근거)
@@ -38,22 +39,31 @@
   python collect/collect_molit.py apt_rent             # 전월세만
   python collect/collect_molit.py apt_rent --full      # 전월세 전 기간 재검증
   python collect/collect_molit.py apt_rent --verify-from 202301
+  python collect/collect_molit.py apt_rent --sido 부산,대구     # 일부 시도만
+  python collect/collect_molit.py apt_rent --wait-quota        # 일일 한도에 걸리면 다음 날 0시 10분까지 기다렸다 이어감
+  python collect/collect_molit.py --max-calls 3000 --delay 0.5  # 이번 실행은 유형별 3000회까지만, 호출 사이 0.5초 쉼
+                                                               # (나눠 받기. 다음 실행이 이어받는다)
+
+조회 기록: 시군구·월마다 조회일과 건수를 _V006_수집기록.csv 에 남긴다. 거래가 0건인 달
+(군 지역에 흔함)도 "받은 달"로 인정해 다시 묻지 않는다(최근 재검증 창은 예외).
 """
 
 import csv
 import hashlib
 import os
 import sys
+import time
 import urllib.error
 import urllib.parse
 import xml.etree.ElementTree as ET
 from collections import defaultdict
-from datetime import date
+from datetime import date, datetime, timedelta
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from common import (  # noqa: E402
-    SEOUL_GU, http_get, month_range, raw_path, require_key, shift_ym,
+    http_get, month_range, raw_path, require_key, shift_ym,
 )
+from sgg_codes import SGG  # noqa: E402
 
 API_KEY = require_key("DATA_GO_KR_API_KEY")
 TODAY = date.today().isoformat()
@@ -61,16 +71,20 @@ TODAY_YM = date.today().strftime("%Y%m")
 
 # 해제 시차 분포(5개월 내 98.9%)를 감안한 재검증 창
 REVERIFY_MONTHS = 6
+# 재검증 창 안의 달이라도 최근 이 일수 안에 조회했으면 다시 묻지 않는다(나눠 받기 시 매일 반복 방지)
+REVERIFY_MIN_DAYS = 7
 
 KINDS = {
     "apt_trade": {
         "url": "https://apis.data.go.kr/1613000/RTMSDataSvcAptTradeDev/getRTMSDataSvcAptTradeDev",
-        "start": "200601",
+        "start": "200601",        # 서울
+        "start_other": "201101",  # 서울 밖 (패널 시작 시점)
         "desc": "아파트 매매",
     },
     "apt_rent": {
         "url": "https://apis.data.go.kr/1613000/RTMSDataSvcAptRent/getRTMSDataSvcAptRent",
         "start": "201101",  # 전월세 실거래 공개 시작
+        "start_other": "201101",
         "desc": "아파트 전월세",
     },
 }
@@ -84,6 +98,22 @@ class QuotaExceeded(Exception):
     pass
 
 
+class CallBudgetReached(Exception):
+    pass
+
+
+# 실행당 호출 상한(--max-calls)과 호출 간 대기(--delay)
+BUDGET = {"max": None, "used": 0, "delay": 0.0}
+
+
+def spend_call():
+    if BUDGET["max"] is not None and BUDGET["used"] >= BUDGET["max"]:
+        raise CallBudgetReached()
+    BUDGET["used"] += 1
+    if BUDGET["delay"]:
+        time.sleep(BUDGET["delay"])
+
+
 def fetch_month(url, lawd_cd, deal_ymd):
     """해당 시군구·계약년월의 전체 거래 건을 dict 리스트로 반환"""
     items = []
@@ -91,6 +121,7 @@ def fetch_month(url, lawd_cd, deal_ymd):
     while True:
         params = {"serviceKey": API_KEY, "LAWD_CD": lawd_cd, "DEAL_YMD": deal_ymd,
                   "numOfRows": 1000, "pageNo": page_no}
+        spend_call()
         try:
             text = http_get(url + "?" + urllib.parse.urlencode(params))
         except urllib.error.HTTPError as e:
@@ -103,6 +134,8 @@ def fetch_month(url, lawd_cd, deal_ymd):
         if code != "000":
             if code in ("03", "004"):  # 데이터 없음
                 break
+            if code in ("22", "0022"):  # LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS
+                raise QuotaExceeded(f"{lawd_cd} {deal_ymd}")
             raise RuntimeError(f"[{lawd_cd} {deal_ymd}] API 오류 {code}: "
                                f"{root.findtext('./header/resultMsg')}")
 
@@ -154,10 +187,39 @@ def save_raw(kind, lawd_cd, rows):
             w.writerow(r)
 
 
-def months_to_fetch(existing, start, mode, verify_from):
-    """이미 받은 월은 건너뛰고, 재검증 대상 월만 다시 받는다."""
+def load_log(kind):
+    """{(시군구코드, 계약년월): (조회일, 건수)}"""
+    path = raw_path("molit", f"{kind}_수집기록")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8-sig", newline="") as f:
+        return {(r["LAWD_CD"], r["DEAL_YMD"]): (r["조회일"], r["건수"]) for r in csv.DictReader(f)}
+
+
+def save_log(kind, log):
+    path = raw_path("molit", f"{kind}_수집기록")
+    with open(path, "w", encoding="utf-8-sig", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["LAWD_CD", "DEAL_YMD", "조회일", "건수"])
+        for (cd, ym), (day, n) in sorted(log.items()):
+            w.writerow([cd, ym, day, n])
+
+
+def wait_for_quota_reset():
+    now = datetime.now()
+    resume = (now + timedelta(days=1)).replace(hour=0, minute=10, second=0, microsecond=0)
+    print(f"  ... {resume:%m-%d %H:%M}까지 대기 후 이어받습니다.", flush=True)
+    time.sleep((resume - now).total_seconds())
+
+
+def months_to_fetch(existing, start, mode, verify_from, logged=None):
+    """이미 받은 월(행이 있거나 조회 기록이 있는 달)은 건너뛰고, 재검증 대상 월만 다시 받는다.
+    logged = {계약년월: 조회일}. 재검증 창 안이라도 REVERIFY_MIN_DAYS 안에 조회한 달은 건너뛴다."""
+    logged = logged or {}
     all_months = month_range(start, TODAY_YM)
-    have = {r.get(M_YMD) for r in existing}
+    have = {r.get(M_YMD) for r in existing} | set(logged)
+    fresh_since = (date.today() - timedelta(days=REVERIFY_MIN_DAYS)).isoformat()
+    fresh = {ym for ym, day in logged.items() if day > fresh_since}
 
     if mode == "full":
         return all_months
@@ -165,18 +227,26 @@ def months_to_fetch(existing, start, mode, verify_from):
         return [m for m in all_months if m >= verify_from or m not in have]
 
     window_start = shift_ym(TODAY_YM, -(REVERIFY_MONTHS - 1))
-    return [m for m in all_months if m not in have or m >= window_start]
+    return [m for m in all_months if m not in have or (m >= window_start and m not in fresh)]
 
 
-def collect_kind(kind, mode, verify_from):
+def collect_kind(kind, mode, verify_from, codes, wait_quota):
     cfg = KINDS[kind]
-    print(f"\n[{kind}] {cfg['desc']} 수집 (모드: {mode})")
+    print(f"\n[{kind}] {cfg['desc']} 수집 (모드: {mode}, {len(codes)}개 시군구)")
+    log = load_log(kind)
+    logged_by = defaultdict(dict)
+    for (cd, ym), (day, _) in log.items():
+        logged_by[cd][ym] = day
+    total = len(codes)
 
-    for i, (lawd_cd, gu_name) in enumerate(SEOUL_GU.items(), 1):
+    for i, lawd_cd in enumerate(codes, 1):
+        sido, gu_name = SGG[lawd_cd]
+        gu_name = f"{sido} {gu_name}"
+        start = cfg["start"] if sido == "서울" else cfg["start_other"]
         existing = load_raw(kind, lawd_cd)
-        targets = months_to_fetch(existing, cfg["start"], mode, verify_from)
+        targets = months_to_fetch(existing, start, mode, verify_from, logged_by[lawd_cd])
         if not targets:
-            print(f"- [{i}/25] {gu_name}: 재수집 대상 없음 (보유 {len(existing)}건)")
+            print(f"- [{i}/{total}] {gu_name}: 재수집 대상 없음 (보유 {len(existing)}건)")
             continue
 
         # 대상 월만 갈아끼우고 나머지는 그대로 유지
@@ -188,9 +258,22 @@ def collect_kind(kind, mode, verify_from):
                 old_by_month[r[M_YMD]].append(r)
 
         merged, added, vanished = [], 0, 0
+        done = set()
+        pending = lambda: [r for m, rs in old_by_month.items() if m not in done for r in rs]  # noqa: E731
         try:
             for ym in targets:
-                new_rows = fetch_month(cfg["url"], lawd_cd, ym)
+                try:
+                    new_rows = fetch_month(cfg["url"], lawd_cd, ym)
+                except QuotaExceeded:
+                    if not wait_quota:
+                        raise
+                    save_raw(kind, lawd_cd, kept + merged + pending())
+                    save_log(kind, log)
+                    print(f"  ! 일일 호출 한도 초과 ({gu_name} {ym}).", flush=True)
+                    wait_for_quota_reset()
+                    new_rows = fetch_month(cfg["url"], lawd_cd, ym)
+                done.add(ym)
+                log[(lawd_cd, ym)] = (TODAY, str(len(new_rows)))
                 for r in new_rows:
                     r[M_YMD] = ym
 
@@ -210,16 +293,25 @@ def collect_kind(kind, mode, verify_from):
                     if key not in new_keyed:
                         merged.append(prev)
                         vanished += 1
+        except CallBudgetReached:
+            save_raw(kind, lawd_cd, kept + merged + pending())
+            save_log(kind, log)
+            print(f"  이번 실행 호출 상한({BUDGET['max']}회) 도달. {gu_name} {len(done)}/{len(targets)}개월까지 저장하고 멈춥니다.")
+            print("    다음에 같은 명령을 실행하면 이어받습니다.")
+            return False
         except QuotaExceeded as e:
-            save_raw(kind, lawd_cd, kept + merged)
+            # 아직 못 받은 달의 기존 행은 그대로 남긴다
+            save_raw(kind, lawd_cd, kept + merged + pending())
+            save_log(kind, log)
             print(f"  ! 일일 호출 한도 초과({e}). 여기까지 저장하고 중단합니다.")
             print(f"    다음 날 같은 명령을 실행하면 {gu_name}부터 이어받습니다.")
             raise SystemExit(1)
 
         save_raw(kind, lawd_cd, kept + merged)
+        save_log(kind, log)
         note = f", 신규 {added}건" if added else ""
         note += f", 응답에서 사라짐 {vanished}건" if vanished else ""
-        print(f"- [{i}/25] {gu_name}({lawd_cd}): {len(targets)}개월 조회, "
+        print(f"- [{i}/{total}] {gu_name}({lawd_cd}): {len(targets)}개월 조회, "
               f"누적 {len(kept) + len(merged)}건{note}", flush=True)
 
 
@@ -235,11 +327,30 @@ def main():
         mode, verify_from = "verify-from", args[idx + 1]
         del args[idx:idx + 2]
 
+    for opt, key, cast in (("--max-calls", "max", int), ("--delay", "delay", float)):
+        if opt in args:
+            idx = args.index(opt)
+            BUDGET[key] = cast(args[idx + 1])
+            del args[idx:idx + 2]
+    wait_quota = "--wait-quota" in args
+    if wait_quota:
+        args.remove("--wait-quota")
+    codes = sorted(SGG)
+    if "--sido" in args:
+        idx = args.index("--sido")
+        wanted = set(args[idx + 1].split(","))
+        codes = [c for c in codes if SGG[c][0] in wanted]
+        del args[idx:idx + 2]
+    # 서울을 먼저(기존 수집분 갱신), 이후 코드 순
+    codes = sorted(codes, key=lambda c: (SGG[c][0] != "서울", c))
+
     kinds = [a for a in args if a in KINDS] or list(KINDS)
 
     print("[수집] 국토부 실거래가 -> raw/<동인 폴더>/ (위치: raw_layout.py) (건별 원자료)")
     for kind in kinds:
-        collect_kind(kind, mode, verify_from)
+        BUDGET["used"] = 0  # 상한은 유형별로 따로
+        collect_kind(kind, mode, verify_from, codes, wait_quota)
+        print(f"  [{kind}] 이번 실행 호출 {BUDGET['used']}회")
     print("\n완료")
 
 

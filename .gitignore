@@ -3,6 +3,9 @@ __pycache__/
 *.pyc
 .claude/
 
-# API 원자료. collect/*.py 로 언제든 다시 받을 수 있고 용량이 커서 제외
-# (실거래가 건별 원자료는 수백 MB 규모)
-raw/
+# API 원자료 중 국토부 실거래 건별 자료(V006·V007)는 수 GB 규모라 제외.
+# collect/collect_molit.py 로 언제든 다시 받을 수 있다. 나머지 raw(KOSIS·R-ONE·ECOS 등)는 올린다.
+raw/*/V006_*/
+raw/*/V007_*/
+raw/_수집로그_*.txt
+raw/_수집오류_*.txt

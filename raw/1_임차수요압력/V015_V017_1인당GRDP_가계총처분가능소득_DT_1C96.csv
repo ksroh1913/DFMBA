@@ -1,0 +1,535 @@
+﻿C1_OBJ_NM,DT,C1,PRD_SE,UNIT_NM_ENG,ITM_ID,TBL_ID,ITM_NM,TBL_NM,PRD_DE,LST_CHN_DE,C1_NM_ENG,C1_NM,UNIT_NM,ITM_NM_ENG,ORG_ID,C1_OBJ_NM_ENG
+시도별,27996,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,15350,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,32407,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,18699,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,20459,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,14904,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,17526,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,13978,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,23871,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,13961,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,19867,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,14689,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,20428,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,15443,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,58224,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,19095,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,25344,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,14890,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,21906,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,13332,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,27817,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,13693,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,41590,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,13716,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,22033,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,13902,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,36825,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,13706,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,34902,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,13892,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,28403,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,14106,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,22034,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,14072,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2010,2025-03-28,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,29125,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,16074,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,33740,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,19789,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,20883,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,15823,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,18399,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,14637,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,24103,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,14635,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,20426,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,15207,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,21195,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,16213,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,64781,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,20139,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,26130,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,15593,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,22660,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,13775,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,29495,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,14163,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,44324,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,14051,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,23161,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,14542,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,37545,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,14096,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,35926,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,14323,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,29574,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,14679,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,23704,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,14869,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2011,2025-03-28,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,30078,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,16683,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,34682,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,20402,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,21761,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,16406,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,19338,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,15196,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,24508,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,15372,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,21203,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,16037,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,21844,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,16758,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,65248,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,20535,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,27475,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,16260,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,23566,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,14373,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,30712,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,14775,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,44779,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,14698,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,23767,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,14945,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,38225,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,14699,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,36634,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,15013,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,30712,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,15175,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,25205,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,15453,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2012,2025-03-28,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,31229,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,17511,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,35553,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,21278,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,22554,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,17116,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,20260,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,16032,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,25177,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,16080,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,22248,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,16868,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,22326,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,17622,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,65650,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,21555,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,59432,29,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Sejong City,세종특별자치시,천원,Regional GDP per Capita,101,By province
+시도별,18406,29,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Sejong City,세종특별자치시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,29030,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,17157,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,24751,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,15162,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,32148,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,15577,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,46588,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,15800,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,25040,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,15729,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,39463,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,15275,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,38367,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,15733,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,31117,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,15891,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,26186,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,16127,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2013,2025-03-28,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,32320,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,18245,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,36635,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,21946,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,23991,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,17835,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,21114,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,16885,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,26559,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,16825,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,23448,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,17560,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,23047,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,18387,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,63793,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,22106,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,67352,29,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Sejong City,세종특별자치시,천원,Regional GDP per Capita,101,By province
+시도별,24751,29,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Sejong City,세종특별자치시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,30249,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,17950,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,26351,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,16005,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,33496,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,16048,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,47563,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,16447,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,25890,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,16447,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,39322,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,15940,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,40839,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,16440,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,31316,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,16662,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,27766,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,16739,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2014,2025-03-28,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,34169,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,19288,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,38911,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,22822,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,25707,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,18609,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,22685,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,17939,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,28376,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,17960,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,24731,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,18632,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,24568,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,19568,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,65408,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,22904,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,53194,29,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Sejong City,세종특별자치시,천원,Regional GDP per Capita,101,By province
+시도별,23323,29,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Sejong City,세종특별자치시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,32590,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,19096,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,27608,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,17113,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,36656,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,17470,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,49568,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,17704,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,26827,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,17500,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,40834,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,17211,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,40916,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,17424,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,32739,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,17690,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,30275,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-02,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,17959,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2015,2024-09-03,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,35825,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,19714,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,41359,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,23375,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,26800,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,18637,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,23382,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,18468,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,29864,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,18611,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,26248,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,18837,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,26265,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,19917,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,65031,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,22883,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,46767,29,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Sejong City,세종특별자치시,천원,Regional GDP per Capita,101,By province
+시도별,22605,29,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Sejong City,세종특별자치시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,34399,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,19660,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,29380,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,17644,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,39848,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,17894,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,51891,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,17842,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,27300,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,17670,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,42473,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,17863,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,41820,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,17628,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,34005,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,18181,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,32389,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-02,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,18295,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2016,2024-09-03,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,37690,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,20309,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,43731,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,23976,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,27210,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,19161,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,24170,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,18955,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,31198,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,19297,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,27449,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,19483,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,27281,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,20619,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,66786,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,22973,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,44964,29,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Sejong City,세종특별자치시,천원,Regional GDP per Capita,101,By province
+시도별,22678,29,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Sejong City,세종특별자치시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,37146,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,20414,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,31200,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,18305,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,43254,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,18634,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,55839,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,18332,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,28545,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,18298,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,43582,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,18433,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,43005,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,18106,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,33985,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,18530,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,34134,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-02,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,18731,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2017,2024-09-03,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,38922,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,21288,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,46547,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,25053,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,28355,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,20022,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,24820,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,19891,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,31688,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,20522,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,28594,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,20675,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,28027,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,21756,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,65897,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,23252,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,41137,29,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Sejong City,세종특별자치시,천원,Regional GDP per Capita,101,By province
+시도별,22790,29,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Sejong City,세종특별자치시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,38541,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,21488,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,32267,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,19285,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,46002,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,19734,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,56126,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,19292,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,29319,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,19302,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,44086,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,19384,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,43129,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,18856,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,34291,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,19217,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,33673,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-02,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,19402,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2018,2024-09-03,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,39467,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,22289,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,48248,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,26229,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,29436,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,21096,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,25653,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,20760,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,32272,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,21517,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,29807,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,21759,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,29870,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,22978,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,65486,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,24079,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,40597,29,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Sejong City,세종특별자치시,천원,Regional GDP per Capita,101,By province
+시도별,23515,29,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Sejong City,세종특별자치시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,38135,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,22552,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,33780,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,20221,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,46777,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,20770,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,54857,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,20125,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,30400,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,20271,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,44535,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,20355,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,42598,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,19655,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,35355,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,19860,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,33545,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-02,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,19979,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2019,2024-09-03,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,39789,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,23042,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,49165,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,26428,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,29272,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,21715,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,25928,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,21581,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,32292,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,22338,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,30823,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,22766,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,31276,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,23916,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,59529,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,24671,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,40212,29,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Sejong City,세종특별자치시,천원,Regional GDP per Capita,101,By province
+시도별,24369,29,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Sejong City,세종특별자치시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,38890,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,23379,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,33945,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,21294,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,46462,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,21801,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,56448,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,21308,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,31213,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,21444,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,45339,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,21395,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,42263,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,20631,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,34325,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,20622,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,32404,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-02,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,20835,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2020,2024-09-03,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,42963,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,23726,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,53373,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,27119,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,31950,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,22338,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,27770,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,22197,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,35388,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,23053,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,32098,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,23649,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,32928,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,24774,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,70889,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,25672,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,42797,29,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Sejong City,세종특별자치시,천원,Regional GDP per Capita,101,By province
+시도별,25346,29,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Sejong City,세종특별자치시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,41392,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,23962,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,36350,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,22104,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,49519,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,22873,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,62474,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,22047,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,33164,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,22029,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,52489,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,22270,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,44957,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,21251,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,35661,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,21262,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,33861,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-02,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,21396,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2021,2024-09-03,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,45045,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,24971,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,56094,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,28187,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,34465,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,23730,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,29654,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,23425,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,38065,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,24387,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,33497,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,25203,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,34409,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,26158,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,76234,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,27079,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,42207,29,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Sejong City,세종특별자치시,천원,Regional GDP per Capita,101,By province
+시도별,25854,29,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Sejong City,세종특별자치시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,42903,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,25248,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,37797,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,23029,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,52252,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,24181,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,64469,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,23176,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,34484,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,23633,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,54179,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,23748,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,46243,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,22426,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,38612,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,22447,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,35999,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-02,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,22481,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2022,2024-09-03,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,46640,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,26383,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,58829,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,30382,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,35431,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,24853,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,30664,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,24603,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,39104,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,25421,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,35143,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,26142,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,36174,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,27418,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,80821,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,29378,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,43227,29,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Sejong City,세종특별자치시,천원,Regional GDP per Capita,101,By province
+시도별,26598,29,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Sejong City,세종특별자치시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,43155,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,26488,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,40749,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,24041,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,53827,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,25327,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,64310,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,24449,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,36052,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,24930,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,55892,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,25444,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,48791,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,23677,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,42638,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,23671,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,38570,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-17,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,23718,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2023,2025-12-19,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,49483,00,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Whole country,전국,천원,Regional GDP per Capita,101,By province
+시도별,27825,00,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Whole country,전국,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,61215,11,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Seoul,서울특별시,천원,Regional GDP per Capita,101,By province
+시도별,32224,11,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Seoul,서울특별시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,37085,21,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Busan,부산광역시,천원,Regional GDP per Capita,101,By province
+시도별,26157,21,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Busan,부산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,31374,22,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Daegu,대구광역시,천원,Regional GDP per Capita,101,By province
+시도별,25784,22,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Daegu,대구광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,41187,23,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Incheon,인천광역시,천원,Regional GDP per Capita,101,By province
+시도별,26869,23,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Incheon,인천광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,37675,24,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Gwangju,광주광역시,천원,Regional GDP per Capita,101,By province
+시도별,27782,24,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Gwangju,광주광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,38220,25,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Daejeon,대전광역시,천원,Regional GDP per Capita,101,By province
+시도별,28753,25,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Daejeon,대전광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,85194,26,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Ulsan,울산광역시,천원,Regional GDP per Capita,101,By province
+시도별,31117,26,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Ulsan,울산광역시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,44610,29,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Sejong City,세종특별자치시,천원,Regional GDP per Capita,101,By province
+시도별,28379,29,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Sejong City,세종특별자치시,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,46996,31,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Gyeonggi-do,경기도,천원,Regional GDP per Capita,101,By province
+시도별,27914,31,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Gyeonggi-do,경기도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,42563,32,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Gangwon State,강원특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,25243,32,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Gangwon State,강원특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,56328,33,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Chungcheongbuk-do,충청북도,천원,Regional GDP per Capita,101,By province
+시도별,26551,33,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Chungcheongbuk-do,충청북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,67758,34,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Chungcheongnam-do,충청남도,천원,Regional GDP per Capita,101,By province
+시도별,25610,34,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Chungcheongnam-do,충청남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,37980,35,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Jeonbuk State,전북특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,26132,35,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Jeonbuk State,전북특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,59177,36,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Jeollanam-do,전라남도,천원,Regional GDP per Capita,101,By province
+시도별,26804,36,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Jeollanam-do,전라남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,52298,37,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Gyeongsangbuk-do,경상북도,천원,Regional GDP per Capita,101,By province
+시도별,24861,37,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Gyeongsangbuk-do,경상북도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,46550,38,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Gyeongsangnam-do,경상남도,천원,Regional GDP per Capita,101,By province
+시도별,25057,38,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Gyeongsangnam-do,경상남도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
+시도별,39914,39,A,1000 won,T1,DT_1C96,1인당 지역내총생산,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-17,Jeju,제주특별자치도,천원,Regional GDP per Capita,101,By province
+시도별,24611,39,A,1000 won,T3,DT_1C96,1인당 가계총처분가능소득,시도별 1인당 지역내총생산 지역총소득 가계총처분가능소득,2024,2025-12-19,Jeju,제주특별자치도,천원,Gross Disposable Income of Households and NPISHs per Capita,101,By province
