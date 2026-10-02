@@ -293,6 +293,16 @@ def main():
         "변수현황 : 컬럼별 Master ID·출처·유효행·기간",
     ]})
 
+    # 열 제목을 "ID_무슨 통계_세부_단위" 로 (전처리 파일과 같은 이름표: impute/display_names.py)
+    import re
+    sys.path.insert(0, os.path.join(BASE, "impute"))
+    from display_names import DISPLAY, disp
+    sido, gu, quarterly, halfyear, annual = [df.rename(columns=disp) for df in (sido, gu, quarterly, halfyear, annual)]
+    names = sorted((c for c in DISPLAY if DISPLAY[c] != c), key=len, reverse=True)
+    pat = re.compile("|".join(re.escape(n) for n in names))
+    fix = lambda v: pat.sub(lambda m: DISPLAY[m.group(0)], v) if isinstance(v, str) else v  # noqa: E731
+    readme, status = [df.apply(lambda s: s.map(fix)) for df in (readme, status)]
+
     with pd.ExcelWriter(OUT, engine="openpyxl") as xw:
         readme.to_excel(xw, sheet_name="읽는법", index=False)
         status.to_excel(xw, sheet_name="변수현황", index=False)

@@ -50,6 +50,7 @@ import pandas as pd
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BASE)
 sys.path.insert(0, os.path.join(BASE, "merge"))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import build_panel as bp  # noqa: E402
 from check_variables import expected_latest  # noqa: E402
 from common import REGIONS, parse_rone_region, raw_path  # noqa: E402
@@ -754,6 +755,16 @@ def write(sido, gu, sido_al, gu_al, q, y, h, months, colvid, lcol):
                       "2차 시트 적용": "밀지 않음 (목표변수)" if vid == "V001" else lag_text(vid, "M" if monthly else v.get("freq", "")),
                       "공식 근거": r["evidence"], "출처": r["source"]})
     rules = pd.DataFrame(rules)
+
+    # 열 제목을 "ID_무슨 통계_세부_단위" 로 바꾼다 (데이터 시트 + 설명서 안의 열 이름 언급까지 한 번에)
+    import re
+    from display_names import DISPLAY, disp
+    out = {k: df.rename(columns=disp) for k, df in out.items()}
+    names = sorted({c for c in DISPLAY if DISPLAY[c] != c}, key=len, reverse=True)
+    pat = re.compile("|".join(re.escape(n) for n in names))
+    fix = lambda v: pat.sub(lambda m: DISPLAY[m.group(0)], v) if isinstance(v, str) else v  # noqa: E731
+    intro, catalog, per_data, methods, rules = [df.apply(lambda s: s.map(fix)) for df in
+                                                (intro, catalog, per_data, methods, rules)]
 
     with pd.ExcelWriter(OUT, engine="openpyxl") as xw:
         intro.to_excel(xw, sheet_name="1_개요", index=False)
