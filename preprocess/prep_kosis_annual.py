@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-[전처리] 연간 통계 - 지역소득·건축허가·총조사·임대주택 (17개 시도 / 서울 25개 구)
+[전처리] 연간 통계 - 지역소득·건축허가·주택보급률·임대주택 (17개 시도 / 서울 25개 구)
 
 입력: raw:kosis/DT_1C96.csv            1인당 GRDP·가계총처분가능소득 (지역소득)     V015/V017
       raw:kosis/DT_201004_O090005.csv  서울 구별 주거용 신축 건축허가 (서울통계)    V024
-      raw:kosis/DT_1IN1502.csv         인구주택총조사 가구·주택 수 (시군구)         V072
+      raw:kosis/DT_MLTM_2100.csv       국토부 (新)주택보급률 (시도, 2010~)           V072
       raw:kosis/DT_MLTM_6827·7174.csv  임대주택공급현황 (2020~ 민간 / 2024~ 전체)  V076
       raw:kosis/DT_MLTM_5560.csv       임대주택건설공급현황 (2012~2019)            V077
 출력: processed/연간_소득생산공급.csv
@@ -60,19 +60,13 @@ def main():
                 rows.append([*region, r["PRD_DE"], "연", stat, r.get("ITM_NM", ""), v,
                              r.get("UNIT_NM", "")])
 
-    # V072 인구주택총조사 가구·주택 수: 시도(2자리) + 서울 구(11로 시작하는 5자리)
-    for r in load_raw("kosis", "DT_1IN1502"):
-        code, name, v = r.get("C1", ""), r.get("C1_NM", ""), num(r.get("DT"))
-        if v is None:
-            continue
-        if len(code) == 2 and sido_short(name):
-            region = (sido_short(name), "")
-        elif len(code) == 5 and code.startswith("11") and name in GU_NAMES:
-            region = ("서울", name)
-        else:
-            continue
-        rows.append([*region, r["PRD_DE"], "연", "총조사_가구주택", r.get("ITM_NM", ""), v,
-                     r.get("UNIT_NM", "")])
+    # V072 국토부 (新)주택보급률 (시도). 수도권·지방 등 집계행은 sido_short 에서 걸러진다
+    for r in load_raw("kosis", "DT_MLTM_2100"):
+        sido, v = sido_short(r.get("C1_NM")), num(r.get("DT"))
+        if sido and v:  # 0 은 미작성 항목
+            item = r.get("ITM_NM", "")
+            unit = "%" if "보급률" in item else ("천가구" if "가구" in item else "천호")
+            rows.append([sido, "", r["PRD_DE"], "연", "주택보급률_국토부", item, v, unit])
 
     # V077 임대주택건설공급현황 (2012~2019): 분류가 모두 '총계'인 시도 행만 수집했다
     for r in load_raw("kosis", "DT_MLTM_5560"):

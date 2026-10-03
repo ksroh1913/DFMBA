@@ -17,7 +17,7 @@
   [반기] DT_1ES3A01S 시군구별 고용률·취업자 (서울 구)        V013
   [연] DT_1C96       1인당 GRDP·가계총처분가능소득         V015/V017
   [연] DT_201004_O090005  서울 구별 주거용 신축허가         V024
-  [연] DT_1IN1502    인구주택총조사 가구·주택 수            V072
+  [연] DT_MLTM_2100  국토부 (新)주택보급률 (시도)           V072
   [연] DT_MLTM_6827 / 7174  임대주택공급현황                V076
   [연] DT_MLTM_5560  임대주택건설공급현황                   V077
   [분기] DT_1L9I002  가계동향 도시2인이상 소득              V074
@@ -101,8 +101,9 @@ TABLES = [
     dict(tbl="DT_201004_O090005", org="201", itm="T001+T002+", prd="Y", start=2010, end=None,
          obj={"objL1": "ALL", "objL2": "002+", "objL3": "001001+", "objL4": "001+"},
          desc="서울구_주거용_신축허가"),
-    dict(tbl="DT_1IN1502", org="101", itm="T200+T310+", prd="Y", start=2015,
-         end=None, chunk=1, obj={"objL1": "ALL"}, desc="총조사_가구주택"),
+    # V072 국토부 (新)주택보급률: 시도만, 등록센서스 가구수·다가구 구분거처 반영 주택수 (2010~)
+    dict(tbl="DT_MLTM_2100", org="116", itm="13103871096T4+13103871096T5+13103871096T6+", prd="Y",
+         start=2010, end=None, chunk=5, obj={"objL1": "ALL"}, desc="주택보급률_시도_국토부"),
     dict(tbl="DT_MLTM_5560", org="116", itm="ALL", prd="Y", start=2012, end=2019, chunk=1,
          obj={"objL1": "ALL", "objL2": "ALL", "objL3": "13102866436C.0001+",
               "objL4": "13102866436D.0001+", "objL5": "ALL"},
@@ -112,6 +113,10 @@ TABLES = [
          obj={"objL1": "ALL", "objL2": "ALL"}, desc="민간임대주택공급현황_2020-"),
     dict(tbl="DT_MLTM_7174", org="116", itm="ALL", prd="Y", start=2024, end=None, chunk=1,
          obj={"objL1": "ALL", "objL2": "ALL", "objL3": "ALL"}, desc="임대주택공급현황_2024-"),
+    # --- 사업체노동력조사 임금 (V066) 과거 계열: 2020~ 는 ECOS(901Y052·901Y148)에서 받는다 ---
+    # 전체산업·전규모(1인이상)·전체임금총액. 산업분류 9차 표(2011~2019). 10차 KOSIS 표 값 = ECOS 값 (2020 전월 일치 확인)
+    dict(tbl="DT_118N_MON041", org="118", itm="13103110311MD_12+", prd="M", start=2011, end=2019,
+         obj={"objL1": "15118INDUSTRY_9S0+", "objL2": "size01+"}, desc="사업체노동력_임금총액_산업9차_2011-2019"),
     # --- 가계동향 (분기, 전국): V074는 사전 수록기간대로 구계열(1990~2019)만 ---
     dict(tbl="DT_1L9I002", org="101", itm="T1+", prd="Q", start=1990, end=2019,
          obj={"objL1": "A+"}, desc="가계동향_도시2인이상_소득_구계열"),

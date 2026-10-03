@@ -312,7 +312,7 @@ def lowfreq(sido_base, gu_base):
     colvid = {}
     for df in (q, y, h):
         for c in df.columns[3:]:
-            colvid[c] = "V013H" if c.startswith("V013") else c[:4]
+            colvid[c] = "V013H" if c.startswith("V013") else c.split("_")[0]
 
     # V074 신계열 연결
     old_c = colof(q, "V074_")
@@ -337,9 +337,7 @@ def lowfreq(sido_base, gu_base):
     hh_g = gu_base.assign(_연월=gu_base["month"].map(ym)).set_index(["region", "_연월"])[colof(gu_base, "V010_")]
     hh = pd.Series([hh_g.get((g, m)) if g else hh_s.get((s, m)) for s, g, m in zip(y["시도"], y["구"], y["_연월"])],
                    index=y.index, dtype=float)
-    y["V072_주택수÷가구수"] = y[colof(y, "V072_총조사_주택수")] / y[colof(y, "V072_총조사_가구수")]
-    colvid["V072_주택수÷가구수"] = "V072"
-    derived = ["V072_주택수÷가구수"]
+    derived = []
     for c in [x for x in y.columns if x.startswith(("V024_주거용신축허가_동수", "V076_", "V077_")) and "__" not in x]:
         nc = c.rsplit("_", 1)[0] + "_천세대당"
         y[nc] = y[c] / hh * 1000
@@ -355,7 +353,7 @@ def lowfreq(sido_base, gu_base):
         derived.append(nc)
     y = y.drop(columns="_연월")
     log("파생", ", ".join(derived), "파생 비율",
-        "주택수÷가구수 / 12월 세대수(V010) 1천 세대당 / 전국 대비(전국=1)", 0, 0, "기준연도 기준으로 계산 후 공표월부터 반영")
+        "12월 세대수(V010) 1천 세대당 / 전국 대비(전국=1)", 0, 0, "기준연도 기준으로 계산 후 공표월부터 반영")
     return q, y, h, colvid
 
 
@@ -461,8 +459,6 @@ def main():
     v001_targets(sido, gu)
 
     # 보완 불가 (빈칸 유지) - 데이터 시트에는 표시 열을 두지 않고 설명서에만 기록
-    log("V066", colof(sido, "V066_"), "보완 안 함",
-        "2011~2019년 빈칸 유지: 월별 전체근로자 임금 표 없음(KOSIS DT_118N_MON048은 연간·상용근로자만)", 0, 0, "")
     log("V071", colof(sido, "V071_"), "보완 안 함", "2015.06 이전 빈칸 유지: 통계 작성 전", 0, 0, "")
 
     # 서울 상위지역 변수 (구 패널)
@@ -651,8 +647,6 @@ ML_EXCLUDE = {
     "V076_민간임대계(DT_MLTM_7174)": "2024년 1년치뿐이라 학습 불가",
     "V074_가계동향_도시2인이상_월평균소득_원": "2019Q4 종료. V074_연결 사용",
     "V069_예금취급기관_가계대출": "주택관련대출과 수준 상관 0.98. 주택관련대출 사용",
-    "V072_총조사_가구수": "지역 규모만 반영(주택수와 상관 0.92). V072_주택수÷가구수 사용",
-    "V072_총조사_주택수": "지역 규모만 반영. V072_주택수÷가구수 사용",
     "V024_주거용신축허가_동수_동": "지역 규모에 끌려감. 천세대당 사용",
     "V076_민간임대(DT_MLTM_6827합계)_호": "지역 규모에 끌려감. 천세대당 사용",
     "V077_임대주택건설공급_총계_호": "지역 규모에 끌려감. 천세대당 사용",

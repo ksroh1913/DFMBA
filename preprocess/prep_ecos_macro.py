@@ -13,8 +13,11 @@
   - 월별과 분기를 파일로 분리한다. 예전에는 분기값을 분기 시작월(1Q->01)에 넣었는데,
     분기값은 분기 종료 1.5개월 뒤에야 공표되므로 시작월에 두면 미래정보가 섞인다.
     분기는 '2026Q2'처럼 기준기간 그대로 두고, 월별 패널에 붙일지는 병합 단계에서 정한다.
-  - 사업체노동력조사 임금은 산업분류 개정으로 표가 바뀐다(10차 2020~2025, 11차 2026~).
-    '전체 산업·전규모' 합계라 분류 개정 영향이 작아 한 계열로 잇되, 2019년 이전은 ECOS에 없다.
+  - 사업체노동력조사 임금은 산업분류 개정으로 표가 바뀐다(9차 2011~2019, 10차 2020~2025, 11차 2026~).
+    '전체 산업·전규모(1인이상)·전체임금총액' 합계라 분류 개정의 영향을 받지 않아 그대로 한 계열로 잇는다.
+    2019년 이전은 ECOS에 없어 KOSIS DT_118N_MON041(9차)에서 받는다.
+    검증: KOSIS 10차 표(DT_118N_MON051) 2020년 값 = ECOS 901Y052 값(12개월 모두 일치),
+          2019->2020 전년동월비 평균 +1.0% (고용노동부 공표 2020년 임금상승률 +1.1%와 부합, 단절 없음).
   - 단위가 제각각(연%, 지수, 십억원, 천불)이라 스케일 조정 없이 단위를 함께 남긴다.
 """
 
@@ -23,6 +26,9 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from common import check_unique_keys, load_raw, write_processed  # noqa: E402
+
+# V066 과거 계열 (KOSIS, 2011~2019) -> ECOS 계열과 같은 통계명·항목명으로 잇는다
+WAGE_OLD = ("DT_118N_MON041", "임금총액_사업체노동력", "전체임금총액", "원")
 
 # (raw 파일명, 출력 통계명, 주기)
 SERIES = [
@@ -68,6 +74,16 @@ def main():
                 quarterly.append(["전국", "", t, "분기", out_name, item, value, unit])
             n += 1
         print(f"- {out_name} ({raw_name}): {n}행")
+
+    tbl, out_name, item, unit = WAGE_OLD
+    n = 0
+    for r in load_raw("kosis", tbl):
+        if r.get("DT") in ("", "-", None):
+            continue
+        t = r["PRD_DE"]
+        monthly.append(["전국", "", f"{t[:4]}-{t[4:6]}", out_name, item, r["DT"], unit])
+        n += 1
+    print(f"- {out_name} (KOSIS {tbl}, 2011~2019): {n}행")
 
     monthly.sort(key=lambda r: (r[3], r[2]))
     quarterly.sort(key=lambda r: (r[4], r[2]))

@@ -122,12 +122,23 @@ def fetch_month(url, lawd_cd, deal_ymd):
         params = {"serviceKey": API_KEY, "LAWD_CD": lawd_cd, "DEAL_YMD": deal_ymd,
                   "numOfRows": 1000, "pageNo": page_no}
         spend_call()
-        try:
-            text = http_get(url + "?" + urllib.parse.urlencode(params))
-        except urllib.error.HTTPError as e:
-            if e.code == 429:
-                raise QuotaExceeded(f"{lawd_cd} {deal_ymd}")
-            raise
+        for attempt in range(12):  # 서버가 연결을 끊는 일이 잦아 길게 기다리며 재시도 (최대 약 40분)
+            try:
+                text = http_get(url + "?" + urllib.parse.urlencode(params))
+                break
+            except urllib.error.HTTPError as e:
+                if e.code == 429:
+                    raise QuotaExceeded(f"{lawd_cd} {deal_ymd}")
+                if attempt == 11:
+                    raise
+                print(f"  ! HTTP {e.code}({lawd_cd} {deal_ymd}). 60초 후 재시도", flush=True)
+                time.sleep(60)
+            except (urllib.error.URLError, OSError) as e:
+                if attempt == 11:
+                    raise
+                wait = min(30 * 2 ** attempt, 600)
+                print(f"  ! 연결 오류({lawd_cd} {deal_ymd}): {e}. {wait}초 후 재시도", flush=True)
+                time.sleep(wait)
 
         root = ET.fromstring(text)
         code = root.findtext("./header/resultCode")
