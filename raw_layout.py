@@ -80,6 +80,7 @@ FILES = {
     ("supplement", "rone_월세가격지수_구"): (SUP, "보완_V001_월세가격지수(구)_A_2024_00164"),
     ("supplement", "kosis_가계동향_신계열"): (SUP, "보완_V074_가계동향_신계열_KOSIS"),
     ("supplement", "ecos_주택상가가치전망CSI"): (SUP, "보완_V061-V063_주택상가가치전망CSI_511Y002"),
+    ("supplement", "kosis_임금총액_산업9차"): (SUP, "보완_V066_임금총액_산업9차_DT_118N_MON041"),
     ("supplement", "kosis_주택건설_소분류_DT_MLTM_1948"): (SUP, "보완_V021_주택건설소분류_인허가_DT_MLTM_1948"),
     ("supplement", "kosis_주택건설_소분류_DT_MLTM_5387"): (SUP, "보완_V022_주택건설소분류_착공_DT_MLTM_5387"),
     ("supplement", "kosis_주택건설_소분류_DT_MLTM_5373"): (SUP, "보완_V023_주택건설소분류_준공_DT_MLTM_5373"),
