@@ -76,8 +76,20 @@ def per(m):
 
 
 def span(ps):
+    """연속 구간별로 적는다. 예: 2011-02~2012-01, 2012-12 (13개월)"""
     ps = sorted(set(ps))
-    return f"{ps[0]}~{ps[-1]} ({len(ps)}개월)" if ps else "없음"
+    if not ps:
+        return "없음"
+    runs, a, b = [], ps[0], ps[0]
+    for p in ps[1:]:
+        if p == b + 1:
+            b = p
+        else:
+            runs.append((a, b))
+            a = b = p
+    runs.append((a, b))
+    txt = ", ".join(str(a) if a == b else f"{a}~{b}" for a, b in runs)
+    return f"{txt} ({len(ps)}개월)"
 
 
 for p in (MERGED, XLSX, RAW_RENT, RAW_OLD):
@@ -115,7 +127,6 @@ mask_cols = [c for c in common if any(p in FUTURE for p in str(methods.get(c, ""
 mask_d12 = {}
 rng = np.random.default_rng(0)
 off_rows = s2["P"] >= OFF0
-ext_rows = (s2["P"] >= EXT0) & (s2["P"] <= J)
 for c in mask_cols:
     vid = c[:4]
     lag = RELEASE_MONTHLY[vid]["lag"] if vid in RELEASE_MONTHLY else 0
@@ -135,6 +146,7 @@ for c in mask_cols:
         return lv.mask(m2), d.mask(m2)
 
     lv_ok, d_ok = derive(x, True)
+    d_raw = x - x.groupby(g).shift(12)          # 마스킹 없이 계산되는 12개월 차분
     lv_bad, d_bad = derive(x, False)
     xp = x.where(~m2, x + rng.normal(0, 1, len(x)))
     lvp_ok, dp_ok = derive(xp, True)
@@ -145,15 +157,14 @@ for c in mask_cols:
     put("마스킹", f"{c} 기준기간 마스킹 셀", f"{int(m1.sum())}셀, {regions}개 지역",
         f"{span(s1.loc[m1, 'P'])}, 공표 시차 {lag}개월")
     put("마스킹", f"{c} 2차 시트 마스킹 행(결정월)", span(s2.loc[m2, "P"]), "수준 입력이 결측이 되는 결정월")
-    put("마스킹", f"{c} 12개월 차분 결측 결정월(마스킹 먼저)", span(s2.loc[d_ok.isna() & d_bad.notna() | m2 & x.notna(), "P"]),
-        "마스킹 행과 그 12개월 뒤 행")
+    lost = d_ok.isna() & d_raw.notna()
+    put("마스킹", f"{c} 마스킹 때문에 12개월 차분이 결측이 되는 결정월", span(s2.loc[lost, "P"]),
+        f"{int(lost.sum())}행. 수준이 마스킹된 행과 그 12개월 뒤 행 중 원래 차분이 계산되던 행")
     put("마스킹", f"{c} 5차 순서에서 보완값이 남는 결정월", span(s2.loc[leak, "P"]),
         f"{int(leak.sum())}행. 12개월 차분의 과거 기준값이 보완값")
     put("마스킹", f"{c} 교란 시험(마스킹 먼저)", "통과" if same_ok else "실패", "마스킹 셀을 난수로 바꿔도 파생값 불변")
-    put("마스킹", f"{c} 주 분석(결정월 2016.01~) 영향 행", int(((d_ok.isna() & x.notna()) & off_rows).sum()),
-        f"결정월 {span(s2.loc[(d_ok.isna() & x.notna()) & off_rows, 'P'])}의 12개월 차분 결측")
-    put("마스킹", f"{c} 확장 실험(2012.01~2015.06) 영향 행", int(((d_ok.isna() & x.notna()) & ext_rows).sum()),
-        "12개월 차분 결측 행")
+    put("마스킹", f"{c} 주 분석(결정월 2016.01~) 영향 행", int((lost & off_rows).sum()),
+        f"결정월 {span(s2.loc[lost & off_rows, 'P'])}의 12개월 차분 결측")
     mask_d12[c] = (lv_ok, d_ok)
 
 # 전신계열 CSI: 12개월 차분이 전신·현행 경계(2012.12|2013.01)를 가로지르는 결정월
@@ -195,11 +206,26 @@ for h in HS:
     put("접합", f"h={h} 제외 결정월", span(r.t[r.k == "제외"]), "목표·A 구간이 접합을 가로지르거나 체계가 섞인 행")
     put("접합", f"h={h} 확장에 남는 2015년 결정월", span(r.t[(r.k == "옛") & (r.t.dt.year == 2015)]),
         "목표 구간이 2015.06에서 끝나는 행까지 옛 체계")
-    use = set(r.t[r.k != "제외"])
-    sel = s2["P"].isin(use)
+    # 전국 모형의 행은 월 하나. 전국 공통변수(V057·V059)는 한 지역 행으로, 시도 변수(V003)는 세종을 뺀 16개 시도가
+    # 모두 관측된 달로 센다(전국 평균 x̄(t)를 같은 시도 구성으로 계산할 수 있는 달).
     for c, (lv, d) in mask_d12.items():
-        put("접합", f"h={h} 확장 훈련행의 {c[:4]} 관측률(수준/12개월 차분)",
-            f"{lv[sel].notna().mean():.0%} / {d[sel].notna().mean():.0%}", "70% 미만이면 그 시점 학습에서 제외")
+        if s2.loc[s2["P"] >= OFF0].groupby("P")[c].nunique().max() == 1:   # 전국 공통변수
+            obs_l = lv[s2["region"] == "서울"].set_axis(s2.loc[s2["region"] == "서울", "P"]).notna()
+            obs_d = d[s2["region"] == "서울"].set_axis(s2.loc[s2["region"] == "서울", "P"]).notna()
+        else:
+            k = s2["region"] != "세종"
+            obs_l = lv[k].notna().groupby(s2.loc[k, "P"]).all()
+            obs_d = d[k].notna().groupby(s2.loc[k, "P"]).all()
+        o, a = r.t[r.k == "옛"], r.t[r.k != "제외"]
+        put("접합", f"h={h} {c[:4]} 관측 비율: 옛 체계 결정월 / 확장 훈련 전체(공식+옛)",
+            f"수준 {obs_l.reindex(o).mean():.0%}·{obs_l.reindex(a).mean():.0%}, "
+            f"12개월 차분 {obs_d.reindex(o).mean():.0%}·{obs_d.reindex(a).mean():.0%}",
+            "전국 모형의 월 단위 행 기준. 관측률 필터는 공식 구간 행으로 판정(확장 입력 목록 고정)")
+    # 민감도: 옛 수도권 + 5대광역시 집계(2012.05~)를 쓰면 A 구간 때문에 t >= 2012.12
+    alt0 = pd.Period("2012-05", "M") + 7
+    n_alt = int(((r.k == "옛") & (r.t >= alt0)).sum())
+    put("접합", f"h={h} 민감도 대용계열(수도권+지방 집계, 2012.05~)의 옛 체계 훈련 결정월", n_alt,
+        f"{alt0}부터. 주 확장(수도권 집계)은 {n_old}개월")
 
 # ============================================================ 3. 선택형 단순기준
 MIN_EVAL, WIN, MIN_TRAIN = 12, 24, 12
