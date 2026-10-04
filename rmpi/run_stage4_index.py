@@ -196,10 +196,11 @@ def main():
     pd.DataFrame(mc).to_csv(os.path.join(out, "stage4_월공통비중.csv"), index=False, encoding="utf-8-sig")
 
     # ---------------- 그림
+    end = S.per(s["timing"]["posthoc_label_end"])
     sc = series_c[3]
     fig, axes = plt.subplots(2, 3, figsize=(12.5, 6), sharex=True)
     for ax, c in zip(axes.ravel(), sc.columns):
-        y = sc[c].loc[lo:]
+        y = sc[c].loc[lo:end]
         ax.plot(y.index.to_timestamp(), y.values, color=V.SERIES[0])
         ax.axhline(0, color=V.BASE, lw=0.8)
         ax.axvspan(lo.to_timestamp(), (T0 - 3 + 1).to_timestamp(), color=V.WASH, zorder=0, lw=0)
@@ -216,7 +217,7 @@ def main():
     cols = [c for c in sr.columns if c.startswith("RMPI지역|")]
     fig, axes = plt.subplots(2, 3, figsize=(12.5, 6), sharex=True)
     for ax, c in zip(axes.ravel(), cols):
-        w = sr.pivot(index="P", columns="region", values=c).loc[lo:]
+        w = sr.pivot(index="P", columns="region", values=c).loc[lo:end]
         x = w.index.to_timestamp()
         ax.fill_between(x, w.min(axis=1).values, w.max(axis=1).values, color=V.SERIES[0], alpha=0.10, lw=0, label="17개 시도 범위")
         ax.plot(x, w["서울"].values, color=V.SERIES[0], label="서울")

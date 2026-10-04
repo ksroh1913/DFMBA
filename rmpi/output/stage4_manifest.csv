@@ -1,6 +1,6 @@
 ﻿구분,항목,값
 settings,config/plan_v8_settings.yaml,cb5ae07a7ab2eb1b
-commit,a223651,
+commit,24d163f,
 input,데이터취합_전처리_20261004.xlsx,d4cb52e7a2b7c982
 input,데이터취합_20261004.xlsx,8e65ad87deeab22c
 input,raw/5_시장과열단기트리거/V001_월세통합가격지수_A_2024_00054.csv,4e58143d259e1a3a
