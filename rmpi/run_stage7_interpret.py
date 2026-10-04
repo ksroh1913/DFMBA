@@ -371,7 +371,7 @@ def main():
         ax.fill_between(x, neg, neg + dn, color=PAL8[i % 8], alpha=0.85, lw=0)
         pos, neg = pos + up, neg + dn
     base_line = SH[(SH.h == h) & (SH["묶음"] == "절편")].set_index(pd.PeriodIndex(SH[(SH.h == h) & (SH["묶음"] == "절편")]["P"], freq="M"))["기여"]
-    ax.plot(x, (y_act["yhat"] - base_line.reindex(y_act.index)).values, color=V.INK, lw=1.4, label="예측 − 훈련 평균")
+    ax.plot(x, (y_act["yhat"] - base_line.reindex(y_act.index)).values, color=V.INK, lw=1.4, label="예측 - 훈련 평균")
     ax.axhline(0, color=V.BASE, lw=0.8)
     ax.set_title("전국 Ridge B 예측의 묶음별 기여 (h=3, 선형 SHAP = 계수 x 표준화 입력, 매달 재적합 모형 기준)", fontsize=10)
     ax.legend(loc="upper left", ncol=5, fontsize=8)

@@ -71,9 +71,35 @@ def main():
     A(f"> 계획: docs/연구계획_8차_확정본.md · 설정: {s['_path']} (sha256 {s['_sha']}, {s['meta']['settings_version']}) · "
       f"실행 코드: rmpi/ · 산출물: rmpi/output/ · 평가 구간: 결정월 {s['timing']['eval_start']}~{s['timing']['eval_end']}, 월별 재적합\n")
     if len(man):
-        A("실행 기록(stage6_manifest.csv): " + "; ".join(f"{r['항목']} {r['값']}" for _, r in man.iterrows() if r["구분"] in ("commit", "input", "package")) + "\n")
+        A("실행 기록(stage6_manifest.csv): " + "; ".join((f"{r['항목']} {r['값']}" if isinstance(r["값"], str) else str(r["항목"])) for _, r in man.iterrows()
+                                                      if r["구분"] in ("commit", "input", "package")) + "\n")
 
-    # ---------------- 1 요약
+    # ---------------- 0 핵심 결과
+    def V_(name, h, col="MAE비율(평균의 비)"):
+        x = ver[(ver["비교"] == name) & (ver["h"] == h)]
+        return float(x[col].iloc[0]) if len(x) else np.nan
+    def R3(name, col="MAE비율(평균의 비)"):
+        return "·".join(f"{V_(name, h, col):.2f}" for h in hs)
+    A("## 0 핵심 결과 (수치는 아래 표에서 가져옴)\n")
+    A(f"- RQ1(전국 공통 흐름): B_공통의 MAE 는 A 의 {R3('RQ1 B_공통 대 A')}배(h=1·3·6)로 h=1·3 에서 ‘개선’이지만, 선택형 단순기준 대비는 {R3('RQ1 B_공통 대 선택형 단순기준')}배로 모두 ‘차이 불확실’이다. "
+      f"선택형 단순기준은 거의 모든 시점에서 ‘h×최근 월변화’(mom1)가 선택됐다. A 자체가 선택형 단순기준보다 나쁘고(비 {R3('보조 RQ1 A 대 선택형 단순기준')}), "
+      f"alpha 를 해마다 다시 고르는 민감도에서는 B 와 A 의 차이가 {R3('민감도 RQ1 B 재튜닝 대 A 재튜닝')}배로 줄어 모두 ‘차이 불확실’이다. "
+      "따라서 사전 고정한 alpha=10 이 가격 추세 모형 A 를 과하게 축소했고, B 의 A 대비 개선 중 상당 부분은 그 영향으로 해석해야 한다. 계획의 종합 규칙에 따라 RQ1 은 ‘지지 안 됨’이다.\n")
+    A(f"- RQ2(시도 상대 변화): 지역 RMPI 를 더한 B_지역은 상대 가격 추세 A_지역과 같다(비 {R3('RQ2 B_지역 대 A_지역')}). 상대 가격 추세 자체는 ‘차이 0 기준’보다 크게 낫다(비 {R3('보조 RQ2 A_지역 대 차이 0')}). "
+      "지역 동인에 정보가 없다는 뜻이 아니라, 가격 추세에 더해 얻는 개선을 확인하지 못한 것이다.\n")
+    A(f"- RQ3(급락 확률): B 의 Brier 는 A 의 {R3('RQ3 B(공통+지역 RMPI) 대 A')}배로 세 기간 모두 연평균 구간만 0 아래인 ‘개선 신호’다(2년 묶음 구간은 0 을 포함). "
+      "개선은 주로 이미 하락 중인 지역(기존 급락 상태)에서 나오고, 비급락 상태에서의 Brier 차이는 작다. 국면 시작 사례의 경보 선행은 대부분 1개월이다.\n")
+    if len(aux):
+        pl = aux[aux["항목"].str.contains("분위")]
+        ex = aux[aux["항목"].str.contains("B main w=1.0")]
+        A("- 위약 시험: 공통 블록을 무작위 계열로 바꾼 20회의 B 보다 실제 B 의 MAE 가 모두 낮다(분위 " + "·".join(f"{v:.2f}" for v in pl["값"]) +
+          "). 공통 블록에 잡음 이상의 정보가 있지만 그것이 모멘텀 규칙을 이기는 데까지는 이르지 못했다. 대용계열 확장(옛 수도권 지수, 가중치 1)은 B 의 MAE 를 "
+          + "·".join(f"{v:+.3f}" for v in ex["값"]) + "%p 바꿔 오히려 나빠졌다.\n")
+    if len(shap_s) and len(rem):
+        A("- 해석: 선형 SHAP 과 동인 제거 재학습 모두에서 ⑤ 시장과열·단기 트리거(소비심리·주택가격전망 CSI)가 공통 RMPI 의 기여를 주도한다. 다른 동인을 빼도 MAE 변화는 작다.\n")
+    if len(comb):
+        A("- 결합 예측: 공통 성분을 전국 모형으로, 월내 성분을 상대 모형으로 나눈 결합 B 와 같은 입력의 통합 패널 B 는 ‘차이 불확실’이며, h=1 에서는 지역별 mom1 단순 규칙이 둘보다 낫다.\n")
+    A("- 트리 모형(Extra Trees)은 모든 과제에서 Ridge 보다 나쁘거나 같았다. 추가 비교모형(부록)에서도 선형 계열이 가장 좋았다.\n")
     A("## 1 사전 지정 주 분석의 판정\n")
     A("판정 규칙(계획 1장): d(t) = L_추가정보 − L_기준. 결정연도 8개 연평균의 95% t구간(자유도 7)과 2년 묶음 4개의 t구간(자유도 3)의 "
       "상한이 모두 0 미만이면 ‘개선’, 연평균 구간만이면 ‘개선 신호’. RQ1 은 같은 h 에서 A 대비와 선택형 단순기준 대비가 모두 ‘개선’이어야 그 h 를 개선으로 센다.\n")
@@ -190,6 +216,11 @@ def main():
     A("- 입력은 최신 개정자료에 공표 시차를 적용한 의사 실시간 자료다. V013·V015·V017·V021~V023·V066·V074 는 공표 당시 값과 다를 수 있어 제외 민감도를 함께 보고했다.\n")
     A("- 판정에 쓴 두 t구간은 연도 간 의존성과 적은 묶음 수 때문에 명목 신뢰수준을 보장하지 않는다. 블록 부트스트랩은 참고 결과다.\n")
     A("- 전향 검증(저장일·입력 마감일 기록)은 설계 동결 뒤 실제 저장 시점부터 시작한다. 이 보고서의 2026년 사후 확인은 최신 자료로 계산한 사후 값이다.\n")
+    A("- 재현 경로 메모: 계획 12장이 가리키는 analysis/plan_v7_inference_sim.py, config/plan_v8_settings.yaml, analysis/check_settings.py, docs/연구계획_8차_확정본.docx 가운데 "
+      "이 브랜치에는 설정 파일과 check_settings.py 를 이번 실행에서 새로 만들었고(11장 ①~⑦ 값은 계획 본문대로), 모의실험 스크립트와 docx 원본은 제공되지 않아 포함하지 않았다. "
+      "계획 본문의 pandoc 사본을 docs/연구계획_8차_확정본.md 로 두었다.\n")
+    A("- 산출물 목록: 1단계 config/plan_v8_settings.yaml·analysis/output/check_settings.csv, 2단계 stage2_*.csv, 3단계 fig3_*.png·stage3_*.csv, 4단계 stage4_*.csv·fig4_*.png, "
+      "5단계 stage5_점검.csv, 6단계 stage6_*.csv·fig6_*.png, 7단계 stage7_*.csv·fig7_*.png (모두 rmpi/output/).\n")
     with open(DOC, "w", encoding="utf-8") as f:
         f.write("\n".join(L))
     print("wrote", os.path.relpath(DOC, BASE), len("\n".join(L)), "chars")
