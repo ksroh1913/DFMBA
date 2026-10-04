@@ -95,11 +95,13 @@ def lag_adjust(s, ml, extra=False):
     g = ml.groupby("region")
     for vid, k in s["lag_adjustments"].items():
         c = colname(s, vid)
-        ml[c] = g[c].shift(k)
+        if c in ml.columns:
+            ml[c] = g[c].shift(k)
     if extra:
         for vid in s["robustness_extra_lag"]["columns"]:
             c = colname(s, vid)
-            ml[c] = ml.groupby("region")[c].shift(1)
+            if c in ml.columns:
+                ml[c] = ml.groupby("region")[c].shift(1)
     return ml
 
 
@@ -119,11 +121,15 @@ def transform(s, ml, panel="sido"):
     csi = pd.Series(np.nan, index=ml.index)
     for k, regs in s["csi_region_type"].items():
         csi = csi.mask(ml["region"].isin(regs), ml[s["csi_columns"][k]].astype(float))
+    if panel == "gu":                # 서울 구는 모두 서울 유형
+        csi = ml[s["csi_columns"]["V061"]].astype(float)
     ml["CSI_지역유형"] = csi
     X = ml[["region", "P"]].copy()
     spec = []
     for vid, v in s["variables"].items():
         c = v["col"]
+        if c not in ml.columns:      # 서울 구 시트에 없는 시도 변수(V005·V013·V021~23·V031·V032·V037·V050·V072·V015·V017)
+            continue
         x = ml[c].astype(float)
         tr = v["transform"]
         outs = {}
@@ -171,7 +177,8 @@ def reference_regions(s, X, spec):
         obs = sub.pivot(index="P", columns="region", values=name).notna()
         any_m = obs.any(axis=1)
         full = obs[any_m].all(axis=0)
-        out[name] = sorted(full.index[full].tolist(), key=s["inputs"]["regions"].index)
+        order = {r: i for i, r in enumerate(pd.unique(X["region"]))}
+        out[name] = sorted(full.index[full].tolist(), key=order.get)
     return out
 
 

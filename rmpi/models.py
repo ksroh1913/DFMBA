@@ -54,7 +54,7 @@ def logistic(s, ct, C=None):
     c = C if C is not None else s["models"]["logistic_panel"]["C"]
     return Pipeline([("features", ct), ("impute", SimpleImputer(strategy="median", keep_empty_features=True)),
                      ("scale", StandardScaler()),
-                     ("model", LogisticRegression(C=c, penalty="l2", max_iter=5000))]).set_output(transform="pandas")
+                     ("model", LogisticRegression(C=c, max_iter=5000))]).set_output(transform="pandas")
 
 
 def extra_trees(s, ct, kind="national", h=1, task="reg"):

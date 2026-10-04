@@ -90,6 +90,8 @@ def national(s, months=None):
         out[f"G{h}"] = 100 * (R.reindex(lag1 + h).values / R.reindex(lag1).values - 1)
         out[f"down{h}"] = np.where(np.isfinite(out[f"G{h}"]), (out[f"G{h}"] <= th[h][0]).astype(float), np.nan)
         out[f"label_month{h}"] = out.index + h
+        # 민감도 타깃 g: R(t) 기준 순수 미래 변화. 정답은 t+h+1 월 말에 확인 (훈련행 t <= T-h-1)
+        out[f"g{h}"] = 100 * (R.reindex(out.index + h).values / R.reindex(out.index).values - 1)
     return out
 
 

@@ -57,9 +57,11 @@ def _placebo(X, cols, rng):
 # ============================================================ 전국 모형
 def national_run(s, nf, spec, h, origins, info="B", model="ridge", alpha=None, retune=False, refit_months=None,
                  extension=None, ext_weight=1.0, placebo_rng=None, exclude_ids=(), target="G", label=None):
-    """반환: 예측 DataFrame(P, y, yhat, 모형, 정보군, h, 훈련행수, alpha), 구성 명세 목록(첫·마지막 시점)."""
+    """반환: 예측 DataFrame(P, y, yhat, 모형, 정보군, h, 훈련행수, alpha), 구성 명세 목록(첫·마지막 시점).
+    target 'g'(R(t) 기준 민감도 타깃)는 정답이 t+h+1 에 확인되므로 훈련행이 한 달 더 짧다."""
     first = S.per(s["timing"]["official_first_decision"])
     ycol = f"{target}{h}"
+    lab = h + 1 if target == "g" else h
     sp = spec[~spec["ID"].isin(exclude_ids)]
     ccols = [c for c in sp.loc[sp.block.isin(["regional", "common"]), "입력"] if c in nf.columns]
     frame = nf.copy()
@@ -90,9 +92,9 @@ def national_run(s, nf, spec, h, origins, info="B", model="ridge", alpha=None, r
     preds, comps = [], []
     fitted, cur_alpha = None, None
     for T in origins:
-        tr_mask = (frame.index >= first) & (frame.index <= T - h) & frame[ycol].notna() & frame[A].notna().all(axis=1)
+        tr_mask = (frame.index >= first) & (frame.index <= T - lab) & frame[ycol].notna() & frame[A].notna().all(axis=1)
         if extension is not None:
-            tr_mask |= (frame["옛체계"] == 1) & (frame.index <= T - h) & frame[ycol].notna() & frame[A].notna().all(axis=1)
+            tr_mask |= (frame["옛체계"] == 1) & (frame.index <= T - lab) & frame[ycol].notna() & frame[A].notna().all(axis=1)
         tr = frame[tr_mask]
         te = frame.loc[[T]] if T in frame.index else None
         if te is None or te[A].isna().any(axis=1).iloc[0]:
@@ -166,6 +168,7 @@ def panel_run(s, pf, spec, h, origins, target="r", info="B", model="ridge", refi
         pipe = M.ridge(s, ct, "panel") if model == "ridge" else M.extra_trees(s, ct, "panel", h, "reg")
     preds, comps, diag = [], [], []
     fitted = None
+    n_reg = int(frame["region"].nunique())
     for T in origins:
         tr = frame[(frame.P >= first) & (frame.P <= T - h) & frame[ycol].notna() & frame[A].notna().all(axis=1)]
         te = frame[(frame.P == T) & frame[A].notna().all(axis=1)]
@@ -199,7 +202,7 @@ def panel_run(s, pf, spec, h, origins, target="r", info="B", model="ridge", refi
                             "훈련행수": int(len(tr)), "훈련사건비율": base_rate})
         if target == "r":                                   # 같은 달 지역 예측 평균을 빼서 보정 (N=17 완전패널)
             rec["yhat_raw"] = rec["yhat"]
-            rec["yhat"] = rec["yhat"] - rec["yhat"].mean() if len(rec) == len(s["inputs"]["regions"]) else np.nan
+            rec["yhat"] = rec["yhat"] - rec["yhat"].mean() if len(rec) == n_reg else np.nan   # 완전 횡단면에서만 보정
         if prior_state and target == "down":
             rec["기존급락상태"] = te[f"state_down{h}"].values
         preds.append(rec)
