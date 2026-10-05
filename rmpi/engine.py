@@ -106,7 +106,7 @@ def national_run(s, nf, spec, h, origins, info="B", model="ridge", alpha=None, r
         if need_fit:
             p = clone(pipe)
             nested = alpha is None and not isinstance(s["models"]["ridge_national"].get("alpha"), (int, float))
-            rule = alpha_rule or ("one_se" if (retune or info == "C") else ("cv_min" if nested else None))     # v9: 주 사양 cv_min, 8차 1-SE 는 민감도; alpha_rule 로 재정의 가능
+            rule = alpha_rule or (None if alpha is not None else ("one_se" if (retune or info == "C") else ("cv_min" if nested else None)))     # v9: 주 사양 cv_min, 8차 1-SE 는 민감도; alpha_rule 로 재정의 가능; alpha 를 주면 고정
             if model == "ridge" and rule and (T.month == s["models"]["ridge_national"].get("nested", {}).get("refit_month", 1) or cur_alpha is None):
                 if rule == "one_se" and "nested" not in s["models"]["ridge_national"]:
                     cur_alpha = choose_alpha(p, Xtr, ytr, Xtr.index, h, s)
