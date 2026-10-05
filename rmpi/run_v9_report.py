@@ -161,7 +161,16 @@ def main():
         e = ev_[ev_["block"].isin(["regional", "common"])].copy()
         w(f"\n입력 {len(e)}개(변수 {e['ID'].nunique()}개). 변수 간 |Spearman| ≥ 0.90 쌍 {len(pr_) if pr_ is not None else 0}개, ≥ 0.95 쌍 {int((pr_['|ρ|'] >= 0.95).sum()) if pr_ is not None else 0}개, 0.95 연결 군집 {len(cl_) if cl_ is not None else 0}개.\n")
         if pr_ is not None:
-            w("\n|ρ| ≥ 0.95 변수 쌍:\n"); w(md(pr_[pr_["|ρ|"] >= 0.95].sort_values("|ρ|", ascending=False), ["블록", "입력1", "입력2", "|ρ|", "n겹침", "같은변수", "같은동인"], nd=3))
+            vt = rd(out, "stage2_변수표.csv")
+            nm = dict(zip(vt["ID"], vt["원열"].astype(str).str.replace(r"^V\d+[a-c]?_", "", regex=True))) if vt is not None else {}
+            nm.update({"RT_rent": "실거래 전월세 건수(월세)", "RT_all": "실거래 전월세 건수(전체)", "RT_sale": "실거래 매매 건수", "RT_share": "실거래 월세 비중", "RT_saleratio": "실거래 매매/전월세 비율"})
+            lab = lambda x: f"{x} {nm.get(str(x).split('|')[0], '')}".strip()
+            q = pr_[(pr_["|ρ|"] >= 0.95) & (~pr_["같은변수"].astype(bool))].sort_values("|ρ|", ascending=False).copy()
+            q["입력1"] = q["입력1"].map(lab); q["입력2"] = q["입력2"].map(lab)
+            w(f"\n|ρ| ≥ 0.95 변수 쌍(서로 다른 변수만; 같은 변수의 수준·Δ12 쌍 {int(pr_['같은변수'].astype(bool).sum())}개는 S2 로 처리하고 뺌):\n"); w(md(q, ["블록", "입력1", "입력2", "|ρ|", "n겹침", "같은동인"], nd=3))
+            if os.path.exists(os.path.join(out, "fig0_5_상관행렬_공통.png")):
+                w("\n![공통 블록 상관 행렬](../rmpi/output_v9/fig0_5_상관행렬_공통.png)\n")
+                w("그림 0-5. 공통 블록 입력 간 Spearman 상관 행렬(탐색 창, 겹침 24개월 이상; 동인 순, 같은 변수의 두 형태는 빈칸). analysis/plan_v9_eda_heatmap.py, 행렬은 analysis/output/plan_v9_eda_상관행렬_공통.csv·_지역.csv.\n")
         if cl_ is not None:
             w("\n0.95 연결 군집:\n"); w(md(cl_, ["블록", "크기", "구성", "동인"]))
         e["|월내|"] = e["월내순위ρ_h6"].abs()
@@ -198,6 +207,13 @@ def main():
     dm1 = rd(out, "v9_s1_DM참고.csv")
     if dm1 is not None:
         w("\nDiebold-Mariano 참고(판정에 쓰지 않음):\n"); w(md(dm1))
+
+    # ---------------- 1.2 지수 흐름 그림
+    if os.path.exists(os.path.join(out, "fig6_6_지수흐름.png")):
+        w("\n### 1.2 실제 지수와 대표 모형의 예측 지수 흐름\n")
+        w("![지수 흐름](../rmpi/output_v9/fig6_6_지수흐름.png)\n")
+        w("그림 1-2. 예측 변화율 Ĝ(T,h) 를 결정월 직전 지수 R(T−1) 에 적용한 예측 수준 R(T−1)(1+Ĝ/100) 을 실제 지수와 같은 축에 그렸다(전국 h=1·6: mom1·B cv_min·보정 M2; 서울·세종 h=6: mom1·M2). "
+          "자료 rmpi/output_v9/v9_fig_지수흐름.csv, 코드 rmpi/run_v9_fig_index.py.\n")
 
     # ---------------- 1.5 개별 변수 모형 C 대 RMPI 모형 B (사후 추가)
     c6 = rd(out, "v9_s6_C_비교.csv")
