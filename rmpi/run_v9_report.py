@@ -138,6 +138,28 @@ def main():
                                              for m in r.index) + ".")
     w("")
 
+    # ---------------- 0.5 변수 탐색 (2단계, 설계안 4.0 절차)
+    eda_dir = os.path.join(BASE, "analysis", "output")
+    ev_ = rd(eda_dir, "plan_v9_eda_변수별.csv"); pr_ = rd(eda_dir, "plan_v9_eda_상관쌍.csv"); cl_ = rd(eda_dir, "plan_v9_eda_군집.csv")
+    if ev_ is not None:
+        w("## 0.5 변수 탐색 (2단계, 결정월 ≤ 2017.12 창; analysis/plan_v9_eda.py)\n")
+        w("설계안 4.0 의 절차대로 2018~2025 목표값을 쓰지 않고 2017.12 이전 창에서만 계산했다. 공식 지수 목표는 h=6 이면 24개월뿐이고, 참고로 옛 지수를 이은 계열(8개 시도 평균, 47~61개월)을 함께 적었다. "
+          "결과는 S1(추세 입력 제외)·S2(동일 개념 중복 병합)·S3(묶음 안 개념 평균)에만 썼고, 목표와의 상관은 기술 통계로만 보고하며 변수 선택에 쓰지 않았다(S4).\n")
+        e = ev_[ev_["block"].isin(["regional", "common"])].copy()
+        w(f"\n입력 {len(e)}개(변수 {e['ID'].nunique()}개). 변수 간 |Spearman| ≥ 0.90 쌍 {len(pr_) if pr_ is not None else 0}개, ≥ 0.95 쌍 {int((pr_['|ρ|'] >= 0.95).sum()) if pr_ is not None else 0}개, 0.95 연결 군집 {len(cl_) if cl_ is not None else 0}개.\n")
+        if pr_ is not None:
+            w("\n|ρ| ≥ 0.95 변수 쌍:\n"); w(md(pr_[pr_["|ρ|"] >= 0.95].sort_values("|ρ|", ascending=False), ["블록", "입력1", "입력2", "|ρ|", "n겹침", "같은변수", "같은동인"], nd=3))
+        if cl_ is not None:
+            w("\n0.95 연결 군집:\n"); w(md(cl_, ["블록", "크기", "구성", "동인"]))
+        e["|월내|"] = e["월내순위ρ_h6"].abs()
+        w("\n지역 블록: 같은 달 안의 순위상관(h=6, 공식 24개월) 상위 12개 (평균 |ρ| 순):\n")
+        w(md(e[e["block"] == "regional"].sort_values("|월내|", ascending=False).head(12), ["입력", "동인", "예상부호", "월내순위ρ_h6", "월내순위ρ_SD_h6", "월내순위ρ_양수비율_h6", "ρ지역_r_h6", "n지역_h6"], nd=2))
+        e["|ρG|"] = e["ρ공통_G전국_h6"].abs()
+        w("\n공통 블록: 전국 G6 와의 Spearman(공식 24개월)과 구지수 연결 참고, 시간추세 상관 상위 12개:\n")
+        w(md(e.dropna(subset=["ρ공통_G전국_h6"]).sort_values("|ρG|", ascending=False).head(12), ["입력", "동인", "예상부호", "ρ공통_G전국_h6", "n공통_h6", "ρ공통_Ḡ구지수_h6", "n공통_구지수_h6", "ρ공통_시간추세", "부호일치_공통_h6"], nd=2))
+        tr = e[(e["block"] == "common") & (e["ρ공통_시간추세"].abs() >= 0.9)]["입력"].tolist()
+        w(f"\nS1 로 공통 블록에서 뺀 추세 입력(|시간 Spearman| ≥ 0.9): {', '.join(tr) if tr else '(없음)'}. S2 병합: V017 수준→Δ12, V036 ← 국토부 매매 건수, V043 ← V044. S3: 인구세대 묶음을 총량·청년·비중 세 개념으로. 전체 표는 analysis/output/plan_v9_eda_변수별.csv.\n")
+
     # ---------------- 1 ①
     w("## 1 ① 기준 재정리: 같은 튜닝 아래 A 와 B\n")
     w("전국 Ridge 의 alpha 를 매년 1월 훈련자료 안 전진 교차검증(검증 12개월) 평균 손실 최소로 골랐다. 고정 10 과 1-SE 는 비교용이며, 'fixed10' 은 **9차 입력·지수 구성(20261005 자료, S1~S3)에 8차와 같은 alpha 10 을 적용한 9차 모형**이지 8차 결과의 재현이 아니다"
@@ -158,6 +180,26 @@ def main():
     dm1 = rd(out, "v9_s1_DM참고.csv")
     if dm1 is not None:
         w("\nDiebold-Mariano 참고(판정에 쓰지 않음):\n"); w(md(dm1))
+
+    # ---------------- 1.5 개별 변수 모형 C 대 RMPI 모형 B (사후 추가)
+    c6 = rd(out, "v9_s6_C_비교.csv")
+    if c6 is not None:
+        w("\n## 1.5 변수를 그대로 넣은 모형 C 대 RMPI 모형 B (사후 추가)\n")
+        ni = rd(out, "v9_s6_C_입력수.csv")
+        w("C 는 RMPI 로 묶지 않고 개별 변환 변수를 모두 Ridge 에 넣는 정보군(A 의 입력 + 공통 블록 개별 변수; 패널은 지역 블록 개별 변수 추가)이다. 9차 입력·선별(S1~S3)로 ① 과 같은 세 튜닝에서 돌려 B 와 비교했다. "
+          "8차 설계는 C 에 1-SE 규칙을 두었으나 같은 튜닝 비교를 위해 cv_min 도 돌렸다. 실행 rmpi/run_v9_c.py.\n")
+        if ni is not None and len(ni):
+            w("\n입력 수(첫 결정월 구성명세 기준): " + "; ".join(f"{r['단위']} h={int(r['h'])} {int(r['입력수'])}개" for _, r in ni.iterrows()) + " (B 는 공통 지수 6개 + 결측표시 6개; 패널은 지역 지수 6개 + 결측표시 추가).\n")
+        w("\n전국(MAE 비; 비율 > 1 이면 C 가 B 보다 나쁘다):\n")
+        w(md(c6[c6["비교"].str.startswith("C vs")], ["비교", "h", "MAE_기준", "MAE_비교", "MAE비율", "평균개선율(%)", "연평균_하한", "연평균_상한", "우세연도", "8차규칙판정(참고)"]))
+        w("\n통합 패널(r: MAE, down: Brier):\n")
+        w(md(c6[c6["비교"].str.startswith("패널")], ["비교", "h", "지표", "MAE_기준", "MAE_비교", "MAE비율", "평균개선율(%)", "연평균_하한", "연평균_상한", "우세연도", "8차규칙판정(참고)"]))
+        dmc = rd(out, "v9_s6_C_DM참고.csv")
+        if dmc is not None:
+            w("\nDiebold-Mariano 참고(C vs B):\n"); w(md(dmc))
+        mc = rd(out, "v9_s6_C_경보지표.csv")
+        if mc is not None and len(mc):
+            w("\n급락 경보 지표(C; 비교는 4장 표):\n"); w(md(mc, ["모형", "h", "목표빈도(사건비율배수)", "행수", "사건수", "경보수", "경보빈도_실제", "경보적중률", "급락포착률", "동월지역쌍_AUC", "국면시작수", "국면포착률"]))
 
     # ---------------- 2 ②
     w("\n## 2 ② 보정 구조: M0 → M1 → M2 (전국), M0 → M3 (통합 패널)\n")

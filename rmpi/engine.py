@@ -56,7 +56,7 @@ def _placebo(X, cols, rng):
 
 # ============================================================ 전국 모형
 def national_run(s, nf, spec, h, origins, info="B", model="ridge", alpha=None, retune=False, refit_months=None,
-                 extension=None, ext_weight=1.0, placebo_rng=None, exclude_ids=(), target="G", label=None, alpha_log=None):
+                 extension=None, ext_weight=1.0, placebo_rng=None, exclude_ids=(), target="G", label=None, alpha_log=None, alpha_rule=None):
     """반환: 예측 DataFrame(P, y, yhat, 모형, 정보군, h, 훈련행수, alpha), 구성 명세 목록(첫·마지막 시점).
     target 'g'(R(t) 기준 민감도 타깃)는 정답이 t+h+1 에 확인되므로 훈련행이 한 달 더 짧다."""
     first = S.per(s["timing"]["official_first_decision"])
@@ -106,7 +106,7 @@ def national_run(s, nf, spec, h, origins, info="B", model="ridge", alpha=None, r
         if need_fit:
             p = clone(pipe)
             nested = alpha is None and not isinstance(s["models"]["ridge_national"].get("alpha"), (int, float))
-            rule = "one_se" if (retune or info == "C") else ("cv_min" if nested else None)     # v9: 주 사양 cv_min, 8차 1-SE 는 민감도
+            rule = alpha_rule or ("one_se" if (retune or info == "C") else ("cv_min" if nested else None))     # v9: 주 사양 cv_min, 8차 1-SE 는 민감도; alpha_rule 로 재정의 가능
             if model == "ridge" and rule and (T.month == s["models"]["ridge_national"].get("nested", {}).get("refit_month", 1) or cur_alpha is None):
                 if rule == "one_se" and "nested" not in s["models"]["ridge_national"]:
                     cur_alpha = choose_alpha(p, Xtr, ytr, Xtr.index, h, s)
