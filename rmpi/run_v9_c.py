@@ -89,7 +89,11 @@ def main():
     pd.DataFrame(cmp_rows).to_csv(os.path.join(out, "v9_s6_C_비교.csv"), index=False, encoding="utf-8-sig")
     pd.DataFrame(dm_rows).to_csv(os.path.join(out, "v9_s6_C_DM참고.csv"), index=False, encoding="utf-8-sig")
     pd.DataFrame(alog).to_csv(os.path.join(out, "v9_s6_C_alpha선택.csv"), index=False, encoding="utf-8-sig")
-    pd.DataFrame(ninp).to_csv(os.path.join(out, "v9_s6_C_입력수.csv"), index=False, encoding="utf-8-sig")
+    import rmpi.models as M
+    ccols = spec.loc[spec.block.isin(["regional", "common"]) & M._in_common(spec), "입력"]; dcols = spec.loc[spec.block == "regional", "입력"]
+    pd.DataFrame([{"단위": "전국", "개별변수_공통": len(ccols), "A입력": len(F.A_REG), "합계": len(ccols) + len(F.A_REG)},
+                  {"단위": "패널", "개별변수_공통": len(ccols), "개별변수_지역": len(dcols), "A입력": len(F.A_REG), "합계": len(ccols) + len(dcols) + len(F.A_REG)}]).to_csv(
+        os.path.join(out, "v9_s6_C_입력수.csv"), index=False, encoding="utf-8-sig")
     pd.DataFrame(met_rows).to_csv(os.path.join(out, "v9_s6_C_경보지표.csv"), index=False, encoding="utf-8-sig")
     pd.DataFrame([{"항목": "settings", "값": f"{s['_path']} {s['_sha']} {s['meta']['settings_version']}"},
                   {"항목": "input", "값": f"{s['inputs']['preprocessed_xlsx']} {S.sha256(S.path(s, 'preprocessed_xlsx'))}"},
