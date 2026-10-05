@@ -1,0 +1,51 @@
+﻿시험연도,모형,선택값
+2021,OLS,{}
+2021,Ridge,{'alpha': 46.4159}
+2021,Lasso,{'alpha': 0.1}
+2021,ElasticNet,"{'alpha': 0.3162, 'l1_ratio': 0.2}"
+2021,PCR,{'n': 5.0}
+2021,PLS,{'n': 2.0}
+2021,SVR,"{'C': 0.3, 'epsilon': 0.05}"
+2021,RandomForest,"{'max_features': 0.3, 'min_samples_leaf': 20.0}"
+2021,ExtraTrees,"{'max_features': 0.3, 'min_samples_leaf': 20.0}"
+2021,GBM,"{'max_depth': 3.0, 'n_estimators': 300.0}"
+2022,OLS,{}
+2022,Ridge,{'alpha': 21.5443}
+2022,Lasso,{'alpha': 0.0056}
+2022,ElasticNet,"{'alpha': 0.01, 'l1_ratio': 0.2}"
+2022,PCR,{'n': 16.0}
+2022,PLS,{'n': 8.0}
+2022,SVR,"{'C': 0.3, 'epsilon': 0.05}"
+2022,RandomForest,"{'max_features': 0.3, 'min_samples_leaf': 5.0}"
+2022,ExtraTrees,"{'max_features': 0.3, 'min_samples_leaf': 5.0}"
+2022,GBM,"{'max_depth': 3.0, 'n_estimators': 100.0}"
+2023,OLS,{}
+2023,Ridge,{'alpha': 21.5443}
+2023,Lasso,{'alpha': 0.01}
+2023,ElasticNet,"{'alpha': 0.01, 'l1_ratio': 0.5}"
+2023,PCR,{'n': 5.0}
+2023,PLS,{'n': 8.0}
+2023,SVR,"{'C': 0.3, 'epsilon': 0.05}"
+2023,RandomForest,"{'max_features': 0.3, 'min_samples_leaf': 20.0}"
+2023,ExtraTrees,"{'max_features': 0.6, 'min_samples_leaf': 20.0}"
+2023,GBM,"{'max_depth': 2.0, 'n_estimators': 300.0}"
+2024,OLS,{}
+2024,Ridge,{'alpha': 46.4159}
+2024,Lasso,{'alpha': 0.01}
+2024,ElasticNet,"{'alpha': 0.01, 'l1_ratio': 0.8}"
+2024,PCR,{'n': 5.0}
+2024,PLS,{'n': 6.0}
+2024,SVR,"{'C': 10.0, 'epsilon': 0.2}"
+2024,RandomForest,"{'max_features': 0.3, 'min_samples_leaf': 20.0}"
+2024,ExtraTrees,"{'max_features': 0.6, 'min_samples_leaf': 20.0}"
+2024,GBM,"{'max_depth': 2.0, 'n_estimators': 300.0}"
+2025,OLS,{}
+2025,Ridge,{'alpha': 4641.5888}
+2025,Lasso,{'alpha': 0.01}
+2025,ElasticNet,"{'alpha': 0.0316, 'l1_ratio': 0.2}"
+2025,PCR,{'n': 5.0}
+2025,PLS,{'n': 4.0}
+2025,SVR,"{'C': 1.0, 'epsilon': 0.05}"
+2025,RandomForest,"{'max_features': 0.3, 'min_samples_leaf': 20.0}"
+2025,ExtraTrees,"{'max_features': 0.3, 'min_samples_leaf': 5.0}"
+2025,GBM,"{'max_depth': 3.0, 'n_estimators': 300.0}"
