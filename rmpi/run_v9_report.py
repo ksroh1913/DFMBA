@@ -81,8 +81,8 @@ def _cvsb_text(out):
         x = c[(c["비교"] == name) & (c["h"] == h)]
         return float(x.iloc[0]["MAE비율"]) if len(x) else np.nan
     return ("- 개별 변수 모형 C(1.5절): 전국에서 C/B 비는 cv_min " + "·".join(f"{r('C vs B (cvmin)', h):.2f}" for h in (1, 3, 6)) + ", 고정 10 " + "·".join(f"{r('C vs B (fixed10)', h):.2f}" for h in (1, 3, 6)) +
-            "로 튜닝에 따라 승패가 엇갈리고 구간은 모두 0 을 포함한다. 패널 상대 변화에서는 B 가 " + "·".join(f"{100 * (r('패널 r: C vs B', h) - 1):.0f}%" for h in (1, 3, 6)) + " 낫고, 급락 Brier 는 C 가 h=1·3 에서 " +
-            "·".join(f"{100 * (1 - r('패널 down: C vs B', h)):.0f}%" for h in (1, 3)) + f" 낮고 h=6 에서 {100 * (r('패널 down: C vs B', 6) - 1):.0f}% 높다. 지수로 묶어 잃는 정보가 크지 않다는 확인이며, B 를 주 모형으로 두는 근거는 동인 단위 해석 가능성이다.\n")
+            "로 튜닝에 따라 승패가 엇갈리고 구간은 모두 0 을 포함한다. 패널 상대 변화에서는 C 의 MAE 가 B 보다 " + "·".join(f"{100 * (r('패널 r: C vs B', h) - 1):.0f}%" for h in (1, 3, 6)) + " 높고, 급락 Brier 는 C 가 h=1·3 에서 " +
+            "·".join(f"{100 * (1 - r('패널 down: C vs B', h)):.0f}%" for h in (1, 3)) + f" 낮고 h=6 에서 {100 * (r('패널 down: C vs B', 6) - 1):.0f}% 높다. 지수로 묶어 잃는 정보가 크지 않다는 방향의 단서이며, B 를 주 모형으로 두는 근거는 동인 단위 해석 가능성이다.\n")
 
 
 def _alert_share_text(out):
@@ -166,12 +166,17 @@ def main():
             w("\n0.95 연결 군집:\n"); w(md(cl_, ["블록", "크기", "구성", "동인"]))
         e["|월내|"] = e["월내순위ρ_h6"].abs()
         w("\n지역 블록: 같은 달 안의 순위상관(h=6, 공식 24개월) 상위 12개 (평균 |ρ| 순):\n")
-        w(md(e[e["block"] == "regional"].sort_values("|월내|", ascending=False).head(12), ["입력", "동인", "예상부호", "월내순위ρ_h6", "월내순위ρ_SD_h6", "월내순위ρ_양수비율_h6", "ρ지역_r_h6", "n지역_h6"], nd=2))
+        er = e[e["block"] == "regional"].sort_values("|월내|", ascending=False).head(12).copy(); er["n지역_h6"] = er["n지역_h6"].astype("Int64")
+        w(md(er, ["입력", "동인", "예상부호", "월내순위ρ_h6", "월내순위ρ_SD_h6", "월내순위ρ_양수비율_h6", "ρ지역_r_h6", "n지역_h6"], nd=2))
         e["|ρG|"] = e["ρ공통_G전국_h6"].abs()
         w("\n공통 블록: 전국 G6 와의 Spearman(공식 24개월)과 구지수 연결 참고, 시간추세 상관 상위 12개:\n")
-        w(md(e.dropna(subset=["ρ공통_G전국_h6"]).sort_values("|ρG|", ascending=False).head(12), ["입력", "동인", "예상부호", "ρ공통_G전국_h6", "n공통_h6", "ρ공통_Ḡ구지수_h6", "n공통_구지수_h6", "ρ공통_시간추세", "부호일치_공통_h6"], nd=2))
-        tr = e[(e["block"] == "common") & (e["ρ공통_시간추세"].abs() >= 0.9)]["입력"].tolist()
-        w(f"\nS1 로 공통 블록에서 뺀 추세 입력(|시간 Spearman| ≥ 0.9): {', '.join(tr) if tr else '(없음)'}. S2 병합: V017 수준→Δ12, V036 ← 국토부 매매 건수, V043 ← V044. S3: 인구세대 묶음을 총량·청년·비중 세 개념으로. 전체 표는 analysis/output/plan_v9_eda_변수별.csv.\n")
+        ec = e.dropna(subset=["ρ공통_G전국_h6"]).sort_values("|ρG|", ascending=False).head(12).copy(); ec["부호일치_공통_h6"] = ec["부호일치_공통_h6"].fillna("(±)")
+        w(md(ec, ["입력", "동인", "예상부호", "ρ공통_G전국_h6", "n공통_h6", "ρ공통_Ḡ구지수_h6", "n공통_구지수_h6", "ρ공통_시간추세", "부호일치_공통_h6"], nd=2))
+        applied = (s.get("rmpi", {}).get("trend_exclusion", {}) or {}).get("applied", []) or []
+        trmap = e.set_index("입력")["ρ공통_시간추세"].to_dict()
+        tr_txt = ", ".join(f"{x}({trmap.get(x, float('nan')):+.2f})" for x in applied) if applied else "(없음)"
+        w(f"\nS1 로 공통 블록에서 뺀 추세 입력(탐색 창 시간과의 Spearman |ρ| ≥ 0.9 이고 관측 36개월 이상; 설정 rmpi.trend_exclusion.applied): {tr_txt}. 지역 블록에는 남김. V005|수준은 {trmap.get('V005|수준', float('nan')):+.2f} 이나 관측 29개월이라 남음. "
+          "S2 병합: V017 수준→Δ12, V036 ← 국토부 매매 건수, V043 ← V044, V011a 는 공통 블록에서 V010 과 0.97 로 겹쳐 지역 블록에만. S3: 인구세대 묶음을 총량·청년·비중 세 개념으로. 전체 표는 analysis/output/plan_v9_eda_변수별.csv.\n")
 
     # ---------------- 1 ①
     w("## 1 ① 기준 재정리: 같은 튜닝 아래 A 와 B\n")
