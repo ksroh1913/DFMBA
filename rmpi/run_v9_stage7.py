@@ -9,7 +9,7 @@
   C. 서울 25개 구 보조: 목표 r(구 상대 변화), A·B·B+실거래, 고정 alpha 170. 월내 상대 MAE 와 월내 Spearman.
   D. TH V11 같은 행 비교: 17개 시도 h=6, 2021~2025, (region, month) 키. TH 네 모형·기준선 vs 우리 패널 M0·M2·M3, 8차 통합 패널 B.
 출력 (rmpi/output_v9/): v9_s7_동인제거.csv, v9_s7_신고제이후_수준형.csv, v9_s7_서울구.csv, v9_s7_서울구_예측값.csv,
-                        v9_s7_TH비교.csv, v9_s7_TH비교_연도별.csv, v9_stage7_manifest.csv
+                        v9_s7_TH비교_행자료.csv(저장소 내부 TH 대조 행자료; 없으면 외부 원본에서 추출해 저장), v9_s7_TH비교.csv, v9_s7_TH비교_연도별.csv, v9_stage7_manifest.csv(--parts 가 A·B·C·D 전체가 아니면 v9_stage7_manifest_<parts>.csv)
 """
 
 import os
