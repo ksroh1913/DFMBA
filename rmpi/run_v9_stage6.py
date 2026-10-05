@@ -246,8 +246,9 @@ def main():
         allp = pd.concat([base[base["타깃"] == "down"], ext[ext["타깃"] == "down"]], ignore_index=True)
         rows, leads = [], []
         for (m, h), g in allp.groupby(["모형", "h"]):
+            hist = pf[pf["P"] < g["P"].min()][["region", "P", f"down{h}"]].rename(columns={f"down{h}": "y"}).dropna()
             for k in s["events"]["alert_comparison"]["target_rates_x_event_rate"]:
-                met, lead = EV.alert_metrics(g, f"컷오프_{k}x")
+                met, lead = EV.alert_metrics(g, f"컷오프_{k}x", history=hist)
                 rows.append({"모형": m, "h": h, "목표빈도(사건비율배수)": k, **met})
                 leads.append(lead.assign(모형=m, h=h, 배수=k))
         pd.DataFrame(rows).to_csv(os.path.join(out, "v9_s4_경보지표.csv"), index=False, encoding="utf-8-sig")

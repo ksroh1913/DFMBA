@@ -355,7 +355,8 @@ def correction_run(s, frame_in, spec, h, origins, model="M2", panel=False, alpha
     """학습 목표 = G − mom1 (mom1 = h × past1), 최종 예측 = mom1 + 보정값.
     model: 'M0'(mom1), 'M1'(절편만), 'M1s'(mom1 계수 학습), 'M2'(가격추세+RMPI), 'M2+past36', 'M3'(패널: +별도 입력).
     전국: frame_in = 결정월 index 의 nf.  패널: frame_in = pf(region, P 열), 통합 패널 G, 지역별 mom1.
-    alpha 는 매년 1월(또는 첫 시점) 전진 교차검증 최소로 고른다(2.1 규칙). 반환 (예측 DataFrame, 구성 명세 목록, alpha 기록)."""
+    alpha 는 매년 1월(또는 첫 시점) 전진 교차검증 최소로 고르고, 모형 적합(RMPI 변환·대체·표준화·계수)은 national_run 과 같이 매 결정월 다시 한다.
+    반환 (예측 DataFrame, 구성 명세 목록(첫·마지막 시점), alpha 기록)."""
     first = S.per(s["timing"]["official_first_decision"])
     sp = spec[~spec["ID"].isin(exclude_ids)]
     ycol = f"G{h}"
@@ -389,21 +390,21 @@ def correction_run(s, frame_in, spec, h, origins, model="M2", panel=False, alpha
             m1 = beta
         else:
             Xtr, ytr = tr.drop(columns=["resid", ycol]), tr["resid"]
-            if fitted is None or T.month == refit_month:
-                p = clone(pipe)
+            if cur_alpha is None or T.month == refit_month:      # alpha 선택: 1월(또는 첫 시점)
                 if alpha_rule in ("cv_min", "one_se"):
-                    cur_alpha, info = choose_alpha_cv(p, Xtr, ytr, Xtr["P"], h, s, rule=alpha_rule)
+                    cur_alpha, info = choose_alpha_cv(clone(pipe), Xtr, ytr, Xtr["P"], h, s, rule=alpha_rule)
                     alog.append({"시점": str(T), "h": h, "모형": model, **info})
                 elif alpha_rule == "fixed" and alpha_value is not None:
                     cur_alpha = float(alpha_value)
                 else:
                     cur_alpha = float(s["models"]["ridge_national"]["nested"]["fallback_alpha"])
-                p.set_params(model__alpha=cur_alpha)
-                fitted = p.fit(Xtr, ytr)
-                if T == origins[0] or T == origins[-1]:
-                    c = M.compositions(fitted)
-                    if len(c):
-                        c.insert(0, "시점", str(T)); c.insert(1, "모형", model); comps.append(c)
+            p = clone(pipe)                                        # 적합: 매 결정월
+            p.set_params(model__alpha=cur_alpha)
+            fitted = p.fit(Xtr, ytr)
+            if T == origins[0] or T == origins[-1]:
+                c = M.compositions(fitted)
+                if len(c):
+                    c.insert(0, "시점", str(T)); c.insert(1, "모형", model); comps.append(c)
             adj = fitted.predict(te.drop(columns=["resid", ycol]))
         rec = pd.DataFrame({"P": te["P"].values, "h": h, "모형": label or f"corr_{model}", "y": te[ycol].values,
                             "mom1": te["mom1"].values, "보정": np.asarray(adj, dtype=float),

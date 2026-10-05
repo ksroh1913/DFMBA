@@ -12,6 +12,7 @@
 입력 열 이름: '<ID>|<변환>' 예) 'V003|수준', 'V003|Δ12', 'V021|12개월합_천세대당', 'V046|로그Δ12', 'V002|6개월%'
 """
 
+import copy
 import sys
 
 import numpy as np
@@ -271,7 +272,8 @@ def decompose(s, X, spec, ref_regions):
             D[name] = np.nan
             continue
         mean = wide[refs].mean(axis=1).where(wide[refs].notna().all(axis=1))
-        C[name] = mean
+        if spec.loc[spec["입력"] == name, "block"].iloc[0] == "regional":   # 별도 입력(extra)은 편차만 쓰고 공통 프레임에 두지 않는다
+            C[name] = mean
         dev = wide.sub(mean, axis=0)
         D[name] = dev.stack(future_stack=True).reindex(pd.MultiIndex.from_arrays([X["P"], X["region"]])).values
     for name in spec.loc[spec["block"] == "common", "입력"]:   # 전국 공통: 지역에 관계없이 같은 값
@@ -295,6 +297,8 @@ def price_trend(s, X, spec):
 
 def build(s, panel="sido", perturb_rng=None, extra_lag=False):
     """①~④를 한 번에: 반환 dict(ml, mask_log, X, spec, ref_regions, C, D, A_price)"""
+    if extra_lag:
+        s = copy.deepcopy(s)      # lag_adjust 가 masking.rt_extra_lag_rows 를 켜므로 호출자의 설정은 그대로 둔다
     ml, ref, raw = load_sheets(s, panel)
     ml, mask_log = future_mask(s, ml, ref, raw, perturb_rng=perturb_rng)
     ml = lag_adjust(s, ml, extra=extra_lag)

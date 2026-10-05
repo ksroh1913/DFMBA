@@ -69,7 +69,9 @@ def main():
                 L = monthly_loss(p).mean()
                 rows.append({"단위": unit, "h": h, "뺀 동인": s["driver_names"][d], "alpha": a_med, "MAE": L, "MAE_주실행": L0, "손실변화(%)": 100 * (L / Lf - 1)})
             log(f"A 동인 제거 {unit} h={h}")
-    pd.DataFrame(rows).to_csv(os.path.join(out, "v9_s7_동인제거.csv"), index=False, encoding="utf-8-sig")
+    dr = pd.DataFrame(rows)
+    dr["손실변화_기준"] = np.where(dr["뺀 동인"].astype(str).str.startswith("(없음"), "주 실행(cv_min alpha) 대비", "alpha 고정 재실행 대비")
+    dr.to_csv(os.path.join(out, "v9_s7_동인제거.csv"), index=False, encoding="utf-8-sig")
 
     # ============================================================ B. 신고제 이후 수준형 (사후·기술 통계)
     rc = s["rt_columns"]
@@ -135,7 +137,7 @@ def main():
         cand = pd.concat([ours[["region", "P", "모형", "y", "yhat"]], old[["region", "P", "모형", "y", "yhat"]] if len(old) else None], ignore_index=True)
         keys = th[["region", "P"]].drop_duplicates()
         chk = th[th["model"] == "Linear"].merge(cand[cand["모형"] == "corr_M0"][["region", "P", "y"]], on=["region", "P"])
-        rows.append({"모형": "(정답 일치 점검)", "출처": "", "행수": len(chk), "MAE": float((chk["actual"] - chk["y"]).abs().max()), "비고": "TH actual − 우리 y 최대 절대 차"})
+        rows.append({"모형": "(정답 일치 점검)", "출처": "점검", "행수": len(chk), "MAE": float((chk["actual"] - chk["y"]).abs().max()), "비고": "TH actual − 우리 y 최대 절대 차"})
         common = keys.merge(cand[cand["모형"] == "corr_M0"][["region", "P"]], on=["region", "P"])
         for mdl, gg in th.groupby("model"):
             q = gg.merge(common, on=["region", "P"])

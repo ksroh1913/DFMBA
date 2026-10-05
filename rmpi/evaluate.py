@@ -131,26 +131,38 @@ def within_month_auc(df, ycol="y", pcol="yhat", month="P", min_regions=10):
     return (float(np.mean(vals)) if vals else np.nan), len(vals)
 
 
-def episode_lead_times(df, cut_col, ycol="y", pcol="yhat", quiet=6, window=6):
+def episode_lead_times(df, cut_col, ycol="y", pcol="yhat", quiet=6, window=6, state_col="기존급락상태", history=None):
     """국면 시작(지역별로 quiet 개 결정월 연속 비사건 뒤 첫 사건) 마다, 시작 전 window 개월 안에서 처음 경보가 켜진 시점까지의 개월 수.
-    반환 DataFrame(region, 시작, 경보첫시점, 선행개월; 경보 없으면 NaN)"""
+    history: 예측표 이전 구간의 사건 열(region, P, y). 붙이면 평가 첫 달 앞의 quiet 개월도 판정에 쓴다(없으면 첫 quiet 개월의 시작은 못 찾는다).
+    경보는 결정월에 급락 상태가 아닌 행(state_col == 0)에서만 센다(경보 모집단과 같게).
+    반환 DataFrame(region, 시작, 경보첫시점, 선행개월; 경보 없으면 NaN, 창 안 가용 결정월 수)"""
     rows = []
+    hist = None
+    if history is not None and len(history):
+        hist = history[["region", "P", ycol]].copy()
+        hist["P"] = pd.PeriodIndex(hist["P"], freq="M")
     for reg, g in df.sort_values("P").groupby("region"):
         g = g.set_index("P")
         y = g[ycol].astype(float)
+        if hist is not None:
+            hy = hist[(hist["region"] == reg) & (hist["P"] < g.index.min())].set_index("P")[ycol].astype(float).sort_index()
+            y = pd.concat([hy, y])
+            y = y[~y.index.duplicated(keep="last")].sort_index()
         prev = y.shift(1).rolling(quiet, min_periods=quiet).max()
-        starts = g.index[(y == 1) & (prev == 0)]
-        alert = (g[pcol] >= g[cut_col])
+        starts = [p for p in y.index[(y == 1) & (prev == 0)] if p in g.index]
+        ok = (g[state_col] == 0) if state_col in g.columns else pd.Series(True, index=g.index)
+        alert = (g[pcol] >= g[cut_col]) & ok
         for s0 in starts:
             win = alert.loc[s0 - (window - 1): s0]
             on = win[win].index
             rows.append({"region": reg, "시작": str(s0), "경보첫시점": str(on.min()) if len(on) else "",
-                         "선행개월": int((s0 - on.min()).n) if len(on) else np.nan})
+                         "선행개월": int((s0 - on.min()).n) if len(on) else np.nan, "창내가용월수": int(len(win))})
     return pd.DataFrame(rows)
 
 
-def alert_metrics(df, cut_col, ycol="y", pcol="yhat", state_col="기존급락상태"):
-    """비급락 상태 지역을 대상으로 한 경보 지표. df: 한 모형의 패널 예측(P, region, y, yhat, 컷오프 열, 기존급락상태)."""
+def alert_metrics(df, cut_col, ycol="y", pcol="yhat", state_col="기존급락상태", history=None):
+    """비급락 상태 지역을 대상으로 한 경보 지표. df: 한 모형의 패널 예측(P, region, y, yhat, 컷오프 열, 기존급락상태).
+    history: 국면 시작 판정용 사건 이력(region, P, y), 예측표 이전 구간."""
     d = df[df[state_col] == 0] if state_col in df.columns else df
     d = d[d[ycol].notna() & d[pcol].notna() & d[cut_col].notna()]
     y = d[ycol].astype(float).values
@@ -161,7 +173,7 @@ def alert_metrics(df, cut_col, ycol="y", pcol="yhat", state_col="기존급락상
     out["F1"] = 2 * tp / (2 * tp + fp + fn) if 2 * tp + fp + fn > 0 else np.nan
     auc, n_m = within_month_auc(d, ycol, pcol)
     out["동월지역쌍_AUC"], out["AUC_유효월수"] = auc, n_m
-    lead = episode_lead_times(df, cut_col, ycol, pcol)
+    lead = episode_lead_times(df, cut_col, ycol, pcol, state_col=state_col, history=history)
     if len(lead):
         out["국면시작수"] = int(len(lead)); out["국면포착률"] = float(lead["선행개월"].notna().mean())
         out["평균선행개월(포착분)"] = float(lead["선행개월"].mean()) if lead["선행개월"].notna().any() else np.nan
