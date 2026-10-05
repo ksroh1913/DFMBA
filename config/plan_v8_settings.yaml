@@ -1,0 +1,201 @@
+# 연구계획 8차 확정본(docs/연구계획_8차_확정본.md) 11장 '실행 전 확정할 항목' ①~⑦의 값.
+# 바꾸면 settings_version 을 올려 새 파일로 저장하고 결정 기록에 남긴다.
+# 점검: python analysis/check_settings.py  (열 이름·사건 경계·보완 셀·시차 보정·기준 지역을 자료와 대조. 예측 성능은 계산하지 않음)
+meta:
+  settings_version: v8.1
+  date: 2026-10-04
+  plan: docs/연구계획_8차_확정본.md
+  random_seed: 20261004
+
+inputs:
+  preprocessed_xlsx: 데이터취합_전처리_20261004.xlsx
+  merged_xlsx: 데이터취합_20261004.xlsx
+  sheets:
+    sido: {raw: 17시도_월별, ref: 17시도_1차_결측보완, ml: 17시도_2차_공표시점반영(ML용)}
+    gu: {raw: 서울25구_월별, ref: 서울25구_1차_결측보완, ml: 서울25구_2차_공표시점반영(ML용)}
+  target:
+    sido: Y_V001_월세통합가격지수(구지수연결)
+    gu: Y_V001_월세통합가격지수(권역역산_학습용)
+  official_flag: Y_평가사용가능
+  raw_rent: raw/5_시장과열단기트리거/V001_월세통합가격지수_A_2024_00054.csv
+  raw_sale: raw/3_금융여건상대가격/V002_매매가격지수_A_2024_00045.csv
+  raw_jeonse: raw/3_금융여건상대가격/V026_전세가격지수_A_2024_00050.csv
+  raw_old_rent: raw/7_보완용_사전외/보완_V001_월세가격지수(구)_A_2024_00164.csv
+  households_col: V010_주민등록세대수_세대
+  population_col: V009_주민등록인구_명
+  regions: [서울, 부산, 대구, 인천, 광주, 대전, 울산, 세종, 경기, 강원, 충북, 충남, 전북, 전남, 경북, 경남, 제주]
+
+# ---------------------------------------------------------------- 시점 (4·5·9장)
+timing:
+  horizons: [1, 3, 6]
+  official_first_decision: 2016-01     # 공식 구간만 쓰는 첫 결정월 (A 가 6개월 과거변화를 씀)
+  first_train_end: 2017-12             # 최초 훈련기간 끝 (기준 지역 선정 기간: 2016-01~2017-12)
+  eval_start: 2018-01
+  eval_end: 2025-12
+  posthoc_label_end: 2026-08           # 2026년 사후 확인 (정답 2026.08까지)
+  sensitivity_eval_start: 2019-01
+  quarterly_refit_months: [1, 4, 7, 10]
+  splice_month: 2015-06                # 옛 지수와 공식 지수의 공통 기준점
+  extension_first_decision: 2012-01
+  proxy_main: 수도권                    # 대용계열 (옛 수도권 집계)
+  proxy_sensitivity: [수도권, 5대광역시, 8개시도]   # 로그변화 동일 가중 평균, 2012.05~ (결정월 2012.12~)
+  extension_weights: [1.0, 0.5]
+
+# ---------------------------------------------------------------- 사건 (4장)
+events:
+  down_annual: -0.02                   # 급락: 연율 -2% 이하  -> 경계 100*[(0.98)^(h/12)-1]
+  up_annual: 0.03                      # 급등: 연율 +3% 이상  -> 경계 100*[(1.03)^(h/12)-1]
+  sensitivity_multipliers: [0.75, 1.25]
+  expected_thresholds:                 # 문서 4장 수치 (check_settings 가 식과 대조)
+    down: {1: -0.168, 3: -0.504, 6: -1.005}
+    up: {1: 0.247, 3: 0.742, 6: 1.489}
+  up_min_positive_train_rows: 30       # 급등 보조 과제: 학습 양성 30행 이상부터 평가
+  episode_quiet_months: 6              # 국면 시작: 6개 결정월 연속 비사건 뒤 첫 사건
+  cutoff_rule: training_event_rate     # 정밀도·재현율·F1 용 사전 지정 컷오프 = 훈련기간 사건비율
+
+# ---------------------------------------------------------------- 보완 셀 마스킹과 시차 보정 (2장)
+masking:
+  future_info_methods: [역산_지수변화, 대용_금리차]
+  columns: [V003, V057, V059]          # 취합본 빈칸 & 1차 시트 채움 = 보완 셀. 기준기간에서 지운 뒤 공표 시차만큼 민다
+  expected_cells:
+    sido: {V003: 193, V057: 816, V059: 612}
+    gu: {V003: 300, V057: 1200, V059: 900}
+  csi_predecessor_boundary: 2012-12    # 전신계열(~2012.12)|현행(2013.01~). CSI 는 수준으로만 쓰므로 12개월 차분 마스킹은 해당 없음
+  v074_link_first_new_row: 2020-05     # 신계열(2020Q1~) 첫 2차 행. 연결 경계를 가로지르는 12개월 변화는 결측
+lag_adjustments:                       # 2차 시트 값을 지역별로 k 개월 더 민다
+  V060: 3                              # 분기 Q 실적치는 Q 종료 다음 달 행부터 (기존 -2개월 규칙은 3개월 이름)
+  V072: 1                              # 공표 시차 12 -> 13개월 (2024년 값 KOSIS 게시 2026.01.02)
+robustness_extra_lag:                  # '익월 말' 공표 변수에 시차 1개월 추가 (강건성 점검)
+  columns: [V012, V035, V036, V038, V056, V057, V059]
+revision_risk:                         # 공표 당시 잠정치와 다를 수 있는 변수 (제외 민감도)
+  columns: [V013, V015, V017, V021, V022, V023, V066, V074]
+
+# ---------------------------------------------------------------- 변수 (2·4장 ②③)
+# block: regional(시도별) / common(전국 공통) / price_trend(A 전용, RMPI 제외)
+# transform: level | d12 | log12 | level_and_d12 | flow_per_1000hh | stock_per_1000hh_log1p | netmig_per_1000pop | pct6
+# sign: 데이터사전 예상 부호. '±' 는 재적합마다 훈련기간 순위상관 부호로 정해 기록
+# driver: ①~⑥, group: 동인 안의 하위 묶음
+variables:
+  # --- 가격 추세 (A 전용)
+  V002: {col: V002_아파트_매매가격지수, block: price_trend, transform: pct6, driver: 3, group: 가격추세, sign: "±"}
+  V026: {col: V026_아파트_전세가격지수, block: price_trend, transform: pct6, driver: 3, group: 가격추세, sign: "+"}
+  # --- ① 임차수요 압력 (지역)
+  V009: {col: V009_주민등록인구_명, block: regional, transform: log12, driver: 1, group: 인구세대, sign: "+"}
+  V010: {col: V010_주민등록세대수_세대, block: regional, transform: log12, driver: 1, group: 인구세대, sign: "+"}
+  V011a: {col: V011_주민등록인구_20-29세_명, block: regional, transform: log12, driver: 1, group: 인구세대, sign: "+"}
+  V011b: {col: V011_주민등록인구_30-39세_명, block: regional, transform: log12, driver: 1, group: 인구세대, sign: "+"}
+  V011c: {col: V011_주민등록인구_20-39세비중_%, block: regional, transform: level_and_d12, driver: 1, group: 인구세대, sign: "+"}
+  V012: {col: V012_인구이동_순이동자수_명, block: regional, transform: netmig_per_1000pop, driver: 1, group: 이동, sign: "+"}
+  V013: {col: V013_경제활동인구조사_고용률_%, block: regional, transform: level_and_d12, driver: 1, group: 고용소득, sign: "+"}
+  V015: {col: V015_1인당GRDP_전국대비(전국=1), block: regional, transform: level_and_d12, driver: 1, group: 고용소득, sign: "+"}
+  V017: {col: V017_1인당가계총처분가능소득_전국대비(전국=1), block: regional, transform: level_and_d12, driver: 1, group: 고용소득, sign: "+"}
+  # --- ② 주택공급·재고 여건 (지역)
+  V021: {col: V021_주택건설_아파트인허가_호, block: regional, transform: flow_per_1000hh, driver: 2, group: 공급흐름, sign: "-"}
+  V022: {col: V022_주택건설_아파트착공_호, block: regional, transform: flow_per_1000hh, driver: 2, group: 공급흐름, sign: "-"}
+  V023: {col: V023_주택건설_아파트준공_호, block: regional, transform: flow_per_1000hh, driver: 2, group: 공급흐름, sign: "-"}
+  V038: {col: V038_미분양주택_호, block: regional, transform: stock_per_1000hh_log1p, driver: 2, group: 재고, sign: "±"}
+  V072: {col: V072_국토부_주택보급률(시도·다가구구분거처반영)_%, block: regional, transform: level_and_d12, driver: 2, group: 재고, sign: "±"}
+  # --- ③ 금융여건·상대가격
+  V003: {col: V003_아파트_전세가율_%, block: regional, transform: level_and_d12, driver: 3, group: 상대가격, sign: "±"}
+  V004: {col: V004_아파트_전월세전환율_%, block: regional, transform: level_and_d12, driver: 3, group: 상대가격, sign: "±"}
+  V031: {col: V031_아파트_매매수급동향_지수, block: regional, transform: level, driver: 3, group: 매매수급거래, sign: "+"}
+  V036: {col: V036_부동산원_아파트매매거래현황_동호수_호, block: regional, transform: flow_per_1000hh, driver: 3, group: 매매수급거래, sign: "±"}
+  V050: {col: V050_지역별주택관련대출(예금은행)_십억원, block: regional, transform: log12, driver: 3, group: 지역대출, sign: "±"}
+  V056: {col: V056_예금은행대출금리_주택담보(신규)_연%, block: common, transform: d12, driver: 3, group: 대출금리, sign: "±"}
+  V057: {col: V057_예금은행대출금리_전세자금(신규)_연%, block: common, transform: d12, driver: 3, group: 대출금리, sign: "±"}
+  V059: {col: V059_비은행대출금리_주택담보_연%, block: common, transform: d12, driver: 3, group: 대출금리, sign: "±"}
+  V060: {col: V060_대출행태서베이_대출태도_국내은행가계주택_지수, block: common, transform: level, driver: 3, group: 대출태도, sign: "±"}
+  V069: {col: V069_예금취급기관_가계대출(주택관련)_십억원, block: common, transform: log12, driver: 3, group: 대출, sign: "±"}
+  V071: {col: V071_정책대출(주금공·주택도시기금)_십억원, block: common, transform: log12, driver: 3, group: 대출, sign: "±"}
+  # --- ④ 임대시장 수급·전환 구조 (지역)
+  V005: {col: V005_아파트_월세수급동향_지수, block: regional, transform: level, driver: 4, group: 수급, sign: "+"}
+  V032: {col: V032_아파트_전세수급동향_지수, block: regional, transform: level, driver: 4, group: 수급, sign: "+"}
+  V035: {col: V035_부동산원_아파트거래현황(매매·증여등전체)_동호수_호, block: regional, transform: flow_per_1000hh, driver: 4, group: 거래, sign: "+"}
+  # --- ⑤ 시장과열·단기 트리거 (지역). CSI 는 지역 유형별 1열로 매핑한 뒤 지역 변수처럼 분해
+  V037: {col: V037_주택시장_소비심리지수, block: regional, transform: level, driver: 5, group: 심리, sign: "+"}
+  CSI: {col: CSI_지역유형, block: regional, transform: level, driver: 5, group: CSI, sign: "+", derived_from: [V061, V062, V063]}
+  # --- ⑥ 거시경기·금융시장 여건 (전국)
+  V043: {col: V043_한국은행_기준금리_연%, block: common, transform: d12, driver: 6, group: 시장금리, sign: "±"}
+  V044: {col: V044_시장금리_CD91일_연%, block: common, transform: d12, driver: 6, group: 시장금리, sign: "±"}
+  V045: {col: V045_시장금리_국고채3년_연%, block: common, transform: d12, driver: 6, group: 시장금리, sign: "±"}
+  V046: {col: V046_M2통화량(평잔·원계열)_십억원, block: common, transform: log12, driver: 6, group: 유동성신용, sign: "±"}
+  V047: {col: V047_가계신용_총액_십억원, block: common, transform: log12, driver: 6, group: 유동성신용, sign: "±"}
+  V048: {col: V048_소비자물가지수_총지수_2020=100, block: common, transform: log12, driver: 6, group: 물가임금소득, sign: "±"}
+  V049: {col: V049_시간당명목임금지수(비농전산업)_2020=100, block: common, transform: log12, driver: 6, group: 물가임금소득, sign: "±"}
+  V066: {col: V066_사업체노동력조사_월임금총액_원, block: common, transform: log12, driver: 6, group: 물가임금소득, sign: "±"}
+  V074: {col: V074_가계동향_도시2인이상_월평균소득(신계열연결)_원, block: common, transform: log12, driver: 6, group: 물가임금소득, sign: "±"}
+  V064: {col: V064_KOSPI_종가_1980.01.04=100, block: common, transform: log12, driver: 6, group: 금융시장실물, sign: "±"}
+  V070: {col: V070_수출입동향_수출금액(통관)_천불, block: common, transform: log12, driver: 6, group: 금융시장실물, sign: "±"}
+csi_columns: {V061: V061_소비자동향조사_주택가격전망CSI_서울, V062: V062_소비자동향조사_주택가격전망CSI_6대광역시, V063: V063_소비자동향조사_주택가격전망CSI_기타도시}
+csi_region_type:                       # 지역 유형별 CSI 의 시도 매핑 (⑦)
+  V061: [서울]
+  V062: [부산, 대구, 인천, 광주, 대전, 울산]
+  V063: [세종, 경기, 강원, 충북, 충남, 전북, 전남, 경북, 경남, 제주]
+excluded_columns:                      # 2장 제외 (8열) + V067 + 공식 구간 상수 더미
+  - V006_국토부실거래_아파트전월세_월세(보증부포함)_건
+  - V006_국토부실거래_아파트전월세_전체_건
+  - V007_국토부실거래_아파트매매(해제제외)_건
+  - V024_서울구_주거용건축물신축허가_연면적_㎡
+  - V024_서울구_주거용건축물신축허가_동수_천세대당
+  - V034_아파트_수급동향(구·2015.06종료)_통합_지수
+  - V076_임대주택공급_민간임대(2020~)_천세대당
+  - V077_임대주택건설공급(2012~2019)_총계_천세대당
+  - V067_경기선행지수_순환변동치_2020=100
+  - D_V061~V063_CSI전신계열사용더미(1=전신계열)
+driver_names: {1: ① 임차수요 압력, 2: ② 주택공급·재고 여건, 3: ③ 금융여건·상대가격, 4: ④ 임대시장 수급·전환 구조, 5: ⑤ 시장과열·단기 트리거, 6: ⑥ 거시경기·금융시장 여건}
+exposure_terms:                        # 노출항 두 개 (보조 실험). 공통 충격 x 지역 특성 월내 편차
+  - {common: "V056|Δ12", regional: "V004|수준", name: 주담대금리변화x전환율편차}
+  - {common: "V069|로그Δ12", regional: "V003|수준", name: 주택대출증가x전세가율편차}
+
+# ---------------------------------------------------------------- RMPI 규칙 (4장)
+rmpi:
+  obs_rate_min: 0.70                   # 학습 구간 관측률 70% 이상, 상수 아님
+  group_min_share: 0.5                 # 하위 묶음: 남은 구성변수의 절반 이상 관측될 때만 계산
+  driver_min_share: 0.5                # 동인: 남은 하위 묶음의 절반 이상 계산될 때만
+  reference_regions:                   # 입력 열별 기준 지역 (최초 훈련기간 2016-01~2017-12 기준). default 는 17개 시도 전부
+    default: all
+    exceptions:                        # 변환 후 입력 기준. check_settings 가 재계산해 대조한다
+      V037: {exclude: [세종, 제주]}
+      V013: {exclude: [세종]}
+      V072: {exclude: [세종]}
+  standardization:
+    common: 훈련기간 월 단위 평균·표준편차
+    regional: 모든 지역의 훈련기간 월내 편차를 모은 표준편차 (중심화 없음)
+  direction_target: {common: G_전국, regional: r}   # ± 부호 결정용 순위상관의 목표
+  impute: 하위지수 단위 훈련 중앙값 + 결측 표시
+
+# ---------------------------------------------------------------- 모형 (8장 ①)
+models:
+  ridge_national: {alpha: 10.0}        # 표준화 입력. 월 단위 행
+  ridge_panel: {alpha: 170.0}          # = 10 x 17 지역 (월당 축소 강도를 전국 모형과 맞춤)
+  logistic_panel: {C: 0.005882}        # = 1/170
+  extra_trees_national: {n_estimators: 500, max_depth: 3, min_samples_leaf: 6, max_features: null}
+  extra_trees_panel: {n_estimators: 500, max_depth: 4, min_samples_leaf: {1: 34, 3: 68, 6: 136}, max_features: sqrt}
+  retune:                              # 민감도: 매년 1월 재튜닝
+    month: 1
+    grid: {ridge_alpha: {min: 0.01, max: 10000, n: 25, scale: log}}
+    validation: 직전 12개 결정월 전진 확장창
+    rule: 1-standard-error
+  placebo: {n_rep: 20}                 # 공통 블록을 무작위 월별 계열로 바꾼 위약 시험
+  c_set: {method: ridge, pca_alternative_components: 3}
+  extra_models: [linear, lasso, elastic_net, knn, svr, decision_tree, xgboost, random_forest]
+
+# ---------------------------------------------------------------- 단순 기준 (9장)
+naive:
+  candidates: [zero, train_median, mom1, mom3, lasth]   # 변화율 0, 학습 중앙값, h x 최근 월변화, h x 최근 3개월 평균 월변화, 최근 h개월 변화
+  window_months: 24
+  min_window_months: 12
+  median_min_labels: 12
+  default_rule: zero
+  tie_order: [zero, mom1, mom3, lasth, train_median]
+
+# ---------------------------------------------------------------- 판정 (1장)
+inference:
+  level: 0.95
+  annual_groups: 8                     # 결정연도 2018~2025, 자유도 7
+  biennial_groups: 4                   # 2년 묶음, 자유도 3
+  verdicts: {개선: 두 구간 상한 < 0, 개선 신호: 8개 연평균 구간 상한만 < 0, 악화: 두 구간 하한 > 0, 악화 신호: 8개 연평균 구간 하한만 > 0, 차이 불확실: 그 밖}
+  summary_rule: 두 기간 이상 개선이고 어느 기간도 악화 아님 -> 지지; 한 기간만 개선 -> 기간 한정 개선(탐색)
+  bootstrap: {block_lengths: [6, 12, 18], n_boot: 2000, circular: true, role: 참고 결과}
+
+output_dir: rmpi/output
