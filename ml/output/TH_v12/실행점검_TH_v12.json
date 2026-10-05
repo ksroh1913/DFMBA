@@ -1,0 +1,262 @@
+{
+  "refit_checks": 32,
+  "failed": 0,
+  "checks": [
+    {
+      "panel": "provinces",
+      "task": "Y1 Growth",
+      "model": "Linear",
+      "rows": 51,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y1 Growth",
+      "model": "Random Forest",
+      "rows": 51,
+      "max_error": 4.440892098500626e-16,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y1 Growth",
+      "model": "Extra Trees",
+      "rows": 51,
+      "max_error": 4.440892098500626e-16,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y1 Growth",
+      "model": "XGBoost",
+      "rows": 51,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y2 Direction",
+      "model": "Linear",
+      "rows": 51,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y2 Direction",
+      "model": "Random Forest",
+      "rows": 51,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y2 Direction",
+      "model": "Extra Trees",
+      "rows": 51,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y2 Direction",
+      "model": "XGBoost",
+      "rows": 51,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y3 Surge",
+      "model": "Linear",
+      "rows": 51,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y3 Surge",
+      "model": "Random Forest",
+      "rows": 51,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y3 Surge",
+      "model": "Extra Trees",
+      "rows": 51,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y3 Surge",
+      "model": "XGBoost",
+      "rows": 51,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y4 Drop",
+      "model": "Linear",
+      "rows": 51,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y4 Drop",
+      "model": "Random Forest",
+      "rows": 51,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y4 Drop",
+      "model": "Extra Trees",
+      "rows": 51,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "provinces",
+      "task": "Y4 Drop",
+      "model": "XGBoost",
+      "rows": 51,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y1 Growth",
+      "model": "Linear",
+      "rows": 75,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y1 Growth",
+      "model": "Random Forest",
+      "rows": 75,
+      "max_error": 4.440892098500626e-16,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y1 Growth",
+      "model": "Extra Trees",
+      "rows": 75,
+      "max_error": 4.440892098500626e-16,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y1 Growth",
+      "model": "XGBoost",
+      "rows": 75,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y2 Direction",
+      "model": "Linear",
+      "rows": 75,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y2 Direction",
+      "model": "Random Forest",
+      "rows": 75,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y2 Direction",
+      "model": "Extra Trees",
+      "rows": 75,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y2 Direction",
+      "model": "XGBoost",
+      "rows": 75,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y3 Surge",
+      "model": "Linear",
+      "rows": 75,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y3 Surge",
+      "model": "Random Forest",
+      "rows": 75,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y3 Surge",
+      "model": "Extra Trees",
+      "rows": 75,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y3 Surge",
+      "model": "XGBoost",
+      "rows": 75,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y4 Drop",
+      "model": "Linear",
+      "rows": 75,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y4 Drop",
+      "model": "Random Forest",
+      "rows": 75,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y4 Drop",
+      "model": "Extra Trees",
+      "rows": 75,
+      "max_error": 0.0,
+      "passed": true
+    },
+    {
+      "panel": "seoul",
+      "task": "Y4 Drop",
+      "model": "XGBoost",
+      "rows": 75,
+      "max_error": 0.0,
+      "passed": true
+    }
+  ]
+}

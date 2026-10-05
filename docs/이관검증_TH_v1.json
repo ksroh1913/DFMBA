@@ -1,0 +1,361 @@
+{
+  "date": "2026-10-05",
+  "branch": "experiment_TH",
+  "existing_files_checked": 153,
+  "original_exception": ".gitignore: append-only TH rules",
+  "copied_files_checked": 197,
+  "sources_checked": true,
+  "ignored_files_checked": 135,
+  "untracked_candidates": 86,
+  "candidate_total_bytes": 48991884,
+  "private_key_and_github_token_pattern_scan": "passed; not a comprehensive secret audit",
+  "env_contents_read": false,
+  "staged_changes": false,
+  "git_mutations_performed": false,
+  "candidates": [
+    {
+      "file": "docs/TH_v11/README_TH_v11.txt",
+      "bytes": 3039
+    },
+    {
+      "file": "docs/TH_v11/requirements_TH_v11.txt",
+      "bytes": 294
+    },
+    {
+      "file": "docs/TH_v11/국내월세지수_연구보고서_TH_v11.docx",
+      "bytes": 284573
+    },
+    {
+      "file": "docs/TH_v11/변경기록_TH_v11.txt",
+      "bytes": 3103
+    },
+    {
+      "file": "docs/TH_v11/팀원공유_변경사항과실행안내_TH_v11.docx",
+      "bytes": 38565
+    },
+    {
+      "file": "docs/TH_v12/README_TH_v12.txt",
+      "bytes": 2117
+    },
+    {
+      "file": "docs/TH_v12/requirements_TH_v12.txt",
+      "bytes": 294
+    },
+    {
+      "file": "docs/TH_v12/변경기록_TH_v12.txt",
+      "bytes": 1144
+    },
+    {
+      "file": "docs/TH_v12/실험결과_모멘텀축소_TH_v12.txt",
+      "bytes": 5870
+    },
+    {
+      "file": "docs/이관검증_TH_v1.json",
+      "bytes": 10625
+    },
+    {
+      "file": "docs/이관안내_TH_v1.txt",
+      "bytes": 8859
+    },
+    {
+      "file": "ml/check_migration_TH_v1.py",
+      "bytes": 4321
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/README_TH_v11.txt",
+      "bytes": 3039
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/annual_metrics_TH_v11.csv",
+      "bytes": 131922
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/charts_TH_v11/provinces_annual_direction_TH_v11.png",
+      "bytes": 104322
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/charts_TH_v11/provinces_overview_TH_v11.png",
+      "bytes": 114842
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/charts_TH_v11/seoul_annual_direction_TH_v11.png",
+      "bytes": 121841
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/charts_TH_v11/seoul_overview_TH_v11.png",
+      "bytes": 117733
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/comparison_TH_v11.csv",
+      "bytes": 39397
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/features_TH_v11.csv",
+      "bytes": 579992
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/folds_TH_v11.csv",
+      "bytes": 709467
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/metric_audit_TH_v11.csv",
+      "bytes": 7682
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/predictions_TH_v11.csv",
+      "bytes": 15542366
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/prespecified_design_TH_v11.json",
+      "bytes": 1157
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/review_manifest_TH_v11.json",
+      "bytes": 1319
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/run_manifest_TH_v11.json",
+      "bytes": 8980
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/v10_unchanged_tasks_TH_v11.csv",
+      "bytes": 1065
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/verification_TH_v11.csv",
+      "bytes": 149981
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/verification_summary_TH_v11.json",
+      "bytes": 38
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/analysis/review_simple_TH_v11.py",
+      "bytes": 14281
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/input_TH_v11/provinces_aligned_candidates_TH_v11.csv",
+      "bytes": 1918844
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/input_TH_v11/seoul_aligned_candidates_TH_v11.csv",
+      "bytes": 2738522
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/ml/features_TH_v11.py",
+      "bytes": 3983
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/ml/train_simple_TH_v11.py",
+      "bytes": 10423
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/requirements_TH_v11.txt",
+      "bytes": 294
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v11/변경기록_TH_v11.txt",
+      "bytes": 3103
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/README_TH_v12.txt",
+      "bytes": 2117
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/annual_metrics_TH_v12.csv",
+      "bytes": 131682
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/charts_TH_v12/provinces_annual_direction_TH_v12.png",
+      "bytes": 102549
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/charts_TH_v12/provinces_overview_TH_v12.png",
+      "bytes": 115186
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/charts_TH_v12/provinces_v11_vs_v12_TH_v12.png",
+      "bytes": 123597
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/charts_TH_v12/seoul_annual_direction_TH_v12.png",
+      "bytes": 120702
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/charts_TH_v12/seoul_overview_TH_v12.png",
+      "bytes": 119467
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/charts_TH_v12/seoul_v11_vs_v12_TH_v12.png",
+      "bytes": 127627
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/comparison_TH_v12.csv",
+      "bytes": 39429
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/features_TH_v12.csv",
+      "bytes": 564319
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/folds_TH_v12.csv",
+      "bytes": 709467
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/metric_audit_TH_v12.csv",
+      "bytes": 7682
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/predictions_TH_v12.csv",
+      "bytes": 15542105
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/prespecified_design_TH_v12.json",
+      "bytes": 1220
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/review_manifest_TH_v12.json",
+      "bytes": 1462
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/run_manifest_TH_v12.json",
+      "bytes": 9042
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/v11_vs_v12_annual_TH_v12.csv",
+      "bytes": 257799
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/v11_vs_v12_metrics_TH_v12.csv",
+      "bytes": 101129
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/verification_TH_v12.csv",
+      "bytes": 148385
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/verification_summary_TH_v12.json",
+      "bytes": 38
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/핵심비교표_TH_v12.csv",
+      "bytes": 3263
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/review_simple_TH_v12.py",
+      "bytes": 16289
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/analysis/summarize_experiment_TH_v12.py",
+      "bytes": 9317
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/input_TH_v12/provinces_aligned_candidates_TH_v12.csv",
+      "bytes": 1918844
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/input_TH_v12/seoul_aligned_candidates_TH_v12.csv",
+      "bytes": 2738522
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/ml/features_TH_v12.py",
+      "bytes": 3649
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/ml/train_simple_TH_v12.py",
+      "bytes": 10472
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/reference_v11_TH_v12/annual_v11_reference_TH_v12.csv",
+      "bytes": 131922
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/reference_v11_TH_v12/comparison_v11_reference_TH_v12.csv",
+      "bytes": 39397
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/requirements_TH_v12.txt",
+      "bytes": 294
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/변경기록_TH_v12.txt",
+      "bytes": 1144
+    },
+    {
+      "file": "ml/experiments_TH_v1/TH_v12/실험결과_모멘텀축소_TH_v12.txt",
+      "bytes": 5870
+    },
+    {
+      "file": "ml/experiments_TH_v1/이관기록_TH_v1.json",
+      "bytes": 87759
+    },
+    {
+      "file": "ml/export_results_TH_v1.py",
+      "bytes": 9777
+    },
+    {
+      "file": "ml/output/TH_v11/결과_fold별_TH_v11.csv",
+      "bytes": 181087
+    },
+    {
+      "file": "ml/output/TH_v11/결과_요약_TH_v11.csv",
+      "bytes": 50332
+    },
+    {
+      "file": "ml/output/TH_v11/변수선택_TH_v11.csv",
+      "bytes": 593649
+    },
+    {
+      "file": "ml/output/TH_v11/실행점검_TH_v11.json",
+      "bytes": 5422
+    },
+    {
+      "file": "ml/output/TH_v11/양식점검_TH_v11.json",
+      "bytes": 6890
+    },
+    {
+      "file": "ml/output/TH_v11/임계값_TH_v11.csv",
+      "bytes": 2348
+    },
+    {
+      "file": "ml/output/TH_v11/학습_fold별_TH_v11.csv",
+      "bytes": 714085
+    },
+    {
+      "file": "ml/output/TH_v12/결과_fold별_TH_v12.csv",
+      "bytes": 180866
+    },
+    {
+      "file": "ml/output/TH_v12/결과_요약_TH_v12.csv",
+      "bytes": 50352
+    },
+    {
+      "file": "ml/output/TH_v12/변수선택_TH_v12.csv",
+      "bytes": 578200
+    },
+    {
+      "file": "ml/output/TH_v12/실행점검_TH_v12.json",
+      "bytes": 5422
+    },
+    {
+      "file": "ml/output/TH_v12/양식점검_TH_v12.json",
+      "bytes": 6890
+    },
+    {
+      "file": "ml/output/TH_v12/임계값_TH_v12.csv",
+      "bytes": 2348
+    },
+    {
+      "file": "ml/output/TH_v12/학습_fold별_TH_v12.csv",
+      "bytes": 714085
+    },
+    {
+      "file": "ml/prepare_repository_TH_v1.py",
+      "bytes": 4893
+    },
+    {
+      "file": "ml/run_experiments_TH_v1.py",
+      "bytes": 6095
+    }
+  ]
+}

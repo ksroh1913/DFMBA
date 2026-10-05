@@ -9,3 +9,15 @@ raw/*/V006_*/
 raw/*/V007_*/
 raw/_수집로그_*.txt
 raw/_수집오류_*.txt
+
+# TH 실험: 인증정보와 재생성 가능한 로컬 학습·점검 파일은 제외.
+ml/experiments_TH_v1/**/.env*
+ml/experiments_TH_v1/**/.runtime*/
+ml/experiments_TH_v1/**/analysis/output_TH_*/models_TH_*/
+ml/experiments_TH_v1/**/analysis/output_TH_*/parts_TH_*/
+ml/experiments_TH_v1/**/analysis/output_TH_*/*_model_ready_TH_v*.csv
+ml/experiments_TH_v1/**/qa_TH_*/
+ml/experiments_TH_v1/**/reports_TH_*/
+ml/experiments_TH_v1/**/*.zip
+# 원형 예측 CSV에서 재생성하는 한글 양식 사본(중복 대용량).
+ml/output/TH_v*/예측값_TH_v*.csv

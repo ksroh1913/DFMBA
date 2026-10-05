@@ -1,0 +1,1350 @@
+{
+  "date": "2026-10-05",
+  "source_policy": "Approved OneDrive V11/V12 snapshots; sources retained",
+  "copied_files": 197,
+  "existing_tracked_files_verified": 153,
+  "existing_tracked_sha256": {
+    ".gitignore": "fc5bb78e7224ef3d3866df56fdd12df5d07a0eefc5ba9ab70af7c1cca4cb9beb",
+    "README.md": "6a6aa3b9cb6a4c0111d6080a20742062f660eaba663f5ea492faea4346b35495",
+    "analysis/output/chart_data.json": "dfe0af0ee4ad8a80c783c6f172617b3e164a7c21b9e95d735a5b3e92224f4b44",
+    "analysis/output/서울_아파트_월세_연식프리미엄.csv": "cad518512c6639b49bfe50b69b010274d180f1d4a506cfed4557f88583265bb9",
+    "analysis/output/서울_아파트_월세지수_준공연도별.csv": "eac6fc836f44c5181c9511a5468045f467c6c31e879f63f8c51409555a0a562c",
+    "analysis/output/서울_아파트_월세지수_품질조정.csv": "469ac136e752e0970d0c7f53c1c389051f14502d5e92f53530e4a6ca40d035ab",
+    "analysis/output/서울_아파트_전월세_유형별_월별집계.csv": "4b5c8ac5af27830b3020e121f6fb29b890c95b8371e190ec23f2216c5befbdf0",
+    "analysis/output/서울_아파트_전월세실거래_월별집계.csv": "4e04c61c31f90d1d245db3dbe2d516e9f594fe6834486003d0fddc2e62739ec0",
+    "analysis/prep_rtms_rent.py": "b688da8cd70e38f35093715c1216d4255c1bd0d7ffd4a4e4e09d41028d98d7e7",
+    "analysis/prep_rtms_rent_index.py": "29d96bcd997d8efeb2d27fed262810e88579e9e7fad8947df53ffd534df95e07",
+    "analysis/prep_rtms_rent_segment.py": "4cf75198295a6684a45ed90031c10eaacd8f7352302b4dbe227fa260dff6d4b1",
+    "analysis/prep_rtms_trade.py": "a22284e0b1761a12f622e9f89043eb46cbcd99e8480572e92c82c5c17a4e64e4",
+    "archive/legacy_v1/ECOS_거시경제_시계열.csv": "2373ea2b628d38135d447d866db150a7bee219037c963069f798f93a78af25e0",
+    "archive/legacy_v1/collect_apt_rent_stats.py": "3431e342f10aed829eb9c688e802005c9110e459ac1cd825e0c4ae3cab3aa258",
+    "archive/legacy_v1/collect_apt_trade_stats.py": "47bfc857dbb0040920c2fe1c6c32b37e28c33ac9526a488068fcfda443e73f6b",
+    "archive/legacy_v1/collect_ecos_stats.py": "13132893e31669adcc1a28dc2065d2b90bc9940cf246370eacb51a71353d38ea",
+    "archive/legacy_v1/collect_housing_stats.py": "fa4a24bc32eb4dfa4298733306f771f8d49f838776230940dc2207b5c11af087",
+    "archive/legacy_v1/collect_population_stats.py": "046a717a7dd17e92ed24575f13b29ede65b141f1ad586e07536fd42f7648b213",
+    "archive/legacy_v1/collect_realestate_stats.py": "e93df95e3684973d46b561f27883058b549dcbe5a8f0d1349a2507be5e91ad50",
+    "archive/legacy_v1/경제활동인구_시계열.csv": "fec11c0c84af3fb7e42dd0e959da6957879ef2b5e880dc57bd06b06ed6d617a4",
+    "archive/legacy_v1/광역지자체_아파트_인허가착공준공_월별.csv": "73d82563ec4e5d32cebba08d31073a23772ebb13002818e0dc5f0c9e4a0c14f1",
+    "archive/legacy_v1/부동산원_아파트_통계_시계열.csv": "7cc9af12390a1ffbcfad92459ff48193a7b4982835f435131862350fdfac3bb3",
+    "archive/legacy_v1/서울_아파트_전월세_실거래가_월별집계.csv": "9b752b29647633ba5fa6518c324927b8bd25b274e95e1c407cc2beddfc679113",
+    "archive/legacy_v1/주민등록세대수_월별.csv": "251d0bbb7299006fbcf763a4e218d35414601250728a0fc60e8f5d66c3ea771a",
+    "archive/preprocess/prep_kosis_econ.py": "cef21bbcb82188974abd4565e1b7b61da173539457c8eee62416a020b8bec00a",
+    "archive/preprocess/prep_kosis_household.py": "a14a8b8fc40eee5c05c5250e7e0285f955341f5a9d90d0bdcf8e768b4480959f",
+    "archive/preprocess/prep_rent_equivalent.py": "b62b120b12c85721fd259a13216ee73a8f21ef4ff8fa2e6e8e168132b2593998",
+    "archive/preprocess/서울_아파트_환산월세_월별.csv": "17060eec36600b4d303f2b813c8c046986484b0380848e0b5b45885637945853",
+    "check_variables.py": "a3d071e1d747ff61d176be4a70cf1e5ca07315cea96a59739558b520b6a8299e",
+    "collect/collect_ecos.py": "96e1c61ffe9e66b68ceddb9548d1ba34cddb81a04071d36afb1af83f902a2bdb",
+    "collect/collect_kosis.py": "e3cd8f7c357f333c96cdea6c1ca8f0eb0b4829bd54bcec1c23223f00946e649c",
+    "collect/collect_molit.py": "63cdcc2a5c96d4801637075b68f6fcf79d2c217ebf68d32cdb80eb3304653fa8",
+    "collect/collect_rone.py": "1abb576269d3abde8a9478532858729f253fb38dec14076f94b2dbdb99ff403f",
+    "collect/collect_supplement.py": "a08d9d08efa80a1907caa70dacb13b23b638f1d02a14cfadf5938cb4d84395c9",
+    "common.py": "84288c53a99d561fc71e6a8ed4b1b5fd15eb10bd6b9450cee0a35842acae0e94",
+    "docs/260928_데이터사전_취합_수정.xlsx": "ba883b07ae1a774e2cdbdcfc212afbb6f6b4197384a983614680f65b2726418f",
+    "docs/데이터취합.xlsx": "0971577f39178ca53b2c806f89c97b6a7261f7d418cb258dad52c92f47096ae6",
+    "impute/build_preprocessed.py": "a259a33ebc4773465e2bb3176cc93046a12f86b35b5fd4c55543a6018d471e74",
+    "impute/display_names.py": "a6dfe295db5e13aa66a79c5eb8e3d9f6986bd3bdbb2f05170e7ab351e745cae5",
+    "merge/build_panel.py": "0e09d0551dba4979e507eb4c3d552401216031ef34c289ac6c018df9b2d922e6",
+    "ml/build_report_data.py": "e3a7d6bce794d6adb32f989ff0a539843b2660331ac2f041a1109e82009fecee",
+    "ml/output/SHAP_동인별_행.csv": "57c816a74da56f1c9eaebdce354abde19caa8967abff7f19ae7cd2fdb1ca737e",
+    "ml/output/SHAP_변수별.csv": "37c966ad672bb02287182dc7124b2735e30d93954303764e9884e10c95b49283",
+    "ml/output/report_data.json": "69643eaa8acf59a36431b48f1727669a35fa6151cbc7a074317f817742a136c7",
+    "ml/output/결과_fold별.csv": "1be606af1fc568be28c05c08be4a20d6ad152e0127c92fce452e362302cd8c92",
+    "ml/output/결과_요약.csv": "c71a51f58b2ab665e3f0c3d7dda58ab8ca9c375b5b36b7cbe99605b449f7707b",
+    "ml/output/사용변수.csv": "175229e7d7cb9cfcfe4189d6073ec452101a5c514793815958e548f0f8455990",
+    "ml/output/예측값.csv": "39acb240164276c9c85d43f94e3577a28bdb9b012e9e768d63e6d7950f0bcce1",
+    "ml/output/월세조기경보_1차실험.html": "7e538fa9eb6775ab29131a8e0f6868064f997f67eff4aa099f736497390fb187",
+    "ml/output/임계값.csv": "c3050306d55e53470bb2121c629c9658cc972985de2c3dce3bf11105d3da21ee",
+    "ml/output/제외변수.csv": "ec5da0c13d6236a7c7edd4c5b87295f9cb0ce039f7a65e35ece4d07d68bb99c3",
+    "ml/report_template.html": "d2c2e35b8ce34adf9001ff42a9bbd8947c4b86d0d01b9efd11bb74c2bbc51d60",
+    "ml/run_baseline.py": "028eab63eaa904122a7db222a25a3ae4d6eb2ffd12ef0bc6d799d67a57e7363a",
+    "preprocess/prep_ecos_macro.py": "c476a04bf66801a9f418606af381e6ee0522b20beef092bb0048913d40c00bd4",
+    "preprocess/prep_ecos_regional_loan.py": "397a6db3b591c53c4daa572101382d2c411a888b7f214f28a892b054163dfd28",
+    "preprocess/prep_kosis_annual.py": "f3b5445327884d24b996c82b431f9ffa41749258cb99111ccdee3d35e3e75dbd",
+    "preprocess/prep_kosis_employment_half.py": "3dbf376ba7e3ac9b7deff98b6caa677c184c0b887fe3fdb403cef3fe0afe20c9",
+    "preprocess/prep_kosis_employment_monthly.py": "2de4e859e1e9d9eb2ca748b163e846311bf216ec9e10d9e22af9b8e41c976faf",
+    "preprocess/prep_kosis_household_survey.py": "058f8d46c85b0dd9bbe2ed5b78870992363dd56119510b5432c5c52698f2e092",
+    "preprocess/prep_kosis_housing_supply.py": "5e109a892fcfc8e473b43ff280e39c3d1642ec6282b6eacef7abe911321d4116",
+    "preprocess/prep_kosis_population.py": "5d2c6c179792742f3092d5d930ee1eee7d4bdf56912cf2c36dd9e2c408c1f157",
+    "preprocess/prep_rone_conv_rate.py": "99a42de8be15404303b43b33b84afe437b6a276499ac488c2b73a79038203463",
+    "preprocess/prep_rone_jeonse_ratio.py": "653e776f59fa37c5924c63b4f3d3cd33ef62a55bb7a39e3e8d7f8fbd24948d93",
+    "preprocess/prep_rone_price_index.py": "ee8028568a20376eb83cdd1ea99a1d25ee27a2fa3ed7cbe24f104d5c7a8ca0bc",
+    "preprocess/prep_rone_sentiment.py": "87f9b820794688ee807074c23c06fc50e2eacf427cc9d14d5e8faf5ea5a5c8ea",
+    "preprocess/prep_rone_supply_demand.py": "8d8e62b4f22890ed22fb4c9ca17278b50c656424eca5b9f74c68b3c993010906",
+    "preprocess/prep_rone_supply_old.py": "9e17e72a029fd1ac2c67abe5abe0dee4ba64e3da3acb4323ce69f5ca00a72d32",
+    "preprocess/prep_rone_transaction.py": "99683452c546080245483ac4ba96aec26c657fc1bf829e6c5c090ac426485752",
+    "preprocess/prep_rone_unsold.py": "d2c24b96ff4ee8f13df36902a32b44d9d02d99ed161c79d20c260129b8b08e6d",
+    "preprocess/prep_rtms_counts.py": "3cc3c3a373cd01f7c8b773fa1154ee3565905434a321b41c9d17412d8c3219c0",
+    "processed/ECOS_거시경제_전국.csv": "66f56776755c6b2ebd17fa3d7bb389625cc992b58b92499f5adaab087a6b145d",
+    "processed/ECOS_거시경제_전국_분기.csv": "7cc44bb193aa2c1d54a9b8012ab28ff105badd419b1cb86e9c05ccbdf140d01f",
+    "processed/ECOS_지역별_주택관련대출.csv": "6c27a040b435e0d43560193b1f504ae7a392dec4ded71fdbae0920bc30bc12be",
+    "processed/가계동향_소득_분기.csv": "36ff59809f93797559b014b9481637ad4d0d70fb7bc7b2ee6fbbb6f2351e9c81",
+    "processed/경제활동인구_서울구_반기.csv": "5f9191888a414559359b370ff63a812895dd3443dcf2bf5a48d64d82f5a6a4d0",
+    "processed/경제활동인구_시도_월별.csv": "b85f8c280914f89fc0f0d59e2f272e9f3553367bf007b4f989127585e5221121",
+    "processed/부동산원_가격지수_아파트.csv": "acb7a053542f100e5ec4548f3a13031f63500fffaaa09a9b3ac67b884ed61971",
+    "processed/부동산원_미분양주택현황.csv": "e72b87dbf26522cc9ff2ba03ced13f7fa1fa49c67495d1dcb12e5f45b1ac9546",
+    "processed/부동산원_수급동향_아파트.csv": "75485642fa9f49d21f71442cb04cd914bab96e423d98e1877c38225d1e80d336",
+    "processed/부동산원_수급동향구_통합.csv": "d92cae90f49d36c366d784dcbd93674ba198fe864f95007c67b9bf0629970fe8",
+    "processed/부동산원_아파트거래현황.csv": "bfdf15ebd099a99abbc1ed9eba7b594bdbf7b6928d57f323f58a8ccbaa257724",
+    "processed/부동산원_전세가율_아파트.csv": "d116e69fc1de73587705bf481f792a4448c272fa6fdde8bf14130802d1a5aa2c",
+    "processed/부동산원_전월세전환율_아파트.csv": "9c370c55c6a8ede60754f23f6b3b5936c605df47bd1928ef5e6a51955788df38",
+    "processed/부동산원_주택시장소비심리지수.csv": "4437fcd4cd8e9cca938aadb91002e46821cf7de115a67ed724769f0fc8b366c2",
+    "processed/서울_아파트_실거래_월별건수.csv": "8bd1610d6c8e58a40ae35faf3c87f5c494a41920c19fdc501c435756ed712f79",
+    "processed/연간_소득생산공급.csv": "879b5ac2df3cede9ef8f6533dc12ab5af2abd7db795a631319f6600b9bc13fc8",
+    "processed/주민등록_인구세대이동_월별.csv": "5069026100b84c5630f59abb7bd10fffd87ae491454c9bc05c2fa033fa203eef",
+    "processed/주택건설실적_월별.csv": "e6d268e17482be7c45341822a20f5021afa8605e52475b60b4dc905b13bb0f23",
+    "raw/1_임차수요압력/V009_주민등록인구_DT_1B040A3.csv": "4c2347232923c0b7bbd0e2e4954e47e9166121e171bb7961f8cf47d615cbf7dd",
+    "raw/1_임차수요압력/V010_주민등록세대수_DT_1B040B3.csv": "ff7fb769433bbaa2373a77511fecde2f64a1760ae75d17fb4b8bbb23e7af33eb",
+    "raw/1_임차수요압력/V011_연령별주민등록인구_DT_1B04006.csv": "b8e3efcb583c57be9cbe853225b793cb58a13b74eca6288d71046ec99e241d06",
+    "raw/1_임차수요압력/V012_순이동자수_DT_1B26001_A01.csv": "57c69743ede5bf7404cc96ab205325ff8206e1f66820d9388df828bdc28faa95",
+    "raw/1_임차수요압력/V013_고용률취업자_서울구반기_DT_1ES3A01S.csv": "61caea4b3cc9671ede414355ed8333bb0080023f5b883f35e0fd0f0a6e3aabf0",
+    "raw/1_임차수요압력/V013_고용률취업자_시도월별_DT_1DA7004S.csv": "05a1215e98b9e27972620a9c11180134b9f3010fc188b6552175dddc4d2719fd",
+    "raw/1_임차수요압력/V015_V017_1인당GRDP_가계총처분가능소득_DT_1C96.csv": "7f2d77e0748e7fec3820a560167d650ab06e69903ec2953116de6c50d92badf3",
+    "raw/2_주택공급재고여건/V021_아파트인허가_DT_MLTM_1948.csv": "cc423f7bb0896333e6a07fac1095100cb3965a6edf9eea3becbd36ac764d44dc",
+    "raw/2_주택공급재고여건/V022_아파트착공_DT_MLTM_5387.csv": "783a78f875caf777ed98cf5e47196f824cab9c7f2ffa3ed31aa7d3b00ea62477",
+    "raw/2_주택공급재고여건/V023_아파트준공_DT_MLTM_5373.csv": "9cc6cbe768ed7ad34e57f376ba1324463bdb5859a88342713e48a0ad9105774c",
+    "raw/2_주택공급재고여건/V024_서울구주거용신축허가_DT_201004_O090005.csv": "8ea843eb58a8ccbbbe9a9b61602a563444584768912a0a1faf559de5ba515157",
+    "raw/2_주택공급재고여건/V038_미분양주택현황_T237973129847263.csv": "480fb2f4e22180b2023f775bdcead0b8bde94524a11068ce681d59827a3957a4",
+    "raw/2_주택공급재고여건/V072_가구및주택수_DT_1IN1502.csv": "109c2696b8f00bcfe7155def5b078192c8a9cc370a8593565f3a28c2c4972220",
+    "raw/2_주택공급재고여건/V076_임대주택공급현황_공공민간_DT_MLTM_7174.csv": "431c92d9a5f51ba0df0feab82bd7dda0fea58c3d91b86486d3d170c32c268632",
+    "raw/2_주택공급재고여건/V076_임대주택공급현황_민간_DT_MLTM_6827.csv": "1badc3c44fbae4c56857f881f4cde6fc3fd89e03e5279f42f353b7975c904294",
+    "raw/2_주택공급재고여건/V077_임대주택건설공급현황_DT_MLTM_5560.csv": "2c6dbb481fc0f4dd7e93cb778889f6f99d3e6485caf3e78d5440b2e67831fbf4",
+    "raw/3_금융여건상대가격/V002_매매가격지수_A_2024_00045.csv": "00a1c7614e1db1557a24c5213dd2a0e6247a6f3487f35afa3e9cba0df93480cb",
+    "raw/3_금융여건상대가격/V003_전세가율_A_2024_00072.csv": "249ef1cfc19b30f914d5c6ceb7c809ea3b84e5c2f7e69b0a762830bb92ee3555",
+    "raw/3_금융여건상대가격/V004_전월세전환율_A_2024_00156.csv": "b3758353b46369d46c63ae0b9565a116cd1f4f26c89491ffe51d1ea2f5d33d73",
+    "raw/3_금융여건상대가격/V026_전세가격지수_A_2024_00050.csv": "e2c65f9c793ce9686d1b42f4149806cf6fdbbeb3c3f94a85c1dc5f23b93f00c4",
+    "raw/3_금융여건상대가격/V031_매매수급동향_A_2024_00076.csv": "13a101ca83034ca2dd236d3fa90175718b51ba97219af451141b499655d63fc3",
+    "raw/3_금융여건상대가격/V036_아파트매매거래현황_A_2024_00554.csv": "ee55c54fe9aa31deb43c57370ccce6d514581557bae515259ab88a5b8edde6ae",
+    "raw/3_금융여건상대가격/V050_지역별주택관련대출_예금은행_151Y003.csv": "21b9703f89c6b54cb3079696d4e0b348582653c326619684273eeffb66728e90",
+    "raw/3_금융여건상대가격/V056_은행주담대금리_121Y006.csv": "9495ce469e59cc1948d60331c1af7c55fe06372953415ef110d2ca7a4f420e9e",
+    "raw/3_금융여건상대가격/V057_은행전세자금대출금리_121Y006.csv": "609319b30948295962a936833dbef06916880aa0b5c15e22f0e39c1f53301afc",
+    "raw/3_금융여건상대가격/V059_비은행주담대금리_121Y007.csv": "cad18f23fec8afb3648f86a89e45100278e0bd72aea8e95f35acda4609eb49ad",
+    "raw/3_금융여건상대가격/V060_대출태도_은행가계주택_514Y001.csv": "58d3403916efa1463f9020e7b9cc4492ebbf0c617bfd510a2fd4cec9a5b27354",
+    "raw/3_금융여건상대가격/V069_예금취급기관_가계대출_151Y005.csv": "993b775d771adb42348a79d6fe29f54ed3aa1a5be4b1d1721a34a181904657e3",
+    "raw/3_금융여건상대가격/V069_예금취급기관_주택관련대출_151Y005.csv": "d98931526d1f16f5cc1fb3844b9aa6ed22e220cc150b7bc92b5a2bd425814a25",
+    "raw/3_금융여건상대가격/V071_정책대출_주금공주택도시기금_151Y005.csv": "92e960bcedf01e983a7bdb33b722ab2c1aad67d2d6147cda4a64ff061cfac11c",
+    "raw/4_임대시장수급전환구조/V005_V033_월세수급동향_A_2024_00078.csv": "766d0b265b74cf3c342a912b42e9555bc5d55327c5dc1de4687fcd7ec83ebb0e",
+    "raw/4_임대시장수급전환구조/V032_전세수급동향_A_2024_00077.csv": "7ad6a616b0597fb72fe645f1cc74273384c271cdf69966cae40890aa9eea36d4",
+    "raw/4_임대시장수급전환구조/V034_수급동향(구)통합_T242093131851096.csv": "519c03fd99cd4058ce960233fb2036df680694a34972bd8a12b4141f8118ceb5",
+    "raw/4_임대시장수급전환구조/V035_아파트거래현황_A_2024_00549.csv": "24305995a5509c4ff4ae795432bda74fb9da4badfe3a45eaa21a2aee3b8be1ef",
+    "raw/5_시장과열단기트리거/V001_월세통합가격지수_A_2024_00054.csv": "3428555535e0133899c330b23346bf460ff593224b1a889cbf1673c95e15c1ac",
+    "raw/5_시장과열단기트리거/V037_주택시장소비심리지수_T232543129897499.csv": "0a402bb63f11e1d71f7da16839dc35aada8075b58c479553d7ff5d60a4e8ce98",
+    "raw/5_시장과열단기트리거/V061_주택가격전망CSI_서울_511Y002.csv": "0c88c8f7368547db17db1bec83312c9e70f96cb4016cacc9c4da8fa878bb2332",
+    "raw/5_시장과열단기트리거/V062_주택가격전망CSI_6대광역시_511Y002.csv": "c5fbc26468c00b1702223e39bbf9639552b0fbb97affd752f9f36291959cdbde",
+    "raw/5_시장과열단기트리거/V063_주택가격전망CSI_기타도시_511Y002.csv": "6d291c6ab1eaa614ccd50372fd3ebbf1478cb15468692d87ca3dc1c699712d74",
+    "raw/6_거시경기금융시장여건/V043_기준금리_722Y001.csv": "7e97c7d556adc97bff29df3053072e7f73a4cb84220fb0ae756632cf33f0f83b",
+    "raw/6_거시경기금융시장여건/V044_CD91일금리_721Y001.csv": "dc9e9d74a46c66c9eb8bf78d32d78c38c595b562412472d54bf1598cc378eb4e",
+    "raw/6_거시경기금융시장여건/V045_국고채3년금리_721Y001.csv": "9d4b92d00de06df4c52115d0fbaed12d8f833dda7eb60e15e495387d769a35d3",
+    "raw/6_거시경기금융시장여건/V046_M2통화량_161Y006.csv": "cc221b9455cf3f5c3c32a2981606828afb8c87e0eba405202e4be8e25c9a288f",
+    "raw/6_거시경기금융시장여건/V047_가계신용총액_151Y001.csv": "ec2c3467f3f46df4734e284c8b22eefab4cdda4ed42ac1255f1372672488bcec",
+    "raw/6_거시경기금융시장여건/V048_소비자물가지수_901Y009.csv": "58c52857ba1989f48f3e88a2cb9e0e48a0c4d8a3041fc0701195065830c525c2",
+    "raw/6_거시경기금융시장여건/V049_시간당명목임금지수_901Y102.csv": "1a21223db22eb39dd2bead34c5061436731c2e63047566cdb15cb282884fe7b1",
+    "raw/6_거시경기금융시장여건/V064_KOSPI종가_901Y014.csv": "69a307e2ca6805bcab506def7c0f6912914a1df3c0ae06f0572f7f7f641f47fe",
+    "raw/6_거시경기금융시장여건/V066_임금총액_산업10차_901Y052.csv": "19b23656c9f0f53ede652cd47f45369dab2d5d62a5e57e9b7aa54e58ace86dee",
+    "raw/6_거시경기금융시장여건/V066_임금총액_산업11차_901Y148.csv": "7c1b3eb53a28caa414eb1a8e9bfee7e3b52957d9aad1b87a6ee9f359d06659b5",
+    "raw/6_거시경기금융시장여건/V067_선행지수순환변동치_901Y067.csv": "a7f766b47e3894899c7801ffe1525a3296546259b0699a6040cc145f6d4eb0d5",
+    "raw/6_거시경기금융시장여건/V070_수출금액_901Y118.csv": "2fe589f1ad96b7d22ec938652d2cc118cd2f9c14036c9a2aa0d515da5a32f0a9",
+    "raw/6_거시경기금융시장여건/V074_가계동향_도시2인이상_소득_DT_1L9I002.csv": "6ec013847bad624333dd1608a68ace3517d513bdbbcce0d0271530b71fb13c00",
+    "raw/7_보완용_사전외/보완_V001_월세가격지수(구)_A_2024_00164.csv": "b36bd3037f35b17206b0b94371278b74220a5bf4adaa2799a678a7a92adee18f",
+    "raw/7_보완용_사전외/보완_V021_주택건설소분류_인허가_DT_MLTM_1948.csv": "693b0a992a846526a12e993b3120be852ffbd512a73447fce7fd2804a6029e97",
+    "raw/7_보완용_사전외/보완_V022_주택건설소분류_착공_DT_MLTM_5387.csv": "e9f0e99c784fadc5e556b6755871cba9be41f3df09721533f3bbad808bf8013a",
+    "raw/7_보완용_사전외/보완_V023_주택건설소분류_준공_DT_MLTM_5373.csv": "19cd324f03686c28925c2463e20fb52653768ab5c534df1f1b247a9ebda56937",
+    "raw/7_보완용_사전외/보완_V061-V063_주택상가가치전망CSI_511Y002.csv": "0569b9c5981d35307d4d6c02a8cccbf2d8852c20c8fe1b198101999811279879",
+    "raw/7_보완용_사전외/보완_V074_가계동향_신계열_KOSIS.csv": "3da7fc3ae6263f97a68fd748d15a9246830cc1ce604edd062effa53f73bffca2",
+    "raw_layout.py": "68be8767d5b141e0d773d2ec39aff8d1c6abdbd8a74e87e3e88565308a5ce0a7",
+    "sgg_codes.py": "147cd08e1802226b05ea005759c3ac640afff7b80c66d944369642dd1a3ca5c6",
+    "variables.py": "3d43634f3c5cf00a2af146de73394eb819cfa685e15dbe931c4b37620d63e24e",
+    "데이터취합_20261001.xlsx": "e2c05d72053f36ec08e319ca8ada59ba1ffa24c6f1ac80c31bff0f0d5044b3fe",
+    "데이터취합_20261002.xlsx": "8336d07472bca3cf64b7adfcb97cb6bcbb12e85c0d20b4330653a2e54f70a76b",
+    "데이터취합_전처리_20261001.xlsx": "479d264810663409bae91049b2cc30d71df1a98f576ece7869c8d94a614ba4c7",
+    "데이터취합_전처리_20261002.xlsx": "e97596161e6c14ba12cf3f48017bf41427fbce7e23070f727cac14b318d53404"
+  },
+  "files": [
+    {
+      "version": "TH_v11",
+      "source_file": "ml/features_TH_v11.py",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/ml/features_TH_v11.py",
+      "sha256": "20144eea9137e4153b79411f4d10717e72405285db2d29a00a6b67ad3a90ebc0"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "ml/train_simple_TH_v11.py",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/ml/train_simple_TH_v11.py",
+      "sha256": "c6ddadb03e2d065a82dd837dc0af538687338707a8b87c5d93eca38815b7a3a5"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/review_simple_TH_v11.py",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/review_simple_TH_v11.py",
+      "sha256": "ef376544ed6199d4df6837701a822d5ea2f27238825143d4b1ccf4b04b28e151"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "input_TH_v11/provinces_aligned_candidates_TH_v11.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/input_TH_v11/provinces_aligned_candidates_TH_v11.csv",
+      "sha256": "fe41218257559178b817b3595a67ac3c4fc0bad75c18c504094565e54129b249"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "input_TH_v11/seoul_aligned_candidates_TH_v11.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/input_TH_v11/seoul_aligned_candidates_TH_v11.csv",
+      "sha256": "50a0ceea3a8619cfbb28ba6e8b9b034412b62798ea2a44ce78374488f2523a48"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/annual_metrics_TH_v11.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/annual_metrics_TH_v11.csv",
+      "sha256": "e6203e4c04a26ab8ec49722b811f732c740a72a9541ceae7f38edcbcd9c621fd"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/comparison_TH_v11.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/comparison_TH_v11.csv",
+      "sha256": "6d24339e70bcbbeddfceb945d35144e5e602f6255fd969a7902ee2de129cb735"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/features_TH_v11.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/features_TH_v11.csv",
+      "sha256": "1d31ded5b9e339db17bd33fe30216882e2c4aea00c615f1b5d7aff70f1cfe26f"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/folds_TH_v11.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/folds_TH_v11.csv",
+      "sha256": "1aabdb14b628dd4ecad914806d6966c0f43db9082eb931dac9d71bcb01463cf8"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/metric_audit_TH_v11.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/metric_audit_TH_v11.csv",
+      "sha256": "dc74af91d7bbf84e764eec5b6825b637a4b816eb5583b63c253ec2135b9a95ec"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/predictions_TH_v11.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/predictions_TH_v11.csv",
+      "sha256": "59c2be8d3d9ef400a525ee8bc90fb11798ae668e02cd56ed47337a71e6873e4e"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/provinces_model_ready_TH_v11.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/provinces_model_ready_TH_v11.csv",
+      "sha256": "2078d9f1c0584f7a32f4bd0e6cc5106f5af71c6c1166cb0834311e03eb59b389"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/seoul_model_ready_TH_v11.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/seoul_model_ready_TH_v11.csv",
+      "sha256": "e7db6dc7574fea0714796fa7b3dadccb4cb8fccf7e7cb739455ea790dd3e289b"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/v10_unchanged_tasks_TH_v11.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/v10_unchanged_tasks_TH_v11.csv",
+      "sha256": "aadbd473f42cc508cae2bb27ca282ffbc3f2f2d9af0a12774f915bb4a7ed669e"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/verification_TH_v11.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/verification_TH_v11.csv",
+      "sha256": "aa8f9ff1ccdda09a21e62279366a84b9c0183661d7d9ffc807879707bf4683ad"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/prespecified_design_TH_v11.json",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/prespecified_design_TH_v11.json",
+      "sha256": "51c17c3ff3225c063b7665f69c6ff2bfd3196e3fcd0c610dd0473435f18c4fa4"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/review_manifest_TH_v11.json",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/review_manifest_TH_v11.json",
+      "sha256": "a67b2c7e9187be577934e1fb557abb1e43acedd43fbb89f6fd24b3faafe55060"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/run_manifest_TH_v11.json",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/run_manifest_TH_v11.json",
+      "sha256": "43817eefd4741ffe7ed6f1047932ab493962e7f7e4a32bdd1e0ff03b00c88e8d"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/verification_summary_TH_v11.json",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/verification_summary_TH_v11.json",
+      "sha256": "c2880776da211154a10205b15fd45d5d3788482209538a9e36eed7e9b1976d3d"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/charts_TH_v11/provinces_annual_direction_TH_v11.png",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/charts_TH_v11/provinces_annual_direction_TH_v11.png",
+      "sha256": "c7dfced782fb6d5c1f106fb687f18745986cd4f7ba234c9e2b902e54e1978e12"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/charts_TH_v11/provinces_overview_TH_v11.png",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/charts_TH_v11/provinces_overview_TH_v11.png",
+      "sha256": "aa2783d1138d7d59526166ff20248a040fa3cfb751940e9203b2bc5d72cb209f"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/charts_TH_v11/seoul_annual_direction_TH_v11.png",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/charts_TH_v11/seoul_annual_direction_TH_v11.png",
+      "sha256": "d2f4fe9dc82da30234d0f12473632697039061593b19375a32fa5fd0bd0f856a"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/charts_TH_v11/seoul_overview_TH_v11.png",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/charts_TH_v11/seoul_overview_TH_v11.png",
+      "sha256": "67280535293a909ecd6b415dd828bd1792f404f2e74683c247bd852e81a1930a"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y1_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y1_Extra_Trees_TH_v11.joblib",
+      "sha256": "a00c6ad48172431e808bc79eabf17fde74303c106cbca484791646518f04e2ed"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y1_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y1_Linear_TH_v11.joblib",
+      "sha256": "addcdeed501391d7d495aca8008afe6688f9c0de2212f9a4c024215d7bae08a0"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y1_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y1_Random_Forest_TH_v11.joblib",
+      "sha256": "7444220b50a09dc82a1bc25e2945e9fc72bcb2bb4e2d4f0b8e8b77aec9a1b5a0"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y1_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y1_XGBoost_TH_v11.joblib",
+      "sha256": "ab27b138382b40d42d6736d671ef54817f77941ebc299535dd0354ce429ed830"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y2_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y2_Extra_Trees_TH_v11.joblib",
+      "sha256": "187163f9b4c964fbde87243730184a71af06ba232ae04b2abee85596ff8225c8"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y2_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y2_Linear_TH_v11.joblib",
+      "sha256": "c6e7740ccd595d81a0a460d3bc8ddca620d920a4c4ac433739a58cc577e42fc2"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y2_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y2_Random_Forest_TH_v11.joblib",
+      "sha256": "1fbf782b66bce046bde378b44fb17f5e671c7b13651485d3199a200736b4cf51"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y2_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y2_XGBoost_TH_v11.joblib",
+      "sha256": "82af27c51f5475d542ab26d5f028b98a5192914a4a971971c0fbd7c0868ee359"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y3_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y3_Extra_Trees_TH_v11.joblib",
+      "sha256": "8c478ab2b1d6f4b9a85c5ef815d19940ab730276ce1389fa20629aa8ab104685"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y3_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y3_Linear_TH_v11.joblib",
+      "sha256": "6e6a7ed5f7ce375f61f8a737bcf5d9e3a92109da48acc41ce5889a671a78c931"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y3_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y3_Random_Forest_TH_v11.joblib",
+      "sha256": "c26072f59aacf923293c2c5886af22a828203c577e80490314b6c92a4b00c38b"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y3_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y3_XGBoost_TH_v11.joblib",
+      "sha256": "46100403c4755b041c2b0fbfe45c0aefb04136f671014c9cac3f02ef49269de2"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y4_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y4_Extra_Trees_TH_v11.joblib",
+      "sha256": "49ff26b26c2116cb8e92266d65232713757663250bbf4069c44b4e601701581d"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y4_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y4_Linear_TH_v11.joblib",
+      "sha256": "58987c391e9c14ace164146dd9363646909fbe902c1dd11a99d77ddb434b64d5"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y4_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y4_Random_Forest_TH_v11.joblib",
+      "sha256": "77fa50122fd06fa15c814712a7d8b4c53cfa7b299dfd69e9239b2ef226c44455"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_201801_Y4_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_201801_Y4_XGBoost_TH_v11.joblib",
+      "sha256": "fc167f3b47c0d45de971ad95cc71e862273a4afcb1c3689d52c6b04914a9c314"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y1_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y1_Extra_Trees_TH_v11.joblib",
+      "sha256": "5591bfff651ebf1a1bf13edb65ae611362aac536b57708ac02dd40083dd56bad"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y1_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y1_Linear_TH_v11.joblib",
+      "sha256": "5fd05f904ba0152ee922862b10e948032e1c6afa4d3b64c52154857dbf71fa23"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y1_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y1_Random_Forest_TH_v11.joblib",
+      "sha256": "ea146ea26e8cf2f756b4477a1bcc44996276904dc8cb62862791c0d28168d1cd"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y1_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y1_XGBoost_TH_v11.joblib",
+      "sha256": "b231c7593f36ba24412428520106fc9368ac67fed5bd19891aa8c1f810cacd43"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y2_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y2_Extra_Trees_TH_v11.joblib",
+      "sha256": "cc971431e2105f784a6a02e218038e20645c27084c31be5cafa259770f9db63a"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y2_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y2_Linear_TH_v11.joblib",
+      "sha256": "e7223389151053f320351911a077c407033f1b4ff7ed209098742176b8486fd6"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y2_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y2_Random_Forest_TH_v11.joblib",
+      "sha256": "b5e749bfef455bb30caddb4c54181c0fe15b54500acf4a2fde0c7258a3717f9e"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y2_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y2_XGBoost_TH_v11.joblib",
+      "sha256": "af10c44da18f5dbcfa0375e12f5211b4608445962a3358acf2c3efe37cd7ff55"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y3_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y3_Extra_Trees_TH_v11.joblib",
+      "sha256": "e11936e99f943ae107c49f61e636acda144b0a7e061a5b04bd79ba3ab78f23a1"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y3_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y3_Linear_TH_v11.joblib",
+      "sha256": "bcb387dfa23cf12300100255d94c45712ba0d23bea3fcd2a5bdc35c80f938985"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y3_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y3_Random_Forest_TH_v11.joblib",
+      "sha256": "afecdb2b3fcda359f8621bd019b99fa555eb3ded507e468c090c1a6b6ff57f1f"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y3_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y3_XGBoost_TH_v11.joblib",
+      "sha256": "ae212631810baa3c976d37a6ceec55fb376124676993615f144b63a97db3cd93"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y4_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y4_Extra_Trees_TH_v11.joblib",
+      "sha256": "f7a527fcdf389eea0cb9a6748e083f5b476ed23d5b16209251b09acc3ffae349"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y4_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y4_Linear_TH_v11.joblib",
+      "sha256": "e6b037450a68afaf3a87c837d9be9310ecbeec85d8663c955a3a980a4728dd58"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y4_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y4_Random_Forest_TH_v11.joblib",
+      "sha256": "277a9dd45df5ee5310f410e95e91ae04bb8b0827ac6c6d1210e72ef5495dda6f"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/provinces_202510_Y4_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/provinces_202510_Y4_XGBoost_TH_v11.joblib",
+      "sha256": "a98ca774b90ef69180fd8df98ddc1ecadefbf0f5b0fd241ccd958a0fd3a24275"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y1_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y1_Extra_Trees_TH_v11.joblib",
+      "sha256": "9ee2fc28e789fce1cae174ce39db1136d5926254d75b6fe4a94d5ba109aab559"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y1_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y1_Linear_TH_v11.joblib",
+      "sha256": "13e157b2377ea132a4dd17daa288092f093ad0fb7311c9a2b0a6f165451c5592"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y1_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y1_Random_Forest_TH_v11.joblib",
+      "sha256": "d8eddf611a90c2e89c57ae69702db374490eb026e16bdbe3ce560774a9d4a7da"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y1_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y1_XGBoost_TH_v11.joblib",
+      "sha256": "bd780b034b1a276ceb4e5f27de8448515d6e60e813c1e3de272ad15c5944b0d5"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y2_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y2_Extra_Trees_TH_v11.joblib",
+      "sha256": "ada5f4c22b7b0f828887701a53ffd6da451fd2342c986c8e5d5ec628fccb0d5c"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y2_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y2_Linear_TH_v11.joblib",
+      "sha256": "fd7e86f3d56154bddc6796145a1b6bc6dee9f355be5ab5f83a8cc4eac5132b17"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y2_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y2_Random_Forest_TH_v11.joblib",
+      "sha256": "8632bb958753760d8b6fd3cc7ddffe01ebe5add20baab909eeca504adc503ead"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y2_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y2_XGBoost_TH_v11.joblib",
+      "sha256": "e18331bcdb399266435b003025346a6e099772e1743a4fde1babb29a333b596c"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y3_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y3_Extra_Trees_TH_v11.joblib",
+      "sha256": "ffc722e9f5dfe82ee2c07a6b8611d21635701207acbd747617a3b3dc35daa230"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y3_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y3_Linear_TH_v11.joblib",
+      "sha256": "b60647affeb87d29a4b9ecc43246e2519f665e48a3452da2cf95fc8f7c504a7b"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y3_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y3_Random_Forest_TH_v11.joblib",
+      "sha256": "1e42c21389d453f8574db6d1efdfc3d28db802d74c375f833178d10ce1d02765"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y3_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y3_XGBoost_TH_v11.joblib",
+      "sha256": "5193697e146efafacc2f6db4e4667284264377634ce9bce0105dc2cf1e878c12"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y4_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y4_Extra_Trees_TH_v11.joblib",
+      "sha256": "775376c3f7d929c8acaeb4c17afa88aa4ab554823371ee4dfcbfa740eb8646eb"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y4_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y4_Linear_TH_v11.joblib",
+      "sha256": "f0b53213cbd76734e272846d7e127d8c0f9ebfaa1b5df2ac9f4de9f824c7cdae"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y4_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y4_Random_Forest_TH_v11.joblib",
+      "sha256": "ebb57dcdccb064c4aa6669841c42dfc45e4af4ea56a2de27f0b84046c57d0217"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_201801_Y4_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_201801_Y4_XGBoost_TH_v11.joblib",
+      "sha256": "52222d2830b05d32f7f3816645adcb012a01d5cbebffbd691a3df0d70d052bc5"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y1_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y1_Extra_Trees_TH_v11.joblib",
+      "sha256": "05d6ae986ecbabb4ce6d1f7e5d721c9da00ea792646432cb4a5860135df535b7"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y1_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y1_Linear_TH_v11.joblib",
+      "sha256": "6754395e6ffe9c46d2e75dfb6136ca5a10959ab18a9aa277baae7048941c85da"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y1_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y1_Random_Forest_TH_v11.joblib",
+      "sha256": "c5d84e61c7271ef7828207020e5e4667ee7a08b260b6a5c1a1593beda45b90b8"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y1_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y1_XGBoost_TH_v11.joblib",
+      "sha256": "bca7ed2fa8c12bfd2cbdc3633e4caa484862a33b3180ed864b0315d12e7d67fa"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y2_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y2_Extra_Trees_TH_v11.joblib",
+      "sha256": "b66f791a2cda265bcb58228c741f4aac910a941de52bce0acb44f9beed621eb9"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y2_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y2_Linear_TH_v11.joblib",
+      "sha256": "da3e664c22fb8cbfc345ae4263e00809ca414026b4d4d33eca04923ab274731f"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y2_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y2_Random_Forest_TH_v11.joblib",
+      "sha256": "95841d6b5dd067566ced3daf5ef53d3e6df75e7368da1797eb9aa5419cd83d9f"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y2_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y2_XGBoost_TH_v11.joblib",
+      "sha256": "52d9c6eac4f74742f453a210195c75f118a4a0c461e46beecc48833997492900"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y3_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y3_Extra_Trees_TH_v11.joblib",
+      "sha256": "e3c60e27a3ffb880348e20cb378e00fed9c63cfd824a324d443ae398bb789a45"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y3_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y3_Linear_TH_v11.joblib",
+      "sha256": "b1fb0b633e930e77a9cacf9967fbc234ed2e1331c39ddaee1c5520a8fabcaab6"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y3_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y3_Random_Forest_TH_v11.joblib",
+      "sha256": "0ebb5ac06edbc581cf99f72bb494dfc4252dcbec0b3da573f58363754d6d19df"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y3_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y3_XGBoost_TH_v11.joblib",
+      "sha256": "887e491fb1df2a25f7ebfc4633ea94d090cb32ea3faa33101554f9d3e39e7baa"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y4_Extra_Trees_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y4_Extra_Trees_TH_v11.joblib",
+      "sha256": "c9e24f51a02a4cb8dd21b73cf8b98a08f6c3e8ed76f41d4ac99c4420030e034b"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y4_Linear_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y4_Linear_TH_v11.joblib",
+      "sha256": "e5f3a29642dcdb8293e7546aa33b397326e7f8b8af9c8708759632c7dfe7c64d"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y4_Random_Forest_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y4_Random_Forest_TH_v11.joblib",
+      "sha256": "786d627ea8254da1348ca89ec6bc70498d590c93a2c132e98378d49be9c12e04"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "analysis/output_TH_v11/models_TH_v11/seoul_202510_Y4_XGBoost_TH_v11.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/models_TH_v11/seoul_202510_Y4_XGBoost_TH_v11.joblib",
+      "sha256": "731cc90095004c16e8c9358247710a05fd04a270cf6511acfacbe7522fb5f9a7"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "README_TH_v11.txt",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/README_TH_v11.txt",
+      "sha256": "ea842a756c3443af0bd60c2129ba2a21e38312f059e2a75895006c756bb3d12e"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "requirements_TH_v11.txt",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/requirements_TH_v11.txt",
+      "sha256": "fab9abe805a32d00ed46c5792f1889f2463b93c8602f64bfac5a28cb9a287e34"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "변경기록_TH_v11.txt",
+      "repository_file": "ml/experiments_TH_v1/TH_v11/변경기록_TH_v11.txt",
+      "sha256": "e897148339321d1a429e6f7dc311e0aa275dc636413fe280a8d04446a160040c"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "reports_TH_v11/국내월세지수_연구보고서_TH_v11.docx",
+      "repository_file": "docs/TH_v11/국내월세지수_연구보고서_TH_v11.docx",
+      "sha256": "aa4739534e0ffc476d8d1217d1c678656ebb087edf92491751752fa9c9a1696c"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "reports_TH_v11/팀원공유_변경사항과실행안내_TH_v11.docx",
+      "repository_file": "docs/TH_v11/팀원공유_변경사항과실행안내_TH_v11.docx",
+      "sha256": "2abf6b36103e4c281abe35c8e8cb010b604e8574314544649267e95f6a8a3fd5"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "README_TH_v11.txt",
+      "repository_file": "docs/TH_v11/README_TH_v11.txt",
+      "sha256": "ea842a756c3443af0bd60c2129ba2a21e38312f059e2a75895006c756bb3d12e"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "requirements_TH_v11.txt",
+      "repository_file": "docs/TH_v11/requirements_TH_v11.txt",
+      "sha256": "fab9abe805a32d00ed46c5792f1889f2463b93c8602f64bfac5a28cb9a287e34"
+    },
+    {
+      "version": "TH_v11",
+      "source_file": "변경기록_TH_v11.txt",
+      "repository_file": "docs/TH_v11/변경기록_TH_v11.txt",
+      "sha256": "e897148339321d1a429e6f7dc311e0aa275dc636413fe280a8d04446a160040c"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "ml/features_TH_v12.py",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/ml/features_TH_v12.py",
+      "sha256": "8fe76c6fb8cefe6f7b9cb2aeff22f6d1e71d5e3228bbf20c3f9a9e9feb0b1d51"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "ml/train_simple_TH_v12.py",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/ml/train_simple_TH_v12.py",
+      "sha256": "c7323db5c0dc0f108dad9e5d307fb16225cc08591cbff71d66f6dfb4796a0d88"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/review_simple_TH_v12.py",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/review_simple_TH_v12.py",
+      "sha256": "020e4ca55edadeca717a9a5193fd7b896c3ae55b76769720d8c39a6bf3135bcd"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/summarize_experiment_TH_v12.py",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/summarize_experiment_TH_v12.py",
+      "sha256": "a5614b40a7c8c159ecfb76c203ec98ca1b9ab58972f6ed637b467e3f8574556d"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "input_TH_v12/provinces_aligned_candidates_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/input_TH_v12/provinces_aligned_candidates_TH_v12.csv",
+      "sha256": "fe41218257559178b817b3595a67ac3c4fc0bad75c18c504094565e54129b249"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "input_TH_v12/seoul_aligned_candidates_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/input_TH_v12/seoul_aligned_candidates_TH_v12.csv",
+      "sha256": "50a0ceea3a8619cfbb28ba6e8b9b034412b62798ea2a44ce78374488f2523a48"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/annual_metrics_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/annual_metrics_TH_v12.csv",
+      "sha256": "99b85e8b8433ab3496eead7b47f3bc77345fb2061b5842969b3eb8b79338a1e4"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/comparison_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/comparison_TH_v12.csv",
+      "sha256": "9c064e344c7c9aa97eb7afe523c8a179bfa0447e83e73bb01762f76b50e51236"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/features_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/features_TH_v12.csv",
+      "sha256": "2f43bbc3bd11940c561036dced05ad5b965244cf0a3a25d825804f78037dd3be"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/folds_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/folds_TH_v12.csv",
+      "sha256": "f62666c46b6c4f3903deed4f73f83be49d776ab2df5a1631828728610dad4885"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/metric_audit_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/metric_audit_TH_v12.csv",
+      "sha256": "dc74af91d7bbf84e764eec5b6825b637a4b816eb5583b63c253ec2135b9a95ec"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/predictions_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/predictions_TH_v12.csv",
+      "sha256": "aa8dd39c3bff27769887594beb4bff3154370af41b6a8497e980d0b30505ec27"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/provinces_model_ready_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/provinces_model_ready_TH_v12.csv",
+      "sha256": "e046cb410a645996404c8cff550548eac8ca4838b438290645c9f0ac463d9533"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/seoul_model_ready_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/seoul_model_ready_TH_v12.csv",
+      "sha256": "5dc8bf79d10b61916e3ca8d348bc7ad54e908a5af3fc6ba9e85038e3efea93d0"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/v11_vs_v12_annual_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/v11_vs_v12_annual_TH_v12.csv",
+      "sha256": "6b6a3cc0b08a697213a4a088b6f7ce66c69036b054360a10c5d833aeaed0d0c2"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/v11_vs_v12_metrics_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/v11_vs_v12_metrics_TH_v12.csv",
+      "sha256": "f4047961ef6625f89f5c19e4cdf8c97c77a2d502428eaed60a1d7dc90748185d"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/verification_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/verification_TH_v12.csv",
+      "sha256": "3f5aef48e48f0fd3b2317bd7173576b4beed9959dc32e294372ab1643a276db2"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/핵심비교표_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/핵심비교표_TH_v12.csv",
+      "sha256": "0ecb237386ff0b3fd843376a4958a122098581c3987921de659bba7f8f8c771f"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/prespecified_design_TH_v12.json",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/prespecified_design_TH_v12.json",
+      "sha256": "10729cc1ed42eb425a87dc813b7db3c7cbf981ec10d4238537e4cdef83938c32"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/review_manifest_TH_v12.json",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/review_manifest_TH_v12.json",
+      "sha256": "76f3c4496f9e70af0bca4d8c929734f073e899d8621c14cdfd63c0ede27b8252"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/run_manifest_TH_v12.json",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/run_manifest_TH_v12.json",
+      "sha256": "023ac7b5af93697b4a7121c058b0babddb789627640f8cac31f9c018ce7f4786"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/verification_summary_TH_v12.json",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/verification_summary_TH_v12.json",
+      "sha256": "0950aa034710e6cb7fd15d1baffc345d0ecb0669fe6eaccd7a70eddeb776f8cc"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/charts_TH_v12/provinces_annual_direction_TH_v12.png",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/charts_TH_v12/provinces_annual_direction_TH_v12.png",
+      "sha256": "7e7344b10ae070ed5982360cc6ae327a3376cd527261c729b2ecd3f6db80252a"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/charts_TH_v12/provinces_overview_TH_v12.png",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/charts_TH_v12/provinces_overview_TH_v12.png",
+      "sha256": "52086a8c6c5028b22a72de1fdc19c8b2938776e2a77cefd4ac0995c447bf2e04"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/charts_TH_v12/provinces_v11_vs_v12_TH_v12.png",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/charts_TH_v12/provinces_v11_vs_v12_TH_v12.png",
+      "sha256": "bc4971dd2f7a084e4495044c6e054fd701cdf57f84acb095d82ce5b576d3be4f"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/charts_TH_v12/seoul_annual_direction_TH_v12.png",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/charts_TH_v12/seoul_annual_direction_TH_v12.png",
+      "sha256": "cc05a660adedd4cefbb541adb2735febf32cd3752861b5061f3ef7b5e88ab487"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/charts_TH_v12/seoul_overview_TH_v12.png",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/charts_TH_v12/seoul_overview_TH_v12.png",
+      "sha256": "7627c6b82be9c717b34ecdeb879b92d4e4bcd7c0dc7c2dfe3c3fc08cc962af05"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/charts_TH_v12/seoul_v11_vs_v12_TH_v12.png",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/charts_TH_v12/seoul_v11_vs_v12_TH_v12.png",
+      "sha256": "584d7b3f01f83c8eefb51ff2d8d60fc375a067287f0d4c94d7f2ad4c6093bff3"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y1_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y1_Extra_Trees_TH_v12.joblib",
+      "sha256": "246c664a0085dad2fd5e9aaab9c974759c055f33f6d4fb3c1ea81d0c887fd330"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y1_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y1_Linear_TH_v12.joblib",
+      "sha256": "60b27542095f42e4258529d9c36c2c4c6c58ad0142ad183c99f6603b27786e44"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y1_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y1_Random_Forest_TH_v12.joblib",
+      "sha256": "96c1c9b4151ac4969352a672278d9a7f91f171c480ebc3dce96f97a01b3e4222"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y1_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y1_XGBoost_TH_v12.joblib",
+      "sha256": "b7750421e64a1671423be17808ebfc600ce47d340a1a5514e6d6b75f4241695c"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y2_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y2_Extra_Trees_TH_v12.joblib",
+      "sha256": "03bd7c4695e00af10c898cc0fae3db10854dd26b437d1c0fe3571e9efa126631"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y2_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y2_Linear_TH_v12.joblib",
+      "sha256": "0e0d4e714ba5cb35429d5a13a1edf73893348abfe8f51ae696a4f8749abc529a"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y2_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y2_Random_Forest_TH_v12.joblib",
+      "sha256": "b5ce389c0e271549755dd4a7a0fe7782ece73fbe66cc17542881964da43395a0"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y2_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y2_XGBoost_TH_v12.joblib",
+      "sha256": "e5f817e8b3df7211e1f9d58282757584b3f61a940a8d725c57a008ef29b895bb"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y3_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y3_Extra_Trees_TH_v12.joblib",
+      "sha256": "0dbceb909e245a8f7c32930b0a1698b6e9371f8f9c7a175f7499c131422a1e32"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y3_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y3_Linear_TH_v12.joblib",
+      "sha256": "66f62b37dec1d39426007cfb7e719ba17d2d768ff2f6e557d7aa84d943965a2a"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y3_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y3_Random_Forest_TH_v12.joblib",
+      "sha256": "4a6f2a06b80e6dcfcee5a8a0d9ad34cb537b5802154f5a939d895b2278c4784e"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y3_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y3_XGBoost_TH_v12.joblib",
+      "sha256": "c4110f37191a46de854c7dde8fb1bf3c549a6119eef71d5e2b41f54e05be5e15"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y4_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y4_Extra_Trees_TH_v12.joblib",
+      "sha256": "fa0fc4338edf938ba7c299a441dcc137c3d34ab567fe8891692b0734141c90f1"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y4_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y4_Linear_TH_v12.joblib",
+      "sha256": "b401ba42944ff3e7bac7db444001a1ce8b9c0d41ade15cece9c05b1f1c35a97c"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y4_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y4_Random_Forest_TH_v12.joblib",
+      "sha256": "ef5e49065d0e4c6450f72738e3cba2c1962355a5e287a1ae5ede39b3933c3125"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_201801_Y4_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_201801_Y4_XGBoost_TH_v12.joblib",
+      "sha256": "af6c020591a35dc8c4254337a1313f99a951891461fec217131943ed961d4c16"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y1_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y1_Extra_Trees_TH_v12.joblib",
+      "sha256": "e84000072549a97e76312911a2942409ed530b6daaadb92534def71ceaf852eb"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y1_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y1_Linear_TH_v12.joblib",
+      "sha256": "08eea8dcdba814f5cee15daa46e7be6306ba424ebee243ae19bbf7272df8802c"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y1_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y1_Random_Forest_TH_v12.joblib",
+      "sha256": "6d1cc7d6851d0a363ff8e5c039b855e97c9292c68e1182086ddb980447c95301"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y1_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y1_XGBoost_TH_v12.joblib",
+      "sha256": "b0a3bbdd24cbb6bb0ff44cc1c87293da7bcfb37f76cb7b26c9f59969adf34c9a"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y2_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y2_Extra_Trees_TH_v12.joblib",
+      "sha256": "00f5c6e0d05c610e86cf0ab058043571bd1c0339054de8ac5168dc985972c91b"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y2_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y2_Linear_TH_v12.joblib",
+      "sha256": "9fb93c5c1008f98c7673faf72191a0e4d4f729b371acb8d0117e5b1975325611"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y2_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y2_Random_Forest_TH_v12.joblib",
+      "sha256": "a7458578a6dbc6cb45bdd3d8e8cfe192cdf255dca8adb717728773402861585d"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y2_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y2_XGBoost_TH_v12.joblib",
+      "sha256": "35b033f94b905e32cef385fc8e4f4034111b938ae7c9dbbbe401a5f4d5a25872"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y3_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y3_Extra_Trees_TH_v12.joblib",
+      "sha256": "2999404df185e322d946b9244cf9ee087125cf52e3aa737d9eb0080c3a6e2399"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y3_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y3_Linear_TH_v12.joblib",
+      "sha256": "44e98cdefacf1e0a7f948e7b821329d36cc69e9a210c43c626f45812aef3862b"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y3_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y3_Random_Forest_TH_v12.joblib",
+      "sha256": "fa9b9aca942e63d96f94f52ff24a27e869901c1aca9fea69265db26a3971f2c4"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y3_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y3_XGBoost_TH_v12.joblib",
+      "sha256": "0adbf3d2bdbdcd5e0770989eed9e12758ab8925414c0d8c3f0294fcaadca471d"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y4_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y4_Extra_Trees_TH_v12.joblib",
+      "sha256": "24e60e237065bc1ad3b3ad77e88011a3e095ae3ca02f6b2f26d6f13e58cba73f"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y4_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y4_Linear_TH_v12.joblib",
+      "sha256": "7d341381f915f9ed669e193f3085467ee0eabb80ea90c3d6c2c8846ddc708e8a"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y4_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y4_Random_Forest_TH_v12.joblib",
+      "sha256": "fab3f9eef02e8cef64f4fae5295b0c37d56beb7b1406b047c6d27bcd5a3a67a7"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/provinces_202510_Y4_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/provinces_202510_Y4_XGBoost_TH_v12.joblib",
+      "sha256": "1a534dfa341714400e7e9cb921d50e09f7f262fe3edd3984be7e30bce1a50640"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y1_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y1_Extra_Trees_TH_v12.joblib",
+      "sha256": "67b2f1aec4215450b20d1000417884ec2a0fb8851589bc0dc92b5ee2c64fb3f8"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y1_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y1_Linear_TH_v12.joblib",
+      "sha256": "c25b07a176530960540a9cbd558efd05210f0ca93060c920ad759c86082d7f44"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y1_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y1_Random_Forest_TH_v12.joblib",
+      "sha256": "0c95fd57c9f367f3f75d77ddfa5bba10f42fec2d0c862edeb479fb1d78e28fcd"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y1_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y1_XGBoost_TH_v12.joblib",
+      "sha256": "aaa40bacca0042afc7d7b02d39a40bde14296d287431995b8ddb1e9068864208"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y2_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y2_Extra_Trees_TH_v12.joblib",
+      "sha256": "7d132b95729fd9fe71d8c5832b5cf5c1d01db1b7db9036340de0a6a80df86ea9"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y2_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y2_Linear_TH_v12.joblib",
+      "sha256": "3125aab488beede95989bf7cb75a18980b50a1ef15e5855fc454989b035b698b"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y2_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y2_Random_Forest_TH_v12.joblib",
+      "sha256": "9bfdb0f4e362f8374b541d975789fb3c965bedc63c51564be9f93ec6c638cc8d"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y2_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y2_XGBoost_TH_v12.joblib",
+      "sha256": "5345da39c78ef50ada1c831cdb9b883c8c2f0216155589367feabaa93df8ee15"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y3_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y3_Extra_Trees_TH_v12.joblib",
+      "sha256": "4ee2c5403320f7e432ac513999441414f11842ac13bffb94a072ad917fdeae9d"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y3_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y3_Linear_TH_v12.joblib",
+      "sha256": "8e37e30a3a6e1b969e11366f4c1c16fc953b11f91d6979e0354618153d5b68bf"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y3_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y3_Random_Forest_TH_v12.joblib",
+      "sha256": "56e0423d2c29393693990aea2e291829b30d33336274a2a3136d47ec92b41a2f"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y3_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y3_XGBoost_TH_v12.joblib",
+      "sha256": "235de3acd1794d9b2627db7720e29eb1687419c286e6f82f5cab6eda76239c5a"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y4_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y4_Extra_Trees_TH_v12.joblib",
+      "sha256": "ec44253ff4f3b04e38d01c430df70c74b2312faf28f9c527eb2866d4673fa4b5"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y4_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y4_Linear_TH_v12.joblib",
+      "sha256": "49a287c4f276d6814cb3b8360e0de554f1be7764b069854869d7effb1b4fed7b"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y4_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y4_Random_Forest_TH_v12.joblib",
+      "sha256": "0a960082554718ed3dd3e55bc3f5a67af26385e2afda45b969da16be6104745c"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_201801_Y4_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_201801_Y4_XGBoost_TH_v12.joblib",
+      "sha256": "2b4e58b5eff313e20e166b583a61fde05a834ae0d241154d45ad35d861bec5c3"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y1_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y1_Extra_Trees_TH_v12.joblib",
+      "sha256": "c13e7824928131353c353bdbe6df732d0decd70e5c30a01a4b130db4d139a43a"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y1_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y1_Linear_TH_v12.joblib",
+      "sha256": "4efd7c2fe87413a7855999f345d4d2090f0d612bda45576ddacb03034db8a5d3"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y1_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y1_Random_Forest_TH_v12.joblib",
+      "sha256": "f483f3d7f754c250c51b2dbe951f4209b9a28a77904cbb8301e676a8d0ed1df1"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y1_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y1_XGBoost_TH_v12.joblib",
+      "sha256": "91a200f07c3bfcfe569f288e5ba850e398ca4779a5bda144be57943d74ced2c5"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y2_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y2_Extra_Trees_TH_v12.joblib",
+      "sha256": "7cd139d60c2f52ea78e0fa4c39ca781ac43625fad2306cc9bce0cf986175999c"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y2_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y2_Linear_TH_v12.joblib",
+      "sha256": "b1a2514e8904b087df3aa5860cb0f95a29dd5759ec268e70b59f935333eb0490"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y2_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y2_Random_Forest_TH_v12.joblib",
+      "sha256": "b9e6ec1694bfc841d9c164ed32fed8dbd9a8a02c8d8c152579f6691334db0823"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y2_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y2_XGBoost_TH_v12.joblib",
+      "sha256": "5ad882a49b5cc7dceff50a730dca4f1e79e3ffe4efa1ce86798193030e7a5f98"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y3_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y3_Extra_Trees_TH_v12.joblib",
+      "sha256": "ce5b4ab2d2f4080eef06f650fbeebe573b15672f2f23c06579ab06631bac1d4c"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y3_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y3_Linear_TH_v12.joblib",
+      "sha256": "10b9979a567474f85b002442d5588a7e156d33247c20229d8de49b4691d816a3"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y3_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y3_Random_Forest_TH_v12.joblib",
+      "sha256": "0291e0244403a111ccac075b7944b8651c60ca321b9301ee7decbe5838193838"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y3_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y3_XGBoost_TH_v12.joblib",
+      "sha256": "b51dd9876e9088a68ec5776dd729372273eb42b8a5699b01f06b75af7091e2ca"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y4_Extra_Trees_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y4_Extra_Trees_TH_v12.joblib",
+      "sha256": "2553679cb14b5367f3e77422d88ef214840bf16cf784214f30fba435d071274d"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y4_Linear_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y4_Linear_TH_v12.joblib",
+      "sha256": "31a88c70409bb134bd67eb54cb7b9553f75dec540a3fd463272fa6c9f3beb3ce"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y4_Random_Forest_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y4_Random_Forest_TH_v12.joblib",
+      "sha256": "1a3a0852e0a29285852659185d704271762ef0735dd87fa08a662884f8d0d026"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "analysis/output_TH_v12/models_TH_v12/seoul_202510_Y4_XGBoost_TH_v12.joblib",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/analysis/output_TH_v12/models_TH_v12/seoul_202510_Y4_XGBoost_TH_v12.joblib",
+      "sha256": "066e906a199522ec53268880a56706eecb02ca22be99ea2cd091c0130c9f806a"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "reference_v11_TH_v12/annual_v11_reference_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/reference_v11_TH_v12/annual_v11_reference_TH_v12.csv",
+      "sha256": "e6203e4c04a26ab8ec49722b811f732c740a72a9541ceae7f38edcbcd9c621fd"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "reference_v11_TH_v12/comparison_v11_reference_TH_v12.csv",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/reference_v11_TH_v12/comparison_v11_reference_TH_v12.csv",
+      "sha256": "6d24339e70bcbbeddfceb945d35144e5e602f6255fd969a7902ee2de129cb735"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "README_TH_v12.txt",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/README_TH_v12.txt",
+      "sha256": "04f2c3ed9520edb704877eb209b25addf3467e51f50f719128b1c22c29f15444"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "requirements_TH_v12.txt",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/requirements_TH_v12.txt",
+      "sha256": "fab9abe805a32d00ed46c5792f1889f2463b93c8602f64bfac5a28cb9a287e34"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "변경기록_TH_v12.txt",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/변경기록_TH_v12.txt",
+      "sha256": "ecd250421b26c1b8e171c53f57713e006d82898769f91ee4110864030b7ae211"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "실험결과_모멘텀축소_TH_v12.txt",
+      "repository_file": "ml/experiments_TH_v1/TH_v12/실험결과_모멘텀축소_TH_v12.txt",
+      "sha256": "c2be0a869f7064cd345bb09f971a5f8c4860a4089fc800c89be80cd3d4d90837"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "README_TH_v12.txt",
+      "repository_file": "docs/TH_v12/README_TH_v12.txt",
+      "sha256": "04f2c3ed9520edb704877eb209b25addf3467e51f50f719128b1c22c29f15444"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "requirements_TH_v12.txt",
+      "repository_file": "docs/TH_v12/requirements_TH_v12.txt",
+      "sha256": "fab9abe805a32d00ed46c5792f1889f2463b93c8602f64bfac5a28cb9a287e34"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "변경기록_TH_v12.txt",
+      "repository_file": "docs/TH_v12/변경기록_TH_v12.txt",
+      "sha256": "ecd250421b26c1b8e171c53f57713e006d82898769f91ee4110864030b7ae211"
+    },
+    {
+      "version": "TH_v12",
+      "source_file": "실험결과_모멘텀축소_TH_v12.txt",
+      "repository_file": "docs/TH_v12/실험결과_모멘텀축소_TH_v12.txt",
+      "sha256": "c2be0a869f7064cd345bb09f971a5f8c4860a4089fc800c89be80cd3d4d90837"
+    }
+  ],
+  "branch_created": false,
+  "staged": false,
+  "committed": false,
+  "pushed": false,
+  "environment_files_read_or_copied": false
+}

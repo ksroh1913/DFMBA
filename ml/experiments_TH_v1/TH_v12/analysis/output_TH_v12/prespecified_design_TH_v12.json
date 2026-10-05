@@ -1,0 +1,37 @@
+{
+  "version": "TH_v12",
+  "years": [
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "models": [
+    "Linear",
+    "Random Forest",
+    "Extra Trees",
+    "XGBoost"
+  ],
+  "case": "E_M",
+  "seed": 42,
+  "policy": "Quarterly expanding; known labels only; unchanged economics plus 1m/6m causal own-rent momentum only; no Seoul pruning",
+  "momentum_horizons": [
+    1,
+    6
+  ],
+  "y2": "g>0 up=1; g<0 down=0; exact g=0 excluded for Y2 train and test only",
+  "y3_y4": "Annual January training-only path upper85/lower15, frozen for year; no acceleration target",
+  "evaluation": "Primary pooled period; annual class support shown; no operational 50% alarms; no test-based tuning",
+  "input_hashes": {
+    "provinces_aligned_candidates_TH_v12.csv": "fe41218257559178b817b3595a67ac3c4fc0bad75c18c504094565e54129b249",
+    "seoul_aligned_candidates_TH_v12.csv": "50a0ceea3a8619cfbb28ba6e8b9b034412b62798ea2a44ce78374488f2523a48"
+  },
+  "code_hashes": {
+    "features_TH_v12.py": "8fe76c6fb8cefe6f7b9cb2aeff22f6d1e71d5e3228bbf20c3f9a9e9feb0b1d51",
+    "train_simple_TH_v12.py": "c7323db5c0dc0f108dad9e5d307fb16225cc08591cbff71d66f6dfb4796a0d88"
+  }
+}

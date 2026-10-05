@@ -1,0 +1,25 @@
+﻿panel,model,task,n,max_prediction_difference
+provinces,Extra Trees,Y1 Growth,1632.0,1.7763568394002505e-15
+provinces,Extra Trees,Y3 Surge,1632.0,0.0
+provinces,Extra Trees,Y4 Drop,1632.0,0.0
+provinces,Linear,Y1 Growth,1632.0,0.0
+provinces,Linear,Y3 Surge,1632.0,0.0
+provinces,Linear,Y4 Drop,1632.0,0.0
+provinces,Random Forest,Y1 Growth,1632.0,1.7763568394002505e-15
+provinces,Random Forest,Y3 Surge,1632.0,0.0
+provinces,Random Forest,Y4 Drop,1632.0,0.0
+provinces,XGBoost,Y1 Growth,1632.0,0.0
+provinces,XGBoost,Y3 Surge,1632.0,0.0
+provinces,XGBoost,Y4 Drop,1632.0,0.0
+seoul,Extra Trees,Y1 Growth,2400.0,4.440892098500626e-16
+seoul,Extra Trees,Y3 Surge,2400.0,0.0
+seoul,Extra Trees,Y4 Drop,2400.0,0.0
+seoul,Linear,Y1 Growth,2400.0,0.0
+seoul,Linear,Y3 Surge,2400.0,0.0
+seoul,Linear,Y4 Drop,2400.0,0.0
+seoul,Random Forest,Y1 Growth,2400.0,6.661338147750939e-16
+seoul,Random Forest,Y3 Surge,2400.0,0.0
+seoul,Random Forest,Y4 Drop,2400.0,0.0
+seoul,XGBoost,Y1 Growth,2400.0,0.0
+seoul,XGBoost,Y3 Surge,2400.0,0.0
+seoul,XGBoost,Y4 Drop,2400.0,0.0

@@ -1,0 +1,129 @@
+﻿panel,experiment,model,task,period,passed
+provinces,Benchmark,Always down,Y2 Direction,all_2018_2025,True
+provinces,Benchmark,Always event,Y3 Surge,all_2018_2025,True
+provinces,Benchmark,Always event,Y4 Drop,all_2018_2025,True
+provinces,Benchmark,Always no event,Y3 Surge,all_2018_2025,True
+provinces,Benchmark,Always no event,Y4 Drop,all_2018_2025,True
+provinces,Benchmark,Always up,Y2 Direction,all_2018_2025,True
+provinces,Benchmark,Past6 persistence,Y1 Growth,all_2018_2025,True
+provinces,Benchmark,Training majority,Y2 Direction,all_2018_2025,True
+provinces,Benchmark,Training majority,Y3 Surge,all_2018_2025,True
+provinces,Benchmark,Training majority,Y4 Drop,all_2018_2025,True
+provinces,Benchmark,Training median,Y1 Growth,all_2018_2025,True
+provinces,Benchmark,Zero growth,Y1 Growth,all_2018_2025,True
+provinces,E_M,Extra Trees,Y1 Growth,all_2018_2025,True
+provinces,E_M,Extra Trees,Y2 Direction,all_2018_2025,True
+provinces,E_M,Extra Trees,Y3 Surge,all_2018_2025,True
+provinces,E_M,Extra Trees,Y4 Drop,all_2018_2025,True
+provinces,E_M,Linear,Y1 Growth,all_2018_2025,True
+provinces,E_M,Linear,Y2 Direction,all_2018_2025,True
+provinces,E_M,Linear,Y3 Surge,all_2018_2025,True
+provinces,E_M,Linear,Y4 Drop,all_2018_2025,True
+provinces,E_M,Random Forest,Y1 Growth,all_2018_2025,True
+provinces,E_M,Random Forest,Y2 Direction,all_2018_2025,True
+provinces,E_M,Random Forest,Y3 Surge,all_2018_2025,True
+provinces,E_M,Random Forest,Y4 Drop,all_2018_2025,True
+provinces,E_M,XGBoost,Y1 Growth,all_2018_2025,True
+provinces,E_M,XGBoost,Y2 Direction,all_2018_2025,True
+provinces,E_M,XGBoost,Y3 Surge,all_2018_2025,True
+provinces,E_M,XGBoost,Y4 Drop,all_2018_2025,True
+provinces,Regression_sign,Extra Trees,Y2 Direction,all_2018_2025,True
+provinces,Regression_sign,Linear,Y2 Direction,all_2018_2025,True
+provinces,Regression_sign,Random Forest,Y2 Direction,all_2018_2025,True
+provinces,Regression_sign,XGBoost,Y2 Direction,all_2018_2025,True
+seoul,Benchmark,Always down,Y2 Direction,all_2018_2025,True
+seoul,Benchmark,Always event,Y3 Surge,all_2018_2025,True
+seoul,Benchmark,Always event,Y4 Drop,all_2018_2025,True
+seoul,Benchmark,Always no event,Y3 Surge,all_2018_2025,True
+seoul,Benchmark,Always no event,Y4 Drop,all_2018_2025,True
+seoul,Benchmark,Always up,Y2 Direction,all_2018_2025,True
+seoul,Benchmark,Past6 persistence,Y1 Growth,all_2018_2025,True
+seoul,Benchmark,Training majority,Y2 Direction,all_2018_2025,True
+seoul,Benchmark,Training majority,Y3 Surge,all_2018_2025,True
+seoul,Benchmark,Training majority,Y4 Drop,all_2018_2025,True
+seoul,Benchmark,Training median,Y1 Growth,all_2018_2025,True
+seoul,Benchmark,Zero growth,Y1 Growth,all_2018_2025,True
+seoul,E_M,Extra Trees,Y1 Growth,all_2018_2025,True
+seoul,E_M,Extra Trees,Y2 Direction,all_2018_2025,True
+seoul,E_M,Extra Trees,Y3 Surge,all_2018_2025,True
+seoul,E_M,Extra Trees,Y4 Drop,all_2018_2025,True
+seoul,E_M,Linear,Y1 Growth,all_2018_2025,True
+seoul,E_M,Linear,Y2 Direction,all_2018_2025,True
+seoul,E_M,Linear,Y3 Surge,all_2018_2025,True
+seoul,E_M,Linear,Y4 Drop,all_2018_2025,True
+seoul,E_M,Random Forest,Y1 Growth,all_2018_2025,True
+seoul,E_M,Random Forest,Y2 Direction,all_2018_2025,True
+seoul,E_M,Random Forest,Y3 Surge,all_2018_2025,True
+seoul,E_M,Random Forest,Y4 Drop,all_2018_2025,True
+seoul,E_M,XGBoost,Y1 Growth,all_2018_2025,True
+seoul,E_M,XGBoost,Y2 Direction,all_2018_2025,True
+seoul,E_M,XGBoost,Y3 Surge,all_2018_2025,True
+seoul,E_M,XGBoost,Y4 Drop,all_2018_2025,True
+seoul,Regression_sign,Extra Trees,Y2 Direction,all_2018_2025,True
+seoul,Regression_sign,Linear,Y2 Direction,all_2018_2025,True
+seoul,Regression_sign,Random Forest,Y2 Direction,all_2018_2025,True
+seoul,Regression_sign,XGBoost,Y2 Direction,all_2018_2025,True
+provinces,Benchmark,Always down,Y2 Direction,recent_2021_2025,True
+provinces,Benchmark,Always event,Y3 Surge,recent_2021_2025,True
+provinces,Benchmark,Always event,Y4 Drop,recent_2021_2025,True
+provinces,Benchmark,Always no event,Y3 Surge,recent_2021_2025,True
+provinces,Benchmark,Always no event,Y4 Drop,recent_2021_2025,True
+provinces,Benchmark,Always up,Y2 Direction,recent_2021_2025,True
+provinces,Benchmark,Past6 persistence,Y1 Growth,recent_2021_2025,True
+provinces,Benchmark,Training majority,Y2 Direction,recent_2021_2025,True
+provinces,Benchmark,Training majority,Y3 Surge,recent_2021_2025,True
+provinces,Benchmark,Training majority,Y4 Drop,recent_2021_2025,True
+provinces,Benchmark,Training median,Y1 Growth,recent_2021_2025,True
+provinces,Benchmark,Zero growth,Y1 Growth,recent_2021_2025,True
+provinces,E_M,Extra Trees,Y1 Growth,recent_2021_2025,True
+provinces,E_M,Extra Trees,Y2 Direction,recent_2021_2025,True
+provinces,E_M,Extra Trees,Y3 Surge,recent_2021_2025,True
+provinces,E_M,Extra Trees,Y4 Drop,recent_2021_2025,True
+provinces,E_M,Linear,Y1 Growth,recent_2021_2025,True
+provinces,E_M,Linear,Y2 Direction,recent_2021_2025,True
+provinces,E_M,Linear,Y3 Surge,recent_2021_2025,True
+provinces,E_M,Linear,Y4 Drop,recent_2021_2025,True
+provinces,E_M,Random Forest,Y1 Growth,recent_2021_2025,True
+provinces,E_M,Random Forest,Y2 Direction,recent_2021_2025,True
+provinces,E_M,Random Forest,Y3 Surge,recent_2021_2025,True
+provinces,E_M,Random Forest,Y4 Drop,recent_2021_2025,True
+provinces,E_M,XGBoost,Y1 Growth,recent_2021_2025,True
+provinces,E_M,XGBoost,Y2 Direction,recent_2021_2025,True
+provinces,E_M,XGBoost,Y3 Surge,recent_2021_2025,True
+provinces,E_M,XGBoost,Y4 Drop,recent_2021_2025,True
+provinces,Regression_sign,Extra Trees,Y2 Direction,recent_2021_2025,True
+provinces,Regression_sign,Linear,Y2 Direction,recent_2021_2025,True
+provinces,Regression_sign,Random Forest,Y2 Direction,recent_2021_2025,True
+provinces,Regression_sign,XGBoost,Y2 Direction,recent_2021_2025,True
+seoul,Benchmark,Always down,Y2 Direction,recent_2021_2025,True
+seoul,Benchmark,Always event,Y3 Surge,recent_2021_2025,True
+seoul,Benchmark,Always event,Y4 Drop,recent_2021_2025,True
+seoul,Benchmark,Always no event,Y3 Surge,recent_2021_2025,True
+seoul,Benchmark,Always no event,Y4 Drop,recent_2021_2025,True
+seoul,Benchmark,Always up,Y2 Direction,recent_2021_2025,True
+seoul,Benchmark,Past6 persistence,Y1 Growth,recent_2021_2025,True
+seoul,Benchmark,Training majority,Y2 Direction,recent_2021_2025,True
+seoul,Benchmark,Training majority,Y3 Surge,recent_2021_2025,True
+seoul,Benchmark,Training majority,Y4 Drop,recent_2021_2025,True
+seoul,Benchmark,Training median,Y1 Growth,recent_2021_2025,True
+seoul,Benchmark,Zero growth,Y1 Growth,recent_2021_2025,True
+seoul,E_M,Extra Trees,Y1 Growth,recent_2021_2025,True
+seoul,E_M,Extra Trees,Y2 Direction,recent_2021_2025,True
+seoul,E_M,Extra Trees,Y3 Surge,recent_2021_2025,True
+seoul,E_M,Extra Trees,Y4 Drop,recent_2021_2025,True
+seoul,E_M,Linear,Y1 Growth,recent_2021_2025,True
+seoul,E_M,Linear,Y2 Direction,recent_2021_2025,True
+seoul,E_M,Linear,Y3 Surge,recent_2021_2025,True
+seoul,E_M,Linear,Y4 Drop,recent_2021_2025,True
+seoul,E_M,Random Forest,Y1 Growth,recent_2021_2025,True
+seoul,E_M,Random Forest,Y2 Direction,recent_2021_2025,True
+seoul,E_M,Random Forest,Y3 Surge,recent_2021_2025,True
+seoul,E_M,Random Forest,Y4 Drop,recent_2021_2025,True
+seoul,E_M,XGBoost,Y1 Growth,recent_2021_2025,True
+seoul,E_M,XGBoost,Y2 Direction,recent_2021_2025,True
+seoul,E_M,XGBoost,Y3 Surge,recent_2021_2025,True
+seoul,E_M,XGBoost,Y4 Drop,recent_2021_2025,True
+seoul,Regression_sign,Extra Trees,Y2 Direction,recent_2021_2025,True
+seoul,Regression_sign,Linear,Y2 Direction,recent_2021_2025,True
+seoul,Regression_sign,Random Forest,Y2 Direction,recent_2021_2025,True
+seoul,Regression_sign,XGBoost,Y2 Direction,recent_2021_2025,True

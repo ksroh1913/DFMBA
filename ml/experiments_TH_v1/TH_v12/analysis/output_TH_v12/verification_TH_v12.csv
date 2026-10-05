@@ -1,0 +1,2198 @@
+﻿check,passed
+Unique keyed predictions,True
+Fit count 1024,True
+Saved boundary models 64,True
+provinces 201801 Linear Y1 Growth known training labels,True
+provinces 201801 Random Forest Y1 Growth known training labels,True
+provinces 201801 Extra Trees Y1 Growth known training labels,True
+provinces 201801 XGBoost Y1 Growth known training labels,True
+provinces 201801 Linear Y2 Direction known training labels,True
+provinces 201801 Random Forest Y2 Direction known training labels,True
+provinces 201801 Extra Trees Y2 Direction known training labels,True
+provinces 201801 XGBoost Y2 Direction known training labels,True
+provinces 201801 Linear Y3 Surge known training labels,True
+provinces 201801 Random Forest Y3 Surge known training labels,True
+provinces 201801 Extra Trees Y3 Surge known training labels,True
+provinces 201801 XGBoost Y3 Surge known training labels,True
+provinces 201801 Linear Y4 Drop known training labels,True
+provinces 201801 Random Forest Y4 Drop known training labels,True
+provinces 201801 Extra Trees Y4 Drop known training labels,True
+provinces 201801 XGBoost Y4 Drop known training labels,True
+provinces 201804 Linear Y1 Growth known training labels,True
+provinces 201804 Random Forest Y1 Growth known training labels,True
+provinces 201804 Extra Trees Y1 Growth known training labels,True
+provinces 201804 XGBoost Y1 Growth known training labels,True
+provinces 201804 Linear Y2 Direction known training labels,True
+provinces 201804 Random Forest Y2 Direction known training labels,True
+provinces 201804 Extra Trees Y2 Direction known training labels,True
+provinces 201804 XGBoost Y2 Direction known training labels,True
+provinces 201804 Linear Y3 Surge known training labels,True
+provinces 201804 Random Forest Y3 Surge known training labels,True
+provinces 201804 Extra Trees Y3 Surge known training labels,True
+provinces 201804 XGBoost Y3 Surge known training labels,True
+provinces 201804 Linear Y4 Drop known training labels,True
+provinces 201804 Random Forest Y4 Drop known training labels,True
+provinces 201804 Extra Trees Y4 Drop known training labels,True
+provinces 201804 XGBoost Y4 Drop known training labels,True
+provinces 201807 Linear Y1 Growth known training labels,True
+provinces 201807 Random Forest Y1 Growth known training labels,True
+provinces 201807 Extra Trees Y1 Growth known training labels,True
+provinces 201807 XGBoost Y1 Growth known training labels,True
+provinces 201807 Linear Y2 Direction known training labels,True
+provinces 201807 Random Forest Y2 Direction known training labels,True
+provinces 201807 Extra Trees Y2 Direction known training labels,True
+provinces 201807 XGBoost Y2 Direction known training labels,True
+provinces 201807 Linear Y3 Surge known training labels,True
+provinces 201807 Random Forest Y3 Surge known training labels,True
+provinces 201807 Extra Trees Y3 Surge known training labels,True
+provinces 201807 XGBoost Y3 Surge known training labels,True
+provinces 201807 Linear Y4 Drop known training labels,True
+provinces 201807 Random Forest Y4 Drop known training labels,True
+provinces 201807 Extra Trees Y4 Drop known training labels,True
+provinces 201807 XGBoost Y4 Drop known training labels,True
+provinces 201810 Linear Y1 Growth known training labels,True
+provinces 201810 Random Forest Y1 Growth known training labels,True
+provinces 201810 Extra Trees Y1 Growth known training labels,True
+provinces 201810 XGBoost Y1 Growth known training labels,True
+provinces 201810 Linear Y2 Direction known training labels,True
+provinces 201810 Random Forest Y2 Direction known training labels,True
+provinces 201810 Extra Trees Y2 Direction known training labels,True
+provinces 201810 XGBoost Y2 Direction known training labels,True
+provinces 201810 Linear Y3 Surge known training labels,True
+provinces 201810 Random Forest Y3 Surge known training labels,True
+provinces 201810 Extra Trees Y3 Surge known training labels,True
+provinces 201810 XGBoost Y3 Surge known training labels,True
+provinces 201810 Linear Y4 Drop known training labels,True
+provinces 201810 Random Forest Y4 Drop known training labels,True
+provinces 201810 Extra Trees Y4 Drop known training labels,True
+provinces 201810 XGBoost Y4 Drop known training labels,True
+provinces 201901 Linear Y1 Growth known training labels,True
+provinces 201901 Random Forest Y1 Growth known training labels,True
+provinces 201901 Extra Trees Y1 Growth known training labels,True
+provinces 201901 XGBoost Y1 Growth known training labels,True
+provinces 201901 Linear Y2 Direction known training labels,True
+provinces 201901 Random Forest Y2 Direction known training labels,True
+provinces 201901 Extra Trees Y2 Direction known training labels,True
+provinces 201901 XGBoost Y2 Direction known training labels,True
+provinces 201901 Linear Y3 Surge known training labels,True
+provinces 201901 Random Forest Y3 Surge known training labels,True
+provinces 201901 Extra Trees Y3 Surge known training labels,True
+provinces 201901 XGBoost Y3 Surge known training labels,True
+provinces 201901 Linear Y4 Drop known training labels,True
+provinces 201901 Random Forest Y4 Drop known training labels,True
+provinces 201901 Extra Trees Y4 Drop known training labels,True
+provinces 201901 XGBoost Y4 Drop known training labels,True
+provinces 201904 Linear Y1 Growth known training labels,True
+provinces 201904 Random Forest Y1 Growth known training labels,True
+provinces 201904 Extra Trees Y1 Growth known training labels,True
+provinces 201904 XGBoost Y1 Growth known training labels,True
+provinces 201904 Linear Y2 Direction known training labels,True
+provinces 201904 Random Forest Y2 Direction known training labels,True
+provinces 201904 Extra Trees Y2 Direction known training labels,True
+provinces 201904 XGBoost Y2 Direction known training labels,True
+provinces 201904 Linear Y3 Surge known training labels,True
+provinces 201904 Random Forest Y3 Surge known training labels,True
+provinces 201904 Extra Trees Y3 Surge known training labels,True
+provinces 201904 XGBoost Y3 Surge known training labels,True
+provinces 201904 Linear Y4 Drop known training labels,True
+provinces 201904 Random Forest Y4 Drop known training labels,True
+provinces 201904 Extra Trees Y4 Drop known training labels,True
+provinces 201904 XGBoost Y4 Drop known training labels,True
+provinces 201907 Linear Y1 Growth known training labels,True
+provinces 201907 Random Forest Y1 Growth known training labels,True
+provinces 201907 Extra Trees Y1 Growth known training labels,True
+provinces 201907 XGBoost Y1 Growth known training labels,True
+provinces 201907 Linear Y2 Direction known training labels,True
+provinces 201907 Random Forest Y2 Direction known training labels,True
+provinces 201907 Extra Trees Y2 Direction known training labels,True
+provinces 201907 XGBoost Y2 Direction known training labels,True
+provinces 201907 Linear Y3 Surge known training labels,True
+provinces 201907 Random Forest Y3 Surge known training labels,True
+provinces 201907 Extra Trees Y3 Surge known training labels,True
+provinces 201907 XGBoost Y3 Surge known training labels,True
+provinces 201907 Linear Y4 Drop known training labels,True
+provinces 201907 Random Forest Y4 Drop known training labels,True
+provinces 201907 Extra Trees Y4 Drop known training labels,True
+provinces 201907 XGBoost Y4 Drop known training labels,True
+provinces 201910 Linear Y1 Growth known training labels,True
+provinces 201910 Random Forest Y1 Growth known training labels,True
+provinces 201910 Extra Trees Y1 Growth known training labels,True
+provinces 201910 XGBoost Y1 Growth known training labels,True
+provinces 201910 Linear Y2 Direction known training labels,True
+provinces 201910 Random Forest Y2 Direction known training labels,True
+provinces 201910 Extra Trees Y2 Direction known training labels,True
+provinces 201910 XGBoost Y2 Direction known training labels,True
+provinces 201910 Linear Y3 Surge known training labels,True
+provinces 201910 Random Forest Y3 Surge known training labels,True
+provinces 201910 Extra Trees Y3 Surge known training labels,True
+provinces 201910 XGBoost Y3 Surge known training labels,True
+provinces 201910 Linear Y4 Drop known training labels,True
+provinces 201910 Random Forest Y4 Drop known training labels,True
+provinces 201910 Extra Trees Y4 Drop known training labels,True
+provinces 201910 XGBoost Y4 Drop known training labels,True
+provinces 202001 Linear Y1 Growth known training labels,True
+provinces 202001 Random Forest Y1 Growth known training labels,True
+provinces 202001 Extra Trees Y1 Growth known training labels,True
+provinces 202001 XGBoost Y1 Growth known training labels,True
+provinces 202001 Linear Y2 Direction known training labels,True
+provinces 202001 Random Forest Y2 Direction known training labels,True
+provinces 202001 Extra Trees Y2 Direction known training labels,True
+provinces 202001 XGBoost Y2 Direction known training labels,True
+provinces 202001 Linear Y3 Surge known training labels,True
+provinces 202001 Random Forest Y3 Surge known training labels,True
+provinces 202001 Extra Trees Y3 Surge known training labels,True
+provinces 202001 XGBoost Y3 Surge known training labels,True
+provinces 202001 Linear Y4 Drop known training labels,True
+provinces 202001 Random Forest Y4 Drop known training labels,True
+provinces 202001 Extra Trees Y4 Drop known training labels,True
+provinces 202001 XGBoost Y4 Drop known training labels,True
+provinces 202004 Linear Y1 Growth known training labels,True
+provinces 202004 Random Forest Y1 Growth known training labels,True
+provinces 202004 Extra Trees Y1 Growth known training labels,True
+provinces 202004 XGBoost Y1 Growth known training labels,True
+provinces 202004 Linear Y2 Direction known training labels,True
+provinces 202004 Random Forest Y2 Direction known training labels,True
+provinces 202004 Extra Trees Y2 Direction known training labels,True
+provinces 202004 XGBoost Y2 Direction known training labels,True
+provinces 202004 Linear Y3 Surge known training labels,True
+provinces 202004 Random Forest Y3 Surge known training labels,True
+provinces 202004 Extra Trees Y3 Surge known training labels,True
+provinces 202004 XGBoost Y3 Surge known training labels,True
+provinces 202004 Linear Y4 Drop known training labels,True
+provinces 202004 Random Forest Y4 Drop known training labels,True
+provinces 202004 Extra Trees Y4 Drop known training labels,True
+provinces 202004 XGBoost Y4 Drop known training labels,True
+provinces 202007 Linear Y1 Growth known training labels,True
+provinces 202007 Random Forest Y1 Growth known training labels,True
+provinces 202007 Extra Trees Y1 Growth known training labels,True
+provinces 202007 XGBoost Y1 Growth known training labels,True
+provinces 202007 Linear Y2 Direction known training labels,True
+provinces 202007 Random Forest Y2 Direction known training labels,True
+provinces 202007 Extra Trees Y2 Direction known training labels,True
+provinces 202007 XGBoost Y2 Direction known training labels,True
+provinces 202007 Linear Y3 Surge known training labels,True
+provinces 202007 Random Forest Y3 Surge known training labels,True
+provinces 202007 Extra Trees Y3 Surge known training labels,True
+provinces 202007 XGBoost Y3 Surge known training labels,True
+provinces 202007 Linear Y4 Drop known training labels,True
+provinces 202007 Random Forest Y4 Drop known training labels,True
+provinces 202007 Extra Trees Y4 Drop known training labels,True
+provinces 202007 XGBoost Y4 Drop known training labels,True
+provinces 202010 Linear Y1 Growth known training labels,True
+provinces 202010 Random Forest Y1 Growth known training labels,True
+provinces 202010 Extra Trees Y1 Growth known training labels,True
+provinces 202010 XGBoost Y1 Growth known training labels,True
+provinces 202010 Linear Y2 Direction known training labels,True
+provinces 202010 Random Forest Y2 Direction known training labels,True
+provinces 202010 Extra Trees Y2 Direction known training labels,True
+provinces 202010 XGBoost Y2 Direction known training labels,True
+provinces 202010 Linear Y3 Surge known training labels,True
+provinces 202010 Random Forest Y3 Surge known training labels,True
+provinces 202010 Extra Trees Y3 Surge known training labels,True
+provinces 202010 XGBoost Y3 Surge known training labels,True
+provinces 202010 Linear Y4 Drop known training labels,True
+provinces 202010 Random Forest Y4 Drop known training labels,True
+provinces 202010 Extra Trees Y4 Drop known training labels,True
+provinces 202010 XGBoost Y4 Drop known training labels,True
+provinces 202101 Linear Y1 Growth known training labels,True
+provinces 202101 Random Forest Y1 Growth known training labels,True
+provinces 202101 Extra Trees Y1 Growth known training labels,True
+provinces 202101 XGBoost Y1 Growth known training labels,True
+provinces 202101 Linear Y2 Direction known training labels,True
+provinces 202101 Random Forest Y2 Direction known training labels,True
+provinces 202101 Extra Trees Y2 Direction known training labels,True
+provinces 202101 XGBoost Y2 Direction known training labels,True
+provinces 202101 Linear Y3 Surge known training labels,True
+provinces 202101 Random Forest Y3 Surge known training labels,True
+provinces 202101 Extra Trees Y3 Surge known training labels,True
+provinces 202101 XGBoost Y3 Surge known training labels,True
+provinces 202101 Linear Y4 Drop known training labels,True
+provinces 202101 Random Forest Y4 Drop known training labels,True
+provinces 202101 Extra Trees Y4 Drop known training labels,True
+provinces 202101 XGBoost Y4 Drop known training labels,True
+provinces 202104 Linear Y1 Growth known training labels,True
+provinces 202104 Random Forest Y1 Growth known training labels,True
+provinces 202104 Extra Trees Y1 Growth known training labels,True
+provinces 202104 XGBoost Y1 Growth known training labels,True
+provinces 202104 Linear Y2 Direction known training labels,True
+provinces 202104 Random Forest Y2 Direction known training labels,True
+provinces 202104 Extra Trees Y2 Direction known training labels,True
+provinces 202104 XGBoost Y2 Direction known training labels,True
+provinces 202104 Linear Y3 Surge known training labels,True
+provinces 202104 Random Forest Y3 Surge known training labels,True
+provinces 202104 Extra Trees Y3 Surge known training labels,True
+provinces 202104 XGBoost Y3 Surge known training labels,True
+provinces 202104 Linear Y4 Drop known training labels,True
+provinces 202104 Random Forest Y4 Drop known training labels,True
+provinces 202104 Extra Trees Y4 Drop known training labels,True
+provinces 202104 XGBoost Y4 Drop known training labels,True
+provinces 202107 Linear Y1 Growth known training labels,True
+provinces 202107 Random Forest Y1 Growth known training labels,True
+provinces 202107 Extra Trees Y1 Growth known training labels,True
+provinces 202107 XGBoost Y1 Growth known training labels,True
+provinces 202107 Linear Y2 Direction known training labels,True
+provinces 202107 Random Forest Y2 Direction known training labels,True
+provinces 202107 Extra Trees Y2 Direction known training labels,True
+provinces 202107 XGBoost Y2 Direction known training labels,True
+provinces 202107 Linear Y3 Surge known training labels,True
+provinces 202107 Random Forest Y3 Surge known training labels,True
+provinces 202107 Extra Trees Y3 Surge known training labels,True
+provinces 202107 XGBoost Y3 Surge known training labels,True
+provinces 202107 Linear Y4 Drop known training labels,True
+provinces 202107 Random Forest Y4 Drop known training labels,True
+provinces 202107 Extra Trees Y4 Drop known training labels,True
+provinces 202107 XGBoost Y4 Drop known training labels,True
+provinces 202110 Linear Y1 Growth known training labels,True
+provinces 202110 Random Forest Y1 Growth known training labels,True
+provinces 202110 Extra Trees Y1 Growth known training labels,True
+provinces 202110 XGBoost Y1 Growth known training labels,True
+provinces 202110 Linear Y2 Direction known training labels,True
+provinces 202110 Random Forest Y2 Direction known training labels,True
+provinces 202110 Extra Trees Y2 Direction known training labels,True
+provinces 202110 XGBoost Y2 Direction known training labels,True
+provinces 202110 Linear Y3 Surge known training labels,True
+provinces 202110 Random Forest Y3 Surge known training labels,True
+provinces 202110 Extra Trees Y3 Surge known training labels,True
+provinces 202110 XGBoost Y3 Surge known training labels,True
+provinces 202110 Linear Y4 Drop known training labels,True
+provinces 202110 Random Forest Y4 Drop known training labels,True
+provinces 202110 Extra Trees Y4 Drop known training labels,True
+provinces 202110 XGBoost Y4 Drop known training labels,True
+provinces 202201 Linear Y1 Growth known training labels,True
+provinces 202201 Random Forest Y1 Growth known training labels,True
+provinces 202201 Extra Trees Y1 Growth known training labels,True
+provinces 202201 XGBoost Y1 Growth known training labels,True
+provinces 202201 Linear Y2 Direction known training labels,True
+provinces 202201 Random Forest Y2 Direction known training labels,True
+provinces 202201 Extra Trees Y2 Direction known training labels,True
+provinces 202201 XGBoost Y2 Direction known training labels,True
+provinces 202201 Linear Y3 Surge known training labels,True
+provinces 202201 Random Forest Y3 Surge known training labels,True
+provinces 202201 Extra Trees Y3 Surge known training labels,True
+provinces 202201 XGBoost Y3 Surge known training labels,True
+provinces 202201 Linear Y4 Drop known training labels,True
+provinces 202201 Random Forest Y4 Drop known training labels,True
+provinces 202201 Extra Trees Y4 Drop known training labels,True
+provinces 202201 XGBoost Y4 Drop known training labels,True
+provinces 202204 Linear Y1 Growth known training labels,True
+provinces 202204 Random Forest Y1 Growth known training labels,True
+provinces 202204 Extra Trees Y1 Growth known training labels,True
+provinces 202204 XGBoost Y1 Growth known training labels,True
+provinces 202204 Linear Y2 Direction known training labels,True
+provinces 202204 Random Forest Y2 Direction known training labels,True
+provinces 202204 Extra Trees Y2 Direction known training labels,True
+provinces 202204 XGBoost Y2 Direction known training labels,True
+provinces 202204 Linear Y3 Surge known training labels,True
+provinces 202204 Random Forest Y3 Surge known training labels,True
+provinces 202204 Extra Trees Y3 Surge known training labels,True
+provinces 202204 XGBoost Y3 Surge known training labels,True
+provinces 202204 Linear Y4 Drop known training labels,True
+provinces 202204 Random Forest Y4 Drop known training labels,True
+provinces 202204 Extra Trees Y4 Drop known training labels,True
+provinces 202204 XGBoost Y4 Drop known training labels,True
+provinces 202207 Linear Y1 Growth known training labels,True
+provinces 202207 Random Forest Y1 Growth known training labels,True
+provinces 202207 Extra Trees Y1 Growth known training labels,True
+provinces 202207 XGBoost Y1 Growth known training labels,True
+provinces 202207 Linear Y2 Direction known training labels,True
+provinces 202207 Random Forest Y2 Direction known training labels,True
+provinces 202207 Extra Trees Y2 Direction known training labels,True
+provinces 202207 XGBoost Y2 Direction known training labels,True
+provinces 202207 Linear Y3 Surge known training labels,True
+provinces 202207 Random Forest Y3 Surge known training labels,True
+provinces 202207 Extra Trees Y3 Surge known training labels,True
+provinces 202207 XGBoost Y3 Surge known training labels,True
+provinces 202207 Linear Y4 Drop known training labels,True
+provinces 202207 Random Forest Y4 Drop known training labels,True
+provinces 202207 Extra Trees Y4 Drop known training labels,True
+provinces 202207 XGBoost Y4 Drop known training labels,True
+provinces 202210 Linear Y1 Growth known training labels,True
+provinces 202210 Random Forest Y1 Growth known training labels,True
+provinces 202210 Extra Trees Y1 Growth known training labels,True
+provinces 202210 XGBoost Y1 Growth known training labels,True
+provinces 202210 Linear Y2 Direction known training labels,True
+provinces 202210 Random Forest Y2 Direction known training labels,True
+provinces 202210 Extra Trees Y2 Direction known training labels,True
+provinces 202210 XGBoost Y2 Direction known training labels,True
+provinces 202210 Linear Y3 Surge known training labels,True
+provinces 202210 Random Forest Y3 Surge known training labels,True
+provinces 202210 Extra Trees Y3 Surge known training labels,True
+provinces 202210 XGBoost Y3 Surge known training labels,True
+provinces 202210 Linear Y4 Drop known training labels,True
+provinces 202210 Random Forest Y4 Drop known training labels,True
+provinces 202210 Extra Trees Y4 Drop known training labels,True
+provinces 202210 XGBoost Y4 Drop known training labels,True
+provinces 202301 Linear Y1 Growth known training labels,True
+provinces 202301 Random Forest Y1 Growth known training labels,True
+provinces 202301 Extra Trees Y1 Growth known training labels,True
+provinces 202301 XGBoost Y1 Growth known training labels,True
+provinces 202301 Linear Y2 Direction known training labels,True
+provinces 202301 Random Forest Y2 Direction known training labels,True
+provinces 202301 Extra Trees Y2 Direction known training labels,True
+provinces 202301 XGBoost Y2 Direction known training labels,True
+provinces 202301 Linear Y3 Surge known training labels,True
+provinces 202301 Random Forest Y3 Surge known training labels,True
+provinces 202301 Extra Trees Y3 Surge known training labels,True
+provinces 202301 XGBoost Y3 Surge known training labels,True
+provinces 202301 Linear Y4 Drop known training labels,True
+provinces 202301 Random Forest Y4 Drop known training labels,True
+provinces 202301 Extra Trees Y4 Drop known training labels,True
+provinces 202301 XGBoost Y4 Drop known training labels,True
+provinces 202304 Linear Y1 Growth known training labels,True
+provinces 202304 Random Forest Y1 Growth known training labels,True
+provinces 202304 Extra Trees Y1 Growth known training labels,True
+provinces 202304 XGBoost Y1 Growth known training labels,True
+provinces 202304 Linear Y2 Direction known training labels,True
+provinces 202304 Random Forest Y2 Direction known training labels,True
+provinces 202304 Extra Trees Y2 Direction known training labels,True
+provinces 202304 XGBoost Y2 Direction known training labels,True
+provinces 202304 Linear Y3 Surge known training labels,True
+provinces 202304 Random Forest Y3 Surge known training labels,True
+provinces 202304 Extra Trees Y3 Surge known training labels,True
+provinces 202304 XGBoost Y3 Surge known training labels,True
+provinces 202304 Linear Y4 Drop known training labels,True
+provinces 202304 Random Forest Y4 Drop known training labels,True
+provinces 202304 Extra Trees Y4 Drop known training labels,True
+provinces 202304 XGBoost Y4 Drop known training labels,True
+provinces 202307 Linear Y1 Growth known training labels,True
+provinces 202307 Random Forest Y1 Growth known training labels,True
+provinces 202307 Extra Trees Y1 Growth known training labels,True
+provinces 202307 XGBoost Y1 Growth known training labels,True
+provinces 202307 Linear Y2 Direction known training labels,True
+provinces 202307 Random Forest Y2 Direction known training labels,True
+provinces 202307 Extra Trees Y2 Direction known training labels,True
+provinces 202307 XGBoost Y2 Direction known training labels,True
+provinces 202307 Linear Y3 Surge known training labels,True
+provinces 202307 Random Forest Y3 Surge known training labels,True
+provinces 202307 Extra Trees Y3 Surge known training labels,True
+provinces 202307 XGBoost Y3 Surge known training labels,True
+provinces 202307 Linear Y4 Drop known training labels,True
+provinces 202307 Random Forest Y4 Drop known training labels,True
+provinces 202307 Extra Trees Y4 Drop known training labels,True
+provinces 202307 XGBoost Y4 Drop known training labels,True
+provinces 202310 Linear Y1 Growth known training labels,True
+provinces 202310 Random Forest Y1 Growth known training labels,True
+provinces 202310 Extra Trees Y1 Growth known training labels,True
+provinces 202310 XGBoost Y1 Growth known training labels,True
+provinces 202310 Linear Y2 Direction known training labels,True
+provinces 202310 Random Forest Y2 Direction known training labels,True
+provinces 202310 Extra Trees Y2 Direction known training labels,True
+provinces 202310 XGBoost Y2 Direction known training labels,True
+provinces 202310 Linear Y3 Surge known training labels,True
+provinces 202310 Random Forest Y3 Surge known training labels,True
+provinces 202310 Extra Trees Y3 Surge known training labels,True
+provinces 202310 XGBoost Y3 Surge known training labels,True
+provinces 202310 Linear Y4 Drop known training labels,True
+provinces 202310 Random Forest Y4 Drop known training labels,True
+provinces 202310 Extra Trees Y4 Drop known training labels,True
+provinces 202310 XGBoost Y4 Drop known training labels,True
+provinces 202401 Linear Y1 Growth known training labels,True
+provinces 202401 Random Forest Y1 Growth known training labels,True
+provinces 202401 Extra Trees Y1 Growth known training labels,True
+provinces 202401 XGBoost Y1 Growth known training labels,True
+provinces 202401 Linear Y2 Direction known training labels,True
+provinces 202401 Random Forest Y2 Direction known training labels,True
+provinces 202401 Extra Trees Y2 Direction known training labels,True
+provinces 202401 XGBoost Y2 Direction known training labels,True
+provinces 202401 Linear Y3 Surge known training labels,True
+provinces 202401 Random Forest Y3 Surge known training labels,True
+provinces 202401 Extra Trees Y3 Surge known training labels,True
+provinces 202401 XGBoost Y3 Surge known training labels,True
+provinces 202401 Linear Y4 Drop known training labels,True
+provinces 202401 Random Forest Y4 Drop known training labels,True
+provinces 202401 Extra Trees Y4 Drop known training labels,True
+provinces 202401 XGBoost Y4 Drop known training labels,True
+provinces 202404 Linear Y1 Growth known training labels,True
+provinces 202404 Random Forest Y1 Growth known training labels,True
+provinces 202404 Extra Trees Y1 Growth known training labels,True
+provinces 202404 XGBoost Y1 Growth known training labels,True
+provinces 202404 Linear Y2 Direction known training labels,True
+provinces 202404 Random Forest Y2 Direction known training labels,True
+provinces 202404 Extra Trees Y2 Direction known training labels,True
+provinces 202404 XGBoost Y2 Direction known training labels,True
+provinces 202404 Linear Y3 Surge known training labels,True
+provinces 202404 Random Forest Y3 Surge known training labels,True
+provinces 202404 Extra Trees Y3 Surge known training labels,True
+provinces 202404 XGBoost Y3 Surge known training labels,True
+provinces 202404 Linear Y4 Drop known training labels,True
+provinces 202404 Random Forest Y4 Drop known training labels,True
+provinces 202404 Extra Trees Y4 Drop known training labels,True
+provinces 202404 XGBoost Y4 Drop known training labels,True
+provinces 202407 Linear Y1 Growth known training labels,True
+provinces 202407 Random Forest Y1 Growth known training labels,True
+provinces 202407 Extra Trees Y1 Growth known training labels,True
+provinces 202407 XGBoost Y1 Growth known training labels,True
+provinces 202407 Linear Y2 Direction known training labels,True
+provinces 202407 Random Forest Y2 Direction known training labels,True
+provinces 202407 Extra Trees Y2 Direction known training labels,True
+provinces 202407 XGBoost Y2 Direction known training labels,True
+provinces 202407 Linear Y3 Surge known training labels,True
+provinces 202407 Random Forest Y3 Surge known training labels,True
+provinces 202407 Extra Trees Y3 Surge known training labels,True
+provinces 202407 XGBoost Y3 Surge known training labels,True
+provinces 202407 Linear Y4 Drop known training labels,True
+provinces 202407 Random Forest Y4 Drop known training labels,True
+provinces 202407 Extra Trees Y4 Drop known training labels,True
+provinces 202407 XGBoost Y4 Drop known training labels,True
+provinces 202410 Linear Y1 Growth known training labels,True
+provinces 202410 Random Forest Y1 Growth known training labels,True
+provinces 202410 Extra Trees Y1 Growth known training labels,True
+provinces 202410 XGBoost Y1 Growth known training labels,True
+provinces 202410 Linear Y2 Direction known training labels,True
+provinces 202410 Random Forest Y2 Direction known training labels,True
+provinces 202410 Extra Trees Y2 Direction known training labels,True
+provinces 202410 XGBoost Y2 Direction known training labels,True
+provinces 202410 Linear Y3 Surge known training labels,True
+provinces 202410 Random Forest Y3 Surge known training labels,True
+provinces 202410 Extra Trees Y3 Surge known training labels,True
+provinces 202410 XGBoost Y3 Surge known training labels,True
+provinces 202410 Linear Y4 Drop known training labels,True
+provinces 202410 Random Forest Y4 Drop known training labels,True
+provinces 202410 Extra Trees Y4 Drop known training labels,True
+provinces 202410 XGBoost Y4 Drop known training labels,True
+provinces 202501 Linear Y1 Growth known training labels,True
+provinces 202501 Random Forest Y1 Growth known training labels,True
+provinces 202501 Extra Trees Y1 Growth known training labels,True
+provinces 202501 XGBoost Y1 Growth known training labels,True
+provinces 202501 Linear Y2 Direction known training labels,True
+provinces 202501 Random Forest Y2 Direction known training labels,True
+provinces 202501 Extra Trees Y2 Direction known training labels,True
+provinces 202501 XGBoost Y2 Direction known training labels,True
+provinces 202501 Linear Y3 Surge known training labels,True
+provinces 202501 Random Forest Y3 Surge known training labels,True
+provinces 202501 Extra Trees Y3 Surge known training labels,True
+provinces 202501 XGBoost Y3 Surge known training labels,True
+provinces 202501 Linear Y4 Drop known training labels,True
+provinces 202501 Random Forest Y4 Drop known training labels,True
+provinces 202501 Extra Trees Y4 Drop known training labels,True
+provinces 202501 XGBoost Y4 Drop known training labels,True
+provinces 202504 Linear Y1 Growth known training labels,True
+provinces 202504 Random Forest Y1 Growth known training labels,True
+provinces 202504 Extra Trees Y1 Growth known training labels,True
+provinces 202504 XGBoost Y1 Growth known training labels,True
+provinces 202504 Linear Y2 Direction known training labels,True
+provinces 202504 Random Forest Y2 Direction known training labels,True
+provinces 202504 Extra Trees Y2 Direction known training labels,True
+provinces 202504 XGBoost Y2 Direction known training labels,True
+provinces 202504 Linear Y3 Surge known training labels,True
+provinces 202504 Random Forest Y3 Surge known training labels,True
+provinces 202504 Extra Trees Y3 Surge known training labels,True
+provinces 202504 XGBoost Y3 Surge known training labels,True
+provinces 202504 Linear Y4 Drop known training labels,True
+provinces 202504 Random Forest Y4 Drop known training labels,True
+provinces 202504 Extra Trees Y4 Drop known training labels,True
+provinces 202504 XGBoost Y4 Drop known training labels,True
+provinces 202507 Linear Y1 Growth known training labels,True
+provinces 202507 Random Forest Y1 Growth known training labels,True
+provinces 202507 Extra Trees Y1 Growth known training labels,True
+provinces 202507 XGBoost Y1 Growth known training labels,True
+provinces 202507 Linear Y2 Direction known training labels,True
+provinces 202507 Random Forest Y2 Direction known training labels,True
+provinces 202507 Extra Trees Y2 Direction known training labels,True
+provinces 202507 XGBoost Y2 Direction known training labels,True
+provinces 202507 Linear Y3 Surge known training labels,True
+provinces 202507 Random Forest Y3 Surge known training labels,True
+provinces 202507 Extra Trees Y3 Surge known training labels,True
+provinces 202507 XGBoost Y3 Surge known training labels,True
+provinces 202507 Linear Y4 Drop known training labels,True
+provinces 202507 Random Forest Y4 Drop known training labels,True
+provinces 202507 Extra Trees Y4 Drop known training labels,True
+provinces 202507 XGBoost Y4 Drop known training labels,True
+provinces 202510 Linear Y1 Growth known training labels,True
+provinces 202510 Random Forest Y1 Growth known training labels,True
+provinces 202510 Extra Trees Y1 Growth known training labels,True
+provinces 202510 XGBoost Y1 Growth known training labels,True
+provinces 202510 Linear Y2 Direction known training labels,True
+provinces 202510 Random Forest Y2 Direction known training labels,True
+provinces 202510 Extra Trees Y2 Direction known training labels,True
+provinces 202510 XGBoost Y2 Direction known training labels,True
+provinces 202510 Linear Y3 Surge known training labels,True
+provinces 202510 Random Forest Y3 Surge known training labels,True
+provinces 202510 Extra Trees Y3 Surge known training labels,True
+provinces 202510 XGBoost Y3 Surge known training labels,True
+provinces 202510 Linear Y4 Drop known training labels,True
+provinces 202510 Random Forest Y4 Drop known training labels,True
+provinces 202510 Extra Trees Y4 Drop known training labels,True
+provinces 202510 XGBoost Y4 Drop known training labels,True
+seoul 201801 Linear Y1 Growth known training labels,True
+seoul 201801 Random Forest Y1 Growth known training labels,True
+seoul 201801 Extra Trees Y1 Growth known training labels,True
+seoul 201801 XGBoost Y1 Growth known training labels,True
+seoul 201801 Linear Y2 Direction known training labels,True
+seoul 201801 Random Forest Y2 Direction known training labels,True
+seoul 201801 Extra Trees Y2 Direction known training labels,True
+seoul 201801 XGBoost Y2 Direction known training labels,True
+seoul 201801 Linear Y3 Surge known training labels,True
+seoul 201801 Random Forest Y3 Surge known training labels,True
+seoul 201801 Extra Trees Y3 Surge known training labels,True
+seoul 201801 XGBoost Y3 Surge known training labels,True
+seoul 201801 Linear Y4 Drop known training labels,True
+seoul 201801 Random Forest Y4 Drop known training labels,True
+seoul 201801 Extra Trees Y4 Drop known training labels,True
+seoul 201801 XGBoost Y4 Drop known training labels,True
+seoul 201804 Linear Y1 Growth known training labels,True
+seoul 201804 Random Forest Y1 Growth known training labels,True
+seoul 201804 Extra Trees Y1 Growth known training labels,True
+seoul 201804 XGBoost Y1 Growth known training labels,True
+seoul 201804 Linear Y2 Direction known training labels,True
+seoul 201804 Random Forest Y2 Direction known training labels,True
+seoul 201804 Extra Trees Y2 Direction known training labels,True
+seoul 201804 XGBoost Y2 Direction known training labels,True
+seoul 201804 Linear Y3 Surge known training labels,True
+seoul 201804 Random Forest Y3 Surge known training labels,True
+seoul 201804 Extra Trees Y3 Surge known training labels,True
+seoul 201804 XGBoost Y3 Surge known training labels,True
+seoul 201804 Linear Y4 Drop known training labels,True
+seoul 201804 Random Forest Y4 Drop known training labels,True
+seoul 201804 Extra Trees Y4 Drop known training labels,True
+seoul 201804 XGBoost Y4 Drop known training labels,True
+seoul 201807 Linear Y1 Growth known training labels,True
+seoul 201807 Random Forest Y1 Growth known training labels,True
+seoul 201807 Extra Trees Y1 Growth known training labels,True
+seoul 201807 XGBoost Y1 Growth known training labels,True
+seoul 201807 Linear Y2 Direction known training labels,True
+seoul 201807 Random Forest Y2 Direction known training labels,True
+seoul 201807 Extra Trees Y2 Direction known training labels,True
+seoul 201807 XGBoost Y2 Direction known training labels,True
+seoul 201807 Linear Y3 Surge known training labels,True
+seoul 201807 Random Forest Y3 Surge known training labels,True
+seoul 201807 Extra Trees Y3 Surge known training labels,True
+seoul 201807 XGBoost Y3 Surge known training labels,True
+seoul 201807 Linear Y4 Drop known training labels,True
+seoul 201807 Random Forest Y4 Drop known training labels,True
+seoul 201807 Extra Trees Y4 Drop known training labels,True
+seoul 201807 XGBoost Y4 Drop known training labels,True
+seoul 201810 Linear Y1 Growth known training labels,True
+seoul 201810 Random Forest Y1 Growth known training labels,True
+seoul 201810 Extra Trees Y1 Growth known training labels,True
+seoul 201810 XGBoost Y1 Growth known training labels,True
+seoul 201810 Linear Y2 Direction known training labels,True
+seoul 201810 Random Forest Y2 Direction known training labels,True
+seoul 201810 Extra Trees Y2 Direction known training labels,True
+seoul 201810 XGBoost Y2 Direction known training labels,True
+seoul 201810 Linear Y3 Surge known training labels,True
+seoul 201810 Random Forest Y3 Surge known training labels,True
+seoul 201810 Extra Trees Y3 Surge known training labels,True
+seoul 201810 XGBoost Y3 Surge known training labels,True
+seoul 201810 Linear Y4 Drop known training labels,True
+seoul 201810 Random Forest Y4 Drop known training labels,True
+seoul 201810 Extra Trees Y4 Drop known training labels,True
+seoul 201810 XGBoost Y4 Drop known training labels,True
+seoul 201901 Linear Y1 Growth known training labels,True
+seoul 201901 Random Forest Y1 Growth known training labels,True
+seoul 201901 Extra Trees Y1 Growth known training labels,True
+seoul 201901 XGBoost Y1 Growth known training labels,True
+seoul 201901 Linear Y2 Direction known training labels,True
+seoul 201901 Random Forest Y2 Direction known training labels,True
+seoul 201901 Extra Trees Y2 Direction known training labels,True
+seoul 201901 XGBoost Y2 Direction known training labels,True
+seoul 201901 Linear Y3 Surge known training labels,True
+seoul 201901 Random Forest Y3 Surge known training labels,True
+seoul 201901 Extra Trees Y3 Surge known training labels,True
+seoul 201901 XGBoost Y3 Surge known training labels,True
+seoul 201901 Linear Y4 Drop known training labels,True
+seoul 201901 Random Forest Y4 Drop known training labels,True
+seoul 201901 Extra Trees Y4 Drop known training labels,True
+seoul 201901 XGBoost Y4 Drop known training labels,True
+seoul 201904 Linear Y1 Growth known training labels,True
+seoul 201904 Random Forest Y1 Growth known training labels,True
+seoul 201904 Extra Trees Y1 Growth known training labels,True
+seoul 201904 XGBoost Y1 Growth known training labels,True
+seoul 201904 Linear Y2 Direction known training labels,True
+seoul 201904 Random Forest Y2 Direction known training labels,True
+seoul 201904 Extra Trees Y2 Direction known training labels,True
+seoul 201904 XGBoost Y2 Direction known training labels,True
+seoul 201904 Linear Y3 Surge known training labels,True
+seoul 201904 Random Forest Y3 Surge known training labels,True
+seoul 201904 Extra Trees Y3 Surge known training labels,True
+seoul 201904 XGBoost Y3 Surge known training labels,True
+seoul 201904 Linear Y4 Drop known training labels,True
+seoul 201904 Random Forest Y4 Drop known training labels,True
+seoul 201904 Extra Trees Y4 Drop known training labels,True
+seoul 201904 XGBoost Y4 Drop known training labels,True
+seoul 201907 Linear Y1 Growth known training labels,True
+seoul 201907 Random Forest Y1 Growth known training labels,True
+seoul 201907 Extra Trees Y1 Growth known training labels,True
+seoul 201907 XGBoost Y1 Growth known training labels,True
+seoul 201907 Linear Y2 Direction known training labels,True
+seoul 201907 Random Forest Y2 Direction known training labels,True
+seoul 201907 Extra Trees Y2 Direction known training labels,True
+seoul 201907 XGBoost Y2 Direction known training labels,True
+seoul 201907 Linear Y3 Surge known training labels,True
+seoul 201907 Random Forest Y3 Surge known training labels,True
+seoul 201907 Extra Trees Y3 Surge known training labels,True
+seoul 201907 XGBoost Y3 Surge known training labels,True
+seoul 201907 Linear Y4 Drop known training labels,True
+seoul 201907 Random Forest Y4 Drop known training labels,True
+seoul 201907 Extra Trees Y4 Drop known training labels,True
+seoul 201907 XGBoost Y4 Drop known training labels,True
+seoul 201910 Linear Y1 Growth known training labels,True
+seoul 201910 Random Forest Y1 Growth known training labels,True
+seoul 201910 Extra Trees Y1 Growth known training labels,True
+seoul 201910 XGBoost Y1 Growth known training labels,True
+seoul 201910 Linear Y2 Direction known training labels,True
+seoul 201910 Random Forest Y2 Direction known training labels,True
+seoul 201910 Extra Trees Y2 Direction known training labels,True
+seoul 201910 XGBoost Y2 Direction known training labels,True
+seoul 201910 Linear Y3 Surge known training labels,True
+seoul 201910 Random Forest Y3 Surge known training labels,True
+seoul 201910 Extra Trees Y3 Surge known training labels,True
+seoul 201910 XGBoost Y3 Surge known training labels,True
+seoul 201910 Linear Y4 Drop known training labels,True
+seoul 201910 Random Forest Y4 Drop known training labels,True
+seoul 201910 Extra Trees Y4 Drop known training labels,True
+seoul 201910 XGBoost Y4 Drop known training labels,True
+seoul 202001 Linear Y1 Growth known training labels,True
+seoul 202001 Random Forest Y1 Growth known training labels,True
+seoul 202001 Extra Trees Y1 Growth known training labels,True
+seoul 202001 XGBoost Y1 Growth known training labels,True
+seoul 202001 Linear Y2 Direction known training labels,True
+seoul 202001 Random Forest Y2 Direction known training labels,True
+seoul 202001 Extra Trees Y2 Direction known training labels,True
+seoul 202001 XGBoost Y2 Direction known training labels,True
+seoul 202001 Linear Y3 Surge known training labels,True
+seoul 202001 Random Forest Y3 Surge known training labels,True
+seoul 202001 Extra Trees Y3 Surge known training labels,True
+seoul 202001 XGBoost Y3 Surge known training labels,True
+seoul 202001 Linear Y4 Drop known training labels,True
+seoul 202001 Random Forest Y4 Drop known training labels,True
+seoul 202001 Extra Trees Y4 Drop known training labels,True
+seoul 202001 XGBoost Y4 Drop known training labels,True
+seoul 202004 Linear Y1 Growth known training labels,True
+seoul 202004 Random Forest Y1 Growth known training labels,True
+seoul 202004 Extra Trees Y1 Growth known training labels,True
+seoul 202004 XGBoost Y1 Growth known training labels,True
+seoul 202004 Linear Y2 Direction known training labels,True
+seoul 202004 Random Forest Y2 Direction known training labels,True
+seoul 202004 Extra Trees Y2 Direction known training labels,True
+seoul 202004 XGBoost Y2 Direction known training labels,True
+seoul 202004 Linear Y3 Surge known training labels,True
+seoul 202004 Random Forest Y3 Surge known training labels,True
+seoul 202004 Extra Trees Y3 Surge known training labels,True
+seoul 202004 XGBoost Y3 Surge known training labels,True
+seoul 202004 Linear Y4 Drop known training labels,True
+seoul 202004 Random Forest Y4 Drop known training labels,True
+seoul 202004 Extra Trees Y4 Drop known training labels,True
+seoul 202004 XGBoost Y4 Drop known training labels,True
+seoul 202007 Linear Y1 Growth known training labels,True
+seoul 202007 Random Forest Y1 Growth known training labels,True
+seoul 202007 Extra Trees Y1 Growth known training labels,True
+seoul 202007 XGBoost Y1 Growth known training labels,True
+seoul 202007 Linear Y2 Direction known training labels,True
+seoul 202007 Random Forest Y2 Direction known training labels,True
+seoul 202007 Extra Trees Y2 Direction known training labels,True
+seoul 202007 XGBoost Y2 Direction known training labels,True
+seoul 202007 Linear Y3 Surge known training labels,True
+seoul 202007 Random Forest Y3 Surge known training labels,True
+seoul 202007 Extra Trees Y3 Surge known training labels,True
+seoul 202007 XGBoost Y3 Surge known training labels,True
+seoul 202007 Linear Y4 Drop known training labels,True
+seoul 202007 Random Forest Y4 Drop known training labels,True
+seoul 202007 Extra Trees Y4 Drop known training labels,True
+seoul 202007 XGBoost Y4 Drop known training labels,True
+seoul 202010 Linear Y1 Growth known training labels,True
+seoul 202010 Random Forest Y1 Growth known training labels,True
+seoul 202010 Extra Trees Y1 Growth known training labels,True
+seoul 202010 XGBoost Y1 Growth known training labels,True
+seoul 202010 Linear Y2 Direction known training labels,True
+seoul 202010 Random Forest Y2 Direction known training labels,True
+seoul 202010 Extra Trees Y2 Direction known training labels,True
+seoul 202010 XGBoost Y2 Direction known training labels,True
+seoul 202010 Linear Y3 Surge known training labels,True
+seoul 202010 Random Forest Y3 Surge known training labels,True
+seoul 202010 Extra Trees Y3 Surge known training labels,True
+seoul 202010 XGBoost Y3 Surge known training labels,True
+seoul 202010 Linear Y4 Drop known training labels,True
+seoul 202010 Random Forest Y4 Drop known training labels,True
+seoul 202010 Extra Trees Y4 Drop known training labels,True
+seoul 202010 XGBoost Y4 Drop known training labels,True
+seoul 202101 Linear Y1 Growth known training labels,True
+seoul 202101 Random Forest Y1 Growth known training labels,True
+seoul 202101 Extra Trees Y1 Growth known training labels,True
+seoul 202101 XGBoost Y1 Growth known training labels,True
+seoul 202101 Linear Y2 Direction known training labels,True
+seoul 202101 Random Forest Y2 Direction known training labels,True
+seoul 202101 Extra Trees Y2 Direction known training labels,True
+seoul 202101 XGBoost Y2 Direction known training labels,True
+seoul 202101 Linear Y3 Surge known training labels,True
+seoul 202101 Random Forest Y3 Surge known training labels,True
+seoul 202101 Extra Trees Y3 Surge known training labels,True
+seoul 202101 XGBoost Y3 Surge known training labels,True
+seoul 202101 Linear Y4 Drop known training labels,True
+seoul 202101 Random Forest Y4 Drop known training labels,True
+seoul 202101 Extra Trees Y4 Drop known training labels,True
+seoul 202101 XGBoost Y4 Drop known training labels,True
+seoul 202104 Linear Y1 Growth known training labels,True
+seoul 202104 Random Forest Y1 Growth known training labels,True
+seoul 202104 Extra Trees Y1 Growth known training labels,True
+seoul 202104 XGBoost Y1 Growth known training labels,True
+seoul 202104 Linear Y2 Direction known training labels,True
+seoul 202104 Random Forest Y2 Direction known training labels,True
+seoul 202104 Extra Trees Y2 Direction known training labels,True
+seoul 202104 XGBoost Y2 Direction known training labels,True
+seoul 202104 Linear Y3 Surge known training labels,True
+seoul 202104 Random Forest Y3 Surge known training labels,True
+seoul 202104 Extra Trees Y3 Surge known training labels,True
+seoul 202104 XGBoost Y3 Surge known training labels,True
+seoul 202104 Linear Y4 Drop known training labels,True
+seoul 202104 Random Forest Y4 Drop known training labels,True
+seoul 202104 Extra Trees Y4 Drop known training labels,True
+seoul 202104 XGBoost Y4 Drop known training labels,True
+seoul 202107 Linear Y1 Growth known training labels,True
+seoul 202107 Random Forest Y1 Growth known training labels,True
+seoul 202107 Extra Trees Y1 Growth known training labels,True
+seoul 202107 XGBoost Y1 Growth known training labels,True
+seoul 202107 Linear Y2 Direction known training labels,True
+seoul 202107 Random Forest Y2 Direction known training labels,True
+seoul 202107 Extra Trees Y2 Direction known training labels,True
+seoul 202107 XGBoost Y2 Direction known training labels,True
+seoul 202107 Linear Y3 Surge known training labels,True
+seoul 202107 Random Forest Y3 Surge known training labels,True
+seoul 202107 Extra Trees Y3 Surge known training labels,True
+seoul 202107 XGBoost Y3 Surge known training labels,True
+seoul 202107 Linear Y4 Drop known training labels,True
+seoul 202107 Random Forest Y4 Drop known training labels,True
+seoul 202107 Extra Trees Y4 Drop known training labels,True
+seoul 202107 XGBoost Y4 Drop known training labels,True
+seoul 202110 Linear Y1 Growth known training labels,True
+seoul 202110 Random Forest Y1 Growth known training labels,True
+seoul 202110 Extra Trees Y1 Growth known training labels,True
+seoul 202110 XGBoost Y1 Growth known training labels,True
+seoul 202110 Linear Y2 Direction known training labels,True
+seoul 202110 Random Forest Y2 Direction known training labels,True
+seoul 202110 Extra Trees Y2 Direction known training labels,True
+seoul 202110 XGBoost Y2 Direction known training labels,True
+seoul 202110 Linear Y3 Surge known training labels,True
+seoul 202110 Random Forest Y3 Surge known training labels,True
+seoul 202110 Extra Trees Y3 Surge known training labels,True
+seoul 202110 XGBoost Y3 Surge known training labels,True
+seoul 202110 Linear Y4 Drop known training labels,True
+seoul 202110 Random Forest Y4 Drop known training labels,True
+seoul 202110 Extra Trees Y4 Drop known training labels,True
+seoul 202110 XGBoost Y4 Drop known training labels,True
+seoul 202201 Linear Y1 Growth known training labels,True
+seoul 202201 Random Forest Y1 Growth known training labels,True
+seoul 202201 Extra Trees Y1 Growth known training labels,True
+seoul 202201 XGBoost Y1 Growth known training labels,True
+seoul 202201 Linear Y2 Direction known training labels,True
+seoul 202201 Random Forest Y2 Direction known training labels,True
+seoul 202201 Extra Trees Y2 Direction known training labels,True
+seoul 202201 XGBoost Y2 Direction known training labels,True
+seoul 202201 Linear Y3 Surge known training labels,True
+seoul 202201 Random Forest Y3 Surge known training labels,True
+seoul 202201 Extra Trees Y3 Surge known training labels,True
+seoul 202201 XGBoost Y3 Surge known training labels,True
+seoul 202201 Linear Y4 Drop known training labels,True
+seoul 202201 Random Forest Y4 Drop known training labels,True
+seoul 202201 Extra Trees Y4 Drop known training labels,True
+seoul 202201 XGBoost Y4 Drop known training labels,True
+seoul 202204 Linear Y1 Growth known training labels,True
+seoul 202204 Random Forest Y1 Growth known training labels,True
+seoul 202204 Extra Trees Y1 Growth known training labels,True
+seoul 202204 XGBoost Y1 Growth known training labels,True
+seoul 202204 Linear Y2 Direction known training labels,True
+seoul 202204 Random Forest Y2 Direction known training labels,True
+seoul 202204 Extra Trees Y2 Direction known training labels,True
+seoul 202204 XGBoost Y2 Direction known training labels,True
+seoul 202204 Linear Y3 Surge known training labels,True
+seoul 202204 Random Forest Y3 Surge known training labels,True
+seoul 202204 Extra Trees Y3 Surge known training labels,True
+seoul 202204 XGBoost Y3 Surge known training labels,True
+seoul 202204 Linear Y4 Drop known training labels,True
+seoul 202204 Random Forest Y4 Drop known training labels,True
+seoul 202204 Extra Trees Y4 Drop known training labels,True
+seoul 202204 XGBoost Y4 Drop known training labels,True
+seoul 202207 Linear Y1 Growth known training labels,True
+seoul 202207 Random Forest Y1 Growth known training labels,True
+seoul 202207 Extra Trees Y1 Growth known training labels,True
+seoul 202207 XGBoost Y1 Growth known training labels,True
+seoul 202207 Linear Y2 Direction known training labels,True
+seoul 202207 Random Forest Y2 Direction known training labels,True
+seoul 202207 Extra Trees Y2 Direction known training labels,True
+seoul 202207 XGBoost Y2 Direction known training labels,True
+seoul 202207 Linear Y3 Surge known training labels,True
+seoul 202207 Random Forest Y3 Surge known training labels,True
+seoul 202207 Extra Trees Y3 Surge known training labels,True
+seoul 202207 XGBoost Y3 Surge known training labels,True
+seoul 202207 Linear Y4 Drop known training labels,True
+seoul 202207 Random Forest Y4 Drop known training labels,True
+seoul 202207 Extra Trees Y4 Drop known training labels,True
+seoul 202207 XGBoost Y4 Drop known training labels,True
+seoul 202210 Linear Y1 Growth known training labels,True
+seoul 202210 Random Forest Y1 Growth known training labels,True
+seoul 202210 Extra Trees Y1 Growth known training labels,True
+seoul 202210 XGBoost Y1 Growth known training labels,True
+seoul 202210 Linear Y2 Direction known training labels,True
+seoul 202210 Random Forest Y2 Direction known training labels,True
+seoul 202210 Extra Trees Y2 Direction known training labels,True
+seoul 202210 XGBoost Y2 Direction known training labels,True
+seoul 202210 Linear Y3 Surge known training labels,True
+seoul 202210 Random Forest Y3 Surge known training labels,True
+seoul 202210 Extra Trees Y3 Surge known training labels,True
+seoul 202210 XGBoost Y3 Surge known training labels,True
+seoul 202210 Linear Y4 Drop known training labels,True
+seoul 202210 Random Forest Y4 Drop known training labels,True
+seoul 202210 Extra Trees Y4 Drop known training labels,True
+seoul 202210 XGBoost Y4 Drop known training labels,True
+seoul 202301 Linear Y1 Growth known training labels,True
+seoul 202301 Random Forest Y1 Growth known training labels,True
+seoul 202301 Extra Trees Y1 Growth known training labels,True
+seoul 202301 XGBoost Y1 Growth known training labels,True
+seoul 202301 Linear Y2 Direction known training labels,True
+seoul 202301 Random Forest Y2 Direction known training labels,True
+seoul 202301 Extra Trees Y2 Direction known training labels,True
+seoul 202301 XGBoost Y2 Direction known training labels,True
+seoul 202301 Linear Y3 Surge known training labels,True
+seoul 202301 Random Forest Y3 Surge known training labels,True
+seoul 202301 Extra Trees Y3 Surge known training labels,True
+seoul 202301 XGBoost Y3 Surge known training labels,True
+seoul 202301 Linear Y4 Drop known training labels,True
+seoul 202301 Random Forest Y4 Drop known training labels,True
+seoul 202301 Extra Trees Y4 Drop known training labels,True
+seoul 202301 XGBoost Y4 Drop known training labels,True
+seoul 202304 Linear Y1 Growth known training labels,True
+seoul 202304 Random Forest Y1 Growth known training labels,True
+seoul 202304 Extra Trees Y1 Growth known training labels,True
+seoul 202304 XGBoost Y1 Growth known training labels,True
+seoul 202304 Linear Y2 Direction known training labels,True
+seoul 202304 Random Forest Y2 Direction known training labels,True
+seoul 202304 Extra Trees Y2 Direction known training labels,True
+seoul 202304 XGBoost Y2 Direction known training labels,True
+seoul 202304 Linear Y3 Surge known training labels,True
+seoul 202304 Random Forest Y3 Surge known training labels,True
+seoul 202304 Extra Trees Y3 Surge known training labels,True
+seoul 202304 XGBoost Y3 Surge known training labels,True
+seoul 202304 Linear Y4 Drop known training labels,True
+seoul 202304 Random Forest Y4 Drop known training labels,True
+seoul 202304 Extra Trees Y4 Drop known training labels,True
+seoul 202304 XGBoost Y4 Drop known training labels,True
+seoul 202307 Linear Y1 Growth known training labels,True
+seoul 202307 Random Forest Y1 Growth known training labels,True
+seoul 202307 Extra Trees Y1 Growth known training labels,True
+seoul 202307 XGBoost Y1 Growth known training labels,True
+seoul 202307 Linear Y2 Direction known training labels,True
+seoul 202307 Random Forest Y2 Direction known training labels,True
+seoul 202307 Extra Trees Y2 Direction known training labels,True
+seoul 202307 XGBoost Y2 Direction known training labels,True
+seoul 202307 Linear Y3 Surge known training labels,True
+seoul 202307 Random Forest Y3 Surge known training labels,True
+seoul 202307 Extra Trees Y3 Surge known training labels,True
+seoul 202307 XGBoost Y3 Surge known training labels,True
+seoul 202307 Linear Y4 Drop known training labels,True
+seoul 202307 Random Forest Y4 Drop known training labels,True
+seoul 202307 Extra Trees Y4 Drop known training labels,True
+seoul 202307 XGBoost Y4 Drop known training labels,True
+seoul 202310 Linear Y1 Growth known training labels,True
+seoul 202310 Random Forest Y1 Growth known training labels,True
+seoul 202310 Extra Trees Y1 Growth known training labels,True
+seoul 202310 XGBoost Y1 Growth known training labels,True
+seoul 202310 Linear Y2 Direction known training labels,True
+seoul 202310 Random Forest Y2 Direction known training labels,True
+seoul 202310 Extra Trees Y2 Direction known training labels,True
+seoul 202310 XGBoost Y2 Direction known training labels,True
+seoul 202310 Linear Y3 Surge known training labels,True
+seoul 202310 Random Forest Y3 Surge known training labels,True
+seoul 202310 Extra Trees Y3 Surge known training labels,True
+seoul 202310 XGBoost Y3 Surge known training labels,True
+seoul 202310 Linear Y4 Drop known training labels,True
+seoul 202310 Random Forest Y4 Drop known training labels,True
+seoul 202310 Extra Trees Y4 Drop known training labels,True
+seoul 202310 XGBoost Y4 Drop known training labels,True
+seoul 202401 Linear Y1 Growth known training labels,True
+seoul 202401 Random Forest Y1 Growth known training labels,True
+seoul 202401 Extra Trees Y1 Growth known training labels,True
+seoul 202401 XGBoost Y1 Growth known training labels,True
+seoul 202401 Linear Y2 Direction known training labels,True
+seoul 202401 Random Forest Y2 Direction known training labels,True
+seoul 202401 Extra Trees Y2 Direction known training labels,True
+seoul 202401 XGBoost Y2 Direction known training labels,True
+seoul 202401 Linear Y3 Surge known training labels,True
+seoul 202401 Random Forest Y3 Surge known training labels,True
+seoul 202401 Extra Trees Y3 Surge known training labels,True
+seoul 202401 XGBoost Y3 Surge known training labels,True
+seoul 202401 Linear Y4 Drop known training labels,True
+seoul 202401 Random Forest Y4 Drop known training labels,True
+seoul 202401 Extra Trees Y4 Drop known training labels,True
+seoul 202401 XGBoost Y4 Drop known training labels,True
+seoul 202404 Linear Y1 Growth known training labels,True
+seoul 202404 Random Forest Y1 Growth known training labels,True
+seoul 202404 Extra Trees Y1 Growth known training labels,True
+seoul 202404 XGBoost Y1 Growth known training labels,True
+seoul 202404 Linear Y2 Direction known training labels,True
+seoul 202404 Random Forest Y2 Direction known training labels,True
+seoul 202404 Extra Trees Y2 Direction known training labels,True
+seoul 202404 XGBoost Y2 Direction known training labels,True
+seoul 202404 Linear Y3 Surge known training labels,True
+seoul 202404 Random Forest Y3 Surge known training labels,True
+seoul 202404 Extra Trees Y3 Surge known training labels,True
+seoul 202404 XGBoost Y3 Surge known training labels,True
+seoul 202404 Linear Y4 Drop known training labels,True
+seoul 202404 Random Forest Y4 Drop known training labels,True
+seoul 202404 Extra Trees Y4 Drop known training labels,True
+seoul 202404 XGBoost Y4 Drop known training labels,True
+seoul 202407 Linear Y1 Growth known training labels,True
+seoul 202407 Random Forest Y1 Growth known training labels,True
+seoul 202407 Extra Trees Y1 Growth known training labels,True
+seoul 202407 XGBoost Y1 Growth known training labels,True
+seoul 202407 Linear Y2 Direction known training labels,True
+seoul 202407 Random Forest Y2 Direction known training labels,True
+seoul 202407 Extra Trees Y2 Direction known training labels,True
+seoul 202407 XGBoost Y2 Direction known training labels,True
+seoul 202407 Linear Y3 Surge known training labels,True
+seoul 202407 Random Forest Y3 Surge known training labels,True
+seoul 202407 Extra Trees Y3 Surge known training labels,True
+seoul 202407 XGBoost Y3 Surge known training labels,True
+seoul 202407 Linear Y4 Drop known training labels,True
+seoul 202407 Random Forest Y4 Drop known training labels,True
+seoul 202407 Extra Trees Y4 Drop known training labels,True
+seoul 202407 XGBoost Y4 Drop known training labels,True
+seoul 202410 Linear Y1 Growth known training labels,True
+seoul 202410 Random Forest Y1 Growth known training labels,True
+seoul 202410 Extra Trees Y1 Growth known training labels,True
+seoul 202410 XGBoost Y1 Growth known training labels,True
+seoul 202410 Linear Y2 Direction known training labels,True
+seoul 202410 Random Forest Y2 Direction known training labels,True
+seoul 202410 Extra Trees Y2 Direction known training labels,True
+seoul 202410 XGBoost Y2 Direction known training labels,True
+seoul 202410 Linear Y3 Surge known training labels,True
+seoul 202410 Random Forest Y3 Surge known training labels,True
+seoul 202410 Extra Trees Y3 Surge known training labels,True
+seoul 202410 XGBoost Y3 Surge known training labels,True
+seoul 202410 Linear Y4 Drop known training labels,True
+seoul 202410 Random Forest Y4 Drop known training labels,True
+seoul 202410 Extra Trees Y4 Drop known training labels,True
+seoul 202410 XGBoost Y4 Drop known training labels,True
+seoul 202501 Linear Y1 Growth known training labels,True
+seoul 202501 Random Forest Y1 Growth known training labels,True
+seoul 202501 Extra Trees Y1 Growth known training labels,True
+seoul 202501 XGBoost Y1 Growth known training labels,True
+seoul 202501 Linear Y2 Direction known training labels,True
+seoul 202501 Random Forest Y2 Direction known training labels,True
+seoul 202501 Extra Trees Y2 Direction known training labels,True
+seoul 202501 XGBoost Y2 Direction known training labels,True
+seoul 202501 Linear Y3 Surge known training labels,True
+seoul 202501 Random Forest Y3 Surge known training labels,True
+seoul 202501 Extra Trees Y3 Surge known training labels,True
+seoul 202501 XGBoost Y3 Surge known training labels,True
+seoul 202501 Linear Y4 Drop known training labels,True
+seoul 202501 Random Forest Y4 Drop known training labels,True
+seoul 202501 Extra Trees Y4 Drop known training labels,True
+seoul 202501 XGBoost Y4 Drop known training labels,True
+seoul 202504 Linear Y1 Growth known training labels,True
+seoul 202504 Random Forest Y1 Growth known training labels,True
+seoul 202504 Extra Trees Y1 Growth known training labels,True
+seoul 202504 XGBoost Y1 Growth known training labels,True
+seoul 202504 Linear Y2 Direction known training labels,True
+seoul 202504 Random Forest Y2 Direction known training labels,True
+seoul 202504 Extra Trees Y2 Direction known training labels,True
+seoul 202504 XGBoost Y2 Direction known training labels,True
+seoul 202504 Linear Y3 Surge known training labels,True
+seoul 202504 Random Forest Y3 Surge known training labels,True
+seoul 202504 Extra Trees Y3 Surge known training labels,True
+seoul 202504 XGBoost Y3 Surge known training labels,True
+seoul 202504 Linear Y4 Drop known training labels,True
+seoul 202504 Random Forest Y4 Drop known training labels,True
+seoul 202504 Extra Trees Y4 Drop known training labels,True
+seoul 202504 XGBoost Y4 Drop known training labels,True
+seoul 202507 Linear Y1 Growth known training labels,True
+seoul 202507 Random Forest Y1 Growth known training labels,True
+seoul 202507 Extra Trees Y1 Growth known training labels,True
+seoul 202507 XGBoost Y1 Growth known training labels,True
+seoul 202507 Linear Y2 Direction known training labels,True
+seoul 202507 Random Forest Y2 Direction known training labels,True
+seoul 202507 Extra Trees Y2 Direction known training labels,True
+seoul 202507 XGBoost Y2 Direction known training labels,True
+seoul 202507 Linear Y3 Surge known training labels,True
+seoul 202507 Random Forest Y3 Surge known training labels,True
+seoul 202507 Extra Trees Y3 Surge known training labels,True
+seoul 202507 XGBoost Y3 Surge known training labels,True
+seoul 202507 Linear Y4 Drop known training labels,True
+seoul 202507 Random Forest Y4 Drop known training labels,True
+seoul 202507 Extra Trees Y4 Drop known training labels,True
+seoul 202507 XGBoost Y4 Drop known training labels,True
+seoul 202510 Linear Y1 Growth known training labels,True
+seoul 202510 Random Forest Y1 Growth known training labels,True
+seoul 202510 Extra Trees Y1 Growth known training labels,True
+seoul 202510 XGBoost Y1 Growth known training labels,True
+seoul 202510 Linear Y2 Direction known training labels,True
+seoul 202510 Random Forest Y2 Direction known training labels,True
+seoul 202510 Extra Trees Y2 Direction known training labels,True
+seoul 202510 XGBoost Y2 Direction known training labels,True
+seoul 202510 Linear Y3 Surge known training labels,True
+seoul 202510 Random Forest Y3 Surge known training labels,True
+seoul 202510 Extra Trees Y3 Surge known training labels,True
+seoul 202510 XGBoost Y3 Surge known training labels,True
+seoul 202510 Linear Y4 Drop known training labels,True
+seoul 202510 Random Forest Y4 Drop known training labels,True
+seoul 202510 Extra Trees Y4 Drop known training labels,True
+seoul 202510 XGBoost Y4 Drop known training labels,True
+provinces 강원 independent g,True
+provinces 강원 independent U,True
+provinces 강원 independent D,True
+provinces 경기 independent g,True
+provinces 경기 independent U,True
+provinces 경기 independent D,True
+provinces 경남 independent g,True
+provinces 경남 independent U,True
+provinces 경남 independent D,True
+provinces 경북 independent g,True
+provinces 경북 independent U,True
+provinces 경북 independent D,True
+provinces 광주 independent g,True
+provinces 광주 independent U,True
+provinces 광주 independent D,True
+provinces 대구 independent g,True
+provinces 대구 independent U,True
+provinces 대구 independent D,True
+provinces 대전 independent g,True
+provinces 대전 independent U,True
+provinces 대전 independent D,True
+provinces 부산 independent g,True
+provinces 부산 independent U,True
+provinces 부산 independent D,True
+provinces 서울 independent g,True
+provinces 서울 independent U,True
+provinces 서울 independent D,True
+provinces 세종 independent g,True
+provinces 세종 independent U,True
+provinces 세종 independent D,True
+provinces 울산 independent g,True
+provinces 울산 independent U,True
+provinces 울산 independent D,True
+provinces 인천 independent g,True
+provinces 인천 independent U,True
+provinces 인천 independent D,True
+provinces 전남 independent g,True
+provinces 전남 independent U,True
+provinces 전남 independent D,True
+provinces 전북 independent g,True
+provinces 전북 independent U,True
+provinces 전북 independent D,True
+provinces 제주 independent g,True
+provinces 제주 independent U,True
+provinces 제주 independent D,True
+provinces 충남 independent g,True
+provinces 충남 independent U,True
+provinces 충남 independent D,True
+provinces 충북 independent g,True
+provinces 충북 independent U,True
+provinces 충북 independent D,True
+provinces 201801 causal prefix V003_전세가율_%|수준,True
+provinces 201801 causal prefix V003_전세가율_%|12m차,True
+provinces 201801 causal prefix V004_지역별전월세전환율_%|수준,True
+provinces 201801 causal prefix V004_지역별전월세전환율_%|12m차,True
+provinces 201801 causal prefix V005_월세수급동향|수준,True
+provinces 201801 causal prefix V005_월세수급동향|12m차,True
+provinces 201801 causal prefix V009_주민등록인구_명|12m로그변화,True
+provinces 201801 causal prefix V010_주민등록세대수_세대|12m로그변화,True
+provinces 201801 causal prefix V011_20-29세_명|12m로그변화,True
+provinces 201801 causal prefix V011_20-39세_명|12m로그변화,True
+provinces 201801 causal prefix V011_20-39세비중_%|수준,True
+provinces 201801 causal prefix V011_20-39세비중_%|12m차,True
+provinces 201801 causal prefix V011_30-39세_명|12m로그변화,True
+provinces 201801 causal prefix V012_순이동자수_명|천명당12개월,True
+provinces 201801 causal prefix V013_고용률_%|수준,True
+provinces 201801 causal prefix V013_고용률_%|12m차,True
+provinces 201801 causal prefix V013_취업자_천명|12m로그변화,True
+provinces 201801 causal prefix V021_아파트_인허가_호|12개월누적log,True
+provinces 201801 causal prefix V021_아파트_인허가_호|12개월누적log_12m차,True
+provinces 201801 causal prefix V022_아파트_착공_호|12개월누적log,True
+provinces 201801 causal prefix V022_아파트_착공_호|12개월누적log_12m차,True
+provinces 201801 causal prefix V023_아파트_준공_호|12개월누적log,True
+provinces 201801 causal prefix V023_아파트_준공_호|12개월누적log_12m차,True
+provinces 201801 causal prefix V031_매매수급동향|수준,True
+provinces 201801 causal prefix V031_매매수급동향|12m차,True
+provinces 201801 causal prefix V032_전세수급동향|수준,True
+provinces 201801 causal prefix V032_전세수급동향|12m차,True
+provinces 201801 causal prefix V034_수급동향(구)_통합|수준,True
+provinces 201801 causal prefix V034_수급동향(구)_통합|12m차,True
+provinces 201801 causal prefix V035_아파트거래_동호수_호|12개월누적log,True
+provinces 201801 causal prefix V035_아파트거래_동호수_호|12개월누적log_12m차,True
+provinces 201801 causal prefix V035_아파트거래_면적_천㎡|12개월누적log,True
+provinces 201801 causal prefix V035_아파트거래_면적_천㎡|12개월누적log_12m차,True
+provinces 201801 causal prefix V036_아파트매매거래_동호수_호|12개월누적log,True
+provinces 201801 causal prefix V036_아파트매매거래_동호수_호|12개월누적log_12m차,True
+provinces 201801 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log,True
+provinces 201801 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log_12m차,True
+provinces 201801 causal prefix V037_주택시장_소비심리지수|수준,True
+provinces 201801 causal prefix V037_주택시장_소비심리지수|12m차,True
+provinces 201801 causal prefix V038_미분양주택현황_호|log,True
+provinces 201801 causal prefix V038_미분양주택현황_호|log_12m차,True
+provinces 201801 causal prefix V050_지역별_주택관련대출_예금은행_십억원|12m로그변화,True
+provinces 201801 causal prefix V043_한국은행_기준금리_연%|수준,True
+provinces 201801 causal prefix V043_한국은행_기준금리_연%|12m차,True
+provinces 201801 causal prefix V044_시장금리_CD91일_연%|수준,True
+provinces 201801 causal prefix V044_시장금리_CD91일_연%|12m차,True
+provinces 201801 causal prefix V045_시장금리_국고채3년_연%|수준,True
+provinces 201801 causal prefix V045_시장금리_국고채3년_연%|12m차,True
+provinces 201801 causal prefix V046_M2_통화량_십억원|12m로그변화,True
+provinces 201801 causal prefix V048_소비자물가지수_2020=100|수준,True
+provinces 201801 causal prefix V048_소비자물가지수_2020=100|12m차,True
+provinces 201801 causal prefix V056_예금은행대출금리_주택담보_연리%|수준,True
+provinces 201801 causal prefix V056_예금은행대출금리_주택담보_연리%|12m차,True
+provinces 201801 causal prefix V057_예금은행대출금리_전세자금_연리%|수준,True
+provinces 201801 causal prefix V057_예금은행대출금리_전세자금_연리%|12m차,True
+provinces 201801 causal prefix V059_비은행대출금리_주택담보_연리%|수준,True
+provinces 201801 causal prefix V059_비은행대출금리_주택담보_연리%|12m차,True
+provinces 201801 causal prefix V061_주택가격전망CSI_서울|수준,True
+provinces 201801 causal prefix V061_주택가격전망CSI_서울|12m차,True
+provinces 201801 causal prefix V062_주택가격전망CSI_6대광역시|수준,True
+provinces 201801 causal prefix V062_주택가격전망CSI_6대광역시|12m차,True
+provinces 201801 causal prefix V063_주택가격전망CSI_기타도시|수준,True
+provinces 201801 causal prefix V063_주택가격전망CSI_기타도시|12m차,True
+provinces 201801 causal prefix V064_KOSPI_종가_1980.01.04=100|수준,True
+provinces 201801 causal prefix V064_KOSPI_종가_1980.01.04=100|12m차,True
+provinces 201801 causal prefix V066_임금총액_사업체노동력_원|12m로그변화,True
+provinces 201801 causal prefix V067_선행지수순환변동치_2020=100|수준,True
+provinces 201801 causal prefix V067_선행지수순환변동치_2020=100|12m차,True
+provinces 201801 causal prefix V069_예금취급기관_가계대출_십억원|12m로그변화,True
+provinces 201801 causal prefix V069_예금취급기관_주택관련대출_십억원|12m로그변화,True
+provinces 201801 causal prefix V070_수출금액_천불|12m로그변화,True
+provinces 201801 causal prefix V071_정책대출_주금공_주택도시기금_십억원|12m로그변화,True
+provinces 201801 causal prefix V047_가계신용_총액_십억원|12m로그변화,True
+provinces 201801 causal prefix V049_시간당명목임금지수_2020=100|수준,True
+provinces 201801 causal prefix V049_시간당명목임금지수_2020=100|12m차,True
+provinces 201801 causal prefix V060_대출태도_국내은행_가계주택|수준,True
+provinces 201801 causal prefix V060_대출태도_국내은행_가계주택|12m차,True
+provinces 201801 causal prefix V074_가계동향_도시2인이상_월평균소득_원|수준,True
+provinces 201801 causal prefix V074_가계동향_도시2인이상_월평균소득_원|12m차,True
+provinces 201801 causal prefix V074_연결_월평균소득_원|12m로그변화,True
+provinces 201801 causal prefix V015_1인당GRDP_천원|12m로그변화,True
+provinces 201801 causal prefix V017_1인당가계총처분가능소득_천원|12m로그변화,True
+provinces 201801 causal prefix V024_주거용신축허가_동수_동|12m로그변화,True
+provinces 201801 causal prefix V024_주거용신축허가_연면적_㎡|12m로그변화,True
+provinces 201801 causal prefix V072_총조사_가구수_가구|12m로그변화,True
+provinces 201801 causal prefix V072_총조사_주택수_호|12m로그변화,True
+provinces 201801 causal prefix V076_공공+민간총계(DT_MLTM_7174)_호|12m로그변화,True
+provinces 201801 causal prefix V076_공공임대계(DT_MLTM_7174)_호|12m로그변화,True
+provinces 201801 causal prefix V076_민간임대계(DT_MLTM_7174)_호|12m로그변화,True
+provinces 201801 causal prefix V076_민간임대(DT_MLTM_6827합계)_호|12m로그변화,True
+provinces 201801 causal prefix V077_임대주택건설공급_총계_호|12m로그변화,True
+provinces 201801 causal prefix V072_총조사단순주택수가구수비율|12m로그변화,True
+provinces 201801 causal prefix V024_주거용신축허가_동수_천세대당|수준,True
+provinces 201801 causal prefix V024_주거용신축허가_동수_천세대당|12m차,True
+provinces 201801 causal prefix V076_공공+민간총계(DT_MLTM_7174)_천세대당|수준,True
+provinces 201801 causal prefix V076_공공+민간총계(DT_MLTM_7174)_천세대당|12m차,True
+provinces 201801 causal prefix V076_공공임대계(DT_MLTM_7174)_천세대당|수준,True
+provinces 201801 causal prefix V076_공공임대계(DT_MLTM_7174)_천세대당|12m차,True
+provinces 201801 causal prefix V076_민간임대계(DT_MLTM_7174)_천세대당|수준,True
+provinces 201801 causal prefix V076_민간임대계(DT_MLTM_7174)_천세대당|12m차,True
+provinces 201801 causal prefix V076_민간임대(DT_MLTM_6827합계)_천세대당|수준,True
+provinces 201801 causal prefix V076_민간임대(DT_MLTM_6827합계)_천세대당|12m차,True
+provinces 201801 causal prefix V077_임대주택건설공급_총계_천세대당|수준,True
+provinces 201801 causal prefix V077_임대주택건설공급_총계_천세대당|12m차,True
+provinces 201801 causal prefix V015_전국대비|수준,True
+provinces 201801 causal prefix V015_전국대비|12m차,True
+provinces 201801 causal prefix V017_전국대비|수준,True
+provinces 201801 causal prefix V017_전국대비|12m차,True
+provinces 201801 causal prefix V072_공식주택보급률_%|수준,True
+provinces 201801 causal prefix V072_공식주택보급률_%|12m차,True
+provinces 201801 causal prefix D_CSI_전신계열,True
+provinces 201801 causal prefix D_Wage_10th,True
+provinces 201801 causal prefix D_Wage_11th,True
+provinces 201801 causal prefix M10_rent_growth_1m,True
+provinces 201801 causal prefix M10_rent_growth_6m,True
+provinces 202101 causal prefix V003_전세가율_%|수준,True
+provinces 202101 causal prefix V003_전세가율_%|12m차,True
+provinces 202101 causal prefix V004_지역별전월세전환율_%|수준,True
+provinces 202101 causal prefix V004_지역별전월세전환율_%|12m차,True
+provinces 202101 causal prefix V005_월세수급동향|수준,True
+provinces 202101 causal prefix V005_월세수급동향|12m차,True
+provinces 202101 causal prefix V009_주민등록인구_명|12m로그변화,True
+provinces 202101 causal prefix V010_주민등록세대수_세대|12m로그변화,True
+provinces 202101 causal prefix V011_20-29세_명|12m로그변화,True
+provinces 202101 causal prefix V011_20-39세_명|12m로그변화,True
+provinces 202101 causal prefix V011_20-39세비중_%|수준,True
+provinces 202101 causal prefix V011_20-39세비중_%|12m차,True
+provinces 202101 causal prefix V011_30-39세_명|12m로그변화,True
+provinces 202101 causal prefix V012_순이동자수_명|천명당12개월,True
+provinces 202101 causal prefix V013_고용률_%|수준,True
+provinces 202101 causal prefix V013_고용률_%|12m차,True
+provinces 202101 causal prefix V013_취업자_천명|12m로그변화,True
+provinces 202101 causal prefix V021_아파트_인허가_호|12개월누적log,True
+provinces 202101 causal prefix V021_아파트_인허가_호|12개월누적log_12m차,True
+provinces 202101 causal prefix V022_아파트_착공_호|12개월누적log,True
+provinces 202101 causal prefix V022_아파트_착공_호|12개월누적log_12m차,True
+provinces 202101 causal prefix V023_아파트_준공_호|12개월누적log,True
+provinces 202101 causal prefix V023_아파트_준공_호|12개월누적log_12m차,True
+provinces 202101 causal prefix V031_매매수급동향|수준,True
+provinces 202101 causal prefix V031_매매수급동향|12m차,True
+provinces 202101 causal prefix V032_전세수급동향|수준,True
+provinces 202101 causal prefix V032_전세수급동향|12m차,True
+provinces 202101 causal prefix V034_수급동향(구)_통합|수준,True
+provinces 202101 causal prefix V034_수급동향(구)_통합|12m차,True
+provinces 202101 causal prefix V035_아파트거래_동호수_호|12개월누적log,True
+provinces 202101 causal prefix V035_아파트거래_동호수_호|12개월누적log_12m차,True
+provinces 202101 causal prefix V035_아파트거래_면적_천㎡|12개월누적log,True
+provinces 202101 causal prefix V035_아파트거래_면적_천㎡|12개월누적log_12m차,True
+provinces 202101 causal prefix V036_아파트매매거래_동호수_호|12개월누적log,True
+provinces 202101 causal prefix V036_아파트매매거래_동호수_호|12개월누적log_12m차,True
+provinces 202101 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log,True
+provinces 202101 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log_12m차,True
+provinces 202101 causal prefix V037_주택시장_소비심리지수|수준,True
+provinces 202101 causal prefix V037_주택시장_소비심리지수|12m차,True
+provinces 202101 causal prefix V038_미분양주택현황_호|log,True
+provinces 202101 causal prefix V038_미분양주택현황_호|log_12m차,True
+provinces 202101 causal prefix V050_지역별_주택관련대출_예금은행_십억원|12m로그변화,True
+provinces 202101 causal prefix V043_한국은행_기준금리_연%|수준,True
+provinces 202101 causal prefix V043_한국은행_기준금리_연%|12m차,True
+provinces 202101 causal prefix V044_시장금리_CD91일_연%|수준,True
+provinces 202101 causal prefix V044_시장금리_CD91일_연%|12m차,True
+provinces 202101 causal prefix V045_시장금리_국고채3년_연%|수준,True
+provinces 202101 causal prefix V045_시장금리_국고채3년_연%|12m차,True
+provinces 202101 causal prefix V046_M2_통화량_십억원|12m로그변화,True
+provinces 202101 causal prefix V048_소비자물가지수_2020=100|수준,True
+provinces 202101 causal prefix V048_소비자물가지수_2020=100|12m차,True
+provinces 202101 causal prefix V056_예금은행대출금리_주택담보_연리%|수준,True
+provinces 202101 causal prefix V056_예금은행대출금리_주택담보_연리%|12m차,True
+provinces 202101 causal prefix V057_예금은행대출금리_전세자금_연리%|수준,True
+provinces 202101 causal prefix V057_예금은행대출금리_전세자금_연리%|12m차,True
+provinces 202101 causal prefix V059_비은행대출금리_주택담보_연리%|수준,True
+provinces 202101 causal prefix V059_비은행대출금리_주택담보_연리%|12m차,True
+provinces 202101 causal prefix V061_주택가격전망CSI_서울|수준,True
+provinces 202101 causal prefix V061_주택가격전망CSI_서울|12m차,True
+provinces 202101 causal prefix V062_주택가격전망CSI_6대광역시|수준,True
+provinces 202101 causal prefix V062_주택가격전망CSI_6대광역시|12m차,True
+provinces 202101 causal prefix V063_주택가격전망CSI_기타도시|수준,True
+provinces 202101 causal prefix V063_주택가격전망CSI_기타도시|12m차,True
+provinces 202101 causal prefix V064_KOSPI_종가_1980.01.04=100|수준,True
+provinces 202101 causal prefix V064_KOSPI_종가_1980.01.04=100|12m차,True
+provinces 202101 causal prefix V066_임금총액_사업체노동력_원|12m로그변화,True
+provinces 202101 causal prefix V067_선행지수순환변동치_2020=100|수준,True
+provinces 202101 causal prefix V067_선행지수순환변동치_2020=100|12m차,True
+provinces 202101 causal prefix V069_예금취급기관_가계대출_십억원|12m로그변화,True
+provinces 202101 causal prefix V069_예금취급기관_주택관련대출_십억원|12m로그변화,True
+provinces 202101 causal prefix V070_수출금액_천불|12m로그변화,True
+provinces 202101 causal prefix V071_정책대출_주금공_주택도시기금_십억원|12m로그변화,True
+provinces 202101 causal prefix V047_가계신용_총액_십억원|12m로그변화,True
+provinces 202101 causal prefix V049_시간당명목임금지수_2020=100|수준,True
+provinces 202101 causal prefix V049_시간당명목임금지수_2020=100|12m차,True
+provinces 202101 causal prefix V060_대출태도_국내은행_가계주택|수준,True
+provinces 202101 causal prefix V060_대출태도_국내은행_가계주택|12m차,True
+provinces 202101 causal prefix V074_가계동향_도시2인이상_월평균소득_원|수준,True
+provinces 202101 causal prefix V074_가계동향_도시2인이상_월평균소득_원|12m차,True
+provinces 202101 causal prefix V074_연결_월평균소득_원|12m로그변화,True
+provinces 202101 causal prefix V015_1인당GRDP_천원|12m로그변화,True
+provinces 202101 causal prefix V017_1인당가계총처분가능소득_천원|12m로그변화,True
+provinces 202101 causal prefix V024_주거용신축허가_동수_동|12m로그변화,True
+provinces 202101 causal prefix V024_주거용신축허가_연면적_㎡|12m로그변화,True
+provinces 202101 causal prefix V072_총조사_가구수_가구|12m로그변화,True
+provinces 202101 causal prefix V072_총조사_주택수_호|12m로그변화,True
+provinces 202101 causal prefix V076_공공+민간총계(DT_MLTM_7174)_호|12m로그변화,True
+provinces 202101 causal prefix V076_공공임대계(DT_MLTM_7174)_호|12m로그변화,True
+provinces 202101 causal prefix V076_민간임대계(DT_MLTM_7174)_호|12m로그변화,True
+provinces 202101 causal prefix V076_민간임대(DT_MLTM_6827합계)_호|12m로그변화,True
+provinces 202101 causal prefix V077_임대주택건설공급_총계_호|12m로그변화,True
+provinces 202101 causal prefix V072_총조사단순주택수가구수비율|12m로그변화,True
+provinces 202101 causal prefix V024_주거용신축허가_동수_천세대당|수준,True
+provinces 202101 causal prefix V024_주거용신축허가_동수_천세대당|12m차,True
+provinces 202101 causal prefix V076_공공+민간총계(DT_MLTM_7174)_천세대당|수준,True
+provinces 202101 causal prefix V076_공공+민간총계(DT_MLTM_7174)_천세대당|12m차,True
+provinces 202101 causal prefix V076_공공임대계(DT_MLTM_7174)_천세대당|수준,True
+provinces 202101 causal prefix V076_공공임대계(DT_MLTM_7174)_천세대당|12m차,True
+provinces 202101 causal prefix V076_민간임대계(DT_MLTM_7174)_천세대당|수준,True
+provinces 202101 causal prefix V076_민간임대계(DT_MLTM_7174)_천세대당|12m차,True
+provinces 202101 causal prefix V076_민간임대(DT_MLTM_6827합계)_천세대당|수준,True
+provinces 202101 causal prefix V076_민간임대(DT_MLTM_6827합계)_천세대당|12m차,True
+provinces 202101 causal prefix V077_임대주택건설공급_총계_천세대당|수준,True
+provinces 202101 causal prefix V077_임대주택건설공급_총계_천세대당|12m차,True
+provinces 202101 causal prefix V015_전국대비|수준,True
+provinces 202101 causal prefix V015_전국대비|12m차,True
+provinces 202101 causal prefix V017_전국대비|수준,True
+provinces 202101 causal prefix V017_전국대비|12m차,True
+provinces 202101 causal prefix V072_공식주택보급률_%|수준,True
+provinces 202101 causal prefix V072_공식주택보급률_%|12m차,True
+provinces 202101 causal prefix D_CSI_전신계열,True
+provinces 202101 causal prefix D_Wage_10th,True
+provinces 202101 causal prefix D_Wage_11th,True
+provinces 202101 causal prefix M10_rent_growth_1m,True
+provinces 202101 causal prefix M10_rent_growth_6m,True
+provinces 202301 causal prefix V003_전세가율_%|수준,True
+provinces 202301 causal prefix V003_전세가율_%|12m차,True
+provinces 202301 causal prefix V004_지역별전월세전환율_%|수준,True
+provinces 202301 causal prefix V004_지역별전월세전환율_%|12m차,True
+provinces 202301 causal prefix V005_월세수급동향|수준,True
+provinces 202301 causal prefix V005_월세수급동향|12m차,True
+provinces 202301 causal prefix V009_주민등록인구_명|12m로그변화,True
+provinces 202301 causal prefix V010_주민등록세대수_세대|12m로그변화,True
+provinces 202301 causal prefix V011_20-29세_명|12m로그변화,True
+provinces 202301 causal prefix V011_20-39세_명|12m로그변화,True
+provinces 202301 causal prefix V011_20-39세비중_%|수준,True
+provinces 202301 causal prefix V011_20-39세비중_%|12m차,True
+provinces 202301 causal prefix V011_30-39세_명|12m로그변화,True
+provinces 202301 causal prefix V012_순이동자수_명|천명당12개월,True
+provinces 202301 causal prefix V013_고용률_%|수준,True
+provinces 202301 causal prefix V013_고용률_%|12m차,True
+provinces 202301 causal prefix V013_취업자_천명|12m로그변화,True
+provinces 202301 causal prefix V021_아파트_인허가_호|12개월누적log,True
+provinces 202301 causal prefix V021_아파트_인허가_호|12개월누적log_12m차,True
+provinces 202301 causal prefix V022_아파트_착공_호|12개월누적log,True
+provinces 202301 causal prefix V022_아파트_착공_호|12개월누적log_12m차,True
+provinces 202301 causal prefix V023_아파트_준공_호|12개월누적log,True
+provinces 202301 causal prefix V023_아파트_준공_호|12개월누적log_12m차,True
+provinces 202301 causal prefix V031_매매수급동향|수준,True
+provinces 202301 causal prefix V031_매매수급동향|12m차,True
+provinces 202301 causal prefix V032_전세수급동향|수준,True
+provinces 202301 causal prefix V032_전세수급동향|12m차,True
+provinces 202301 causal prefix V034_수급동향(구)_통합|수준,True
+provinces 202301 causal prefix V034_수급동향(구)_통합|12m차,True
+provinces 202301 causal prefix V035_아파트거래_동호수_호|12개월누적log,True
+provinces 202301 causal prefix V035_아파트거래_동호수_호|12개월누적log_12m차,True
+provinces 202301 causal prefix V035_아파트거래_면적_천㎡|12개월누적log,True
+provinces 202301 causal prefix V035_아파트거래_면적_천㎡|12개월누적log_12m차,True
+provinces 202301 causal prefix V036_아파트매매거래_동호수_호|12개월누적log,True
+provinces 202301 causal prefix V036_아파트매매거래_동호수_호|12개월누적log_12m차,True
+provinces 202301 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log,True
+provinces 202301 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log_12m차,True
+provinces 202301 causal prefix V037_주택시장_소비심리지수|수준,True
+provinces 202301 causal prefix V037_주택시장_소비심리지수|12m차,True
+provinces 202301 causal prefix V038_미분양주택현황_호|log,True
+provinces 202301 causal prefix V038_미분양주택현황_호|log_12m차,True
+provinces 202301 causal prefix V050_지역별_주택관련대출_예금은행_십억원|12m로그변화,True
+provinces 202301 causal prefix V043_한국은행_기준금리_연%|수준,True
+provinces 202301 causal prefix V043_한국은행_기준금리_연%|12m차,True
+provinces 202301 causal prefix V044_시장금리_CD91일_연%|수준,True
+provinces 202301 causal prefix V044_시장금리_CD91일_연%|12m차,True
+provinces 202301 causal prefix V045_시장금리_국고채3년_연%|수준,True
+provinces 202301 causal prefix V045_시장금리_국고채3년_연%|12m차,True
+provinces 202301 causal prefix V046_M2_통화량_십억원|12m로그변화,True
+provinces 202301 causal prefix V048_소비자물가지수_2020=100|수준,True
+provinces 202301 causal prefix V048_소비자물가지수_2020=100|12m차,True
+provinces 202301 causal prefix V056_예금은행대출금리_주택담보_연리%|수준,True
+provinces 202301 causal prefix V056_예금은행대출금리_주택담보_연리%|12m차,True
+provinces 202301 causal prefix V057_예금은행대출금리_전세자금_연리%|수준,True
+provinces 202301 causal prefix V057_예금은행대출금리_전세자금_연리%|12m차,True
+provinces 202301 causal prefix V059_비은행대출금리_주택담보_연리%|수준,True
+provinces 202301 causal prefix V059_비은행대출금리_주택담보_연리%|12m차,True
+provinces 202301 causal prefix V061_주택가격전망CSI_서울|수준,True
+provinces 202301 causal prefix V061_주택가격전망CSI_서울|12m차,True
+provinces 202301 causal prefix V062_주택가격전망CSI_6대광역시|수준,True
+provinces 202301 causal prefix V062_주택가격전망CSI_6대광역시|12m차,True
+provinces 202301 causal prefix V063_주택가격전망CSI_기타도시|수준,True
+provinces 202301 causal prefix V063_주택가격전망CSI_기타도시|12m차,True
+provinces 202301 causal prefix V064_KOSPI_종가_1980.01.04=100|수준,True
+provinces 202301 causal prefix V064_KOSPI_종가_1980.01.04=100|12m차,True
+provinces 202301 causal prefix V066_임금총액_사업체노동력_원|12m로그변화,True
+provinces 202301 causal prefix V067_선행지수순환변동치_2020=100|수준,True
+provinces 202301 causal prefix V067_선행지수순환변동치_2020=100|12m차,True
+provinces 202301 causal prefix V069_예금취급기관_가계대출_십억원|12m로그변화,True
+provinces 202301 causal prefix V069_예금취급기관_주택관련대출_십억원|12m로그변화,True
+provinces 202301 causal prefix V070_수출금액_천불|12m로그변화,True
+provinces 202301 causal prefix V071_정책대출_주금공_주택도시기금_십억원|12m로그변화,True
+provinces 202301 causal prefix V047_가계신용_총액_십억원|12m로그변화,True
+provinces 202301 causal prefix V049_시간당명목임금지수_2020=100|수준,True
+provinces 202301 causal prefix V049_시간당명목임금지수_2020=100|12m차,True
+provinces 202301 causal prefix V060_대출태도_국내은행_가계주택|수준,True
+provinces 202301 causal prefix V060_대출태도_국내은행_가계주택|12m차,True
+provinces 202301 causal prefix V074_가계동향_도시2인이상_월평균소득_원|수준,True
+provinces 202301 causal prefix V074_가계동향_도시2인이상_월평균소득_원|12m차,True
+provinces 202301 causal prefix V074_연결_월평균소득_원|12m로그변화,True
+provinces 202301 causal prefix V015_1인당GRDP_천원|12m로그변화,True
+provinces 202301 causal prefix V017_1인당가계총처분가능소득_천원|12m로그변화,True
+provinces 202301 causal prefix V024_주거용신축허가_동수_동|12m로그변화,True
+provinces 202301 causal prefix V024_주거용신축허가_연면적_㎡|12m로그변화,True
+provinces 202301 causal prefix V072_총조사_가구수_가구|12m로그변화,True
+provinces 202301 causal prefix V072_총조사_주택수_호|12m로그변화,True
+provinces 202301 causal prefix V076_공공+민간총계(DT_MLTM_7174)_호|12m로그변화,True
+provinces 202301 causal prefix V076_공공임대계(DT_MLTM_7174)_호|12m로그변화,True
+provinces 202301 causal prefix V076_민간임대계(DT_MLTM_7174)_호|12m로그변화,True
+provinces 202301 causal prefix V076_민간임대(DT_MLTM_6827합계)_호|12m로그변화,True
+provinces 202301 causal prefix V077_임대주택건설공급_총계_호|12m로그변화,True
+provinces 202301 causal prefix V072_총조사단순주택수가구수비율|12m로그변화,True
+provinces 202301 causal prefix V024_주거용신축허가_동수_천세대당|수준,True
+provinces 202301 causal prefix V024_주거용신축허가_동수_천세대당|12m차,True
+provinces 202301 causal prefix V076_공공+민간총계(DT_MLTM_7174)_천세대당|수준,True
+provinces 202301 causal prefix V076_공공+민간총계(DT_MLTM_7174)_천세대당|12m차,True
+provinces 202301 causal prefix V076_공공임대계(DT_MLTM_7174)_천세대당|수준,True
+provinces 202301 causal prefix V076_공공임대계(DT_MLTM_7174)_천세대당|12m차,True
+provinces 202301 causal prefix V076_민간임대계(DT_MLTM_7174)_천세대당|수준,True
+provinces 202301 causal prefix V076_민간임대계(DT_MLTM_7174)_천세대당|12m차,True
+provinces 202301 causal prefix V076_민간임대(DT_MLTM_6827합계)_천세대당|수준,True
+provinces 202301 causal prefix V076_민간임대(DT_MLTM_6827합계)_천세대당|12m차,True
+provinces 202301 causal prefix V077_임대주택건설공급_총계_천세대당|수준,True
+provinces 202301 causal prefix V077_임대주택건설공급_총계_천세대당|12m차,True
+provinces 202301 causal prefix V015_전국대비|수준,True
+provinces 202301 causal prefix V015_전국대비|12m차,True
+provinces 202301 causal prefix V017_전국대비|수준,True
+provinces 202301 causal prefix V017_전국대비|12m차,True
+provinces 202301 causal prefix V072_공식주택보급률_%|수준,True
+provinces 202301 causal prefix V072_공식주택보급률_%|12m차,True
+provinces 202301 causal prefix D_CSI_전신계열,True
+provinces 202301 causal prefix D_Wage_10th,True
+provinces 202301 causal prefix D_Wage_11th,True
+provinces 202301 causal prefix M10_rent_growth_1m,True
+provinces 202301 causal prefix M10_rent_growth_6m,True
+provinces 202510 causal prefix V003_전세가율_%|수준,True
+provinces 202510 causal prefix V003_전세가율_%|12m차,True
+provinces 202510 causal prefix V004_지역별전월세전환율_%|수준,True
+provinces 202510 causal prefix V004_지역별전월세전환율_%|12m차,True
+provinces 202510 causal prefix V005_월세수급동향|수준,True
+provinces 202510 causal prefix V005_월세수급동향|12m차,True
+provinces 202510 causal prefix V009_주민등록인구_명|12m로그변화,True
+provinces 202510 causal prefix V010_주민등록세대수_세대|12m로그변화,True
+provinces 202510 causal prefix V011_20-29세_명|12m로그변화,True
+provinces 202510 causal prefix V011_20-39세_명|12m로그변화,True
+provinces 202510 causal prefix V011_20-39세비중_%|수준,True
+provinces 202510 causal prefix V011_20-39세비중_%|12m차,True
+provinces 202510 causal prefix V011_30-39세_명|12m로그변화,True
+provinces 202510 causal prefix V012_순이동자수_명|천명당12개월,True
+provinces 202510 causal prefix V013_고용률_%|수준,True
+provinces 202510 causal prefix V013_고용률_%|12m차,True
+provinces 202510 causal prefix V013_취업자_천명|12m로그변화,True
+provinces 202510 causal prefix V021_아파트_인허가_호|12개월누적log,True
+provinces 202510 causal prefix V021_아파트_인허가_호|12개월누적log_12m차,True
+provinces 202510 causal prefix V022_아파트_착공_호|12개월누적log,True
+provinces 202510 causal prefix V022_아파트_착공_호|12개월누적log_12m차,True
+provinces 202510 causal prefix V023_아파트_준공_호|12개월누적log,True
+provinces 202510 causal prefix V023_아파트_준공_호|12개월누적log_12m차,True
+provinces 202510 causal prefix V031_매매수급동향|수준,True
+provinces 202510 causal prefix V031_매매수급동향|12m차,True
+provinces 202510 causal prefix V032_전세수급동향|수준,True
+provinces 202510 causal prefix V032_전세수급동향|12m차,True
+provinces 202510 causal prefix V034_수급동향(구)_통합|수준,True
+provinces 202510 causal prefix V034_수급동향(구)_통합|12m차,True
+provinces 202510 causal prefix V035_아파트거래_동호수_호|12개월누적log,True
+provinces 202510 causal prefix V035_아파트거래_동호수_호|12개월누적log_12m차,True
+provinces 202510 causal prefix V035_아파트거래_면적_천㎡|12개월누적log,True
+provinces 202510 causal prefix V035_아파트거래_면적_천㎡|12개월누적log_12m차,True
+provinces 202510 causal prefix V036_아파트매매거래_동호수_호|12개월누적log,True
+provinces 202510 causal prefix V036_아파트매매거래_동호수_호|12개월누적log_12m차,True
+provinces 202510 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log,True
+provinces 202510 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log_12m차,True
+provinces 202510 causal prefix V037_주택시장_소비심리지수|수준,True
+provinces 202510 causal prefix V037_주택시장_소비심리지수|12m차,True
+provinces 202510 causal prefix V038_미분양주택현황_호|log,True
+provinces 202510 causal prefix V038_미분양주택현황_호|log_12m차,True
+provinces 202510 causal prefix V050_지역별_주택관련대출_예금은행_십억원|12m로그변화,True
+provinces 202510 causal prefix V043_한국은행_기준금리_연%|수준,True
+provinces 202510 causal prefix V043_한국은행_기준금리_연%|12m차,True
+provinces 202510 causal prefix V044_시장금리_CD91일_연%|수준,True
+provinces 202510 causal prefix V044_시장금리_CD91일_연%|12m차,True
+provinces 202510 causal prefix V045_시장금리_국고채3년_연%|수준,True
+provinces 202510 causal prefix V045_시장금리_국고채3년_연%|12m차,True
+provinces 202510 causal prefix V046_M2_통화량_십억원|12m로그변화,True
+provinces 202510 causal prefix V048_소비자물가지수_2020=100|수준,True
+provinces 202510 causal prefix V048_소비자물가지수_2020=100|12m차,True
+provinces 202510 causal prefix V056_예금은행대출금리_주택담보_연리%|수준,True
+provinces 202510 causal prefix V056_예금은행대출금리_주택담보_연리%|12m차,True
+provinces 202510 causal prefix V057_예금은행대출금리_전세자금_연리%|수준,True
+provinces 202510 causal prefix V057_예금은행대출금리_전세자금_연리%|12m차,True
+provinces 202510 causal prefix V059_비은행대출금리_주택담보_연리%|수준,True
+provinces 202510 causal prefix V059_비은행대출금리_주택담보_연리%|12m차,True
+provinces 202510 causal prefix V061_주택가격전망CSI_서울|수준,True
+provinces 202510 causal prefix V061_주택가격전망CSI_서울|12m차,True
+provinces 202510 causal prefix V062_주택가격전망CSI_6대광역시|수준,True
+provinces 202510 causal prefix V062_주택가격전망CSI_6대광역시|12m차,True
+provinces 202510 causal prefix V063_주택가격전망CSI_기타도시|수준,True
+provinces 202510 causal prefix V063_주택가격전망CSI_기타도시|12m차,True
+provinces 202510 causal prefix V064_KOSPI_종가_1980.01.04=100|수준,True
+provinces 202510 causal prefix V064_KOSPI_종가_1980.01.04=100|12m차,True
+provinces 202510 causal prefix V066_임금총액_사업체노동력_원|12m로그변화,True
+provinces 202510 causal prefix V067_선행지수순환변동치_2020=100|수준,True
+provinces 202510 causal prefix V067_선행지수순환변동치_2020=100|12m차,True
+provinces 202510 causal prefix V069_예금취급기관_가계대출_십억원|12m로그변화,True
+provinces 202510 causal prefix V069_예금취급기관_주택관련대출_십억원|12m로그변화,True
+provinces 202510 causal prefix V070_수출금액_천불|12m로그변화,True
+provinces 202510 causal prefix V071_정책대출_주금공_주택도시기금_십억원|12m로그변화,True
+provinces 202510 causal prefix V047_가계신용_총액_십억원|12m로그변화,True
+provinces 202510 causal prefix V049_시간당명목임금지수_2020=100|수준,True
+provinces 202510 causal prefix V049_시간당명목임금지수_2020=100|12m차,True
+provinces 202510 causal prefix V060_대출태도_국내은행_가계주택|수준,True
+provinces 202510 causal prefix V060_대출태도_국내은행_가계주택|12m차,True
+provinces 202510 causal prefix V074_가계동향_도시2인이상_월평균소득_원|수준,True
+provinces 202510 causal prefix V074_가계동향_도시2인이상_월평균소득_원|12m차,True
+provinces 202510 causal prefix V074_연결_월평균소득_원|12m로그변화,True
+provinces 202510 causal prefix V015_1인당GRDP_천원|12m로그변화,True
+provinces 202510 causal prefix V017_1인당가계총처분가능소득_천원|12m로그변화,True
+provinces 202510 causal prefix V024_주거용신축허가_동수_동|12m로그변화,True
+provinces 202510 causal prefix V024_주거용신축허가_연면적_㎡|12m로그변화,True
+provinces 202510 causal prefix V072_총조사_가구수_가구|12m로그변화,True
+provinces 202510 causal prefix V072_총조사_주택수_호|12m로그변화,True
+provinces 202510 causal prefix V076_공공+민간총계(DT_MLTM_7174)_호|12m로그변화,True
+provinces 202510 causal prefix V076_공공임대계(DT_MLTM_7174)_호|12m로그변화,True
+provinces 202510 causal prefix V076_민간임대계(DT_MLTM_7174)_호|12m로그변화,True
+provinces 202510 causal prefix V076_민간임대(DT_MLTM_6827합계)_호|12m로그변화,True
+provinces 202510 causal prefix V077_임대주택건설공급_총계_호|12m로그변화,True
+provinces 202510 causal prefix V072_총조사단순주택수가구수비율|12m로그변화,True
+provinces 202510 causal prefix V024_주거용신축허가_동수_천세대당|수준,True
+provinces 202510 causal prefix V024_주거용신축허가_동수_천세대당|12m차,True
+provinces 202510 causal prefix V076_공공+민간총계(DT_MLTM_7174)_천세대당|수준,True
+provinces 202510 causal prefix V076_공공+민간총계(DT_MLTM_7174)_천세대당|12m차,True
+provinces 202510 causal prefix V076_공공임대계(DT_MLTM_7174)_천세대당|수준,True
+provinces 202510 causal prefix V076_공공임대계(DT_MLTM_7174)_천세대당|12m차,True
+provinces 202510 causal prefix V076_민간임대계(DT_MLTM_7174)_천세대당|수준,True
+provinces 202510 causal prefix V076_민간임대계(DT_MLTM_7174)_천세대당|12m차,True
+provinces 202510 causal prefix V076_민간임대(DT_MLTM_6827합계)_천세대당|수준,True
+provinces 202510 causal prefix V076_민간임대(DT_MLTM_6827합계)_천세대당|12m차,True
+provinces 202510 causal prefix V077_임대주택건설공급_총계_천세대당|수준,True
+provinces 202510 causal prefix V077_임대주택건설공급_총계_천세대당|12m차,True
+provinces 202510 causal prefix V015_전국대비|수준,True
+provinces 202510 causal prefix V015_전국대비|12m차,True
+provinces 202510 causal prefix V017_전국대비|수준,True
+provinces 202510 causal prefix V017_전국대비|12m차,True
+provinces 202510 causal prefix V072_공식주택보급률_%|수준,True
+provinces 202510 causal prefix V072_공식주택보급률_%|12m차,True
+provinces 202510 causal prefix D_CSI_전신계열,True
+provinces 202510 causal prefix D_Wage_10th,True
+provinces 202510 causal prefix D_Wage_11th,True
+provinces 202510 causal prefix M10_rent_growth_1m,True
+provinces 202510 causal prefix M10_rent_growth_6m,True
+provinces 2018 Y1 Growth independent class labels,True
+provinces 2018 Y2 Direction independent class labels,True
+provinces 2018 Y3 Surge independent class labels,True
+provinces 2018 Y4 Drop independent class labels,True
+provinces 2019 Y1 Growth independent class labels,True
+provinces 2019 Y2 Direction independent class labels,True
+provinces 2019 Y3 Surge independent class labels,True
+provinces 2019 Y4 Drop independent class labels,True
+provinces 2020 Y1 Growth independent class labels,True
+provinces 2020 Y2 Direction independent class labels,True
+provinces 2020 Y3 Surge independent class labels,True
+provinces 2020 Y4 Drop independent class labels,True
+provinces 2021 Y1 Growth independent class labels,True
+provinces 2021 Y2 Direction independent class labels,True
+provinces 2021 Y3 Surge independent class labels,True
+provinces 2021 Y4 Drop independent class labels,True
+provinces 2022 Y1 Growth independent class labels,True
+provinces 2022 Y2 Direction independent class labels,True
+provinces 2022 Y3 Surge independent class labels,True
+provinces 2022 Y4 Drop independent class labels,True
+provinces 2023 Y1 Growth independent class labels,True
+provinces 2023 Y2 Direction independent class labels,True
+provinces 2023 Y3 Surge independent class labels,True
+provinces 2023 Y4 Drop independent class labels,True
+provinces 2024 Y1 Growth independent class labels,True
+provinces 2024 Y2 Direction independent class labels,True
+provinces 2024 Y3 Surge independent class labels,True
+provinces 2024 Y4 Drop independent class labels,True
+provinces 2025 Y1 Growth independent class labels,True
+provinces 2025 Y2 Direction independent class labels,True
+provinces 2025 Y3 Surge independent class labels,True
+provinces 2025 Y4 Drop independent class labels,True
+provinces_201801_Y1_Extra_Trees_TH_v12.joblib replay,True
+provinces_201801_Y1_Linear_TH_v12.joblib replay,True
+provinces_201801_Y1_Random_Forest_TH_v12.joblib replay,True
+provinces_201801_Y1_XGBoost_TH_v12.joblib replay,True
+provinces_201801_Y2_Extra_Trees_TH_v12.joblib replay,True
+provinces_201801_Y2_Linear_TH_v12.joblib replay,True
+provinces_201801_Y2_Random_Forest_TH_v12.joblib replay,True
+provinces_201801_Y2_XGBoost_TH_v12.joblib replay,True
+provinces_201801_Y3_Extra_Trees_TH_v12.joblib replay,True
+provinces_201801_Y3_Linear_TH_v12.joblib replay,True
+provinces_201801_Y3_Random_Forest_TH_v12.joblib replay,True
+provinces_201801_Y3_XGBoost_TH_v12.joblib replay,True
+provinces_201801_Y4_Extra_Trees_TH_v12.joblib replay,True
+provinces_201801_Y4_Linear_TH_v12.joblib replay,True
+provinces_201801_Y4_Random_Forest_TH_v12.joblib replay,True
+provinces_201801_Y4_XGBoost_TH_v12.joblib replay,True
+provinces_202510_Y1_Extra_Trees_TH_v12.joblib replay,True
+provinces_202510_Y1_Linear_TH_v12.joblib replay,True
+provinces_202510_Y1_Random_Forest_TH_v12.joblib replay,True
+provinces_202510_Y1_XGBoost_TH_v12.joblib replay,True
+provinces_202510_Y2_Extra_Trees_TH_v12.joblib replay,True
+provinces_202510_Y2_Linear_TH_v12.joblib replay,True
+provinces_202510_Y2_Random_Forest_TH_v12.joblib replay,True
+provinces_202510_Y2_XGBoost_TH_v12.joblib replay,True
+provinces_202510_Y3_Extra_Trees_TH_v12.joblib replay,True
+provinces_202510_Y3_Linear_TH_v12.joblib replay,True
+provinces_202510_Y3_Random_Forest_TH_v12.joblib replay,True
+provinces_202510_Y3_XGBoost_TH_v12.joblib replay,True
+provinces_202510_Y4_Extra_Trees_TH_v12.joblib replay,True
+provinces_202510_Y4_Linear_TH_v12.joblib replay,True
+provinces_202510_Y4_Random_Forest_TH_v12.joblib replay,True
+provinces_202510_Y4_XGBoost_TH_v12.joblib replay,True
+provinces 201801 train-only selection,True
+provinces 201804 train-only selection,True
+provinces 201807 train-only selection,True
+provinces 201810 train-only selection,True
+provinces 201901 train-only selection,True
+provinces 201904 train-only selection,True
+provinces 201907 train-only selection,True
+provinces 201910 train-only selection,True
+provinces 202001 train-only selection,True
+provinces 202004 train-only selection,True
+provinces 202007 train-only selection,True
+provinces 202010 train-only selection,True
+provinces 202101 train-only selection,True
+provinces 202104 train-only selection,True
+provinces 202107 train-only selection,True
+provinces 202110 train-only selection,True
+provinces 202201 train-only selection,True
+provinces 202204 train-only selection,True
+provinces 202207 train-only selection,True
+provinces 202210 train-only selection,True
+provinces 202301 train-only selection,True
+provinces 202304 train-only selection,True
+provinces 202307 train-only selection,True
+provinces 202310 train-only selection,True
+provinces 202401 train-only selection,True
+provinces 202404 train-only selection,True
+provinces 202407 train-only selection,True
+provinces 202410 train-only selection,True
+provinces 202501 train-only selection,True
+provinces 202504 train-only selection,True
+provinces 202507 train-only selection,True
+provinces 202510 train-only selection,True
+seoul 강남구 independent g,True
+seoul 강남구 independent U,True
+seoul 강남구 independent D,True
+seoul 강동구 independent g,True
+seoul 강동구 independent U,True
+seoul 강동구 independent D,True
+seoul 강북구 independent g,True
+seoul 강북구 independent U,True
+seoul 강북구 independent D,True
+seoul 강서구 independent g,True
+seoul 강서구 independent U,True
+seoul 강서구 independent D,True
+seoul 관악구 independent g,True
+seoul 관악구 independent U,True
+seoul 관악구 independent D,True
+seoul 광진구 independent g,True
+seoul 광진구 independent U,True
+seoul 광진구 independent D,True
+seoul 구로구 independent g,True
+seoul 구로구 independent U,True
+seoul 구로구 independent D,True
+seoul 금천구 independent g,True
+seoul 금천구 independent U,True
+seoul 금천구 independent D,True
+seoul 노원구 independent g,True
+seoul 노원구 independent U,True
+seoul 노원구 independent D,True
+seoul 도봉구 independent g,True
+seoul 도봉구 independent U,True
+seoul 도봉구 independent D,True
+seoul 동대문구 independent g,True
+seoul 동대문구 independent U,True
+seoul 동대문구 independent D,True
+seoul 동작구 independent g,True
+seoul 동작구 independent U,True
+seoul 동작구 independent D,True
+seoul 마포구 independent g,True
+seoul 마포구 independent U,True
+seoul 마포구 independent D,True
+seoul 서대문구 independent g,True
+seoul 서대문구 independent U,True
+seoul 서대문구 independent D,True
+seoul 서초구 independent g,True
+seoul 서초구 independent U,True
+seoul 서초구 independent D,True
+seoul 성동구 independent g,True
+seoul 성동구 independent U,True
+seoul 성동구 independent D,True
+seoul 성북구 independent g,True
+seoul 성북구 independent U,True
+seoul 성북구 independent D,True
+seoul 송파구 independent g,True
+seoul 송파구 independent U,True
+seoul 송파구 independent D,True
+seoul 양천구 independent g,True
+seoul 양천구 independent U,True
+seoul 양천구 independent D,True
+seoul 영등포구 independent g,True
+seoul 영등포구 independent U,True
+seoul 영등포구 independent D,True
+seoul 용산구 independent g,True
+seoul 용산구 independent U,True
+seoul 용산구 independent D,True
+seoul 은평구 independent g,True
+seoul 은평구 independent U,True
+seoul 은평구 independent D,True
+seoul 종로구 independent g,True
+seoul 종로구 independent U,True
+seoul 종로구 independent D,True
+seoul 중구 independent g,True
+seoul 중구 independent U,True
+seoul 중구 independent D,True
+seoul 중랑구 independent g,True
+seoul 중랑구 independent U,True
+seoul 중랑구 independent D,True
+seoul 201801 causal prefix V003_전세가율_%|수준,True
+seoul 201801 causal prefix V003_전세가율_%|12m차,True
+seoul 201801 causal prefix V004_지역별전월세전환율_%|수준,True
+seoul 201801 causal prefix V004_지역별전월세전환율_%|12m차,True
+seoul 201801 causal prefix V009_주민등록인구_명|12m로그변화,True
+seoul 201801 causal prefix V010_주민등록세대수_세대|12m로그변화,True
+seoul 201801 causal prefix V011_20-29세_명|12m로그변화,True
+seoul 201801 causal prefix V011_20-39세_명|12m로그변화,True
+seoul 201801 causal prefix V011_20-39세비중_%|수준,True
+seoul 201801 causal prefix V011_20-39세비중_%|12m차,True
+seoul 201801 causal prefix V011_30-39세_명|12m로그변화,True
+seoul 201801 causal prefix V012_순이동자수_명|천명당12개월,True
+seoul 201801 causal prefix V035_아파트거래_동호수_호|12개월누적log,True
+seoul 201801 causal prefix V035_아파트거래_동호수_호|12개월누적log_12m차,True
+seoul 201801 causal prefix V035_아파트거래_면적_천㎡|12개월누적log,True
+seoul 201801 causal prefix V035_아파트거래_면적_천㎡|12개월누적log_12m차,True
+seoul 201801 causal prefix V036_아파트매매거래_동호수_호|12개월누적log,True
+seoul 201801 causal prefix V036_아파트매매거래_동호수_호|12개월누적log_12m차,True
+seoul 201801 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log,True
+seoul 201801 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log_12m차,True
+seoul 201801 causal prefix V038_미분양주택현황_호|log,True
+seoul 201801 causal prefix V038_미분양주택현황_호|log_12m차,True
+seoul 201801 causal prefix V043_한국은행_기준금리_연%|수준,True
+seoul 201801 causal prefix V043_한국은행_기준금리_연%|12m차,True
+seoul 201801 causal prefix V044_시장금리_CD91일_연%|수준,True
+seoul 201801 causal prefix V044_시장금리_CD91일_연%|12m차,True
+seoul 201801 causal prefix V045_시장금리_국고채3년_연%|수준,True
+seoul 201801 causal prefix V045_시장금리_국고채3년_연%|12m차,True
+seoul 201801 causal prefix V046_M2_통화량_십억원|12m로그변화,True
+seoul 201801 causal prefix V048_소비자물가지수_2020=100|수준,True
+seoul 201801 causal prefix V048_소비자물가지수_2020=100|12m차,True
+seoul 201801 causal prefix V056_예금은행대출금리_주택담보_연리%|수준,True
+seoul 201801 causal prefix V056_예금은행대출금리_주택담보_연리%|12m차,True
+seoul 201801 causal prefix V057_예금은행대출금리_전세자금_연리%|수준,True
+seoul 201801 causal prefix V057_예금은행대출금리_전세자금_연리%|12m차,True
+seoul 201801 causal prefix V059_비은행대출금리_주택담보_연리%|수준,True
+seoul 201801 causal prefix V059_비은행대출금리_주택담보_연리%|12m차,True
+seoul 201801 causal prefix V061_주택가격전망CSI_서울|수준,True
+seoul 201801 causal prefix V061_주택가격전망CSI_서울|12m차,True
+seoul 201801 causal prefix V062_주택가격전망CSI_6대광역시|수준,True
+seoul 201801 causal prefix V062_주택가격전망CSI_6대광역시|12m차,True
+seoul 201801 causal prefix V063_주택가격전망CSI_기타도시|수준,True
+seoul 201801 causal prefix V063_주택가격전망CSI_기타도시|12m차,True
+seoul 201801 causal prefix V064_KOSPI_종가_1980.01.04=100|수준,True
+seoul 201801 causal prefix V064_KOSPI_종가_1980.01.04=100|12m차,True
+seoul 201801 causal prefix V066_임금총액_사업체노동력_원|12m로그변화,True
+seoul 201801 causal prefix V067_선행지수순환변동치_2020=100|수준,True
+seoul 201801 causal prefix V067_선행지수순환변동치_2020=100|12m차,True
+seoul 201801 causal prefix V069_예금취급기관_가계대출_십억원|12m로그변화,True
+seoul 201801 causal prefix V069_예금취급기관_주택관련대출_십억원|12m로그변화,True
+seoul 201801 causal prefix V070_수출금액_천불|12m로그변화,True
+seoul 201801 causal prefix V071_정책대출_주금공_주택도시기금_십억원|12m로그변화,True
+seoul 201801 causal prefix 서울_V005_월세수급동향|수준,True
+seoul 201801 causal prefix 서울_V005_월세수급동향|12m차,True
+seoul 201801 causal prefix 서울_V013_고용률_%|수준,True
+seoul 201801 causal prefix 서울_V013_고용률_%|12m차,True
+seoul 201801 causal prefix 서울_V013_취업자_천명|12m로그변화,True
+seoul 201801 causal prefix 서울_V021_아파트_인허가_호|12개월누적log,True
+seoul 201801 causal prefix 서울_V021_아파트_인허가_호|12개월누적log_12m차,True
+seoul 201801 causal prefix 서울_V022_아파트_착공_호|12개월누적log,True
+seoul 201801 causal prefix 서울_V022_아파트_착공_호|12개월누적log_12m차,True
+seoul 201801 causal prefix 서울_V023_아파트_준공_호|12개월누적log,True
+seoul 201801 causal prefix 서울_V023_아파트_준공_호|12개월누적log_12m차,True
+seoul 201801 causal prefix 서울_V031_매매수급동향|수준,True
+seoul 201801 causal prefix 서울_V031_매매수급동향|12m차,True
+seoul 201801 causal prefix 서울_V032_전세수급동향|수준,True
+seoul 201801 causal prefix 서울_V032_전세수급동향|12m차,True
+seoul 201801 causal prefix 서울_V037_주택시장_소비심리지수|수준,True
+seoul 201801 causal prefix 서울_V037_주택시장_소비심리지수|12m차,True
+seoul 201801 causal prefix 서울_V050_지역별_주택관련대출_예금은행_십억원|12m로그변화,True
+seoul 201801 causal prefix V047_가계신용_총액_십억원|12m로그변화,True
+seoul 201801 causal prefix V049_시간당명목임금지수_2020=100|수준,True
+seoul 201801 causal prefix V049_시간당명목임금지수_2020=100|12m차,True
+seoul 201801 causal prefix V060_대출태도_국내은행_가계주택|수준,True
+seoul 201801 causal prefix V060_대출태도_국내은행_가계주택|12m차,True
+seoul 201801 causal prefix V074_가계동향_도시2인이상_월평균소득_원|수준,True
+seoul 201801 causal prefix V074_가계동향_도시2인이상_월평균소득_원|12m차,True
+seoul 201801 causal prefix V074_연결_월평균소득_원|12m로그변화,True
+seoul 201801 causal prefix V024_주거용신축허가_동수_동|12m로그변화,True
+seoul 201801 causal prefix V024_주거용신축허가_연면적_㎡|12m로그변화,True
+seoul 201801 causal prefix V072_총조사_가구수_가구|12m로그변화,True
+seoul 201801 causal prefix V072_총조사_주택수_호|12m로그변화,True
+seoul 201801 causal prefix V072_총조사단순주택수가구수비율|12m로그변화,True
+seoul 201801 causal prefix V024_주거용신축허가_동수_천세대당|수준,True
+seoul 201801 causal prefix V024_주거용신축허가_동수_천세대당|12m차,True
+seoul 201801 causal prefix V013_서울구반기_고용률_%|수준,True
+seoul 201801 causal prefix V013_서울구반기_고용률_%|12m차,True
+seoul 201801 causal prefix V013_서울구반기_취업자_천명|12m로그변화,True
+seoul 201801 causal prefix V013_서울구_고용률_월별추정|수준,True
+seoul 201801 causal prefix V013_서울구_고용률_월별추정|12m차,True
+seoul 201801 causal prefix V013_서울구_취업자_월별추정|12m로그변화,True
+seoul 201801 causal prefix 서울_V072_공식주택보급률_%|수준,True
+seoul 201801 causal prefix 서울_V072_공식주택보급률_%|12m차,True
+seoul 201801 causal prefix D_CSI_전신계열,True
+seoul 201801 causal prefix D_Wage_10th,True
+seoul 201801 causal prefix D_Wage_11th,True
+seoul 201801 causal prefix M10_rent_growth_1m,True
+seoul 201801 causal prefix M10_rent_growth_6m,True
+seoul 202101 causal prefix V003_전세가율_%|수준,True
+seoul 202101 causal prefix V003_전세가율_%|12m차,True
+seoul 202101 causal prefix V004_지역별전월세전환율_%|수준,True
+seoul 202101 causal prefix V004_지역별전월세전환율_%|12m차,True
+seoul 202101 causal prefix V009_주민등록인구_명|12m로그변화,True
+seoul 202101 causal prefix V010_주민등록세대수_세대|12m로그변화,True
+seoul 202101 causal prefix V011_20-29세_명|12m로그변화,True
+seoul 202101 causal prefix V011_20-39세_명|12m로그변화,True
+seoul 202101 causal prefix V011_20-39세비중_%|수준,True
+seoul 202101 causal prefix V011_20-39세비중_%|12m차,True
+seoul 202101 causal prefix V011_30-39세_명|12m로그변화,True
+seoul 202101 causal prefix V012_순이동자수_명|천명당12개월,True
+seoul 202101 causal prefix V035_아파트거래_동호수_호|12개월누적log,True
+seoul 202101 causal prefix V035_아파트거래_동호수_호|12개월누적log_12m차,True
+seoul 202101 causal prefix V035_아파트거래_면적_천㎡|12개월누적log,True
+seoul 202101 causal prefix V035_아파트거래_면적_천㎡|12개월누적log_12m차,True
+seoul 202101 causal prefix V036_아파트매매거래_동호수_호|12개월누적log,True
+seoul 202101 causal prefix V036_아파트매매거래_동호수_호|12개월누적log_12m차,True
+seoul 202101 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log,True
+seoul 202101 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log_12m차,True
+seoul 202101 causal prefix V038_미분양주택현황_호|log,True
+seoul 202101 causal prefix V038_미분양주택현황_호|log_12m차,True
+seoul 202101 causal prefix V043_한국은행_기준금리_연%|수준,True
+seoul 202101 causal prefix V043_한국은행_기준금리_연%|12m차,True
+seoul 202101 causal prefix V044_시장금리_CD91일_연%|수준,True
+seoul 202101 causal prefix V044_시장금리_CD91일_연%|12m차,True
+seoul 202101 causal prefix V045_시장금리_국고채3년_연%|수준,True
+seoul 202101 causal prefix V045_시장금리_국고채3년_연%|12m차,True
+seoul 202101 causal prefix V046_M2_통화량_십억원|12m로그변화,True
+seoul 202101 causal prefix V048_소비자물가지수_2020=100|수준,True
+seoul 202101 causal prefix V048_소비자물가지수_2020=100|12m차,True
+seoul 202101 causal prefix V056_예금은행대출금리_주택담보_연리%|수준,True
+seoul 202101 causal prefix V056_예금은행대출금리_주택담보_연리%|12m차,True
+seoul 202101 causal prefix V057_예금은행대출금리_전세자금_연리%|수준,True
+seoul 202101 causal prefix V057_예금은행대출금리_전세자금_연리%|12m차,True
+seoul 202101 causal prefix V059_비은행대출금리_주택담보_연리%|수준,True
+seoul 202101 causal prefix V059_비은행대출금리_주택담보_연리%|12m차,True
+seoul 202101 causal prefix V061_주택가격전망CSI_서울|수준,True
+seoul 202101 causal prefix V061_주택가격전망CSI_서울|12m차,True
+seoul 202101 causal prefix V062_주택가격전망CSI_6대광역시|수준,True
+seoul 202101 causal prefix V062_주택가격전망CSI_6대광역시|12m차,True
+seoul 202101 causal prefix V063_주택가격전망CSI_기타도시|수준,True
+seoul 202101 causal prefix V063_주택가격전망CSI_기타도시|12m차,True
+seoul 202101 causal prefix V064_KOSPI_종가_1980.01.04=100|수준,True
+seoul 202101 causal prefix V064_KOSPI_종가_1980.01.04=100|12m차,True
+seoul 202101 causal prefix V066_임금총액_사업체노동력_원|12m로그변화,True
+seoul 202101 causal prefix V067_선행지수순환변동치_2020=100|수준,True
+seoul 202101 causal prefix V067_선행지수순환변동치_2020=100|12m차,True
+seoul 202101 causal prefix V069_예금취급기관_가계대출_십억원|12m로그변화,True
+seoul 202101 causal prefix V069_예금취급기관_주택관련대출_십억원|12m로그변화,True
+seoul 202101 causal prefix V070_수출금액_천불|12m로그변화,True
+seoul 202101 causal prefix V071_정책대출_주금공_주택도시기금_십억원|12m로그변화,True
+seoul 202101 causal prefix 서울_V005_월세수급동향|수준,True
+seoul 202101 causal prefix 서울_V005_월세수급동향|12m차,True
+seoul 202101 causal prefix 서울_V013_고용률_%|수준,True
+seoul 202101 causal prefix 서울_V013_고용률_%|12m차,True
+seoul 202101 causal prefix 서울_V013_취업자_천명|12m로그변화,True
+seoul 202101 causal prefix 서울_V021_아파트_인허가_호|12개월누적log,True
+seoul 202101 causal prefix 서울_V021_아파트_인허가_호|12개월누적log_12m차,True
+seoul 202101 causal prefix 서울_V022_아파트_착공_호|12개월누적log,True
+seoul 202101 causal prefix 서울_V022_아파트_착공_호|12개월누적log_12m차,True
+seoul 202101 causal prefix 서울_V023_아파트_준공_호|12개월누적log,True
+seoul 202101 causal prefix 서울_V023_아파트_준공_호|12개월누적log_12m차,True
+seoul 202101 causal prefix 서울_V031_매매수급동향|수준,True
+seoul 202101 causal prefix 서울_V031_매매수급동향|12m차,True
+seoul 202101 causal prefix 서울_V032_전세수급동향|수준,True
+seoul 202101 causal prefix 서울_V032_전세수급동향|12m차,True
+seoul 202101 causal prefix 서울_V037_주택시장_소비심리지수|수준,True
+seoul 202101 causal prefix 서울_V037_주택시장_소비심리지수|12m차,True
+seoul 202101 causal prefix 서울_V050_지역별_주택관련대출_예금은행_십억원|12m로그변화,True
+seoul 202101 causal prefix V047_가계신용_총액_십억원|12m로그변화,True
+seoul 202101 causal prefix V049_시간당명목임금지수_2020=100|수준,True
+seoul 202101 causal prefix V049_시간당명목임금지수_2020=100|12m차,True
+seoul 202101 causal prefix V060_대출태도_국내은행_가계주택|수준,True
+seoul 202101 causal prefix V060_대출태도_국내은행_가계주택|12m차,True
+seoul 202101 causal prefix V074_가계동향_도시2인이상_월평균소득_원|수준,True
+seoul 202101 causal prefix V074_가계동향_도시2인이상_월평균소득_원|12m차,True
+seoul 202101 causal prefix V074_연결_월평균소득_원|12m로그변화,True
+seoul 202101 causal prefix V024_주거용신축허가_동수_동|12m로그변화,True
+seoul 202101 causal prefix V024_주거용신축허가_연면적_㎡|12m로그변화,True
+seoul 202101 causal prefix V072_총조사_가구수_가구|12m로그변화,True
+seoul 202101 causal prefix V072_총조사_주택수_호|12m로그변화,True
+seoul 202101 causal prefix V072_총조사단순주택수가구수비율|12m로그변화,True
+seoul 202101 causal prefix V024_주거용신축허가_동수_천세대당|수준,True
+seoul 202101 causal prefix V024_주거용신축허가_동수_천세대당|12m차,True
+seoul 202101 causal prefix V013_서울구반기_고용률_%|수준,True
+seoul 202101 causal prefix V013_서울구반기_고용률_%|12m차,True
+seoul 202101 causal prefix V013_서울구반기_취업자_천명|12m로그변화,True
+seoul 202101 causal prefix V013_서울구_고용률_월별추정|수준,True
+seoul 202101 causal prefix V013_서울구_고용률_월별추정|12m차,True
+seoul 202101 causal prefix V013_서울구_취업자_월별추정|12m로그변화,True
+seoul 202101 causal prefix 서울_V072_공식주택보급률_%|수준,True
+seoul 202101 causal prefix 서울_V072_공식주택보급률_%|12m차,True
+seoul 202101 causal prefix D_CSI_전신계열,True
+seoul 202101 causal prefix D_Wage_10th,True
+seoul 202101 causal prefix D_Wage_11th,True
+seoul 202101 causal prefix M10_rent_growth_1m,True
+seoul 202101 causal prefix M10_rent_growth_6m,True
+seoul 202301 causal prefix V003_전세가율_%|수준,True
+seoul 202301 causal prefix V003_전세가율_%|12m차,True
+seoul 202301 causal prefix V004_지역별전월세전환율_%|수준,True
+seoul 202301 causal prefix V004_지역별전월세전환율_%|12m차,True
+seoul 202301 causal prefix V009_주민등록인구_명|12m로그변화,True
+seoul 202301 causal prefix V010_주민등록세대수_세대|12m로그변화,True
+seoul 202301 causal prefix V011_20-29세_명|12m로그변화,True
+seoul 202301 causal prefix V011_20-39세_명|12m로그변화,True
+seoul 202301 causal prefix V011_20-39세비중_%|수준,True
+seoul 202301 causal prefix V011_20-39세비중_%|12m차,True
+seoul 202301 causal prefix V011_30-39세_명|12m로그변화,True
+seoul 202301 causal prefix V012_순이동자수_명|천명당12개월,True
+seoul 202301 causal prefix V035_아파트거래_동호수_호|12개월누적log,True
+seoul 202301 causal prefix V035_아파트거래_동호수_호|12개월누적log_12m차,True
+seoul 202301 causal prefix V035_아파트거래_면적_천㎡|12개월누적log,True
+seoul 202301 causal prefix V035_아파트거래_면적_천㎡|12개월누적log_12m차,True
+seoul 202301 causal prefix V036_아파트매매거래_동호수_호|12개월누적log,True
+seoul 202301 causal prefix V036_아파트매매거래_동호수_호|12개월누적log_12m차,True
+seoul 202301 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log,True
+seoul 202301 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log_12m차,True
+seoul 202301 causal prefix V038_미분양주택현황_호|log,True
+seoul 202301 causal prefix V038_미분양주택현황_호|log_12m차,True
+seoul 202301 causal prefix V043_한국은행_기준금리_연%|수준,True
+seoul 202301 causal prefix V043_한국은행_기준금리_연%|12m차,True
+seoul 202301 causal prefix V044_시장금리_CD91일_연%|수준,True
+seoul 202301 causal prefix V044_시장금리_CD91일_연%|12m차,True
+seoul 202301 causal prefix V045_시장금리_국고채3년_연%|수준,True
+seoul 202301 causal prefix V045_시장금리_국고채3년_연%|12m차,True
+seoul 202301 causal prefix V046_M2_통화량_십억원|12m로그변화,True
+seoul 202301 causal prefix V048_소비자물가지수_2020=100|수준,True
+seoul 202301 causal prefix V048_소비자물가지수_2020=100|12m차,True
+seoul 202301 causal prefix V056_예금은행대출금리_주택담보_연리%|수준,True
+seoul 202301 causal prefix V056_예금은행대출금리_주택담보_연리%|12m차,True
+seoul 202301 causal prefix V057_예금은행대출금리_전세자금_연리%|수준,True
+seoul 202301 causal prefix V057_예금은행대출금리_전세자금_연리%|12m차,True
+seoul 202301 causal prefix V059_비은행대출금리_주택담보_연리%|수준,True
+seoul 202301 causal prefix V059_비은행대출금리_주택담보_연리%|12m차,True
+seoul 202301 causal prefix V061_주택가격전망CSI_서울|수준,True
+seoul 202301 causal prefix V061_주택가격전망CSI_서울|12m차,True
+seoul 202301 causal prefix V062_주택가격전망CSI_6대광역시|수준,True
+seoul 202301 causal prefix V062_주택가격전망CSI_6대광역시|12m차,True
+seoul 202301 causal prefix V063_주택가격전망CSI_기타도시|수준,True
+seoul 202301 causal prefix V063_주택가격전망CSI_기타도시|12m차,True
+seoul 202301 causal prefix V064_KOSPI_종가_1980.01.04=100|수준,True
+seoul 202301 causal prefix V064_KOSPI_종가_1980.01.04=100|12m차,True
+seoul 202301 causal prefix V066_임금총액_사업체노동력_원|12m로그변화,True
+seoul 202301 causal prefix V067_선행지수순환변동치_2020=100|수준,True
+seoul 202301 causal prefix V067_선행지수순환변동치_2020=100|12m차,True
+seoul 202301 causal prefix V069_예금취급기관_가계대출_십억원|12m로그변화,True
+seoul 202301 causal prefix V069_예금취급기관_주택관련대출_십억원|12m로그변화,True
+seoul 202301 causal prefix V070_수출금액_천불|12m로그변화,True
+seoul 202301 causal prefix V071_정책대출_주금공_주택도시기금_십억원|12m로그변화,True
+seoul 202301 causal prefix 서울_V005_월세수급동향|수준,True
+seoul 202301 causal prefix 서울_V005_월세수급동향|12m차,True
+seoul 202301 causal prefix 서울_V013_고용률_%|수준,True
+seoul 202301 causal prefix 서울_V013_고용률_%|12m차,True
+seoul 202301 causal prefix 서울_V013_취업자_천명|12m로그변화,True
+seoul 202301 causal prefix 서울_V021_아파트_인허가_호|12개월누적log,True
+seoul 202301 causal prefix 서울_V021_아파트_인허가_호|12개월누적log_12m차,True
+seoul 202301 causal prefix 서울_V022_아파트_착공_호|12개월누적log,True
+seoul 202301 causal prefix 서울_V022_아파트_착공_호|12개월누적log_12m차,True
+seoul 202301 causal prefix 서울_V023_아파트_준공_호|12개월누적log,True
+seoul 202301 causal prefix 서울_V023_아파트_준공_호|12개월누적log_12m차,True
+seoul 202301 causal prefix 서울_V031_매매수급동향|수준,True
+seoul 202301 causal prefix 서울_V031_매매수급동향|12m차,True
+seoul 202301 causal prefix 서울_V032_전세수급동향|수준,True
+seoul 202301 causal prefix 서울_V032_전세수급동향|12m차,True
+seoul 202301 causal prefix 서울_V037_주택시장_소비심리지수|수준,True
+seoul 202301 causal prefix 서울_V037_주택시장_소비심리지수|12m차,True
+seoul 202301 causal prefix 서울_V050_지역별_주택관련대출_예금은행_십억원|12m로그변화,True
+seoul 202301 causal prefix V047_가계신용_총액_십억원|12m로그변화,True
+seoul 202301 causal prefix V049_시간당명목임금지수_2020=100|수준,True
+seoul 202301 causal prefix V049_시간당명목임금지수_2020=100|12m차,True
+seoul 202301 causal prefix V060_대출태도_국내은행_가계주택|수준,True
+seoul 202301 causal prefix V060_대출태도_국내은행_가계주택|12m차,True
+seoul 202301 causal prefix V074_가계동향_도시2인이상_월평균소득_원|수준,True
+seoul 202301 causal prefix V074_가계동향_도시2인이상_월평균소득_원|12m차,True
+seoul 202301 causal prefix V074_연결_월평균소득_원|12m로그변화,True
+seoul 202301 causal prefix V024_주거용신축허가_동수_동|12m로그변화,True
+seoul 202301 causal prefix V024_주거용신축허가_연면적_㎡|12m로그변화,True
+seoul 202301 causal prefix V072_총조사_가구수_가구|12m로그변화,True
+seoul 202301 causal prefix V072_총조사_주택수_호|12m로그변화,True
+seoul 202301 causal prefix V072_총조사단순주택수가구수비율|12m로그변화,True
+seoul 202301 causal prefix V024_주거용신축허가_동수_천세대당|수준,True
+seoul 202301 causal prefix V024_주거용신축허가_동수_천세대당|12m차,True
+seoul 202301 causal prefix V013_서울구반기_고용률_%|수준,True
+seoul 202301 causal prefix V013_서울구반기_고용률_%|12m차,True
+seoul 202301 causal prefix V013_서울구반기_취업자_천명|12m로그변화,True
+seoul 202301 causal prefix V013_서울구_고용률_월별추정|수준,True
+seoul 202301 causal prefix V013_서울구_고용률_월별추정|12m차,True
+seoul 202301 causal prefix V013_서울구_취업자_월별추정|12m로그변화,True
+seoul 202301 causal prefix 서울_V072_공식주택보급률_%|수준,True
+seoul 202301 causal prefix 서울_V072_공식주택보급률_%|12m차,True
+seoul 202301 causal prefix D_CSI_전신계열,True
+seoul 202301 causal prefix D_Wage_10th,True
+seoul 202301 causal prefix D_Wage_11th,True
+seoul 202301 causal prefix M10_rent_growth_1m,True
+seoul 202301 causal prefix M10_rent_growth_6m,True
+seoul 202510 causal prefix V003_전세가율_%|수준,True
+seoul 202510 causal prefix V003_전세가율_%|12m차,True
+seoul 202510 causal prefix V004_지역별전월세전환율_%|수준,True
+seoul 202510 causal prefix V004_지역별전월세전환율_%|12m차,True
+seoul 202510 causal prefix V009_주민등록인구_명|12m로그변화,True
+seoul 202510 causal prefix V010_주민등록세대수_세대|12m로그변화,True
+seoul 202510 causal prefix V011_20-29세_명|12m로그변화,True
+seoul 202510 causal prefix V011_20-39세_명|12m로그변화,True
+seoul 202510 causal prefix V011_20-39세비중_%|수준,True
+seoul 202510 causal prefix V011_20-39세비중_%|12m차,True
+seoul 202510 causal prefix V011_30-39세_명|12m로그변화,True
+seoul 202510 causal prefix V012_순이동자수_명|천명당12개월,True
+seoul 202510 causal prefix V035_아파트거래_동호수_호|12개월누적log,True
+seoul 202510 causal prefix V035_아파트거래_동호수_호|12개월누적log_12m차,True
+seoul 202510 causal prefix V035_아파트거래_면적_천㎡|12개월누적log,True
+seoul 202510 causal prefix V035_아파트거래_면적_천㎡|12개월누적log_12m차,True
+seoul 202510 causal prefix V036_아파트매매거래_동호수_호|12개월누적log,True
+seoul 202510 causal prefix V036_아파트매매거래_동호수_호|12개월누적log_12m차,True
+seoul 202510 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log,True
+seoul 202510 causal prefix V036_아파트매매거래_면적_천㎡|12개월누적log_12m차,True
+seoul 202510 causal prefix V038_미분양주택현황_호|log,True
+seoul 202510 causal prefix V038_미분양주택현황_호|log_12m차,True
+seoul 202510 causal prefix V043_한국은행_기준금리_연%|수준,True
+seoul 202510 causal prefix V043_한국은행_기준금리_연%|12m차,True
+seoul 202510 causal prefix V044_시장금리_CD91일_연%|수준,True
+seoul 202510 causal prefix V044_시장금리_CD91일_연%|12m차,True
+seoul 202510 causal prefix V045_시장금리_국고채3년_연%|수준,True
+seoul 202510 causal prefix V045_시장금리_국고채3년_연%|12m차,True
+seoul 202510 causal prefix V046_M2_통화량_십억원|12m로그변화,True
+seoul 202510 causal prefix V048_소비자물가지수_2020=100|수준,True
+seoul 202510 causal prefix V048_소비자물가지수_2020=100|12m차,True
+seoul 202510 causal prefix V056_예금은행대출금리_주택담보_연리%|수준,True
+seoul 202510 causal prefix V056_예금은행대출금리_주택담보_연리%|12m차,True
+seoul 202510 causal prefix V057_예금은행대출금리_전세자금_연리%|수준,True
+seoul 202510 causal prefix V057_예금은행대출금리_전세자금_연리%|12m차,True
+seoul 202510 causal prefix V059_비은행대출금리_주택담보_연리%|수준,True
+seoul 202510 causal prefix V059_비은행대출금리_주택담보_연리%|12m차,True
+seoul 202510 causal prefix V061_주택가격전망CSI_서울|수준,True
+seoul 202510 causal prefix V061_주택가격전망CSI_서울|12m차,True
+seoul 202510 causal prefix V062_주택가격전망CSI_6대광역시|수준,True
+seoul 202510 causal prefix V062_주택가격전망CSI_6대광역시|12m차,True
+seoul 202510 causal prefix V063_주택가격전망CSI_기타도시|수준,True
+seoul 202510 causal prefix V063_주택가격전망CSI_기타도시|12m차,True
+seoul 202510 causal prefix V064_KOSPI_종가_1980.01.04=100|수준,True
+seoul 202510 causal prefix V064_KOSPI_종가_1980.01.04=100|12m차,True
+seoul 202510 causal prefix V066_임금총액_사업체노동력_원|12m로그변화,True
+seoul 202510 causal prefix V067_선행지수순환변동치_2020=100|수준,True
+seoul 202510 causal prefix V067_선행지수순환변동치_2020=100|12m차,True
+seoul 202510 causal prefix V069_예금취급기관_가계대출_십억원|12m로그변화,True
+seoul 202510 causal prefix V069_예금취급기관_주택관련대출_십억원|12m로그변화,True
+seoul 202510 causal prefix V070_수출금액_천불|12m로그변화,True
+seoul 202510 causal prefix V071_정책대출_주금공_주택도시기금_십억원|12m로그변화,True
+seoul 202510 causal prefix 서울_V005_월세수급동향|수준,True
+seoul 202510 causal prefix 서울_V005_월세수급동향|12m차,True
+seoul 202510 causal prefix 서울_V013_고용률_%|수준,True
+seoul 202510 causal prefix 서울_V013_고용률_%|12m차,True
+seoul 202510 causal prefix 서울_V013_취업자_천명|12m로그변화,True
+seoul 202510 causal prefix 서울_V021_아파트_인허가_호|12개월누적log,True
+seoul 202510 causal prefix 서울_V021_아파트_인허가_호|12개월누적log_12m차,True
+seoul 202510 causal prefix 서울_V022_아파트_착공_호|12개월누적log,True
+seoul 202510 causal prefix 서울_V022_아파트_착공_호|12개월누적log_12m차,True
+seoul 202510 causal prefix 서울_V023_아파트_준공_호|12개월누적log,True
+seoul 202510 causal prefix 서울_V023_아파트_준공_호|12개월누적log_12m차,True
+seoul 202510 causal prefix 서울_V031_매매수급동향|수준,True
+seoul 202510 causal prefix 서울_V031_매매수급동향|12m차,True
+seoul 202510 causal prefix 서울_V032_전세수급동향|수준,True
+seoul 202510 causal prefix 서울_V032_전세수급동향|12m차,True
+seoul 202510 causal prefix 서울_V037_주택시장_소비심리지수|수준,True
+seoul 202510 causal prefix 서울_V037_주택시장_소비심리지수|12m차,True
+seoul 202510 causal prefix 서울_V050_지역별_주택관련대출_예금은행_십억원|12m로그변화,True
+seoul 202510 causal prefix V047_가계신용_총액_십억원|12m로그변화,True
+seoul 202510 causal prefix V049_시간당명목임금지수_2020=100|수준,True
+seoul 202510 causal prefix V049_시간당명목임금지수_2020=100|12m차,True
+seoul 202510 causal prefix V060_대출태도_국내은행_가계주택|수준,True
+seoul 202510 causal prefix V060_대출태도_국내은행_가계주택|12m차,True
+seoul 202510 causal prefix V074_가계동향_도시2인이상_월평균소득_원|수준,True
+seoul 202510 causal prefix V074_가계동향_도시2인이상_월평균소득_원|12m차,True
+seoul 202510 causal prefix V074_연결_월평균소득_원|12m로그변화,True
+seoul 202510 causal prefix V024_주거용신축허가_동수_동|12m로그변화,True
+seoul 202510 causal prefix V024_주거용신축허가_연면적_㎡|12m로그변화,True
+seoul 202510 causal prefix V072_총조사_가구수_가구|12m로그변화,True
+seoul 202510 causal prefix V072_총조사_주택수_호|12m로그변화,True
+seoul 202510 causal prefix V072_총조사단순주택수가구수비율|12m로그변화,True
+seoul 202510 causal prefix V024_주거용신축허가_동수_천세대당|수준,True
+seoul 202510 causal prefix V024_주거용신축허가_동수_천세대당|12m차,True
+seoul 202510 causal prefix V013_서울구반기_고용률_%|수준,True
+seoul 202510 causal prefix V013_서울구반기_고용률_%|12m차,True
+seoul 202510 causal prefix V013_서울구반기_취업자_천명|12m로그변화,True
+seoul 202510 causal prefix V013_서울구_고용률_월별추정|수준,True
+seoul 202510 causal prefix V013_서울구_고용률_월별추정|12m차,True
+seoul 202510 causal prefix V013_서울구_취업자_월별추정|12m로그변화,True
+seoul 202510 causal prefix 서울_V072_공식주택보급률_%|수준,True
+seoul 202510 causal prefix 서울_V072_공식주택보급률_%|12m차,True
+seoul 202510 causal prefix D_CSI_전신계열,True
+seoul 202510 causal prefix D_Wage_10th,True
+seoul 202510 causal prefix D_Wage_11th,True
+seoul 202510 causal prefix M10_rent_growth_1m,True
+seoul 202510 causal prefix M10_rent_growth_6m,True
+seoul 2018 Y1 Growth independent class labels,True
+seoul 2018 Y2 Direction independent class labels,True
+seoul 2018 Y3 Surge independent class labels,True
+seoul 2018 Y4 Drop independent class labels,True
+seoul 2019 Y1 Growth independent class labels,True
+seoul 2019 Y2 Direction independent class labels,True
+seoul 2019 Y3 Surge independent class labels,True
+seoul 2019 Y4 Drop independent class labels,True
+seoul 2020 Y1 Growth independent class labels,True
+seoul 2020 Y2 Direction independent class labels,True
+seoul 2020 Y3 Surge independent class labels,True
+seoul 2020 Y4 Drop independent class labels,True
+seoul 2021 Y1 Growth independent class labels,True
+seoul 2021 Y2 Direction independent class labels,True
+seoul 2021 Y3 Surge independent class labels,True
+seoul 2021 Y4 Drop independent class labels,True
+seoul 2022 Y1 Growth independent class labels,True
+seoul 2022 Y2 Direction independent class labels,True
+seoul 2022 Y3 Surge independent class labels,True
+seoul 2022 Y4 Drop independent class labels,True
+seoul 2023 Y1 Growth independent class labels,True
+seoul 2023 Y2 Direction independent class labels,True
+seoul 2023 Y3 Surge independent class labels,True
+seoul 2023 Y4 Drop independent class labels,True
+seoul 2024 Y1 Growth independent class labels,True
+seoul 2024 Y2 Direction independent class labels,True
+seoul 2024 Y3 Surge independent class labels,True
+seoul 2024 Y4 Drop independent class labels,True
+seoul 2025 Y1 Growth independent class labels,True
+seoul 2025 Y2 Direction independent class labels,True
+seoul 2025 Y3 Surge independent class labels,True
+seoul 2025 Y4 Drop independent class labels,True
+seoul_201801_Y1_Extra_Trees_TH_v12.joblib replay,True
+seoul_201801_Y1_Linear_TH_v12.joblib replay,True
+seoul_201801_Y1_Random_Forest_TH_v12.joblib replay,True
+seoul_201801_Y1_XGBoost_TH_v12.joblib replay,True
+seoul_201801_Y2_Extra_Trees_TH_v12.joblib replay,True
+seoul_201801_Y2_Linear_TH_v12.joblib replay,True
+seoul_201801_Y2_Random_Forest_TH_v12.joblib replay,True
+seoul_201801_Y2_XGBoost_TH_v12.joblib replay,True
+seoul_201801_Y3_Extra_Trees_TH_v12.joblib replay,True
+seoul_201801_Y3_Linear_TH_v12.joblib replay,True
+seoul_201801_Y3_Random_Forest_TH_v12.joblib replay,True
+seoul_201801_Y3_XGBoost_TH_v12.joblib replay,True
+seoul_201801_Y4_Extra_Trees_TH_v12.joblib replay,True
+seoul_201801_Y4_Linear_TH_v12.joblib replay,True
+seoul_201801_Y4_Random_Forest_TH_v12.joblib replay,True
+seoul_201801_Y4_XGBoost_TH_v12.joblib replay,True
+seoul_202510_Y1_Extra_Trees_TH_v12.joblib replay,True
+seoul_202510_Y1_Linear_TH_v12.joblib replay,True
+seoul_202510_Y1_Random_Forest_TH_v12.joblib replay,True
+seoul_202510_Y1_XGBoost_TH_v12.joblib replay,True
+seoul_202510_Y2_Extra_Trees_TH_v12.joblib replay,True
+seoul_202510_Y2_Linear_TH_v12.joblib replay,True
+seoul_202510_Y2_Random_Forest_TH_v12.joblib replay,True
+seoul_202510_Y2_XGBoost_TH_v12.joblib replay,True
+seoul_202510_Y3_Extra_Trees_TH_v12.joblib replay,True
+seoul_202510_Y3_Linear_TH_v12.joblib replay,True
+seoul_202510_Y3_Random_Forest_TH_v12.joblib replay,True
+seoul_202510_Y3_XGBoost_TH_v12.joblib replay,True
+seoul_202510_Y4_Extra_Trees_TH_v12.joblib replay,True
+seoul_202510_Y4_Linear_TH_v12.joblib replay,True
+seoul_202510_Y4_Random_Forest_TH_v12.joblib replay,True
+seoul_202510_Y4_XGBoost_TH_v12.joblib replay,True
+seoul 201801 train-only selection,True
+seoul 201804 train-only selection,True
+seoul 201807 train-only selection,True
+seoul 201810 train-only selection,True
+seoul 201901 train-only selection,True
+seoul 201904 train-only selection,True
+seoul 201907 train-only selection,True
+seoul 201910 train-only selection,True
+seoul 202001 train-only selection,True
+seoul 202004 train-only selection,True
+seoul 202007 train-only selection,True
+seoul 202010 train-only selection,True
+seoul 202101 train-only selection,True
+seoul 202104 train-only selection,True
+seoul 202107 train-only selection,True
+seoul 202110 train-only selection,True
+seoul 202201 train-only selection,True
+seoul 202204 train-only selection,True
+seoul 202207 train-only selection,True
+seoul 202210 train-only selection,True
+seoul 202301 train-only selection,True
+seoul 202304 train-only selection,True
+seoul 202307 train-only selection,True
+seoul 202310 train-only selection,True
+seoul 202401 train-only selection,True
+seoul 202404 train-only selection,True
+seoul 202407 train-only selection,True
+seoul 202410 train-only selection,True
+seoul 202501 train-only selection,True
+seoul 202504 train-only selection,True
+seoul 202507 train-only selection,True
+seoul 202510 train-only selection,True

@@ -1,0 +1,28 @@
+{
+  "checks": 2197,
+  "failed": 0,
+  "metric_audits": 128,
+  "metric_audit_failed": 0,
+  "v11_comparison": {
+    "status": "Only momentum reduced; inputs targets economics parameters splits and benchmarks matched V11",
+    "pairs": 129024,
+    "matched_fits": 1024,
+    "v11_sha": "59c2be8d3d9ef400a525ee8bc90fb11798ae668e02cd56ed47337a71e6873e4e",
+    "momentum_features_range": [
+      2,
+      2
+    ]
+  },
+  "artifact_hashes": {
+    "annual_metrics_TH_v12.csv": "99b85e8b8433ab3496eead7b47f3bc77345fb2061b5842969b3eb8b79338a1e4",
+    "comparison_TH_v12.csv": "9c064e344c7c9aa97eb7afe523c8a179bfa0447e83e73bb01762f76b50e51236",
+    "features_TH_v12.csv": "2f43bbc3bd11940c561036dced05ad5b965244cf0a3a25d825804f78037dd3be",
+    "folds_TH_v12.csv": "f62666c46b6c4f3903deed4f73f83be49d776ab2df5a1631828728610dad4885",
+    "metric_audit_TH_v12.csv": "dc74af91d7bbf84e764eec5b6825b637a4b816eb5583b63c253ec2135b9a95ec",
+    "predictions_TH_v12.csv": "aa8dd39c3bff27769887594beb4bff3154370af41b6a8497e980d0b30505ec27",
+    "provinces_model_ready_TH_v12.csv": "e046cb410a645996404c8cff550548eac8ca4838b438290645c9f0ac463d9533",
+    "seoul_model_ready_TH_v12.csv": "5dc8bf79d10b61916e3ca8d348bc7ad54e908a5af3fc6ba9e85038e3efea93d0",
+    "v11_vs_v12_metrics_TH_v12.csv": "f4047961ef6625f89f5c19e4cdf8c97c77a2d502428eaed60a1d7dc90748185d",
+    "verification_TH_v12.csv": "3f5aef48e48f0fd3b2317bd7173576b4beed9959dc32e294372ab1643a276db2"
+  }
+}

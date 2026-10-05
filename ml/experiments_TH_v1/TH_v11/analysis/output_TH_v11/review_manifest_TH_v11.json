@@ -1,0 +1,23 @@
+{
+  "checks": 2225,
+  "failed": 0,
+  "metric_audits": 128,
+  "metric_audit_failed": 0,
+  "v10_comparison": {
+    "status": "unchanged tasks independently matched",
+    "pairs": 48384,
+    "v10_sha": "4d524c21bcb78533709c314040498b65759becaec86b7bfceeed311325e2d617"
+  },
+  "artifact_hashes": {
+    "annual_metrics_TH_v11.csv": "e6203e4c04a26ab8ec49722b811f732c740a72a9541ceae7f38edcbcd9c621fd",
+    "comparison_TH_v11.csv": "6d24339e70bcbbeddfceb945d35144e5e602f6255fd969a7902ee2de129cb735",
+    "features_TH_v11.csv": "1d31ded5b9e339db17bd33fe30216882e2c4aea00c615f1b5d7aff70f1cfe26f",
+    "folds_TH_v11.csv": "1aabdb14b628dd4ecad914806d6966c0f43db9082eb931dac9d71bcb01463cf8",
+    "metric_audit_TH_v11.csv": "dc74af91d7bbf84e764eec5b6825b637a4b816eb5583b63c253ec2135b9a95ec",
+    "predictions_TH_v11.csv": "59c2be8d3d9ef400a525ee8bc90fb11798ae668e02cd56ed47337a71e6873e4e",
+    "provinces_model_ready_TH_v11.csv": "2078d9f1c0584f7a32f4bd0e6cc5106f5af71c6c1166cb0834311e03eb59b389",
+    "seoul_model_ready_TH_v11.csv": "e7db6dc7574fea0714796fa7b3dadccb4cb8fccf7e7cb739455ea790dd3e289b",
+    "v10_unchanged_tasks_TH_v11.csv": "aadbd473f42cc508cae2bb27ca282ffbc3f2f2d9af0a12774f915bb4a7ed669e",
+    "verification_TH_v11.csv": "aa8f9ff1ccdda09a21e62279366a84b9c0183661d7d9ffc807879707bf4683ad"
+  }
+}

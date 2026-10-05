@@ -1,0 +1,4 @@
+# Preserve verified TH snapshot bytes across Windows/Linux checkouts.
+/ml/experiments_TH_v1/** -text
+/docs/TH_v11/** -text
+/docs/TH_v12/** -text
