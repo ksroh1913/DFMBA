@@ -47,13 +47,16 @@ def sp(a, b):
 
 
 def within_month_rank(df, x, y):
-    """월별 17개 시도 순위상관의 평균 (월당 10개 이상 관측)"""
+    """월별 17개 시도 순위상관의 평균·표준편차·양수 비율 (월당 10개 이상 관측 → 공식 구간 2015.07 이후만 해당)"""
     vals = []
     for _, g in df.groupby("P"):
         m = g[x].notna() & g[y].notna()
         if m.sum() >= 10:
             vals.append(stats.spearmanr(g.loc[m, x], g.loc[m, y])[0])
-    return (float(np.nanmean(vals)) if vals else np.nan), len(vals)
+    v = np.array(vals, dtype=float)
+    if len(v) == 0:
+        return np.nan, np.nan, np.nan, 0
+    return float(np.nanmean(v)), float(np.nanstd(v, ddof=1)) if len(v) > 1 else np.nan, float(np.mean(v > 0)), len(v)
 
 
 def rt_inputs(ml, hh):
@@ -73,15 +76,25 @@ def rt_inputs(ml, hh):
     add("RT_share|Δ12", share - share.groupby(g).shift(12), "RT_share", "전환구조", "±", "level_and_d12")
     for k, x in (("rent", rent), ("all", allc), ("sale", sale)):
         lx = np.log(x.where(x > 0))
-        add(f"RT_{k}|로그Δ12", 100 * (lx - lx.groupby(g).shift(12)), f"RT_{k}", "거래" if k != "sale" else "매매수급거래", "±", "log12")
-        add(f"RT_{k}|12개월합_천세대당", 1000 * Dm._roll12(x, g) / hh, f"RT_{k}", "거래" if k != "sale" else "매매수급거래", "±", "flow_per_1000hh")
+        grp = "거래" if k != "sale" else "매매수급거래"
+        add(f"RT_{k}|로그Δ12", 100 * (lx - lx.groupby(g).shift(12)), f"RT_{k}", grp, "±", "log12")
+        add(f"RT_{k}|12개월합_천세대당", 1000 * Dm._roll12(x, g) / hh, f"RT_{k}", grp, "±", "flow_per_1000hh")
+        # 단절에 강한 형태: 3개월합의 로그 12개월 변화 (수준을 쓰지 않으므로 지역별 영구 이동이 12개월 뒤 사라진다)
+        s3 = x.groupby(g).transform(lambda v: v.rolling(3, min_periods=3).sum())
+        l3 = np.log(s3.where(s3 > 0))
+        add(f"RT_{k}|3개월합_로그Δ12", 100 * (l3 - l3.groupby(g).shift(12)), f"RT_{k}", grp, "±", "sum3_log12")
     ratio = sale / allc.where(allc > 0)
     add("RT_saleratio|수준", ratio, "RT_saleratio", "매매수급거래", "±", "level_and_d12")
     add("RT_saleratio|Δ12", ratio - ratio.groupby(g).shift(12), "RT_saleratio", "매매수급거래", "±", "level_and_d12")
-    cross = (ml["P"] >= REPORT_BREAK) & (ml["P"] < REPORT_BREAK + 12)
+    cross12 = (ml["P"] >= REPORT_BREAK) & (ml["P"] < REPORT_BREAK + 12)          # 12개월 변화·12개월합이 경계를 가로지르는 12행
+    cross15 = (ml["P"] >= REPORT_BREAK) & (ml["P"] < REPORT_BREAK + 15)          # 3개월합의 12개월 변화: 15행
     for c in X.columns:
-        if "Δ12" in c and c.startswith("RT_"):
-            X.loc[cross, c] = np.nan
+        if not c.startswith("RT_"):
+            continue
+        if "3개월합_로그Δ12" in c:
+            X.loc[cross15, c] = np.nan
+        elif "Δ12" in c or "12개월합" in c:
+            X.loc[cross12, c] = np.nan
     return X, pd.DataFrame(spec)
 
 
@@ -134,7 +147,6 @@ def main():
             rec[f"ρ공통_Ḡ구지수_h{h}"], rec[f"n공통_구지수_h{h}"] = sp(cc.values, gpx.values)
         if v["block"] == "regional":
             dd = D[["region", "P", name]]
-            trn = dd["P"] + max(hs) <= TRAIN_END
             rec["관측률_탐색창_지역"] = round(float(dd.loc[dd["P"] <= TRAIN_END, name].notna().mean()), 3)
             for h in hs:
                 m = dd.merge(pt[["region", "P", f"r{h}"]], on=["region", "P"]).merge(
@@ -142,7 +154,8 @@ def main():
                 m = m[m["P"] + h <= TRAIN_END]
                 rec[f"ρ지역_r_h{h}"], rec[f"n지역_h{h}"] = sp(m[name].values, m[f"r{h}"].values)
                 rec[f"ρ지역_r구지수_h{h}"], rec[f"n지역_구지수_h{h}"] = sp(m[name].values, m[f"r{h}_px"].values)
-                rec[f"월내순위ρ_r구지수_h{h}"], rec[f"월수_h{h}"] = within_month_rank(m, name, f"r{h}_px")
+                (rec[f"월내순위ρ_h{h}"], rec[f"월내순위ρ_SD_h{h}"], rec[f"월내순위ρ_양수비율_h{h}"],
+                 rec[f"월수_h{h}"]) = within_month_rank(m, name, f"r{h}")      # 공식 r (17개 시도, 2015.07~)
         r6 = rec.get("ρ공통_Ḡ구지수_h6", np.nan)
         rec["부호일치_공통_h6"] = "" if v["예상부호"] == "±" or not np.isfinite(r6) else ("일치" if np.sign(r6) == (1 if v["예상부호"] == "+" else -1) else "불일치")
         rows.append(rec)
@@ -216,8 +229,8 @@ def main():
     lines.append(f"입력 파일: {NEW_PRE} (sha {S.sha256(S.path(s, 'preprocessed_xlsx'))}); 탐색 창 결정월 <= {TRAIN_END}; 정답 확인 <= {TRAIN_END}")
     lines.append(f"입력 수: 공통 {len(ccols)}, 지역 {len(dcols)} (실거래 후보 {len(spec_r)} 포함)")
     keep = ["입력", "동인", "예상부호", "관측률_탐색창_공통", "ρ공통_시간추세", "ρ공통_G전국_h6", "n공통_h6", "ρ공통_Ḡ구지수_h6", "n공통_구지수_h6", "부호일치_공통_h6",
-            "ρ지역_r_h6", "n지역_h6", "ρ지역_r구지수_h6", "월내순위ρ_r구지수_h6"]
-    lines.append("\n[변수별, h=6] 공통 성분 vs 전국 G6 (공식, 2016~2017) / Ḡ6 구지수 연결(2012.07~2017, 8개 시도 평균, 참고); 지역 성분 vs r6 (공식) / r6 구지수(8개 시도 편차)\n" + var[keep].round(2).to_string(index=False))
+            "ρ지역_r_h6", "n지역_h6", "ρ지역_r구지수_h6", "n지역_구지수_h6", "월내순위ρ_h6", "월내순위ρ_SD_h6", "월내순위ρ_양수비율_h6", "월수_h6"]
+    lines.append("\n[변수별, h=6] 공통 성분 vs 전국 G6 (공식, 2016~2017) / Ḡ6 구지수 연결(2012.07~2017, 8개 시도 평균, 참고); 지역 성분 vs r6 (공식, 풀링) / r6 구지수(8개 시도 편차 포함, 풀링) / 월내 순위상관(공식 r6, 월당 17개 시도, 2015.07~2017.06 의 24개월: 평균·SD·양수 비율)\n" + var[keep].round(2).to_string(index=False))
     lines.append(f"\n[상관쌍 |ρ| >= {PAIR_HI}] {len(pairs)} 쌍 (같은 변수의 수준·Δ12 쌍 {int(pairs['같은변수'].sum()) if len(pairs) else 0} 포함)\n" + (pairs.to_string(index=False) if len(pairs) else "없음"))
     lines.append(f"\n[군집 |ρ| >= {CLUSTER}]\n" + (clusters.to_string(index=False) if len(clusters) else "없음"))
     lines.append("\n[실거래 vs 부동산원 거래현황 중복]\n" + dup.to_string(index=False))

@@ -41,7 +41,8 @@ def main():
             if pd.api.types.is_numeric_dtype(a) and pd.api.types.is_numeric_dtype(b):
                 d = ~((a == b) | (a.isna() & b.isna()))
                 if d.sum():
-                    changed.append(f"{c.split('_')[0]}{'·' + c.split('_')[-2] if c.startswith('V006') else ''}: {int(d.sum())}셀, 결측 {a.isna().mean():.3f}→{b.isna().mean():.3f}")
+                    changed.append(f"{c.split('_')[0]}{'·' + c.split('_')[-2] if c.startswith('V006') else ''}: {int(d.sum())}셀, "
+                                   f"결측 {a.isna().mean():.3f}→{b.isna().mean():.3f} (겹치는 행), 새 파일 전체 {n[c].isna().mean():.3f} ({int(n[c].isna().sum())}셀)")
         new_months = sorted(m.loc[m["_merge"] == "right_only", "month"].unique())
         rec(f"[{sh}] 행", f"{len(o)} → {len(n)}", f"추가 월 {new_months}")
         rec(f"[{sh}] 값이 바뀐 열", "; ".join(changed) if changed else "없음")
@@ -51,7 +52,9 @@ def main():
     n2 = pd.read_excel(os.path.join(BASE, NEW), "17시도_2차_공표시점반영(ML용)")
     g1 = pd.read_excel(os.path.join(BASE, NEW), "서울25구_1차_결측보완")
     cols = list(V.values())
-    rec("1차 실거래 결측 셀", int(n1[cols].isna().sum().sum()), f"기간 {n1.month.min()}~{n1.month.max()}")
+    na = n1[cols].isna()
+    rec("1차 실거래 결측 셀", int(na.sum().sum()), f"기간 {n1.month.min()}~{n1.month.max()}; 결측 행의 월 {sorted(n1.loc[na.any(axis=1), 'month'].unique())}; "
+        f"열별 {dict(zip(['월세','전세','전체','매매'], na.sum().tolist()))}")
     rec("1차 실거래 0건 셀", int((n1[cols] == 0).sum().sum()))
     rec("1차 실거래 시도별 첫 관측월", str(sorted(n1.dropna(subset=[V['월세']]).groupby('region').month.min().unique())))
     # 2차 = 1차 를 몇 달 밀었나
