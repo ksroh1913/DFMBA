@@ -25,7 +25,7 @@ TARGETS = {
                  rule="급락 = 향후 6개월 변화율 < -1.005% (연율 -2%). 기존 급락 상태 = 결정월 직전 6개월 변화율이 이미 임계 아래.", src="v9_s1_예측값_패널.csv, v9_s3_예측값_패널.csv"),
     "up": dict(models=[("panel_up_A", "A 가격 추세"), ("panel_up_B", "B 추세 + RMPI"), ("panel_up_B+RT", "B + 실거래")], state="기존급등상태",
                files=("v9_s5_급등_예측값_패널.csv",), out="fig6_5_급등경보사례_h6.png", word="급등", state_word="기존 급등 상태",
-               rule="급등 = 향후 6개월 변화율 >= +1.489% (연율 +3%). 기존 급등 상태 = 결정월 직전 6개월 변화율이 이미 경계 이상. 학습 양성 30행 이상인 결정월부터 평가.", src="v9_s5_급등_예측값_패널.csv"),
+               rule="급등 = 향후 6개월 변화율이 +1.489% 이상 (연율 +3%). 기존 급등 상태 = 결정월 직전 6개월 변화율이 이미 경계 이상. 학습 양성 30행 이상인 결정월부터 평가.", src="v9_s5_급등_예측값_패널.csv"),
 }
 CODES = {"없음": 0, "기존 상태": 1, "놓침": 2, "오경보": 3, "적중": 4}
 COLORS = [V.SURFACE, V.BASE, V.SERIES[0], V.SERIES[1], V.SERIES[2]]
@@ -75,7 +75,7 @@ def main(target="down"):
         ax.tick_params(length=0)
     handles = [Patch(facecolor=COLORS[CODES[n if n != cfg["state_word"] else "기존 상태"]], edgecolor=V.GRID, label=n) for n in ("적중", "오경보", "놓침", cfg["state_word"])]
     axes[0].legend(handles=handles, ncol=4, loc="lower left", bbox_to_anchor=(0, 1.08), frameon=False, fontsize=8.5)
-    p0 = str(pd.PeriodIndex(allp["P"].astype(str), freq="M").min()).replace("-", ".")
+    p0 = str(pd.PeriodIndex(allp.loc[allp["h"] == h, "P"].astype(str), freq="M").min()).replace("-", ".")
     fig.suptitle(f"{cfg['word']} 경보 사례 (h={h}, 결정월 {p0}~2025.12, 컷오프 = 훈련 사건비율 {k}배 분위, 결정월에 {cfg['word']} 상태가 아닌 지역)",
                  x=0.01, ha="left", fontsize=11, fontweight="bold", y=0.995)
     fig.text(0.01, 0.005, cfg["rule"] + " 출처: " + cfg["src"], fontsize=7.5, color=V.INK2)
