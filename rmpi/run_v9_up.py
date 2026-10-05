@@ -107,7 +107,7 @@ def main():
     allp = pd.concat(preds, ignore_index=True)
     allp.to_csv(os.path.join(out, "v9_s5_급등_예측값_패널.csv"), index=False, encoding="utf-8-sig")
     pd.DataFrame(cmp_rows).to_csv(os.path.join(out, "v9_s5_급등_비교.csv"), index=False, encoding="utf-8-sig")
-    pd.DataFrame(met_rows).to_csv(os.path.join(out, "v9_s5_급등_경보지표.csv"), index=False, encoding="utf-8-sig")
+    pd.DataFrame(met_rows).rename(columns={"급락포착률": "급등포착률"}).to_csv(os.path.join(out, "v9_s5_급등_경보지표.csv"), index=False, encoding="utf-8-sig")
     pd.concat(leads, ignore_index=True).to_csv(os.path.join(out, "v9_s5_급등_국면시작_선행.csv"), index=False, encoding="utf-8-sig")
     pd.DataFrame(pos_rows).to_csv(os.path.join(out, "v9_s5_급등_양성수.csv"), index=False, encoding="utf-8-sig")
     if comps:
