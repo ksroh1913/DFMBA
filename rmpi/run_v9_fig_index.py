@@ -43,6 +43,13 @@ def main():
         for nm, df in series.items():
             for mth, val in levels(df, Rn.to_dict(), h).items():
                 rows.append({"패널": "전국", "h": h, "계열": nm, "month": str(mth), "value": val})
+    for nm, df in {"mom1": pn[(pn["모형"] == "naive_mom1") & (pn["h"] == 1)], "B": pn[(pn["모형"] == "ridge_B_cvmin") & (pn["h"] == 1)],
+                   "M2": pc[(pc["단위"] == "전국") & (pc["모형"] == "corr_M2") & (pc["h"] == 1)]}.items():
+        for _, r in df.iterrows():
+            rows.append({"패널": "전국", "h": 1, "계열": f"G_{nm}", "month": str(r["P"]), "value": r["yhat"]})
+        if nm == "mom1":
+            for _, r in df.iterrows():
+                rows.append({"패널": "전국", "h": 1, "계열": "G_실제", "month": str(r["P"]), "value": r["y"]})
     for reg in ("서울", "세종"):
         R = Rr.loc[reg]; R.index = pd.PeriodIndex(R.index, freq="M")
         for mth, val in R[(R.index >= start) & (R.index <= end)].items():
@@ -55,10 +62,19 @@ def main():
     # 그림
     V.setup()
     fig, axes = plt.subplots(2, 2, figsize=(13, 8), sharex=False)
-    panels = [("전국", 1, "전국, h=1 (한 달 앞)"), ("전국", 6, "전국, h=6 (여섯 달 앞)"), ("서울", 6, "서울, h=6"), ("세종", 6, "세종, h=6")]
+    panels = [("전국", 1, "전국, h=1: 한 달 변화율(%)"), ("전국", 6, "전국, h=6 (여섯 달 앞) 지수 수준"), ("서울", 6, "서울, h=6 지수 수준"), ("세종", 6, "세종, h=6 지수 수준")]
     colors = {"mom1": V.GRAY, "B": V.SERIES[0], "M2": V.SERIES[1]}
     for ax, (pan, h, title) in zip(axes.ravel(), panels):
         d = long[long["패널"] == pan]
+        if h == 1:   # 변화율 그림
+            act = d[d["계열"] == "G_실제"].set_index("month")["value"]; act.index = pd.PeriodIndex(act.index, freq="M")
+            ax.plot(act.index.to_timestamp(), act.values, color=V.INK, lw=2, label="실제 한 달 변화율")
+            for nm in ("mom1", "B", "M2"):
+                q = d[d["계열"] == f"G_{nm}"].set_index("month")["value"]; q.index = pd.PeriodIndex(q.index, freq="M")
+                ax.plot(q.index.to_timestamp(), q.values, color=colors[nm], lw=1.4, label={"mom1": "단순 기준 mom1", "B": "B (추세+RMPI)", "M2": "보정 M2"}[nm])
+            ax.axhline(0, color=V.BASE, lw=0.8)
+            ax.set_title(title, loc="left", fontsize=10.5); ax.legend(fontsize=8, frameon=False, loc="upper left")
+            continue
         act = d[d["계열"] == "실제"].set_index("month")["value"]; act.index = pd.PeriodIndex(act.index, freq="M")
         ax.plot(act.index.to_timestamp(), act.values, color=V.INK, lw=2, label="실제 지수")
         for nm in ("mom1", "B", "M2"):
@@ -68,7 +84,7 @@ def main():
             q = q.set_index("month")["value"]; q.index = pd.PeriodIndex(q.index, freq="M")
             ax.plot(q.index.to_timestamp(), q.values, color=colors[nm], lw=1.4, label={"mom1": "단순 기준 mom1", "B": "B (추세+RMPI)", "M2": "보정 M2"}[nm])
         ax.set_title(title, loc="left", fontsize=10.5); ax.legend(fontsize=8, frameon=False, loc="upper left")
-    fig.suptitle("실제 월세지수와 대표 모형의 예측 지수 (예측 변화율을 결정월 직전 지수에 적용한 수준, 평가 구간 2018.01~2025.12 + 2026 사후 확인)", x=0.01, ha="left", fontsize=11, fontweight="bold")
+    fig.suptitle("실제 월세지수와 대표 모형의 예측 지수 (h=1 은 변화율, h=6 은 예측 변화율을 직전 지수에 적용한 수준; 평가 구간 2018.01~2025.12 + 2026 사후 확인)", x=0.01, ha="left", fontsize=11, fontweight="bold")
     fig.tight_layout(rect=(0, 0, 1, 0.96)); fig.savefig(os.path.join(out, "fig6_6_지수흐름.png"), dpi=150); plt.close(fig)
     print("wrote", len(long), "rows")
 
