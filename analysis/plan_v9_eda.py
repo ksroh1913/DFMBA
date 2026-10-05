@@ -87,7 +87,7 @@ def rt_inputs(ml, hh):
     add("RT_saleratio|수준", ratio, "RT_saleratio", "매매수급거래", "±", "level_and_d12")
     add("RT_saleratio|Δ12", ratio - ratio.groupby(g).shift(12), "RT_saleratio", "매매수급거래", "±", "level_and_d12")
     cross12 = (ml["P"] >= REPORT_BREAK) & (ml["P"] < REPORT_BREAK + 12)          # 12개월 변화·12개월합이 경계를 가로지르는 12행
-    cross15 = (ml["P"] >= REPORT_BREAK) & (ml["P"] < REPORT_BREAK + 15)          # 3개월합의 12개월 변화: 15행
+    cross15 = (ml["P"] >= REPORT_BREAK) & (ml["P"] < REPORT_BREAK + 14)          # 3개월합의 12개월 변화: 비교 창 t-14~t 가 경계를 포함하는 14행
     for c in X.columns:
         if not c.startswith("RT_"):
             continue
