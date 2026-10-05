@@ -47,6 +47,7 @@ def regional(s, ml, panel="sido"):
         out[f"up{h}"] = np.where(out[f"G{h}"].notna(), (out[f"G{h}"] >= up).astype(float), np.nan)
         prior = 100 * (g.shift(1) / g.shift(1 + h) - 1)
         out[f"state_down{h}"] = np.where(prior.notna(), (prior <= dn).astype(float), np.nan)
+        out[f"state_up{h}"] = np.where(prior.notna(), (prior >= up).astype(float), np.nan)      # 결정월에 이미 급등 상태(직전 h개월 변화가 경계 이상)
         out[f"label_month{h}"] = (out["P"] + h).values     # 정답 확인 시점(그 달 말)
     return out
 

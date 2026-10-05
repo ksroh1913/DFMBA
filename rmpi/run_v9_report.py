@@ -218,6 +218,38 @@ def main():
         w("\n![급락 경보 사례 h=6](../rmpi/output_v9/fig6_4_경보사례_h6.png)\n")
         w("그림 6-4. 지역 × 결정월 격자. 초록 적중, 주황 오경보, 파랑 놓침, 회색은 결정월에 이미 급락 상태라 경보 대상에서 뺀 칸(rmpi/run_v9_fig.py).\n")
 
+    # ---------------- 4.5 급등 경보 (보조, 사후 추가)
+    s5 = rd(out, "v9_s5_급등_경보지표.csv")
+    if s5 is not None:
+        w("\n### 4.5 급등 경보 (보조, 사후 추가; 연율 +3% 이상)\n")
+        pos = rd(out, "v9_s5_급등_양성수.csv")
+        man5 = rd(out, "v9_s5_급등_manifest.csv")
+        minp = int(man5.set_index("항목").loc["min_positive_train_rows", "값"]) if man5 is not None else 30
+        w(f"설계에서는 개발 구간(정답 2020.12 까지)의 급등 양성이 적고 2020년에 몰려 있어 급등을 보조 과제로 두었다. 여기서는 급락 ④ 와 같은 틀(통합 패널 로지스틱, 훈련 사건비율 1·2배 컷오프, 비급등 상태 행 대상, 국면 시작의 선행 경보)로 "
+          f"급등(h=1·3·6 경계 +0.247·+0.742·+1.489%)을 평가한다. 설정대로 학습 양성이 {minp}행 이상 쌓인 결정월부터 평가하며, 급락 결과를 본 뒤 추가한 사후 분석이므로 탐색 결과로만 읽는다. 실행 rmpi/run_v9_up.py.\n")
+        if pos is not None:
+            q = pos.copy(); q["연"] = q["시점"].str[:4]
+            qq = q[q["시점"].str.endswith("-01")].pivot_table(index="h", columns="연", values="훈련양성수").reset_index()
+            w("\n매년 1월 결정월 기준 학습 양성(급등) 행 수:\n"); w(md(qq, nd=0))
+        c5 = rd(out, "v9_s5_급등_비교.csv")
+        if c5 is not None:
+            w("\n급등 확률의 Brier 비교(평가대상 결정월, 비율 < 1 이면 비교 모형이 낫다):\n")
+            w(md(c5, ["비교", "h", "월수", "Brier_기준", "Brier_비교", "비율", "평균개선율(%)", "연평균_하한", "연평균_상한", "우세연도", "8차규칙판정(참고)"], nd=4))
+        w("\n경보 지표(평가시작 열은 양성 30행 규칙이 처음 충족된 결정월):\n")
+        w(md(s5, ["모형", "h", "목표빈도(사건비율배수)", "평가시작", "행수", "사건수", "경보수", "경보빈도_실제", "경보적중률", "급락포착률", "F1", "동월지역쌍_AUC", "AUC_유효월수", "국면시작수", "국면포착률", "평균선행개월(포착분)"]).replace("급락포착률", "급등포착률"))
+        lead5 = rd(out, "v9_s5_급등_국면시작_선행.csv")
+        if lead5 is not None and len(lead5):
+            agg = dict(국면수=("시작", "count"), 포착=("선행개월", lambda v: int(v.notna().sum())), 사전포착=("선행개월", lambda v: int((v > 0).sum())), 당월포착=("선행개월", lambda v: int((v == 0).sum())), 평균선행=("선행개월", "mean"))
+            if "창내가용월수" in lead5.columns:
+                agg["창6개월미만"] = ("창내가용월수", lambda v: int((v < 6).sum()))
+            w("\n급등 국면 시작 포착(1배 컷오프):\n"); w(md(lead5[lead5["배수"] == 1].groupby(["모형", "h"]).agg(**agg).reset_index()))
+        cases5 = rd(out, "v9_s5_급등_사례표_h6.csv")
+        if cases5 is not None and len(cases5):
+            w("\n사례 집계(h=6, 1배 컷오프; 전체는 v9_s5_급등_사례표_h6.csv):\n"); w(md(cases5.groupby(["모형", "결과"]).size().unstack(fill_value=0).reset_index()))
+        if os.path.exists(os.path.join(out, "fig6_5_급등경보사례_h6.png")):
+            w("\n![급등 경보 사례 h=6](../rmpi/output_v9/fig6_5_급등경보사례_h6.png)\n")
+            w("그림 6-5. 급등 경보의 지역 × 결정월 격자(표기는 그림 6-4 와 같음, 회색은 결정월에 이미 급등 상태).\n")
+
     # ---------------- 5 7단계
     w("\n## 5 해석과 보조 분석 (7단계)\n")
     dr = rd(out, "v9_s7_동인제거.csv")
