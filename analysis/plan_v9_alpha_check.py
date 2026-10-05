@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """8차 전국 Ridge 의 alpha 민감도(사후 진단). 9차 설계안 2장의 근거.
+재실행 주의: 8차 설정의 입력(데이터취합_전처리_20261004.xlsx sha d4cb52e7a2b7c982, 데이터취합_20261004.xlsx 8e65ad87deeab22c)은 이전 라운드 자료 정리 때
+저장소에서 지웠다. analysis/output/plan_v9_alpha_check.csv 는 그 실행의 동결 결과이며, 다시 돌리려면 git 이력(커밋 de16c0d)에서 두 파일을 복원한다.
 
 8차 설정(config/plan_v8_settings.yaml, 20261004 입력)으로 정보군 A·B 의 전국 Ridge 를 alpha 격자마다 고정해 2018.01~2025.12 를
 전진 평가하고, MAE 와 단순기준(mom1·선택형) 대비 비율을 적는다. 8차의 1-SE 재튜닝은 교차검증 최소점보다 큰 alpha 만 고르므로
@@ -25,7 +27,7 @@ GRID = [0.01, 0.1, 1.0, 3.0, 10.0, 30.0, 100.0, 1000.0]
 
 def main():
     t0 = time.time()
-    s = S.load()
+    s = S.load("config/plan_v8_settings.yaml")   # 8차 설정 고정 (아래 재실행 주의)
     hs = s["timing"]["horizons"]
     origins = pd.period_range(S.per(s["timing"]["eval_start"]), S.per(s["timing"]["eval_end"]), freq="M")
     b = D.build(s, "sido")

@@ -1,6 +1,6 @@
 ﻿구분,항목,값
 settings,config/plan_v9_settings.yaml,ad642f9eb4bde1db
-commit,de21742,
+commit,de16c0d,
 input,데이터취합_전처리_20261005.xlsx,9a5ead982279195f
 input,데이터취합_20261005.xlsx,6b2790baff8ca939
 input,raw/5_시장과열단기트리거/V001_월세통합가격지수_A_2024_00054.csv,4e58143d259e1a3a
@@ -13,7 +13,7 @@ package,scikit-learn,1.9.1
 seed,20261004,
 run,stage,2
 run,입력열,51
-run,공통블록열,49
+run,공통블록열,47
 run,지역블록열,33
 run,전국표 past6 결측(2016.01~2025.12),0
 run,전국표 G6 결측(2016.01~2025.12),0

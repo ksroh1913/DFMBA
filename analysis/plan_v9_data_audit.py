@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """9차 보완 설계안 1장의 자료 점검 수치를 다시 계산한다 (데이터취합_전처리_20261004 → 20261005 의 차이, 실거래 열의 성질).
+재실행 주의: OLD(데이터취합_전처리_20261004.xlsx, sha d4cb52e7a2b7c982)는 저장소에서 지웠다. analysis/output/plan_v9_data_audit.csv 는 동결 결과이며,
+다시 돌리려면 git 이력(커밋 de16c0d)에서 복원한다.
 
 출력: analysis/output/plan_v9_data_audit.csv (항목, 값, 비고) 와 화면 출력.
 """

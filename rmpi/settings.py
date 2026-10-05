@@ -9,7 +9,7 @@ import pandas as pd
 import yaml
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DEFAULT = os.path.join(BASE, "config", "plan_v8_settings.yaml")
+DEFAULT = os.path.join(BASE, "config", "plan_v9_settings.yaml")
 
 
 def sha256(path, n=16):
@@ -21,7 +21,7 @@ def sha256(path, n=16):
 
 
 def load(path=None):
-    """설정 파일. 인수 > 환경변수 RMPI_SETTINGS > 기본(plan_v8)."""
+    """설정 파일. 인수 > 환경변수 RMPI_SETTINGS > 기본(plan_v9). 8차 설정은 config/plan_v8_settings.yaml."""
     path = path or os.environ.get("RMPI_SETTINGS") or DEFAULT
     if not os.path.isabs(path):
         path = os.path.join(BASE, path)

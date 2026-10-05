@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-※ 설정 점검 스크립트. config/plan_v8_settings.yaml 의 값을 자료와 대조한다. 예측 성능은 계산하지 않는다.
+※ 설정 점검 스크립트. 설정 파일(RMPI_SETTINGS, 기본 config/plan_v9_settings.yaml)의 값을 자료와 대조한다. 예측 성능은 계산하지 않는다.
 
 점검 항목
   1. 설정의 열 이름이 2차 시트에 있는지, 제외 열이 실제로 있는지
@@ -11,7 +11,7 @@
   6. 기준 지역: 변환 후 입력으로 최초 훈련기간(2016.01~2017.12)에서 재계산한 집합 = 설정의 집합
   7. 교란 시험: 마스킹 대상 셀을 난수로 바꿔도 변환·분해 결과가 같은지
   8. 관측률: 최초 훈련기간 입력 열별 관측률 (70% 미만 열 표시)
-출력: analysis/output/check_settings.csv (항목, 결과, 상세)
+출력: analysis/output/check_settings_<settings_version>.csv (항목, 결과, 상세; v9.0 → check_settings_v9.0.csv, v8 설정이면 check_settings.csv)
 """
 
 import os

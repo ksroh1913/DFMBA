@@ -156,7 +156,8 @@ def main(parts=("A", "B", "C", "D")):
         if th is not None:
             th_info = {"항목": "TH_rows", "값": f"{th_src}: {TH_LOCAL_NAME} {len(th)}행 = 지역·월 {len(th[['region', 'P']].drop_duplicates())}조합 × 모형 {th['model'].nunique()}개; 원본 {TH_SOURCE}"}
             ours = pred2[(pred2["단위"] == "패널") & (pred2["h"] == 6) & pred2["모형"].isin(["corr_M0", "corr_M1", "corr_M2", "corr_M3"])].copy()
-            old = pd.read_csv(os.path.join(BASE, "rmpi/output/stage6_예측값_패널.csv"))
+            old_p = os.path.join(BASE, "rmpi/output_v9/참고_8차/stage6_예측값_패널.csv")   # 8차 산출물 동결 사본
+            old = pd.read_csv(old_p) if os.path.exists(old_p) else pd.DataFrame()
             old = old[(old["타깃"] == "G") & (old["h"] == 6) & (old["모형"] == "ridge_B")].copy() if "타깃" in old.columns else pd.DataFrame()
             if len(old):
                 old["P"] = pd.PeriodIndex(old["P"], freq="M"); old["모형"] = "8차_통합패널_ridge_B"

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-"""8차 대용계열 확장 실험의 구현 결함 확인 (9차 설계안 5장, 8차 보고서 정오표의 근거).
+"""8차 대용계열 확장 실험의 구현 결함 확인 (9차 설계안 5장, 8차 보고서 정오표의 근거; 정오표 원문은 rmpi/output_v9/참고_8차/README.md).
+재실행 주의: 8차 설정의 입력(데이터취합_전처리_20261004.xlsx)은 저장소에서 지웠다. analysis/output/plan_v9_extension_check*.csv 는 동결 결과이며,
+다시 돌리려면 git 이력(커밋 de16c0d)에서 복원한다.
 
 계획(8차 5장 확장 실험)은 공식 구간 훈련자료로 고른 편입 변수를 확장 모형에도 유지한다고 했으나, engine.national_run 은
 옛 체계 행을 합친 훈련표 전체를 RMPI.fit 에 넘기고, RMPI.fit 은 그 표 전체에서 관측률(70% 필터)·표준화 척도·부호를 다시 계산한다.
@@ -24,7 +26,7 @@ OUT = os.path.join(BASE, "analysis", "output")
 
 
 def main():
-    s = S.load()
+    s = S.load("config/plan_v8_settings.yaml")   # 8차 설정 전용 (plan_v9 에는 extension 항목이 없음)
     b = D.build(s, "sido")
     spec, ml = b["spec"], b["ml"]
     pt = T.regional(s, ml, "sido")

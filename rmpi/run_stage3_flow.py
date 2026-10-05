@@ -3,15 +3,16 @@
 [3단계 흐름 진단 · 분석 1] 단위별 월세 흐름, 매매·전세와의 차이, 공통 변동과 지역 변동의 비중 (연구계획 8차 확정본 3장).
 
 이 장의 수치는 전체 기간 원자료로 계산한 기술 통계이며 예측 성능이 아니다. 6개월 변화는 이웃한 달끼리 겹치므로
-상관에 유의성 검정을 붙이지 않는다. 수치는 analysis/plan_v5_numbers.py 와 같은 정의로 다시 계산해 대조한다.
+상관에 유의성 검정을 붙이지 않는다. (참고 대조: analysis/output/plan_v5_numbers.csv 가 있으면 같은 정의의 이전 계산값과 대조표를 만든다.
+이 파일은 이전 라운드 자료와 함께 저장소에서 지웠으므로 보통은 건너뛴다.)
 
-출력 (rmpi/output/)
+출력 (설정 output_dir)
   fig3_1_단위별흐름.png      전국·수도권·지방권 지수(2015.06=100)와 12개월 변화율, 옛 수도권 대용계열(회색), 접합점, 국면
   fig3_2_17시도흐름.png      시도별 12개월 변화율(파랑)과 전국(회색) 소형 다중 그림
   fig3_3_서울구흐름.png      서울 12개월 변화율과 25개 구의 범위, 최근 상·하위 구
   fig3_4_매매전세비교.png    전국 월세·매매·전세 12개월 변화율, 매매·전세 선행 상관
   fig3_5_분산분해.png        타깃 분산 중 월 공통 비중, 월내 Spearman (17개 시도 vs 서울 25개 구)
-  stage3_국면표.csv, stage3_연말변화표.csv, stage3_수치대조.csv (이 스크립트의 값과 plan_v5_numbers.csv 의 값)
+  stage3_국면표.csv, stage3_연말변화표.csv (대조 파일이 있을 때만 stage3_수치대조.csv)
 """
 
 import os
@@ -69,7 +70,8 @@ def main():
     os.makedirs(out, exist_ok=True)
     fam = V.setup()
     print("font:", fam)
-    ref_csv = pd.read_csv(os.path.join(BASE, "analysis", "output", "plan_v5_numbers.csv"))
+    ref_p = os.path.join(BASE, "analysis", "output", "plan_v5_numbers.csv")
+    ref_csv = pd.read_csv(ref_p) if os.path.exists(ref_p) else None   # 없으면 대조 생략
     cmp_rows = []
 
     def _nums(v):
@@ -79,6 +81,8 @@ def main():
             return None
 
     def compare(item_sub, mine):
+        if ref_csv is None:
+            return
         hit = ref_csv[ref_csv["항목"].str.contains(item_sub, regex=False)]
         ref = hit["값"].iloc[0] if len(hit) else "(없음)"
         a, b = _nums(mine), _nums(ref)
@@ -295,10 +299,11 @@ def main():
         x = g6a.loc[lo_:hi_].dropna()
         compare(f"{lo_.year}{lo_.month:02d}~{hi_.year}{hi_.month:02d}",
                 f"{x['전국'].corr(x['수도권']):.2f}/{x['전국'].corr(x['지방권']):.2f}/{x['수도권'].corr(x['지방권']):.2f}")
-    pd.DataFrame(cmp_rows).to_csv(os.path.join(out, "stage3_수치대조.csv"), index=False, encoding="utf-8-sig")
+    if cmp_rows:
+        pd.DataFrame(cmp_rows).to_csv(os.path.join(out, "stage3_수치대조.csv"), index=False, encoding="utf-8-sig")
     pd.set_option("display.width", 250)
     pd.set_option("display.max_colwidth", 80)
-    print(pd.DataFrame(cmp_rows).to_string(index=False))
+    print(pd.DataFrame(cmp_rows).to_string(index=False) if cmp_rows else "(수치대조 생략: plan_v5_numbers.csv 없음)")
     print(pd.DataFrame([{"패널": k[0], "h": k[1], "항목": k[2], "값": round(v, 3)} for k, v in stats.items()]).pivot(index=["패널", "항목"], columns="h", values="값"))
     print(pd.DataFrame(rows).to_string(index=False))
 

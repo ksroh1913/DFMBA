@@ -42,8 +42,8 @@ def _episode_counts(out, model, h=6):
 
 
 def _v8_B_text():
-    """8차 실제 전국 B MAE (rmpi/output/stage6_예측값_전국.csv) — 9차 구성 + alpha 10 과 구분하기 위해 적는다."""
-    p = os.path.join(BASE, "rmpi", "output", "stage6_예측값_전국.csv")
+    """8차 실제 전국 B MAE (rmpi/output_v9/참고_8차/stage6_예측값_전국.csv, 8차 산출물 동결 사본) — 9차 구성 + alpha 10 과 구분하기 위해 적는다."""
+    p = os.path.join(BASE, "rmpi", "output_v9", "참고_8차", "stage6_예측값_전국.csv")
     if not os.path.exists(p):
         return ""
     d = pd.read_csv(p)
@@ -62,8 +62,8 @@ def _episode_text(out):
 
 
 def _v8_BA_ratio():
-    """8차 실제 전국 B/A MAE 비 (rmpi/output/stage6_예측값_전국.csv, 2018-01~2025-12)."""
-    p = os.path.join(BASE, "rmpi", "output", "stage6_예측값_전국.csv")
+    """8차 실제 전국 B/A MAE 비 (rmpi/output_v9/참고_8차/stage6_예측값_전국.csv, 2018-01~2025-12)."""
+    p = os.path.join(BASE, "rmpi", "output_v9", "참고_8차", "stage6_예측값_전국.csv")
     if not os.path.exists(p):
         return {}
     d = pd.read_csv(p)
@@ -190,7 +190,7 @@ def main():
     # ---------------- 1 ①
     w("## 1 ① 기준 재정리: 같은 튜닝 아래 A 와 B\n")
     w("전국 Ridge 의 alpha 를 매년 1월 훈련자료 안 전진 교차검증(검증 12개월) 평균 손실 최소로 골랐다. 고정 10 과 1-SE 는 비교용이며, 'fixed10' 은 **9차 입력·지수 구성(20261005 자료, S1~S3)에 8차와 같은 alpha 10 을 적용한 9차 모형**이지 8차 결과의 재현이 아니다"
-      + (f"(실제 8차 전국 B MAE 는 {_v8_B_text()}, rmpi/output/stage6_예측값_전국.csv)" if _v8_B_text() else "") + ". 선택형 단순기준은 8차 정의 그대로다.\n")
+      + (f"(실제 8차 전국 B MAE 는 {_v8_B_text()}, rmpi/output_v9/참고_8차/stage6_예측값_전국.csv)" if _v8_B_text() else "") + ". 선택형 단순기준은 8차 정의 그대로다.\n")
     if s1 is not None:
         w(md(s1, ["비교", "h", "MAE_기준", "MAE_비교", "MAE비율", "평균개선율(%)", "연평균_하한", "연평균_상한", "2년_하한", "2년_상한", "우세연도", "8차규칙판정(참고)"]))
     if a1 is not None:
@@ -352,7 +352,7 @@ def main():
         if thr is not None:
             nk = len(thr[["region", "P"]].drop_duplicates())
             w(f"\n대조 행자료: rmpi/output_v9/v9_s7_TH비교_행자료.csv, {len(thr)}행 = 지역·월 {nk}조합 × TH 모형 {thr['model'].nunique()}개(열: {', '.join(thr.columns)}). "
-              f"원본은 {thr['출처'].iloc[0]} 이며, 비교표는 이 저장소 내부 파일만으로 다시 계산된다(rmpi/run_v9_stage7.py --parts D). 우리 쪽 행은 v9_s2_예측값.csv(9차)와 rmpi/output/stage6_예측값_패널.csv(8차)에서 읽는다.\n")
+              f"원본은 {thr['출처'].iloc[0]} 이며, 비교표는 이 저장소 내부 파일만으로 다시 계산된다(rmpi/run_v9_stage7.py --parts D). 우리 쪽 행은 v9_s2_예측값.csv(9차)와 rmpi/output_v9/참고_8차/stage6_예측값_패널.csv(8차 산출물 동결 사본)에서 읽는다.\n")
         thy = rd(out, "v9_s7_TH비교_연도별.csv")
         if thy is not None and len(thy):
             w("\n연도별:\n"); w(md(thy.pivot_table(index="모형", columns="연도", values="MAE").reset_index()))

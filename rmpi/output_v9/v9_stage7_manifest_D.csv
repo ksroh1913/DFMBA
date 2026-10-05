@@ -1,6 +1,6 @@
 ﻿항목,값
 settings,config/plan_v9_settings.yaml ad642f9eb4bde1db v9.0
-commit,eb238f8
+commit,de16c0d
 TH_pred,/nonexistent
 TH_rows,저장소 내부 행자료: v9_s7_TH비교_행자료.csv 7140행 = 지역·월 1020조합 × 모형 7개; 원본 ksroh1913/dfmba experiment_TH 073f73e ml/experiments_TH_v1/TH_v11/analysis/output_TH_v11/predictions_TH_v11.csv
 parts,D

@@ -99,7 +99,7 @@ def rt_inputs(ml, hh):
 
 
 def main():
-    s = S.load()
+    s = S.load("config/plan_v8_settings.yaml")   # 커밋된 plan_v9_eda_*.csv 는 8차 설정(V044 포함, 추가 입력 없음)에 20261005 입력으로 만든 것
     s["inputs"]["preprocessed_xlsx"], s["inputs"]["merged_xlsx"] = NEW_PRE, NEW_MERGED
     b = Dm.build(s, "sido")
     ml, X, spec, C, D = b["ml"], b["X"], b["spec"], b["C"], b["D"]
