@@ -1,0 +1,344 @@
+<title>월세 예측 9차 해설</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* 레이아웃: 한 줄 읽기 폭(720px)의 긴 해설. 왼쪽 정렬, 절 번호는 실제 읽는 순서. 차트는 본문 폭 카드 안에 인라인 SVG. */
+:root {
+  --bg: #f3f5f7;          /* 페이지 바탕: 푸른 기운의 밝은 회색 */
+  --surface: #fcfcfd;     /* 카드·차트 표면 */
+  --fg: #16202b;          /* 본문 잉크 */
+  --fg-2: #4f5b68;        /* 보조 잉크 */
+  --muted: #8a949e;       /* 축·캡션 */
+  --line: #dfe4e9;        /* 괘선 */
+  --accent: #1f4e79;      /* 제목·강조: 깊은 남색 */
+  --accent-soft: #e3ecf5; /* 강조 배경 */
+  --note: #fff6dc;        /* 주의 상자 */
+  --note-edge: #d9a93b;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a;   /* 차트 계열 1·2·3 (검증 통과) */
+  --display: "Gowun Batang", "Nanum Myeongjo", Georgia, serif;
+  --body: "IBM Plex Sans KR", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111418; --surface: #1a1a19; --fg: #eef1f4; --fg-2: #b8c0c8; --muted: #8a949e; --line: #2c3136;
+    --accent: #8fb8e6; --accent-soft: #1d2a3a; --note: #2d2714; --note-edge: #c99a3a;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111418; --surface: #1a1a19; --fg: #eef1f4; --fg-2: #b8c0c8; --muted: #8a949e; --line: #2c3136;
+  --accent: #8fb8e6; --accent-soft: #1d2a3a; --note: #2d2714; --note-edge: #c99a3a;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.75; margin: 0; padding-block: 0 64px; padding-inline: 16px; word-break: keep-all; overflow-wrap: anywhere; }
+.wrap { max-width: 760px; margin: 0 auto; }
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); margin-inline: -16px; padding-inline: 16px; }
+.topbar nav { max-width: 760px; margin: 0 auto; display: flex; gap: 4px 14px; flex-wrap: wrap; padding-block: 8px; font-size: 13px; }
+.topbar a { color: var(--fg-2); text-decoration: none; padding: 2px 0; }
+.topbar a:hover, .topbar a:focus-visible { color: var(--accent); outline: none; text-decoration: underline; }
+header.hero { padding-block: 40px 24px; }
+.eyebrow { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-2); font-weight: 600; }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 5vw, 40px); line-height: 1.25; margin: 8px 0 12px; color: var(--accent); text-wrap: balance; }
+.lede { font-size: 18px; color: var(--fg-2); max-width: 40em; margin: 0; }
+h2 { font-family: var(--display); font-weight: 700; font-size: 26px; line-height: 1.3; margin: 56px 0 12px; color: var(--accent); text-wrap: balance; scroll-margin-top: 56px; }
+h3 { font-size: 17px; font-weight: 600; margin: 28px 0 8px; text-wrap: balance; }
+p { margin: 0 0 14px; max-width: 42em; }
+ul, ol { padding-left: 1.3em; margin: 0 0 14px; max-width: 42em; }
+li { margin-bottom: 6px; }
+strong { font-weight: 600; }
+code { font-family: var(--mono); font-size: 0.9em; background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; }
+.summary { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); padding: 16px 20px; margin: 20px 0 8px; }
+.summary ol { margin: 0; }
+.note { background: var(--note); border-left: 4px solid var(--note-edge); padding: 12px 16px; margin: 16px 0; font-size: 15px; }
+.note p:last-child { margin-bottom: 0; }
+.term { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 12px 16px; margin: 12px 0; font-size: 15px; }
+.term b { color: var(--accent); }
+figure { margin: 20px 0 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; }
+figure h4 { margin: 0 0 2px; font-size: 15px; font-weight: 600; }
+figure .sub { font-size: 13px; color: var(--fg-2); margin: 0 0 10px; }
+figure svg { display: block; width: 100%; height: auto; max-width: 100%; }
+figcaption { font-size: 13px; color: var(--fg-2); margin-top: 8px; line-height: 1.55; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--fg-2); margin: 0 0 6px; }
+.legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; background: var(--sw); }
+details { margin-top: 8px; font-size: 13px; }
+details summary { cursor: pointer; color: var(--accent); }
+.tbl { overflow-x: auto; margin: 8px 0 16px; }
+table { border-collapse: collapse; font-size: 14px; min-width: 320px; font-variant-numeric: tabular-nums; }
+th, td { border-bottom: 1px solid var(--line); padding: 6px 10px; text-align: right; vertical-align: top; }
+th:first-child, td:first-child { text-align: left; }
+th { color: var(--fg-2); font-weight: 500; }
+.timeline { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px 4px; margin: 16px 0 20px; }
+.timeline svg { width: 100%; height: auto; display: block; }
+.tip { position: fixed; pointer-events: none; background: var(--fg); color: var(--bg); font-size: 12px; padding: 4px 8px; border-radius: 4px; transform: translate(-50%, -130%); white-space: nowrap; opacity: 0; transition: opacity .12s; z-index: 20; }
+.tip.on { opacity: 1; }
+.bar-hit { fill: transparent; cursor: default; }
+.bar-hit:focus { outline: none; }
+.bar-hit:focus + rect, .bar-hit:hover + rect { opacity: .85; }
+dl { max-width: 42em; }
+dt { font-weight: 600; margin-top: 12px; }
+dd { margin: 2px 0 0; color: var(--fg-2); }
+.src a, .src { font-size: 14px; }
+a { color: var(--accent); }
+footer { margin-top: 56px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
+@media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+@media (max-width: 480px) { body { font-size: 15px; } h2 { font-size: 23px; } }
+</style>
+
+<div class="topbar"><nav aria-label="절 이동">
+<a href="#q">질문</a><a href="#what">무엇을 맞히나</a><a href="#how">어떻게 비교하나</a><a href="#models">모형</a><a href="#r1">결과 ①</a><a href="#r2">②</a><a href="#r3">③</a><a href="#r4">④</a><a href="#aux">보조 분석</a><a href="#lessons">배운 점</a><a href="#gloss">용어</a>
+</nav></div>
+
+<div class="wrap">
+<header class="hero">
+  <div class="eyebrow">아파트 월세 흐름 진단과 급변 예측 · 9차 후속 탐색 분석</div>
+  <h1>월세가 어디로 갈지, 시장 심리와 거래 정보로 더 잘 맞힐 수 있을까?</h1>
+  <p class="lede">전국 17개 시도의 아파트 월세 변화율을 1·3·6개월 앞서 예측하는 연구의 9차 결과를, 통계 기초 과목을 들은 학부생이 읽을 수 있게 풀어 쓴 해설입니다. 모든 수치는 2026년 10월 5일자 결과 보고서에서 가져왔습니다.</p>
+</header>
+
+<div class="summary">
+  <ol>
+    <li><strong>경제정보(시장 심리·수급 지수)는 1개월 앞 예측에서만 뚜렷한 도움</strong>이 됐습니다. 전국 기준 오차가 단순 추세 예측보다 약 19% 작았지만, 그 개선의 58%가 2023년 한 해에 몰려 있어 "도움이 될 가능성"까지만 말할 수 있습니다. 3·6개월 앞에서는 오히려 5~10% 나빠졌습니다.</li>
+    <li><strong>실거래 건수로 만든 두 지표(월세 비중 변화, 거래 회전율 변화)는 추가 효과가 사실상 0</strong>이었습니다. 어떤 수평선에서도 오차 비율이 1.00~1.01 사이였습니다.</li>
+    <li><strong>급락 경보에서는 경제정보 모형(B)이 가격 추세 모형(A)보다 나았습니다.</strong> 같은 경보 빈도에서 적중률 0.41 대 0.30, 포착률 0.58 대 0.36(6개월, 훈련 사건비율 1배 컷오프). 다만 하락이 끝난 뒤에도 경보가 계속 켜지는 오경보가 많습니다.</li>
+  </ol>
+</div>
+
+<h2 id="q">1. 연구 질문</h2>
+<p>월세는 대체로 최근 흐름을 이어갑니다. 지난달에 올랐으면 이번 달도 오르는 식입니다. 그래서 "최근 추세를 그대로 늘려 잡는" 아주 단순한 예측이 꽤 잘 맞습니다. 이 연구의 질문은 그 다음입니다.</p>
+<p><strong>"과거 가격 추세만으로 설명하기 어려운 월세 변화를, 시장 심리와 임대차 거래 정보가 추가로 예측할 수 있는가?"</strong></p>
+<p>9차는 8차 결과를 보고 설계한 <strong>후속 탐색 분석</strong>입니다. 이미 본 기간(2018~2025년)에서 설계를 바꿔 다시 돌린 것이므로, 결과를 "검증됐다"고 말하지 않고 방향과 크기만 보고합니다. 왜 그런지는 <a href="#lessons">배운 점</a>에서 다시 설명합니다.</p>
+
+<h2 id="what">2. 무엇을 맞히려고 하나</h2>
+<p>예측 대상은 한국부동산원 아파트 월세통합가격지수의 <strong>향후 h개월 변화율</strong>입니다. 결정월을 T라고 하면, T월에 알 수 있는 정보만 써서 그 뒤 h개월(h = 1, 3, 6) 동안 지수가 몇 % 변하는지 맞힙니다. 지역은 17개 시도, 결정월은 2018년 1월부터 2025년 12월까지 96개입니다.</p>
+<div class="timeline">
+<svg viewBox="0 0 720 150" role="img" aria-label="결정월 T에서 h개월 뒤까지의 시간선">
+  <line x1="40" y1="78" x2="690" y2="78" stroke="var(--line)" stroke-width="2"/>
+  <g font-family="IBM Plex Sans KR, sans-serif" font-size="12" fill="var(--fg-2)">
+    <rect x="40" y="56" width="280" height="44" rx="4" fill="var(--accent-soft)"/>
+    <text x="180" y="83" text-anchor="middle" fill="var(--fg)">T월까지 알 수 있는 자료(공표 시차 반영)</text>
+    <line x1="330" y1="40" x2="330" y2="116" stroke="var(--accent)" stroke-width="2"/>
+    <text x="330" y="32" text-anchor="middle" fill="var(--accent)" font-weight="600">결정월 T</text>
+    <rect x="340" y="56" width="330" height="44" rx="4" fill="var(--s1)" opacity="0.16"/>
+    <text x="505" y="83" text-anchor="middle" fill="var(--fg)">예측 대상: 앞으로 h개월의 월세 변화율</text>
+    <text x="340" y="136" fill="var(--muted)">h = 1 · 3 · 6개월</text>
+    <text x="690" y="136" text-anchor="end" fill="var(--muted)">정답은 T+h월에 확인</text>
+  </g>
+</svg>
+</div>
+<p>두 가지 목표를 같이 봅니다.</p>
+<ul>
+  <li><strong>변화율 자체</strong>(얼마나 오르거나 내리나). 전국 단위와 17개 시도를 합친 패널 단위에서 평가합니다.</li>
+  <li><strong>급락 여부</strong>(연율 −2% 이상 내리는가). h = 6이면 6개월 변화율이 −1.005% 아래로 내려가는 경우를 "급락 사건"으로 정의합니다. 8년 동안 17개 시도의 결정월·지역 조합 1,401개 중 100개가 사건이었습니다.</li>
+</ul>
+
+<h2 id="how">3. 어떻게 비교하나</h2>
+<h3>전진 평가: 미래를 몰래 보지 않기</h3>
+<p>결정월마다 "그 시점까지의 자료"로만 모형을 다시 적합하고 바로 다음 구간을 예측합니다. 이것을 96번 반복해 오차를 모읍니다. 2024년 예측에 2025년 자료가 섞이면 안 되므로, 변수 표준화·결측 대체·튜닝까지 모두 그 시점의 훈련 자료 안에서만 계산합니다. 5단계 점검(16개 항목)이 이 규칙을 코드 수준에서 확인했습니다.</p>
+<h3>오차 재는 법</h3>
+<p>변화율은 <strong>평균 절대 오차(MAE)</strong>로 잽니다. 예측값과 실제값 차이의 절댓값을 평균한 것으로, 단위는 %p입니다. 두 모형을 비교할 때는 <strong>MAE 비율</strong>(비교 모형 ÷ 기준 모형)을 씁니다. 1보다 작으면 비교 모형이 낫고, 0.80이면 오차가 20% 작다는 뜻입니다. 급락 확률은 Brier 점수(확률 예측의 제곱 오차)로 잽니다.</p>
+<h3>단순 기준</h3>
+<p>모든 모형은 <strong>mom1</strong>이라는 단순 기준과 견줍니다. mom1은 "가장 최근 1개월 변화율 × h"로, 추세가 그대로 이어진다고 가정한 예측입니다. 이 기준을 못 이기는 모형은 쓸모가 없습니다.</p>
+<div class="note"><p><strong>왜 "유의하다"고 말하지 않나.</strong> 연도별 오차 차이의 평균과 불확실성 구간, 참고용 Diebold-Mariano 검정을 같이 적지만, 9차는 8차 결과를 본 뒤 설계를 바꾼 탐색 분석이라 판정 규칙을 새로 두지 않았습니다. 거의 모든 비교에서 연평균 구간이 0을 포함해 "차이 불확실"로 분류됩니다.</p></div>
+
+<h2 id="models">4. 어떤 모형을 비교했나</h2>
+<div class="term"><b>A 가격 추세 모형</b> 매매·전세 가격의 최근 6개월 변화율만 입력으로 쓰는 Ridge 회귀.</div>
+<div class="term"><b>B 추세 + RMPI 모형</b> A의 입력에 <strong>RMPI</strong>(임대시장 압력지수)를 더한 Ridge 회귀. RMPI는 약 50개 경제 변수를 여섯 동인으로 묶어 평균한 지수입니다. ① 임차수요 압력, ② 주택공급·재고, ③ 금융여건·상대가격, ④ 임대시장 수급·전환 구조, ⑤ 시장과열·단기 트리거(소비자심리, 거래량 급증 등), ⑥ 거시경기·금융시장.</div>
+<div class="term"><b>B + 실거래</b> B에 국토교통부 실거래 건수로 만든 두 지표를 더한 모형. <strong>월세 비중 변화</strong>(전월세 거래 중 월세 비율의 1년 전 대비 로짓 변화)와 <strong>거래 회전율 변화</strong>(세대수 대비 전월세 거래량의 1년 전 대비 로그 변화). 건수 자체는 2021년 6월 신고제 시행 전후로 비교가 안 되어 "1년 전 대비 변화"로만 씁니다.</div>
+<div class="term"><b>보정 구조 M0 → M3</b> 9차에서 새로 넣은 비교 틀입니다. 예측 = mom1 + 보정값으로 두고, 보정값을 무엇으로 추정하느냐만 바꿉니다. M0은 보정 없음(= mom1), M1은 훈련기간 평균 오차만 더함, M2는 A의 입력과 RMPI로 보정값을 회귀, M3는 M2에 실거래 두 지표를 추가. 이렇게 하면 "경제정보의 몫 = M2 − M1", "실거래의 몫 = M3 − M2"로 깔끔하게 나뉩니다.</div>
+<h3>Ridge 회귀와 alpha</h3>
+<p>Ridge는 보통의 회귀에 "계수를 0 쪽으로 당기는 벌점"을 더한 것입니다. 벌점의 세기가 <strong>alpha</strong>입니다. alpha가 크면 모든 계수가 작아져 모형이 단순해지고, 작으면 자료를 더 세게 따라갑니다. 8차는 alpha를 10으로 고정했고, 9차는 매년 1월에 훈련 자료 안의 전진 교차검증으로 alpha를 다시 고릅니다.</p>
+
+<h2 id="r1">5. 결과 ① 같은 튜닝 아래 A와 B</h2>
+<p>8차에서 B가 A보다 좋았던 것이 "alpha 10이 B에 유리했기 때문"일 수 있어, 두 모형 모두 같은 방식으로 alpha를 고른 뒤 다시 비교했습니다.</p>
+<figure>
+  <h4>B의 오차 ÷ A의 오차 (전국 MAE 비율, 1보다 작으면 B가 낫다)</h4>
+  <p class="sub">결정월 2018.01~2025.12, 96개월</p>
+  <div class="legend"><span style="--sw: var(--s1)">전진 교차검증으로 alpha 선택</span><span style="--sw: var(--s2)">alpha 10 고정(8차와 같은 값)</span></div>
+  <div data-chart="c1"></div>
+  <figcaption>튜닝을 맞추자 h = 6에서 B의 우위가 거의 사라졌습니다(0.98). 다만 두 튜닝 모두 사전에 정한 것이 아니어서 어느 쪽이 "맞는" 비교인지 확정하지 않습니다. alpha 10 고정 막대는 9차 입력·지수 구성에 8차 alpha를 적용한 것이고 8차 결과 자체(h = 6에서 0.72)는 아닙니다.</figcaption>
+  <details><summary>표로 보기</summary><div class="tbl"><table><tr><th>h</th><th>교차검증 선택</th><th>alpha 10 고정</th></tr><tr><td>1개월</td><td>0.79</td><td>0.84</td></tr><tr><td>3개월</td><td>0.89</td><td>0.82</td></tr><tr><td>6개월</td><td>0.98</td><td>0.77</td></tr></table></div></details>
+</figure>
+<p>세 가지를 더 적어 둡니다.</p>
+<ul>
+  <li>A는 어떤 튜닝에서도 단순 기준보다 나빴습니다(오차 비율 1.13~1.41). 가격 추세만으로는 mom1을 못 이깁니다.</li>
+  <li>B는 교차검증 튜닝 아래 h = 1에서만 mom1을 이겼습니다(0.042 대 0.044).</li>
+  <li>교차검증으로 고른 alpha는 해마다 크게 흔들렸습니다. B의 h = 6 선택값은 0.56 → 42 → 0.56 → 10 → 56 → 750 → 17,783으로 뛰었습니다. 최소 손실의 1% 안에 든 후보가 여럿이라 선택이 자료의 작은 변화에 민감합니다.</li>
+</ul>
+
+<h2 id="r2">6. 결과 ② 경제정보는 얼마나 보태나</h2>
+<p>보정 구조에서 M2 − M1이 경제정보의 순수한 몫입니다.</p>
+<figure>
+  <h4>M2의 오차 ÷ M1의 오차 (경제정보 보정의 효과, 1보다 작으면 도움)</h4>
+  <p class="sub">M1 = 평균 오차만 보정, M2 = 경제정보로 보정</p>
+  <div class="legend"><span style="--sw: var(--s1)">전국</span><span style="--sw: var(--s2)">17개 시도 패널</span></div>
+  <div data-chart="c2"></div>
+  <figcaption>전국 1개월에서 오차가 20% 줄었지만(MAE 0.036, mom1은 0.044), 3·6개월에서는 5%·7% 늘었습니다. 패널에서는 1~4% 개선에 그쳤고 불확실성 구간이 0을 넓게 포함합니다.</figcaption>
+  <details><summary>표로 보기</summary><div class="tbl"><table><tr><th>h</th><th>전국 M2/M1</th><th>패널 M2/M1</th></tr><tr><td>1개월</td><td>0.804</td><td>0.979</td></tr><tr><td>3개월</td><td>1.050</td><td>0.965</td></tr><tr><td>6개월</td><td>1.070</td><td>0.987</td></tr></table></div></details>
+</figure>
+<p>전국 1개월의 개선은 연도별로 고르지 않습니다. 8개 연도 중 7개에서 M2가 앞섰지만, 순개선분의 58%가 2023년 한 해에서 나왔습니다. 그래서 보고서는 이 결과를 "단기 보정에 도움이 될 가능성을 발견했다"까지만 적습니다.</p>
+<p>절편만 보정하는 M1은 M0보다 조금 나빴습니다(전국 1~3%). 훈련기간의 평균 오차가 다음 기간에 이어지지 않는다는 뜻입니다. 추세 계수를 학습하는 변형(M1′)도 M0보다 나빠서, "추세 계수는 1로 고정"하는 쪽이 낫다는 근거가 됩니다.</p>
+
+<h2 id="r3">7. 결과 ③ 실거래 정보는 보태는 게 있나</h2>
+<p>B에 실거래 두 지표를 더한 모형과 B를 같은 행에서 비교했고, 보정 구조에서는 M3 − M2를 봤습니다.</p>
+<div class="tbl"><table>
+<tr><th>비교 (비교 모형 ÷ 기준 모형)</th><th>1개월</th><th>3개월</th><th>6개월</th></tr>
+<tr><td>변화율 MAE, B+실거래 ÷ B (패널)</td><td>1.012</td><td>1.009</td><td>1.009</td></tr>
+<tr><td>급락 Brier, B+실거래 ÷ B (패널)</td><td>1.004</td><td>1.008</td><td>1.009</td></tr>
+<tr><td>변화율 MAE, M3 ÷ M2 (패널)</td><td>1.001</td><td>1.003</td><td>1.012</td></tr>
+</table></div>
+<p>모두 1.00~1.01입니다. 집계 창을 12개월로 늘리거나 실거래 자료를 한 달 더 늦게 쓰는 민감도 분석에서도 같았습니다. 두 지표가 모형에서 빠진 것도 아닙니다(관측률 0.88~1.00으로 유지). 즉, 이번에 정한 "1년 전 대비 변화" 형태의 실거래 지표는 경제정보 위에 더 보태는 것이 없었습니다.</p>
+<div class="note"><p><strong>해석의 한계.</strong> 과거 실거래 건수는 2026년 10월 초에 한꺼번에 내려받은 현재 시점 값이라, 예측 당시에 알 수 있던 건수와 다를 수 있습니다. 당시 자료로도 같은 결과가 나오는지는 확인하지 못했습니다. 앞으로 매월 1회 수집해 시점별 자료를 쌓는 것이 후속 과제입니다.</p></div>
+<p>참고로 신고제 이후 구간(2022년 7월~)만 따로 보면, 월세 비중 <em>수준</em>이 높은 지역일수록 이후 상대 월세가 덜 오르고(순위상관 −0.14~−0.21), 거래 회전율이 높은 지역일수록 더 오르는(+0.15~+0.20) 관계가 있습니다. 수준은 신고제 전후 비교가 안 되어 주 분석에서 뺀 형태라 사후 기술통계로만 적었습니다.</p>
+
+<h2 id="r4">8. 결과 ④ 급락 경보로 쓸 만한가</h2>
+<p>확률 오차가 조금 줄었다는 것만으로는 실무에서 쓸 수 있는지 알 수 없습니다. 그래서 결정월에 아직 급락 상태가 아닌 지역을 대상으로, 모형마다 <strong>같은 목표 경보 빈도</strong>에서 경보를 울리게 하고 다음을 봤습니다.</p>
+<ul>
+  <li><strong>적중률</strong>: 경보를 울린 경우 중 실제로 급락한 비율</li>
+  <li><strong>포착률</strong>: 실제 급락 중 경보가 울렸던 비율</li>
+  <li><strong>국면 포착</strong>: 6개월 조용하다가 시작된 하락 국면을 시작 전(또는 시작 달)에 경보했는지</li>
+</ul>
+<figure>
+  <h4>급락 경보 성적 (h = 6, 훈련 사건비율 1배 컷오프)</h4>
+  <p class="sub">결정월에 급락 상태가 아닌 1,401개 지역·월, 사건 100개</p>
+  <div class="legend"><span style="--sw: var(--s1)">A 가격 추세</span><span style="--sw: var(--s2)">B 추세 + RMPI</span><span style="--sw: var(--s3)">B + 실거래</span></div>
+  <div data-chart="c4"></div>
+  <figcaption>B가 A보다 적중률·포착률 모두 높습니다. 실거래를 더한 모형은 B와 거의 같습니다. 같은 달 안에서 급락 지역을 가려내는 정도(동월 지역쌍 AUC)는 세 모형 모두 0.82~0.85입니다.</figcaption>
+  <details><summary>표로 보기</summary><div class="tbl"><table><tr><th>모형</th><th>적중률</th><th>포착률</th><th>실제 경보 빈도</th></tr><tr><td>A</td><td>0.30</td><td>0.36</td><td>0.09</td></tr><tr><td>B</td><td>0.41</td><td>0.58</td><td>0.10</td></tr><tr><td>B+실거래</td><td>0.38</td><td>0.56</td><td>0.10</td></tr></table></div></details>
+</figure>
+<p>하락 국면 17개(2017년 이력 포함) 중 B는 5개를 시작 전에, 2개를 시작 달에 잡았고 A는 1개만 잡았습니다. 컷오프를 느슨하게(2배) 하면 B는 14개, A는 5개를 잡습니다. 2022~2023년 하락 국면에서 B는 대구·서울·대전·전남을 2~5개월 전에 경보했지만 인천·부산·광주·경기는 놓쳤습니다.</p>
+<p>약점도 분명합니다. 오경보는 2018~2019년의 부산·충남과 2023년 하락이 끝난 뒤의 여러 지역에 몰려 있어, "하락이 끝난 뒤에도 계속 켜지는" 형태입니다. 세종의 급락 네 번 중 세 번은 모든 모형이 놓쳤습니다.</p>
+
+<h2 id="aux">9. 보조 분석에서 본 것</h2>
+<h3>어느 동인이 일을 하나</h3>
+<p>M2에서 동인을 하나씩 빼고 오차가 얼마나 늘어나는지 봤습니다(alpha는 주 실행 선택값의 중앙값으로 고정).</p>
+<figure>
+  <h4>동인을 하나 뺐을 때 오차 변화 (전국, 양수 = 빼면 나빠짐)</h4>
+  <p class="sub">M2 보정모형, alpha 고정 재실행 대비 %</p>
+  <div class="legend"><span style="--sw: var(--s1)">h = 1개월</span><span style="--sw: var(--s2)">h = 3개월</span></div>
+  <div data-chart="c5"></div>
+  <figcaption>⑤ 시장과열·단기 트리거(소비자심리, 거래량 급증 등)를 빼면 오차가 1개월 24%, 3개월 12% 늘어납니다. 나머지 동인은 빼도 거의 변하지 않거나 오히려 조금 좋아집니다.</figcaption>
+  <details><summary>표로 보기</summary><div class="tbl"><table><tr><th>뺀 동인</th><th>h=1</th><th>h=3</th></tr><tr><td>① 임차수요 압력</td><td>+1.1%</td><td>−0.6%</td></tr><tr><td>② 주택공급·재고</td><td>+0.6%</td><td>−0.9%</td></tr><tr><td>③ 금융여건·상대가격</td><td>−0.8%</td><td>−3.2%</td></tr><tr><td>④ 임대시장 수급·전환</td><td>+1.7%</td><td>+0.1%</td></tr><tr><td>⑤ 시장과열·단기 트리거</td><td>+23.7%</td><td>+11.5%</td></tr><tr><td>⑥ 거시경기·금융시장</td><td>+0.1%</td><td>−4.7%</td></tr></table></div></details>
+</figure>
+<h3>서울 25개 구</h3>
+<p>구 단위에서는 같은 달 안에서 어느 구가 상대적으로 더 오르는지를 봤습니다. A·B·B+실거래의 오차 차이는 1·3개월에서 0.001 안이고 6개월에서는 A가 조금 낫습니다. 셋 모두 "0 예측"보다 6~24% 낮지만, 경제정보와 실거래를 더해도 가격 추세만 쓴 A를 넘지 못했습니다.</p>
+<h3>팀 실험(TH V11)과 같은 행에서 비교</h3>
+<p>같은 수업의 다른 실험(트리 계열 모형)과 2021~2025년 17개 시도 1,020개 지역·월에서 6개월 변화율 MAE를 비교했습니다.</p>
+<div class="tbl"><table>
+<tr><th>모형</th><th>MAE (%p)</th><th>비고</th></tr>
+<tr><td>보정모형 M2 (9차)</td><td>0.682</td><td>월별 재학습</td></tr>
+<tr><td>보정모형 M3 (9차)</td><td>0.699</td><td>월별 재학습</td></tr>
+<tr><td>XGBoost (TH V11)</td><td>0.721</td><td>분기 재학습</td></tr>
+<tr><td>Ridge B (8차)</td><td>0.763</td><td>월별 재학습</td></tr>
+<tr><td>Random Forest (TH V11)</td><td>0.767</td><td>분기 재학습</td></tr>
+<tr><td>Extra Trees (TH V11)</td><td>0.773</td><td>분기 재학습</td></tr>
+<tr><td>mom1 (M0)</td><td>0.818</td><td>단순 기준</td></tr>
+</table></div>
+<p>M2가 가장 낮지만 재학습 주기, 훈련 시작 시점, 입력 구성이 달라 "같은 조건의 대결"은 아닙니다. 2023년에 차이가 가장 컸고, 2021년은 트리 모형이 나았습니다.</p>
+
+<h2 id="lessons">10. 배운 점과 주의할 점</h2>
+<h3>튜닝이 결과를 흔든다</h3>
+<p>alpha를 교차검증으로 고르면 해마다 수십 배씩 바뀌었고, 전 기간 선택값의 중앙값으로 고정해 다시 돌리면 전국 오차가 7~19% 낮았습니다(사후 정보가 들어간 진단이라 성능 주장에는 쓰지 않습니다). 교차검증 곡선이 평평할 때 어떻게 고를지 미리 정해 두는 것이 다음 설계의 과제입니다.</p>
+<h3>얼마나 자주 다시 적합하느냐도 결과를 바꾼다</h3>
+<p>독립 검증 과정에서 보정모형이 1월에만 적합되고 2~12월은 1월 모형을 재사용하던 결함이 발견돼 매달 재적합으로 고쳤습니다. 그러자 전국 결과가 뒤집혔습니다. 매달 재적합은 1개월 예측에 유리했고(M2/M0 1.03 → 0.81), 연 1회 적합은 3·6개월에 유리했습니다(0.96·0.92 대 1.07·1.10). 적합 주기도 alpha처럼 사전에 정해야 할 항목입니다.</p>
+<h3>사후 확인과 전향 검증은 다르다</h3>
+<p>2026년 1~9월 정답으로 지금 모형을 다시 계산하는 것은 <strong>사후 확인</strong>입니다. 설계가 2018~2025년 결과를 본 뒤 정해졌기 때문입니다. 설계를 고정한 뒤 매달 예측을 저장해 두고 나중에 정답과 맞춰 보는 구간부터가 <strong>전향 검증</strong>이고, 그것만이 진짜 표본외 진단입니다.</p>
+<h3>지역 이질성</h3>
+<p>세종은 신도시 특성상 월세 변동이 커서 6개월 MAE가 2.6으로 다른 지역 최대치(1.37)의 거의 두 배입니다. 보정으로 12.5% 줄었지만 여전히 17개 시도 중 가장 큽니다. 패널 전체 오차의 큰 몫이 세종 한 곳에서 나옵니다.</p>
+<h3>이 결과로 말할 수 있는 것</h3>
+<p>"경제정보의 추가 예측력은 기간과 분석 단위에 따라 제한적으로 나타났고, 실거래 변화형 두 지표의 추가 개선은 확인하지 못했다. 급락 경보에는 보조적인 활용 가능성이 관찰됐다." 이 이상은 2026년 이후 전향 검증이 말해 줄 몫입니다.</p>
+
+<h2 id="gloss">11. 용어 사전</h2>
+<dl>
+  <dt>변화율 G</dt><dd>100 × [R(T−1+h) ÷ R(T−1) − 1]. R은 월세지수. 결정월 직전 달을 기준으로 h개월 뒤까지의 변화 %.</dd>
+  <dt>mom1</dt><dd>가장 최근 1개월 변화율 × h. 추세가 그대로 이어진다는 단순 예측. 모든 모형의 기준선.</dd>
+  <dt>MAE</dt><dd>평균 절대 오차. |예측 − 실제|의 평균. 단위 %p.</dd>
+  <dt>MAE 비율</dt><dd>비교 모형 MAE ÷ 기준 모형 MAE. 1보다 작으면 비교 모형이 낫다.</dd>
+  <dt>Brier 점수</dt><dd>확률 예측의 제곱 오차 평균. 사건이면 (p − 1)², 아니면 p². 작을수록 좋다.</dd>
+  <dt>Ridge 회귀, alpha</dt><dd>계수 크기에 벌점을 주는 회귀. alpha가 클수록 계수가 0 쪽으로 당겨져 모형이 단순해진다.</dd>
+  <dt>전진 교차검증</dt><dd>훈련 자료 안에서 "앞쪽으로 학습, 바로 뒤 12개월로 검증"을 반복해 alpha를 고르는 방법. 미래 자료를 쓰지 않는다.</dd>
+  <dt>전진 평가</dt><dd>결정월마다 그 시점까지의 자료로만 적합하고 다음 구간을 예측하는 평가. 96번 반복.</dd>
+  <dt>RMPI</dt><dd>임대시장 압력지수. 경제 변수를 표준화해 여섯 동인으로 묶어 평균한 요약 지수. 공통(전국) 블록과 지역 편차 블록으로 나뉜다.</dd>
+  <dt>급락 사건</dt><dd>h개월 변화율이 연율 −2%에 해당하는 임계값 아래로 내려간 경우. h = 1·3·6에서 −0.168·−0.504·−1.005%.</dd>
+  <dt>적중률 · 포착률</dt><dd>적중률 = 경보 중 실제 급락 비율(정밀도). 포착률 = 실제 급락 중 경보 비율(재현율).</dd>
+  <dt>동월 지역쌍 AUC</dt><dd>같은 달 안에서 급락 지역과 비급락 지역의 예측확률 순위를 가르는 정도. 1이면 완벽, 0.5면 무작위.</dd>
+  <dt>Diebold-Mariano 검정</dt><dd>두 예측의 손실 차이가 0인지 보는 검정. 9차에서는 참고용으로만 적었다.</dd>
+  <dt>Δ12</dt><dd>12개월 전 대비 변화. 계절성과 제도 변화 전후의 수준 차이를 지우기 위해 쓴다.</dd>
+</dl>
+
+<h2 id="src">12. 자료와 코드</h2>
+<p class="src">결과 보고서: <a href="https://github.com/ksroh1913/DFMBA_own/blob/claude/epic-ride-7ld57o/docs/연구결과_9차_후속분석_보고.md">docs/연구결과_9차_후속분석_보고.md</a> · 설계안: <a href="https://github.com/ksroh1913/DFMBA_own/blob/claude/epic-ride-7ld57o/docs/연구계획_9차_보완설계안.md">docs/연구계획_9차_보완설계안.md</a> · 산출물: <a href="https://github.com/ksroh1913/DFMBA_own/tree/claude/epic-ride-7ld57o/rmpi/output_v9">rmpi/output_v9/</a> · 입력 자료: 데이터취합_전처리_20261005.xlsx (한국부동산원, 국토교통부 실거래, 한국은행 등 공개 통계)</p>
+<footer>이 해설은 9차 결과 보고서(설정 v9.0, 2026-10-05)를 바탕으로 작성됐습니다. 표의 수치는 보고서와 같고, 반올림만 했습니다.</footer>
+</div>
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  var tip = document.getElementById('tip');
+  function showTip(e, text) { tip.textContent = text; tip.style.left = e.clientX + 'px'; tip.style.top = e.clientY + 'px'; tip.classList.add('on'); }
+  function hideTip() { tip.classList.remove('on'); }
+
+  // 그룹 막대 차트. groups: x 라벨, series: {name, key, values[]}; ref: 기준선 값.
+  function groupedBars(el, cfg) {
+    var W = 680, padL = 44, padR = 12, padT = 18, padB = 34;
+    var H = cfg.height || 240;
+    var plotW = W - padL - padR, plotH = H - padT - padB;
+    var vals = [].concat.apply([], cfg.series.map(function (s) { return s.values; }));
+    var lo = Math.min.apply(null, vals.concat([cfg.ref != null ? cfg.ref : 0, cfg.min != null ? cfg.min : 0]));
+    var hi = Math.max.apply(null, vals.concat([cfg.ref != null ? cfg.ref : 0, cfg.max != null ? cfg.max : 0]));
+    lo = Math.floor(lo / cfg.step) * cfg.step; hi = Math.ceil(hi / cfg.step) * cfg.step;
+    if (hi === lo) hi = lo + cfg.step;
+    function y(v) { return padT + plotH * (1 - (v - lo) / (hi - lo)); }
+    var n = cfg.groups.length, k = cfg.series.length;
+    var band = plotW / n, barW = Math.min(24, (band * 0.7 - 2 * (k - 1)) / k);
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + cfg.label + '">';
+    // 눈금·괘선
+    for (var v = lo; v <= hi + 1e-9; v += cfg.step) {
+      var yy = y(v);
+      s += '<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + yy.toFixed(1) + '" y2="' + yy.toFixed(1) + '" stroke="var(--line)" stroke-width="1"/>';
+      s += '<text x="' + (padL - 6) + '" y="' + (yy + 4).toFixed(1) + '" text-anchor="end" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">' + cfg.fmt(v) + '</text>';
+    }
+    if (cfg.ref != null) s += '<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + y(cfg.ref).toFixed(1) + '" y2="' + y(cfg.ref).toFixed(1) + '" stroke="var(--fg-2)" stroke-width="1.5"/>';
+    var y0 = y(Math.max(lo, Math.min(hi, cfg.ref != null ? cfg.ref : 0)));
+    for (var gi = 0; gi < n; gi++) {
+      var gx = padL + band * gi + band / 2;
+      var totalW = k * barW + (k - 1) * 2;
+      for (var si = 0; si < k; si++) {
+        var val = cfg.series[si].values[gi];
+        var x = gx - totalW / 2 + si * (barW + 2);
+        var yv = y(val), top = Math.min(yv, y0), h = Math.abs(yv - y0);
+        var up = val >= (cfg.ref != null ? cfg.ref : 0);
+        var r = Math.min(4, h);
+        var path = up
+          ? 'M' + x + ' ' + (top + h) + ' V' + (top + r) + ' Q' + x + ' ' + top + ' ' + (x + r) + ' ' + top + ' H' + (x + barW - r) + ' Q' + (x + barW) + ' ' + top + ' ' + (x + barW) + ' ' + (top + r) + ' V' + (top + h) + ' Z'
+          : 'M' + x + ' ' + top + ' V' + (top + h - r) + ' Q' + x + ' ' + (top + h) + ' ' + (x + r) + ' ' + (top + h) + ' H' + (x + barW - r) + ' Q' + (x + barW) + ' ' + (top + h) + ' ' + (x + barW) + ' ' + (top + h - r) + ' V' + top + ' Z';
+        s += '<g><rect class="bar-hit" x="' + (x - 4) + '" y="' + padT + '" width="' + (barW + 8) + '" height="' + plotH + '" tabindex="0" data-tip="' + cfg.groups[gi] + ' · ' + cfg.series[si].name + ': ' + cfg.fmt(val) + '"/>';
+        s += '<path d="' + path + '" fill="var(--s' + (si + 1) + ')"/>';
+        var ly = up ? top - 5 : top + h + 13;
+        s += '<text x="' + (x + barW / 2) + '" y="' + ly.toFixed(1) + '" text-anchor="middle" font-size="11" fill="var(--fg)" font-family="IBM Plex Mono, monospace">' + cfg.fmt(val) + '</text></g>';
+      }
+      s += '<text x="' + gx + '" y="' + (H - 10) + '" text-anchor="middle" font-size="12" fill="var(--fg-2)" font-family="IBM Plex Sans KR, sans-serif">' + cfg.groups[gi] + '</text>';
+    }
+    s += '</svg>';
+    el.innerHTML = s;
+    el.querySelectorAll('.bar-hit').forEach(function (hit) {
+      hit.addEventListener('mousemove', function (e) { showTip(e, hit.getAttribute('data-tip')); });
+      hit.addEventListener('mouseleave', hideTip);
+      hit.addEventListener('focus', function () { var b = hit.getBoundingClientRect(); showTip({ clientX: b.left + b.width / 2, clientY: b.top + 10 }, hit.getAttribute('data-tip')); });
+      hit.addEventListener('blur', hideTip);
+    });
+  }
+  var r2 = function (v) { return v.toFixed(2); };
+  var charts = {
+    c1: { label: 'B 대 A MAE 비율', groups: ['1개월', '3개월', '6개월'], ref: 1, min: 0.7, max: 1.1, step: 0.1, fmt: r2,
+          series: [{ name: '교차검증 선택', values: [0.79, 0.89, 0.98] }, { name: 'alpha 10 고정', values: [0.84, 0.82, 0.77] }] },
+    c2: { label: 'M2 대 M1 MAE 비율', groups: ['1개월', '3개월', '6개월'], ref: 1, min: 0.7, max: 1.1, step: 0.1, fmt: r2,
+          series: [{ name: '전국', values: [0.80, 1.05, 1.07] }, { name: '패널', values: [0.98, 0.97, 0.99] }] },
+    c4: { label: '급락 경보 적중률과 포착률', groups: ['적중률', '포착률'], ref: 0, min: 0, max: 0.6, step: 0.1, fmt: r2, height: 220,
+          series: [{ name: 'A', values: [0.30, 0.36] }, { name: 'B', values: [0.41, 0.58] }, { name: 'B+실거래', values: [0.38, 0.56] }] },
+    c5: { label: '동인 제거 시 오차 변화', groups: ['①', '②', '③', '④', '⑤', '⑥'], ref: 0, min: -5, max: 25, step: 5, fmt: function (v) { return (v > 0 ? '+' : '') + v.toFixed(1) + '%'; }, height: 250,
+          series: [{ name: 'h=1', values: [1.1, 0.6, -0.8, 1.7, 23.7, 0.1] }, { name: 'h=3', values: [-0.6, -0.9, -3.2, 0.1, 11.5, -4.7] }] }
+  };
+  document.querySelectorAll('[data-chart]').forEach(function (el) { groupedBars(el, charts[el.getAttribute('data-chart')]); });
+})();
+</script>
