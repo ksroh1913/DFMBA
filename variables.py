@@ -53,10 +53,10 @@ VARIABLES = [
       "prep_rone_conv_rate", P + "부동산원_전월세전환율_아파트.csv", "지역별전월세전환율_아파트"),
     V("V005", "아파트 월세 수급동향", "M", "시도", "R-ONE", "A_2024_00078",
       "prep_rone_supply_demand", SUPPLY_DEMAND, "월세수급동향_아파트"),
-    V("V006", "아파트 전월세 실거래 원본", "M", "서울구", "국토부 RTMS", "RTMSDataSvcAptRent",
+    V("V006", "아파트 전월세 실거래 원본", "M", "시도+서울구", "국토부 RTMS", "RTMSDataSvcAptRent",
       "prep_rtms_counts", RTMS, "전월세실거래_건수",
       note="건별 원본은 raw/4_임대시장수급전환구조/V006_아파트전월세실거래/. processed는 신고건수(공식 거래량 아님). 신규·갱신 건수는 계약구분 기록률이 낮아 취합하지 않음"),
-    V("V007", "아파트 매매 실거래 원본", "M", "서울구", "국토부 RTMS", "RTMSDataSvcAptTradeDev",
+    V("V007", "아파트 매매 실거래 원본", "M", "시도+서울구", "국토부 RTMS", "RTMSDataSvcAptTradeDev",
       "prep_rtms_counts", RTMS, "매매실거래_건수",
       note="건별 원본은 raw/3_금융여건상대가격/V007_아파트매매실거래/. 해제 건은 제외하고 셈(해제 건수는 취합 안 함)"),
     # ------------------------------------------------------------------ 임차수요
