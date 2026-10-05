@@ -230,6 +230,25 @@ def main():
       "- 전국 h=6 보정모형 M2 의 결과는 후속 탐색이므로 2026년 전향 검증(정답 2026.09 까지의 사후 확인 구간)에서 M2 와 B(고정 10)·mom1 을 함께 추적한다.\n"
       "- 2018-01 의 h=6 선택은 전진 폴드 2개뿐이라 대체값 10 이다(모든 전국·보정모형 공통). 2018 년 h=6 결과는 튜닝 없는 결과다.\n"
       "- 경보 컷오프는 훈련기간 분위라 평가기간의 실제 경보 빈도(전체 행 기준)가 목표보다 높았다. 실무 적용 시 빈도 목표를 맞추려면 최근 N개월 예측확률 분위로 갱신하는 방식이 필요하나, 이 보고에서는 사전 지정대로 고정 컷오프를 유지했다.\n")
+    # ---------------- 6.7 적합 주기 참고 (검증 전 실행)
+    ref = rd(os.path.join(out, "참고_수정전"), "v9_s2_비교_연1회적합.csv")
+    if ref is not None and s2 is not None:
+        w("### 6.7 참고: 보정모형 적합 주기 (매달 재적합 = 본 보고, 연 1회 적합 = 검증 전 실행)\n")
+        w("검증에서 보정모형 M2·M3 의 적합이 alpha 선택과 같이 1월에만 이루어지던 결함(2~12월은 1월 모형 재사용)이 확인되어 매 결정월 재적합으로 고쳤다. "
+          "고치기 전 실행의 비교표를 rmpi/output_v9/참고_수정전/ 에 두고 여기서 적합 주기의 민감도로만 읽는다(설정·입력 동일, 결과 커밋 40045dd). "
+          "M0·M1·M1′ 과 ①·③ 의 B 모형은 두 실행에서 같다.\n")
+        keys = ["전국 M2 vs M1", "전국 M2 vs M0", "패널 M2 vs M1", "패널 M2 vs M0", "패널 M3 vs M2"]
+        a = s2[s2["비교"].isin(keys)][["비교", "h", "MAE_비교", "MAE비율"]].rename(columns={"MAE_비교": "MAE_매달재적합", "MAE비율": "비율_매달재적합"})
+        b = ref[ref["비교"].isin(keys)][["비교", "h", "MAE_비교", "MAE비율"]].rename(columns={"MAE_비교": "MAE_연1회적합", "MAE비율": "비율_연1회적합"})
+        m = a.merge(b, on=["비교", "h"], how="outer").sort_values(["h", "비교"])
+        w(md(m, nd=3))
+        th_ref = rd(os.path.join(out, "참고_수정전"), "v9_s7_TH비교_연1회적합.csv")
+        th_new = rd(out, "v9_s7_TH비교.csv")
+        if th_ref is not None and th_new is not None:
+            q = th_new[th_new["모형"].astype(str).str.startswith("corr_M")][["모형", "MAE"]].rename(columns={"MAE": "MAE_매달재적합"}).merge(
+                th_ref[th_ref["모형"].astype(str).str.startswith("corr_M")][["모형", "MAE"]].rename(columns={"MAE": "MAE_연1회적합"}), on="모형", how="outer")
+            w("\nTH V11 같은 행(1,020행, h=6) 의 보정모형 MAE:\n"); w(md(q, nd=3))
+
     # ---------------- 7 통제·한계
     w("\n## 7 통제 항목과 한계\n")
     chk = rd(out, "stage5_점검.csv")
