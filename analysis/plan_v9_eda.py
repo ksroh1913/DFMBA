@@ -11,7 +11,7 @@
 계산
   1. 변수별: 공통 성분(기준 지역 평균)과 전국 G_h 의 Spearman, 지역 성분(월내 편차)과 r_h 의 Spearman(풀링)과 월내 평균 순위상관,
      관측률, 사전 부호와의 일치.
-  2. 변수 간: 공통 블록·지역 블록 각각의 |Spearman| 행렬 → |ρ| >= 0.90 쌍 목록, >= 0.95 연결 성분(군집)과 대표 후보.
+  2. 변수 간: 공통 블록·지역 블록 각각의 |Spearman| 행렬(쌍마다 겹치는 관측 24개월 이상) → |ρ| >= 0.90 쌍 목록, >= 0.95 연결 성분(군집)과 대표 후보.
   3. 실거래 후보(RT_*): 월세 비중, 월세·전체·매매 건수의 로그Δ12, 천세대당 12개월합, 매매/전월세 비율 — 같은 통계와
      부동산원 거래현황(V035·V036)과의 중복 여부.
 출력: analysis/output/plan_v9_eda_변수별.csv, _상관쌍.csv, _군집.csv, _실거래.csv, _요약.txt
@@ -33,7 +33,7 @@ from rmpi import settings as S, data as Dm, targets as T  # noqa: E402
 OUT = os.path.join(BASE, "analysis", "output")
 NEW_PRE, NEW_MERGED = "데이터취합_전처리_20261005.xlsx", "데이터취합_20261005.xlsx"
 TRAIN_END = pd.Period("2017-12", "M")
-PAIR_HI, CLUSTER = 0.90, 0.95
+PAIR_HI, CLUSTER, MIN_OVERLAP = 0.90, 0.95, 24
 RT_COLS = {"rent": "V006_국토부실거래_아파트전월세_월세(보증부포함)_건", "all": "V006_국토부실거래_아파트전월세_전체_건",
            "sale": "V007_국토부실거래_아파트매매(해제제외)_건"}
 REPORT_BREAK = pd.Period("2021-07", "M")   # 임대차 신고제(2021.06 계약분) 가 2차 행(1개월 밀림)에 처음 나타나는 달
@@ -164,8 +164,8 @@ def main():
     # ---- 2. 변수 간 상관 (탐색 창)
     def pair_table(frame, cols, block):
         sub = frame[cols]
-        sub = sub.loc[:, sub.notna().mean() >= 0.5]
-        rho = sub.corr(method="spearman").abs()
+        # 관측률로 입력을 거르지 않는다(짧은 계열 V005·V015·V017·V057·V059·V071 도 포함). 쌍마다 겹치는 관측이 MIN_OVERLAP 이상일 때만 계산
+        rho = sub.corr(method="spearman", min_periods=MIN_OVERLAP).abs()
         pairs = []
         cs = list(rho.columns)
         for i in range(len(cs)):
@@ -174,7 +174,8 @@ def main():
                 if np.isfinite(r) and r >= PAIR_HI:
                     a, bb = cs[i], cs[j]
                     da, db = spec_all.set_index("입력").loc[a, "동인"], spec_all.set_index("입력").loc[bb, "동인"]
-                    pairs.append({"블록": block, "입력1": a, "입력2": bb, "|ρ|": round(float(r), 3), "동인1": da, "동인2": db,
+                    n_ov = int((sub[a].notna() & sub[bb].notna()).sum())
+                    pairs.append({"블록": block, "입력1": a, "입력2": bb, "|ρ|": round(float(r), 3), "n겹침": n_ov, "동인1": da, "동인2": db,
                                   "같은변수": a.split("|")[0] == bb.split("|")[0], "같은동인": da == db})
         # 연결 성분 (>= CLUSTER)
         parent = {c: c for c in cs}
@@ -191,12 +192,12 @@ def main():
         for c in cs:
             comp.setdefault(find(c), []).append(c)
         clusters = []
-        obs = sub.notna().mean()
+        first = {c: (sub[c].first_valid_index() if sub[c].notna().any() else None) for c in cs}
         for k, members in comp.items():
             if len(members) > 1:
-                rep = sorted(members, key=lambda c: (-obs[c], c))[0]
+                rep = sorted(members, key=lambda c: (str(first[c]), c))[0]      # 기계적 대표: 관측 시작이 이른 것 → 이름순 (최종 대표는 설계안 R2 기준)
                 clusters.append({"블록": block, "크기": len(members), "구성": ", ".join(sorted(members)),
-                                 "대표(기계적: 관측률→이름순)": rep, "동인": ", ".join(sorted({str(spec_all.set_index("입력").loc[c, "동인"]) for c in members}))})
+                                 "대표(기계적: 시작월→이름순)": rep, "동인": ", ".join(sorted({str(spec_all.set_index("입력").loc[c, "동인"]) for c in members}))})
         return pd.DataFrame(pairs).sort_values("|ρ|", ascending=False) if pairs else pd.DataFrame(), pd.DataFrame(clusters)
 
     ccols = [c for c in spec_all["입력"] if c in C.columns]

@@ -72,8 +72,11 @@ def main():
         r = (p / p.shift(12)).tail(3)
         for mth, row in r.iterrows():
             row = row.dropna()
+            below = row[row < 1]
             rec(f"{k} 건수 {mth} / 전년 동월", f"{row.min():.2f}({row.idxmin()})~{row.max():.2f}({row.idxmax()})",
-                f"중앙값 {row.median():.2f}, 1 미만 시도 {int((row < 1).sum())}/{len(row)}")
+                f"중앙값 {row.median():.2f}, 1 미만 시도 {int((row < 1).sum())}/{len(row)}"
+                + (f", 1 미만 중 최대 {below.max():.2f}({below.idxmax()})" if len(below) else "")
+                + "; 시도별 " + ", ".join(f"{i} {v:.2f}" for i, v in row.sort_values().items()))
     # 신고제 단절: 2021H2 / 2020H2
     for k in ("월세", "전세"):
         p = n1.pivot(index="month", columns="region", values=V[k])
