@@ -102,6 +102,11 @@ def lag_adjust(s, ml, extra=False):
             c = colname(s, vid)
             if c in ml.columns:
                 ml[c] = ml.groupby("region")[c].shift(1)
+        if s["robustness_extra_lag"].get("rt_raw_columns") and "rt_columns" in s:   # v9: 실거래 원열
+            for c in s["rt_columns"].values():
+                if c in ml.columns:
+                    ml[c] = ml.groupby("region")[c].shift(1)
+            s["masking"]["rt_extra_lag_rows"] = 1      # 경계 마스킹도 1행 뒤로
     return ml
 
 
@@ -161,9 +166,67 @@ def transform(s, ml, panel="sido"):
         for suf, val in outs.items():
             name = f"{vid}|{suf}"
             X[name] = val.values
+            # v9: 출력 단위 공통 블록 포함 여부(in_common / common_outputs), 묶음 안 동일 개념(concept)
+            in_common = bool(v.get("in_common", True))
+            co = v.get("common_outputs")
+            if co is not None and suf not in co:
+                in_common = False
             spec.append({"입력": name, "ID": vid, "원열": c, "변환": tr, "block": v["block"], "동인": v["driver"],
-                         "하위묶음": v["group"], "예상부호": v["sign"]})
-    return X, pd.DataFrame(spec)
+                         "하위묶음": v["group"], "예상부호": v["sign"], "in_common": in_common,
+                         "concept": v.get("concept", vid)})
+    spec = pd.DataFrame(spec)
+    if "rt_columns" in s and "extra_inputs" in s:
+        Xr, spr = rt_inputs(s, ml, panel)
+        X = pd.concat([X, Xr.drop(columns=["region", "P"])], axis=1)
+        spec = pd.concat([spec, spr], ignore_index=True)
+    return X, spec
+
+
+# ============================================================ v9 실거래 별도 입력
+def _roll(x, g, k):
+    return x.groupby(g).transform(lambda v: v.rolling(k, min_periods=k).sum())
+
+
+def rt_inputs(s, ml, panel="sido"):
+    """실거래 두 입력(RMPI 밖 별도 입력, 지역 블록 처리). 2차 값(1개월 밀림) 기준.
+    RT_mix = 100 x Δ12[ log(월세k / 전세k) ],  RT_act = 100 x Δ12[ log(1000 x 전체k / 세대수) ],  k = 창(3 또는 12)개월 합.
+    전세 = 전체 − 월세 (2차 시트에 전세 열이 없음). 신고제 경계(rt_break_first_row)를 가로지르는 창은 결측.
+    data_asof 기준 최신 rt_truncate_last_months 개월은 결측(사후 확인·전향 운용용. 2018~2025 평가에는 효과 없음)."""
+    rc = s["rt_columns"]
+    ei = s["extra_inputs"]
+    win = 3 if str(ei.get("RT_mix", {}).get("window", "sum3")) == "sum3" else 12
+    g = ml["region"]
+    rent = ml[rc["월세"]].astype(float)
+    allc = ml[rc["전체"]].astype(float)
+    hh = ml[s["inputs"]["households_col"]].astype(float)
+    asof = S.per(s["inputs"]["data_asof"]) if s["inputs"].get("data_asof") else None
+    k_trunc = int(s["masking"].get("rt_truncate_last_months", 0) or 0)
+    if asof is not None and k_trunc > 0:
+        cut = ml["P"] >= asof - (k_trunc - 1)
+        rent = rent.mask(cut)
+        allc = allc.mask(cut)
+    jeon = (allc - rent).where(allc > rent)
+    rk, jk, ak = _roll(rent, g, win), _roll(jeon, g, win), _roll(allc, g, win)
+    lmix = np.log(rk.where(rk > 0)) - np.log(jk.where(jk > 0))
+    lact = np.log((1000 * ak / hh).where(ak > 0))
+    mix = 100 * (lmix - lmix.groupby(g).shift(12))
+    act = 100 * (lact - lact.groupby(g).shift(12))
+    # 경계 마스킹: 비교 창 t-(win-1)-12 ~ t 가 첫 신규 행을 포함하는 행 = first .. first + win + 12 - 2
+    first = S.per(s["masking"]["rt_break_first_row"]) + int(s["masking"].get("rt_extra_lag_rows", 0) or 0)
+    n_mask = win + 12 - 1
+    cross = (ml["P"] >= first) & (ml["P"] < first + n_mask)
+    mix = mix.mask(cross)
+    act = act.mask(cross)
+    X = ml[["region", "P"]].copy()
+    X["RT_mix|Δ12"] = mix.values
+    X["RT_act|Δ12"] = act.values
+    spec = pd.DataFrame([
+        {"입력": "RT_mix|Δ12", "ID": "RT_mix", "원열": f"{rc['월세']} / {rc['전체']}", "변환": f"sum{win}_logit_d12", "block": "extra",
+         "동인": 4, "하위묶음": "거래구성", "예상부호": "±", "in_common": False, "concept": "RT_mix"},
+        {"입력": "RT_act|Δ12", "ID": "RT_act", "원열": rc["전체"], "변환": f"sum{win}_log_per1000hh_d12", "block": "extra",
+         "동인": 4, "하위묶음": "거래활동", "예상부호": "±", "in_common": False, "concept": "RT_act"},
+    ])
+    return X, spec
 
 
 # ============================================================ ④ 기준 지역 분해
@@ -173,7 +236,7 @@ def reference_regions(s, X, spec):
     lo, hi = S.per(s["timing"]["official_first_decision"]), S.per(s["timing"]["first_train_end"])
     sub = X[(X["P"] >= lo) & (X["P"] <= hi)]
     out = {}
-    for name in spec.loc[spec["block"] == "regional", "입력"]:
+    for name in spec.loc[spec["block"].isin(["regional", "extra"]), "입력"]:
         obs = sub.pivot(index="P", columns="region", values=name).notna()
         any_m = obs.any(axis=1)
         full = obs[any_m].all(axis=0)
@@ -186,7 +249,7 @@ def configured_reference_regions(s, spec):
     regs = list(s["inputs"]["regions"])
     exc = s["rmpi"]["reference_regions"]["exceptions"]
     out = {}
-    for _, r in spec[spec["block"] == "regional"].iterrows():
+    for _, r in spec[spec["block"].isin(["regional", "extra"])].iterrows():
         ex = exc.get(r["ID"], {}).get("exclude", [])
         out[r["입력"]] = [g for g in regs if g not in ex]
     return out
@@ -199,7 +262,7 @@ def decompose(s, X, spec, ref_regions):
     months = pd.PeriodIndex(sorted(X["P"].unique()), freq="M")
     C = pd.DataFrame(index=months)
     D = X[["region", "P"]].copy()
-    for name in spec.loc[spec["block"] == "regional", "입력"]:
+    for name in spec.loc[spec["block"].isin(["regional", "extra"]), "입력"]:
         wide = X.pivot(index="P", columns="region", values=name).reindex(months)
         refs = ref_regions[name]
         if not refs:

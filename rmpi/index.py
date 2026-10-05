@@ -84,10 +84,12 @@ class RMPI(BaseEstimator, TransformerMixin):
         for c in keep:
             signs[c], src[c] = _sign_of(exp[c], X[c], y) if y is not None else (1.0 if exp[c] != "-" else -1.0, "사전")
         self.sign_, self.sign_source_ = pd.Series(signs), src
-        # 구조: 동인 -> 묶음 -> 구성변수 (남은 것만)
+        # 구조: 동인 -> 묶음 -> 개념 -> 구성변수 (남은 것만). v9 S3: 같은 묶음 안의 동일 개념(concept)은 먼저 평균
         struct = {}
+        has_concept = "concept" in sp.columns
         for _, r in sp[sp["입력"].isin(keep)].iterrows():
-            struct.setdefault(int(r["동인"]), {}).setdefault(str(r["하위묶음"]), []).append(r["입력"])
+            concept = str(r["concept"]) if has_concept and pd.notna(r.get("concept")) else str(r["입력"]).split("|")[0]
+            struct.setdefault(int(r["동인"]), {}).setdefault(str(r["하위묶음"]), {}).setdefault(concept, []).append(r["입력"])
         self.struct_ = struct
         idx = self._indices(X)
         med = idx.median()
@@ -110,11 +112,14 @@ class RMPI(BaseEstimator, TransformerMixin):
         out = {}
         for d, groups in self.struct_.items():
             gvals = []
-            for g, cols in groups.items():
-                sub = Z[cols]
-                n_av = sub.notna().sum(axis=1)
-                need = max(1, int(np.ceil(self.group_min_share * len(cols))))
-                gvals.append(sub.mean(axis=1).where(n_av >= need))
+            for g, concepts in groups.items():
+                cvals = []
+                for cpt, cols in concepts.items():          # 개념 안: 관측된 구성변수 평균 (하나라도 있으면 계산)
+                    cvals.append(Z[cols].mean(axis=1))
+                Cg = pd.concat(cvals, axis=1)
+                n_av = Cg.notna().sum(axis=1)
+                need = max(1, int(np.ceil(self.group_min_share * Cg.shape[1])))
+                gvals.append(Cg.mean(axis=1).where(n_av >= need))   # 묶음 안: 개념별 동일 가중
             G = pd.concat(gvals, axis=1)
             n_av = G.notna().sum(axis=1)
             need = max(1, int(np.ceil(self.driver_min_share * G.shape[1])))
@@ -142,15 +147,62 @@ class RMPI(BaseEstimator, TransformerMixin):
             r = sp.loc[c]
             kept = c in self.keep_
             d = DRIVER_MARK[int(r["동인"])]
-            n_g = len(self.struct_.get(int(r["동인"]), {}).get(str(r["하위묶음"]), []))
+            concepts = self.struct_.get(int(r["동인"]), {}).get(str(r["하위묶음"]), {})
+            n_g = len(concepts)                               # 묶음 안 개념 수
+            own = [k for k, v in concepts.items() if c in v]
+            n_in_concept = len(concepts[own[0]]) if own else 0
             n_groups = len(self.struct_.get(int(r["동인"]), {}))
             rows.append({"블록": self.block, "동인": d, "하위묶음": r["하위묶음"], "입력": c, "유지": kept,
                          "제외이유": self.dropped_.get(c, ""), "관측률": round(float(self.obs_rate_.get(c, np.nan)), 3),
                          "예상부호": r["예상부호"], "적용부호": (self.sign_[c] if kept else np.nan),
                          "부호근거": self.sign_source_.get(c, ""), "표준편차": (round(float(self.sd_[c]), 4) if kept else np.nan),
-                         "묶음내가중": (round(1 / n_g, 3) if kept and n_g else np.nan),
+                         "개념": (own[0] if own else ""), "개념내구성수": n_in_concept,
+                         "묶음내가중": (round(1 / n_g / n_in_concept, 3) if kept and n_g and n_in_concept else np.nan),
                          "동인내묶음가중": (round(1 / n_groups, 3) if kept and n_groups else np.nan),
                          "동인지수유지": (d in self.drivers_), "동인제외이유": self.dropped_drivers_.get(d, "")})
+        return pd.DataFrame(rows)
+
+
+class ExtraInputs(BaseEstimator, TransformerMixin):
+    """v9 별도 입력(실거래 두 입력). RMPI 동인 지수 밖에서 Ridge 에 직접 들어간다.
+    처리는 지역 블록과 같다: 관측률 필터(⑤) → 훈련자료 풀링 표준편차로 나눔(중심화 없음) → 훈련 중앙값 대체 + 결측 표시."""
+
+    def __init__(self, columns, prefix, obs_rate_min=0.7):
+        self.columns = columns
+        self.prefix = prefix
+        self.obs_rate_min = obs_rate_min
+
+    def fit(self, X, y=None):
+        X = pd.DataFrame(X)
+        cols = [c for c in self.columns if c in X.columns]
+        obs = X[cols].notna().mean()
+        sd = X[cols].std(ddof=0)
+        self.keep_ = [c for c in cols if obs[c] >= self.obs_rate_min and np.isfinite(sd[c]) and sd[c] > 0]
+        self.dropped_ = {c: (f"관측률 {obs[c]:.2f}" if obs[c] < self.obs_rate_min else "표준편차 0") for c in cols if c not in self.keep_}
+        self.obs_rate_ = obs
+        self.sd_ = sd[self.keep_]
+        self.median_ = (X[self.keep_] / self.sd_).median()
+        self.feature_names_out_ = [f"{self.prefix}|{c}" for c in self.keep_] + [f"{self.prefix}|{c}|결측" for c in self.keep_]
+        return self
+
+    def transform(self, X):
+        X = pd.DataFrame(X)
+        Z = X[self.keep_] / self.sd_
+        out = pd.DataFrame(index=X.index)
+        for c in self.keep_:
+            out[f"{self.prefix}|{c}"] = Z[c].fillna(self.median_[c])
+        for c in self.keep_:
+            out[f"{self.prefix}|{c}|결측"] = Z[c].isna().astype(float)
+        return out
+
+    def get_feature_names_out(self, input_features=None):
+        return np.asarray(self.feature_names_out_, dtype=object)
+
+    def composition(self):
+        rows = [{"블록": "extra", "입력": c, "유지": True, "제외이유": "", "관측률": round(float(self.obs_rate_.get(c, np.nan)), 3),
+                 "표준편차": round(float(self.sd_[c]), 4)} for c in self.keep_]
+        rows += [{"블록": "extra", "입력": c, "유지": False, "제외이유": r, "관측률": round(float(self.obs_rate_.get(c, np.nan)), 3)}
+                 for c, r in self.dropped_.items()]
         return pd.DataFrame(rows)
 
 

@@ -43,7 +43,7 @@ def main():
     put("1 설정 열 존재(17시도 2차)", not missing, f"변수 {len(s['variables'])}개, 없음: {missing}")
     missing_ex = [c for c in s["excluded_columns"] if c not in cols]
     put("1 제외 열 존재", not missing_ex, f"제외 {len(s['excluded_columns'])}열, 없음: {missing_ex}")
-    used = {v["col"] for k, v in s["variables"].items() if k != "CSI"} | set(s["csi_columns"].values())
+    used = {v["col"] for k, v in s["variables"].items() if k != "CSI"} | set(s["csi_columns"].values()) | set(s.get("rt_columns", {}).values())
     others = sorted(c for c in cols if c not in used and c not in s["excluded_columns"]
                     and c not in D.ID_COLS + ["P", s["inputs"]["official_flag"]] and not c.startswith("Y_"))
     put("1 설정에 없는 설명변수 열", not others, f"{others}")
@@ -129,9 +129,53 @@ def main():
     put("8 최초 훈련기간 관측률 70% 미만 입력", True, str(low) if low else "없음")
     put("8 입력 열 수", True, f"공통 블록 {C.shape[1]}열(지역 변수 기준 지역 평균 포함), 지역 블록 {Dsub.shape[1] - 2}열, 가격 추세 {int((spec.block == 'price_trend').sum())}열")
 
+    # ---------------- v9 추가 점검 (설정에 extra_inputs 가 있을 때만)
+    if "extra_inputs" in s:
+        import math
+        for panel in ("sido", "gu"):
+            mlx = m2 if panel == "sido" else D.lag_adjust(s, D.future_mask(s, *D.load_sheets(s, panel))[0])
+            Xr, spr = D.rt_inputs(s, mlx, panel)
+            first = S.per(s["masking"]["rt_break_first_row"])
+            n_mask = s["masking"]["rt_mask_rows"]["sum3_d12"]
+            win = Xr[(Xr.P >= first) & (Xr.P < first + n_mask)]
+            cells = int(win[[c for c in spr["입력"]]].isna().sum().sum())
+            exp_cells = s["masking"]["rt_expected_mask_cells"][panel]
+            after = Xr[Xr.P == first + n_mask][[c for c in spr["입력"]]].isna().sum().sum()
+            put(f"9 실거래 경계 결측 셀({panel})", cells == exp_cells and after == 0,
+                f"{first}~{first + n_mask - 1} 결측 {cells}셀 (설정 {exp_cells}), 다음 달 결측 {int(after)}")
+            asof = S.per(s["inputs"]["data_asof"]); k = s["masking"]["rt_truncate_last_months"]
+            tail = Xr[Xr.P >= asof - (k - 1)][[c for c in spr["입력"]]]
+            put(f"9 실거래 최신 {k}개월 결측(data_asof {asof}, {panel})", bool(tail.isna().all().all()), f"행 {len(tail)}")
+            lo_, hi_ = S.per(s["timing"]["official_first_decision"]), S.per(s["timing"]["first_train_end"])
+            obs = Xr[(Xr.P >= lo_) & (Xr.P <= hi_)][[c for c in spr["입력"]]].notna().mean().round(3).to_dict()
+            put(f"9 실거래 입력 최초 훈련기간 관측률({panel})", all(v >= s["rmpi"]["obs_rate_min"] for v in obs.values()), str(obs))
+        # 10 in_common 플래그와 추세 제외 목록
+        Xs, sps = D.transform(s, m2, "sido")
+        off = set(sps.loc[~sps["in_common"], "입력"])
+        trend = set(s["rmpi"]["trend_exclusion"]["applied"])
+        put("10 S1 추세 제외 입력이 공통 블록에서 빠짐", trend <= off, f"추세 제외 {sorted(trend)}; 공통 제외 전체 {sorted(off)}")
+        put("10 별도 입력은 공통 블록에 없음", all(x in off for x in sps.loc[sps.block == "extra", "입력"]), "")
+        # 11 중첩 격자: 1단계 25점(0.25 로그 간격) + 2단계 ±0.5/0.125 → 새 점 4개
+        g = s["models"]["ridge_national"]["nested"]
+        g1 = np.logspace(math.log10(g["stage1"]["min"]), math.log10(g["stage1"]["max"]), g["stage1"]["n"])
+        step1 = round(float(np.log10(g1[1]) - np.log10(g1[0])), 6)
+        offs = np.arange(-g["stage2"]["half_width_log10"], g["stage2"]["half_width_log10"] + 1e-9, g["stage2"]["step_log10"])
+        new = [o for o in offs if not any(abs((o / step1) - round(o / step1)) < 1e-9 for _ in [0])]
+        put("11 중첩 격자 규칙", step1 == 0.25 and len(new) == 4 and g["rule"] == "cv_min" and g["min_folds"] == 4,
+            f"1단계 간격 {step1}, 2단계 새 점 {len(new)}개, 규칙 {g['rule']}, 폴드 하한 {g['min_folds']}, fallback {g['fallback_alpha']}")
+        # 12 보정 구조·경보 설정 존재
+        c = s["models"]["correction"]
+        put("12 보정 구조 설정", c["baseline"] == "mom1" and set(c["models"]) == {"M0", "M1", "M2", "M3"} and "M1_slope" in c["sensitivities"],
+            f"baseline {c['baseline']}, 모형 {sorted(c['models'])}, 민감도 {sorted(c['sensitivities'])}")
+        a = s["events"]["alert_comparison"]
+        put("12 경보 비교 설정", a["target_rates_x_event_rate"] == [1, 2] and "동월지역쌍_AUC" in a["report"], str(a["target_rates_x_event_rate"]))
+        put("12 산출물 폴더 분리", s["output_dir"] != "rmpi/output", s["output_dir"])
+
     out = pd.DataFrame(rows)
     os.makedirs(os.path.join(BASE, "analysis", "output"), exist_ok=True)
-    out.to_csv(os.path.join(BASE, "analysis", "output", "check_settings.csv"), index=False, encoding="utf-8-sig")
+    ver = str(s["meta"]["settings_version"])
+    fname = "check_settings.csv" if ver.startswith("v8") else f"check_settings_{ver.split('-')[0]}.csv"
+    out.to_csv(os.path.join(BASE, "analysis", "output", fname), index=False, encoding="utf-8-sig")
     pd.set_option("display.width", 250)
     pd.set_option("display.max_colwidth", 160)
     print(out.to_string(index=False))

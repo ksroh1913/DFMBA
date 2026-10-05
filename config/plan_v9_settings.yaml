@@ -1,8 +1,8 @@
-# 9차 후속 탐색 분석 설정 (docs/연구계획_9차_보완설계안.md 5차 수정본). 8차 설정(plan_v8_settings.yaml)에서 바뀐 항목에는 '# v9' 표시.
+# 9차 후속 탐색 분석 설정 (docs/연구계획_9차_보완설계안.md 6차 수정본). 8차 설정(plan_v8_settings.yaml)에서 바뀐 항목에는 '# v9' 표시.
 # 9차는 8차 결과를 보고 설계한 후속 탐색 분석이며, 어떤 결과도 사전 지정 검증으로 쓰지 않는다. 바꾸면 settings_version 을 올리고 결정 기록에 남긴다.
 # 점검: python analysis/check_settings.py  (열 이름·사건 경계·보완 셀·시차 보정·기준 지역을 자료와 대조. 예측 성능은 계산하지 않음)
 meta:
-  settings_version: v9.0-draft            # v9
+  settings_version: v9.0                  # v9 (2026-10-05 동결: check_settings 통과 뒤)
   date: 2026-10-05
   plan: docs/연구계획_9차_보완설계안.md     # v9
   parent_settings: config/plan_v8_settings.yaml
@@ -93,7 +93,7 @@ variables:
   # --- ① 임차수요 압력 (지역)
   V009: {col: V009_주민등록인구_명, block: regional, transform: log12, driver: 1, group: 인구세대, concept: 총량, sign: "+"}            # v9 S3
   V010: {col: V010_주민등록세대수_세대, block: regional, transform: log12, driver: 1, group: 인구세대, concept: 총량, sign: "+"}          # v9 S3
-  V011a: {col: V011_주민등록인구_20-29세_명, block: regional, transform: log12, driver: 1, group: 인구세대, concept: 청년, sign: "+", in_common: false}   # v9 S2(공통 V010 과 0.97)·S3
+  V011a: {col: V011_주민등록인구_20-29세_명, block: regional, transform: log12, driver: 1, group: 인구세대, concept: 청년, sign: "+", in_common: false}   # v9 S2(공통 블록에서 V010 과 0.97 → 지역 블록 전용)·S3
   V011b: {col: V011_주민등록인구_30-39세_명, block: regional, transform: log12, driver: 1, group: 인구세대, concept: 청년, sign: "+"}     # v9 S3
   V011c: {col: V011_주민등록인구_20-39세비중_%, block: regional, transform: level_and_d12, driver: 1, group: 인구세대, concept: 비중, sign: "+", common_outputs: [Δ12]}   # v9 S1(수준 추세 -1.00)
   V012: {col: V012_인구이동_순이동자수_명, block: regional, transform: netmig_per_1000pop, driver: 1, group: 이동, sign: "+"}
@@ -142,7 +142,6 @@ variables:
 rt_columns:
   월세: V006_국토부실거래_아파트전월세_월세(보증부포함)_건
   전체: V006_국토부실거래_아파트전월세_전체_건
-  매매: V007_국토부실거래_아파트매매(해제제외)_건      # 9차 주 분석에서는 쓰지 않음(V036 과 0.98 중복). 후순위 보조
 extra_inputs:
   RT_mix: {name: 거래구성_월세비중로짓, formula: "Δ12[ logit(월세/전체) ] = Δ12[ log(월세3개월합 / (전체3개월합 - 월세3개월합)) ]", window: sum3, mask_rows: 14, sign: "±", used_in: [M3, 패널_B+실거래, 서울구_B+실거래]}
   RT_act: {name: 거래활동_천세대당전월세, formula: "Δ12[ log(1000 x 전체3개월합 / 세대수) ]", window: sum3, mask_rows: 14, sign: "±", used_in: [M3, 패널_B+실거래, 서울구_B+실거래]}

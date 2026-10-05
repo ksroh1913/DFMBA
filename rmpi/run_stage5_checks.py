@@ -109,7 +109,7 @@ def main():
 
     # 5 접합 규칙
     bad5 = []
-    for h in s["timing"]["horizons"]:
+    for h in (s["timing"]["horizons"] if "extension_first_decision" in s["timing"] else []):
         ef = T.extension_frame(s, h, "main")
         used = ef[ef["판정"] != "제외"]
         J = S.per(s["timing"]["splice_month"])

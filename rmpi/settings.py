@@ -20,7 +20,11 @@ def sha256(path, n=16):
     return h.hexdigest()[:n]
 
 
-def load(path=DEFAULT):
+def load(path=None):
+    """설정 파일. 인수 > 환경변수 RMPI_SETTINGS > 기본(plan_v8)."""
+    path = path or os.environ.get("RMPI_SETTINGS") or DEFAULT
+    if not os.path.isabs(path):
+        path = os.path.join(BASE, path)
     with open(path, encoding="utf-8") as f:
         s = yaml.safe_load(f)
     s["_path"] = os.path.relpath(path, BASE)

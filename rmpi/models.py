@@ -15,18 +15,27 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 from .frames import SIGN_C, SIGN_R
-from .index import RMPI, Exposure, IndividualInputs
+from .index import RMPI, Exposure, ExtraInputs, IndividualInputs
+
+
+def _in_common(spec):
+    """v9: 출력 단위 공통 블록 포함 플래그(없으면 모두 포함)"""
+    if "in_common" in spec.columns:
+        return spec["in_common"].fillna(True).astype(bool)
+    return pd.Series(True, index=spec.index)
 
 
 def features(s, spec, A_cols, common_cols=None, regional_cols=None, c_common=None, c_regional=None,
-             exposure_pairs=None, prefix_c="", prefix_d=""):
-    """특징 변환기. spec 의 '입력' 이름은 열 이름과 같아야 한다(패널표는 prefix 로 맞춘다)."""
+             exposure_pairs=None, prefix_c="", prefix_d="", extra_cols=None):
+    """특징 변환기. spec 의 '입력' 이름은 열 이름과 같아야 한다(패널표는 prefix 로 맞춘다).
+    extra_cols(v9): RMPI 동인 지수 밖의 별도 입력(실거래). 지역 블록 처리(풀링 표준편차, 훈련 중앙값 대체, 결측 표시)."""
     kw = dict(obs_rate_min=s["rmpi"]["obs_rate_min"], group_min_share=s["rmpi"]["group_min_share"],
               driver_min_share=s["rmpi"]["driver_min_share"])
     parts = [("A", "passthrough", list(A_cols))]
     if common_cols:
-        sp = spec[spec["block"].isin(["regional", "common"])].copy()
+        sp = spec[spec["block"].isin(["regional", "common"]) & _in_common(spec)].copy()
         sp["입력"] = prefix_c + sp["입력"]
+        common_cols = [c for c in common_cols if c in set(sp["입력"])]
         parts.append(("RMPI공통", RMPI(sp, "common", "RMPI공통", sign_col=SIGN_C, **kw), list(common_cols) + [SIGN_C]))
     if regional_cols:
         sp = spec[spec["block"] == "regional"].copy()
@@ -39,6 +48,8 @@ def features(s, spec, A_cols, common_cols=None, regional_cols=None, c_common=Non
     if exposure_pairs:
         cols = sorted({c for c, r, _ in exposure_pairs} | {r for c, r, _ in exposure_pairs})
         parts.append(("노출", Exposure(exposure_pairs), cols))
+    if extra_cols:
+        parts.append(("별도입력", ExtraInputs(list(extra_cols), "별도", s["rmpi"]["obs_rate_min"]), list(extra_cols)))
     ct = ColumnTransformer(parts, remainder="drop", verbose_feature_names_out=False)
     ct.set_output(transform="pandas")
     return ct
@@ -46,6 +57,8 @@ def features(s, spec, A_cols, common_cols=None, regional_cols=None, c_common=Non
 
 def ridge(s, ct, kind="national", alpha=None):
     a = alpha if alpha is not None else s["models"][f"ridge_{kind}"]["alpha"]
+    if not isinstance(a, (int, float)):            # v9: alpha: nested -> 초기값은 fallback, 실제 값은 choose_alpha_cv 가 정한다
+        a = float(s["models"][f"ridge_{kind}"]["nested"]["fallback_alpha"])
     return Pipeline([("features", ct), ("impute", SimpleImputer(strategy="median", keep_empty_features=True)),
                      ("scale", StandardScaler()), ("model", Ridge(alpha=a))]).set_output(transform="pandas")
 
@@ -77,6 +90,11 @@ def compositions(pipe):
     out = []
     ct = pipe.named_steps["features"] if hasattr(pipe, "named_steps") else pipe
     for name, tr, _ in ct.transformers_:
+        if isinstance(tr, ExtraInputs):
+            c = tr.composition()
+            if len(c):
+                out.append(c)
+            continue
         if isinstance(tr, RMPI):
             out.append(tr.composition())
     return pd.concat(out, ignore_index=True) if out else pd.DataFrame()

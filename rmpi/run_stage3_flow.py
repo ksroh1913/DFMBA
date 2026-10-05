@@ -90,8 +90,8 @@ def main():
     nat = {n: T.rone(raw_rent, n) for n in ("전국", "수도권", "지방권")}
     sale, jeon = T.rone(S.path(s, "raw_sale"), "전국"), T.rone(S.path(s, "raw_jeonse"), "전국")
     J = S.per(s["timing"]["splice_month"])
-    proxy = T.proxy_level(s, "main")
-    old_cap = proxy[proxy.index < J]
+    proxy = T.proxy_level(s, "main") if "proxy_main" in s["timing"] else None
+    old_cap = proxy[proxy.index < J] if proxy is not None else pd.Series(dtype=float)
     ml, _, _ = D.load_sheets(s, "sido")
     pt = T.regional(s, ml, "sido")
     ml_gu, _, _ = D.load_sheets(s, "gu")

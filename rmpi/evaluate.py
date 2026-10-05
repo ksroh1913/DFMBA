@@ -118,3 +118,51 @@ def event_metrics(y, p, cutoff, p_ref=None):
     out["F1"] = 2 * tp / (2 * tp + fp + fn) if 2 * tp + fp + fn > 0 else np.nan
     out["F1_항상사건"] = 2 * y.sum() / (y.sum() + len(y)) if y.sum() > 0 else np.nan
     return out
+
+
+# ------------------------------------------------------------ v9 ④ 경보 실용성 지표
+def within_month_auc(df, ycol="y", pcol="yhat", month="P", min_regions=10):
+    """같은 달 안에서 사건 지역과 비사건 지역의 예측확률 순위를 가르는 정도: 월별 ROC-AUC 의 평균(두 계급이 모두 있는 달만)"""
+    vals = []
+    for _, g in df.groupby(month):
+        y = g[ycol].astype(float)
+        if len(g) >= min_regions and 0 < y.sum() < len(y):
+            vals.append(roc_auc_score(y, g[pcol]))
+    return (float(np.mean(vals)) if vals else np.nan), len(vals)
+
+
+def episode_lead_times(df, cut_col, ycol="y", pcol="yhat", quiet=6, window=6):
+    """국면 시작(지역별로 quiet 개 결정월 연속 비사건 뒤 첫 사건) 마다, 시작 전 window 개월 안에서 처음 경보가 켜진 시점까지의 개월 수.
+    반환 DataFrame(region, 시작, 경보첫시점, 선행개월; 경보 없으면 NaN)"""
+    rows = []
+    for reg, g in df.sort_values("P").groupby("region"):
+        g = g.set_index("P")
+        y = g[ycol].astype(float)
+        prev = y.shift(1).rolling(quiet, min_periods=quiet).max()
+        starts = g.index[(y == 1) & (prev == 0)]
+        alert = (g[pcol] >= g[cut_col])
+        for s0 in starts:
+            win = alert.loc[s0 - (window - 1): s0]
+            on = win[win].index
+            rows.append({"region": reg, "시작": str(s0), "경보첫시점": str(on.min()) if len(on) else "",
+                         "선행개월": int((s0 - on.min()).n) if len(on) else np.nan})
+    return pd.DataFrame(rows)
+
+
+def alert_metrics(df, cut_col, ycol="y", pcol="yhat", state_col="기존급락상태"):
+    """비급락 상태 지역을 대상으로 한 경보 지표. df: 한 모형의 패널 예측(P, region, y, yhat, 컷오프 열, 기존급락상태)."""
+    d = df[df[state_col] == 0] if state_col in df.columns else df
+    d = d[d[ycol].notna() & d[pcol].notna() & d[cut_col].notna()]
+    y = d[ycol].astype(float).values
+    a = (d[pcol].values >= d[cut_col].values).astype(float)
+    tp = float(((a == 1) & (y == 1)).sum()); fp = float(((a == 1) & (y == 0)).sum()); fn = float(((a == 0) & (y == 1)).sum())
+    out = {"행수": int(len(d)), "사건수": int(y.sum()), "경보수": int(a.sum()), "경보빈도_실제": float(a.mean()) if len(d) else np.nan,
+           "경보적중률": tp / (tp + fp) if tp + fp > 0 else np.nan, "급락포착률": tp / (tp + fn) if tp + fn > 0 else np.nan}
+    out["F1"] = 2 * tp / (2 * tp + fp + fn) if 2 * tp + fp + fn > 0 else np.nan
+    auc, n_m = within_month_auc(d, ycol, pcol)
+    out["동월지역쌍_AUC"], out["AUC_유효월수"] = auc, n_m
+    lead = episode_lead_times(df, cut_col, ycol, pcol)
+    if len(lead):
+        out["국면시작수"] = int(len(lead)); out["국면포착률"] = float(lead["선행개월"].notna().mean())
+        out["평균선행개월(포착분)"] = float(lead["선행개월"].mean()) if lead["선행개월"].notna().any() else np.nan
+    return out, lead

@@ -26,8 +26,10 @@ from rmpi import settings as S  # noqa: E402
 from rmpi import targets as T  # noqa: E402
 
 EXCLUDE_REASON = {
-    "V006": "실거래 신고 스냅숏(시도 94% 결측). 서울 구 보조에서만 검토",
-    "V007": "실거래 신고 스냅숏(시도 94% 결측)",
+    "V006": "실거래 신고 스냅숏(시도 94% 결측). 서울 구 보조에서만 검토",      # 8차
+    "V007": "실거래 신고 스냅숏(시도 94% 결측)",                               # 8차
+    "V007_v9": "국토부 매매 건수: 부동산원 매매거래현황(V036)과 0.98 중복(S2). 9차 주 분석 미사용",
+    "V044": "CD91일 금리: 기준금리(V043)와 0.96, 같은 단기금리 측정(S2)",
     "V024": "서울 구 전용(시도 단위 없음)",
     "V034": "구 수급동향, 2015.06 종료",
     "V076": "2020년 이후만 (기간 짧음)",
@@ -67,6 +69,12 @@ def main():
             rec["관측률_최초훈련_공통성분"] = round(Csub[name].notna().mean(), 3)
             rec["관측률_평가구간_공통성분"] = round(Cev[name].notna().mean(), 3)
             rec["사용"] = "공통 블록"
+        elif r["block"] == "extra":
+            refs = b["ref_regions"][name]
+            rec["기준지역수"] = len(refs)
+            rec["관측률_최초훈련_지역성분"] = round(Dsub[name].notna().mean(), 3)
+            rec["관측률_평가구간_지역성분"] = round(Dev[name].notna().mean(), 3)
+            rec["사용"] = "별도 입력(지역 블록 처리, RMPI 밖). M3·B+실거래 전용"
         else:
             rec["사용"] = "A(가격 추세) 전용. RMPI 제외"
         obs = X[(X.P >= lo)][name]
@@ -99,7 +107,7 @@ def main():
         add(n, "월세통합지수(공식)", T.rone(S.path(s, "raw_rent"), n))
     add("전국", "매매가격지수", T.rone(S.path(s, "raw_sale"), "전국"), "A 입력(6개월 변화율)")
     add("전국", "전세가격지수", T.rone(S.path(s, "raw_jeonse"), "전국"), "A 입력(6개월 변화율)")
-    for n in s["timing"]["proxy_sensitivity"]:
+    for n in s["timing"].get("proxy_sensitivity", []):
         add(n, "옛 월세가격지수(집계)", T.rone(S.path(s, "raw_old_rent"), n), "대용계열(확장 실험, 학습만)")
     pt = T.regional(s, b["ml"])
     off = pt[pt.R_last.notna()]
@@ -107,11 +115,11 @@ def main():
         f"{off.region.nunique()}개 시도, 결정월 기준")
     pd.DataFrame(rng).to_csv(os.path.join(out, "stage2_자료기간표.csv"), index=False, encoding="utf-8-sig")
 
-    # ---- 접합 판정
+    # ---- 접합 판정 (8차 확장 실험용. v9 설정에는 extension_first_decision 이 없어 건너뛴다)
     sp = []
     summ = []
     T0 = ev0
-    for h in s["timing"]["horizons"]:
+    for h in (s["timing"]["horizons"] if "extension_first_decision" in s["timing"] else []):
         months = pd.period_range("2011-01", T0 - h, freq="M")
         tb = T.splice_table(s, h, months)
         tb_ext = tb[tb.P >= S.per(s["timing"]["extension_first_decision"])]
@@ -124,8 +132,26 @@ def main():
         summ.append({"h": h, "공식 훈련월(2018.01)": n_new, "옛 체계 훈련월": n_old, "합계": n_new + n_old,
                      "제외 결정월": D._span(exc), "옛 체계로 남는 2015년": D._span(kept15),
                      "민감도 대용계열 옛 체계 훈련월": n_sens})
-    pd.concat(sp).to_csv(os.path.join(out, "stage2_접합판정.csv"), index=False, encoding="utf-8-sig")
-    pd.DataFrame(summ).to_csv(os.path.join(out, "stage2_접합요약.csv"), index=False, encoding="utf-8-sig")
+    if sp:
+        pd.concat(sp).to_csv(os.path.join(out, "stage2_접합판정.csv"), index=False, encoding="utf-8-sig")
+        pd.DataFrame(summ).to_csv(os.path.join(out, "stage2_접합요약.csv"), index=False, encoding="utf-8-sig")
+
+    # ---- v9 실거래 진단: 지역별 첫 관측, 경계 결측, 절단, 2021.06 단절 비율
+    if "extra_inputs" in s:
+        rc = s["rt_columns"]
+        ml = b["ml"]
+        rows_rt = []
+        first = S.per(s["masking"]["rt_break_first_row"]); n_mask = s["masking"]["rt_mask_rows"]["sum3_d12"]
+        for reg, g in ml.groupby("region"):
+            g = g.set_index("P").sort_index()
+            rent, tot = g[rc["월세"]].astype(float), g[rc["전체"]].astype(float)
+            post = rent.loc["2021-08":"2022-01"].mean(); pre = rent.loc["2020-08":"2021-01"].mean()
+            xr = X[X.region == reg].set_index("P")
+            rows_rt.append({"region": reg, "월세건수_첫관측": str(rent.dropna().index.min()), "월세건수_2021H2/2020H2(2차행)": round(post / pre, 2) if pre else np.nan,
+                            "월세비중_2016": round(float((rent / tot).loc["2016-01":"2016-12"].mean()), 3), "월세비중_2025": round(float((rent / tot).loc["2025-01":"2025-12"].mean()), 3),
+                            "RT_mix_경계결측행": int(xr.loc[first: first + n_mask - 1, "RT_mix|Δ12"].isna().sum()),
+                            "RT_mix_관측률_평가": round(float(xr.loc[ev0:ev1, "RT_mix|Δ12"].notna().mean()), 3), "RT_act_관측률_평가": round(float(xr.loc[ev0:ev1, "RT_act|Δ12"].notna().mean()), 3)})
+        pd.DataFrame(rows_rt).to_csv(os.path.join(out, "stage2_실거래진단.csv"), index=False, encoding="utf-8-sig")
 
     # ---- 타깃 요약 (개발 성격 구간: 결정월 2016.01~, 정답 2020.12까지)
     dev_end = pd.Period("2020-12", "M")
