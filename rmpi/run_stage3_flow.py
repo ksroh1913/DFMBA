@@ -91,7 +91,7 @@ def main():
     sale, jeon = T.rone(S.path(s, "raw_sale"), "전국"), T.rone(S.path(s, "raw_jeonse"), "전국")
     J = S.per(s["timing"]["splice_month"])
     proxy = T.proxy_level(s, "main") if "proxy_main" in s["timing"] else None
-    old_cap = proxy[proxy.index < J] if proxy is not None else pd.Series(dtype=float)
+    old_cap = proxy[proxy.index < J] if proxy is not None else pd.Series(dtype=float, index=pd.PeriodIndex([], freq="M"))
     ml, _, _ = D.load_sheets(s, "sido")
     pt = T.regional(s, ml, "sido")
     ml_gu, _, _ = D.load_sheets(s, "gu")
@@ -104,9 +104,10 @@ def main():
     ax = axes[0]
     base = {n: 100 * v / v.loc[J] for n, v in nat.items()}
     old_b = 100 * old_cap / nat["전국"].loc[J]        # 2015.06 수준에 맞춘 대용계열 (이미 전국 수준으로 연결됨)
-    ax.plot(ts(old_b), old_b.values, color=V.GRAY, lw=1.6)
-    ax.annotate("옛 수도권 지수(대용계열, 2015.06 수준에 연결)", (ts(old_b)[0], old_b.iloc[0]), xytext=(0, -14),
-                textcoords="offset points", ha="left", va="top", fontsize=8, color=V.INK2)
+    if len(old_b):
+        ax.plot(ts(old_b), old_b.values, color=V.GRAY, lw=1.6)
+        ax.annotate("옛 수도권 지수(대용계열, 2015.06 수준에 연결)", (ts(old_b)[0], old_b.iloc[0]), xytext=(0, -14),
+                    textcoords="offset points", ha="left", va="top", fontsize=8, color=V.INK2)
     for i, n in enumerate(("전국", "수도권", "지방권")):
         ax.plot(ts(base[n]), base[n].values, color=V.SERIES[i], label=n)
         V.end_label(ax, ts(base[n])[-1], base[n].iloc[-1], f"{n} {base[n].iloc[-1]:.1f}")
@@ -121,7 +122,8 @@ def main():
         ax.plot(ts(y), y.values, color=V.SERIES[i], label=n)
         V.end_label(ax, ts(y)[-1], y.iloc[-1], f"{y.iloc[-1]:+.1f}%")
     yo = yoy(old_cap).dropna()
-    ax.plot(ts(yo), yo.values, color=V.GRAY, lw=1.6)
+    if len(yo):
+        ax.plot(ts(yo), yo.values, color=V.GRAY, lw=1.6)
     ax.axhline(0, color=V.BASE, lw=0.8)
     ax.axvline(J.to_timestamp(), color=V.BASE, lw=0.8)
     ax.set_title("12개월 변화율 (%)")
@@ -282,7 +284,7 @@ def main():
             if ser is not None and a >= J:
                 rec[f"{n} 누적변화(%)"] = round(100 * (ser.loc[b] / ser.loc[a - 1] - 1), 1)
         if b < J:
-            rec["옛 수도권 누적변화(%)"] = round(100 * (old_cap.loc[b] / old_cap.loc[a - 1] - 1), 1)
+            rec["옛 수도권 누적변화(%)"] = round(100 * (old_cap.loc[b] / old_cap.loc[a - 1] - 1), 1) if len(old_cap) and a - 1 in old_cap.index and b in old_cap.index else np.nan
         rows.append(rec)
     pd.DataFrame(rows).to_csv(os.path.join(out, "stage3_국면표.csv"), index=False, encoding="utf-8-sig")
 
@@ -301,5 +303,42 @@ def main():
     print(pd.DataFrame(rows).to_string(index=False))
 
 
+def rt_figure(s, out):
+    """v9 그림 3.6: 월세 거래 비중(3개월합 기준)과 천세대당 전월세 거래량(3개월합). 17개 시도 가는 선, 전국 합계 굵은 선, 신고제 경계."""
+    if "rt_columns" not in s:
+        return
+    ml, _, _ = D.load_sheets(s, "sido")
+    rc = s["rt_columns"]
+    hh = ml[s["inputs"]["households_col"]].astype(float)
+    g = ml["region"]
+    rent = ml[rc["월세"]].astype(float).groupby(g).transform(lambda v: v.rolling(3, min_periods=3).sum())
+    tot = ml[rc["전체"]].astype(float).groupby(g).transform(lambda v: v.rolling(3, min_periods=3).sum())
+    df = pd.DataFrame({"region": g, "P": ml["P"], "share": rent / tot, "act": 1000 * tot / hh.groupby(g).transform(lambda v: v.rolling(3, min_periods=3).mean()),
+                       "rent": rent, "tot": tot, "hh": hh})
+    asof = S.per(s["inputs"]["data_asof"]) if s["inputs"].get("data_asof") else None
+    if asof is not None:
+        df = df[df.P < asof - 1]           # 최신 2개월(절단) 제외
+    first = S.per(s["masking"]["rt_break_first_row"])
+    fig, axes = plt.subplots(2, 1, figsize=(10, 7.2), sharex=True)
+    for ax, col, title in ((axes[0], "share", "월세 거래 비중 (3개월 합 기준, 월세/전월세 전체)"), (axes[1], "act", "천 세대당 전월세 거래량 (3개월 합)")):
+        wide = df.pivot(index="P", columns="region", values=col)
+        for r in wide.columns:
+            ax.plot(wide.index.to_timestamp(), wide[r].values, color=V.GRAY, lw=0.7, alpha=0.6)
+        natv = (df.groupby("P")["rent"].sum() / df.groupby("P")["tot"].sum()) if col == "share" else (1000 * df.groupby("P")["tot"].sum() / df.groupby("P")["hh"].sum())
+        natv = natv.dropna()
+        ax.plot(natv.index.to_timestamp(), natv.values, color=V.SERIES[0], lw=2.0, label="전국 합계")
+        ax.axvline(first.to_timestamp(), color=V.BASE, lw=0.8)
+        ax.text(first.to_timestamp(), ax.get_ylim()[1], " 2021.06 임대차 신고제(2차 행 2021.07)", fontsize=7.5, color=V.INK2, va="top")
+        ax.set_title(title)
+        ax.legend(loc="upper left")
+    axes[0].set_ylim(0.1, 0.8)
+    fig.suptitle("실거래 신고 건수로 본 임대차 거래 구성과 활동 (17개 시도, 2차 시트 기준)", fontsize=11)
+    fig.tight_layout()
+    fig.savefig(os.path.join(out, "fig3_6_실거래_비중_거래활동.png"), dpi=150)
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     main()
+    _s = S.load()
+    rt_figure(_s, os.path.join(BASE, _s["output_dir"]))

@@ -173,6 +173,44 @@ def main():
     miss = nf.loc[lo:hi, F.A_NAT].isna().sum().sum()
     put("12 전국 A 입력 가용성(2016.01~2025.12)", miss == 0, f"결측 {int(miss)}셀")
 
+    # ---------------- v9 추가 점검
+    if "correction" in s["models"]:
+        from rmpi.split import ForwardMonthSplit as _FMS
+        # 13 보정 구조: 훈련 행의 정답 확인 시점 <= T, M0 = h x past1, M1 = M0 + 훈련 평균 잔차
+        ok13, det13 = True, []
+        for h in s["timing"]["horizons"]:
+            p0, _, _ = E.correction_run(s, nf, spec, h, chk_origins, model="M0")
+            p1, _, _ = E.correction_run(s, nf, spec, h, chk_origins, model="M1")
+            same0 = np.allclose(p0["yhat"].values, h * nf.loc[p0["P"], "past1"].values)
+            for T_ in chk_origins:
+                tr = nf[(nf.index >= first) & (nf.index <= T_ - h) & nf[f"G{h}"].notna() & nf["past1"].notna()]
+                m1 = float((tr[f"G{h}"] - h * tr["past1"]).mean())
+                r1 = p1[p1["P"] == T_]
+                if len(r1) and not np.isclose(float(r1["보정"].iloc[0]), m1):
+                    ok13 = False; det13.append(f"h={h} {T_} M1 보정 {float(r1['보정'].iloc[0]):.4f} != {m1:.4f}")
+                if len(tr) and (tr.index + h).max() > T_:
+                    ok13 = False; det13.append(f"h={h} {T_} 훈련 행 정답 미확인")
+            ok13 &= same0
+        put("13 보정 구조(M0 = h×past1, M1 = M0 + 훈련 평균 잔차, 훈련 행 정답 확인 <= T)", ok13, "; ".join(det13) if det13 else "h=1·3·6 통과")
+        # 14 중첩 alpha 선택의 내부 폴드: 검증월 <= T-h, 폴드 훈련 <= 검증월-h
+        ok14, det14 = True, []
+        for h in s["timing"]["horizons"]:
+            T_ = chk_origins[-1]
+            tr = nf[(nf.index >= first) & (nf.index <= T_ - h) & nf[f"G{h}"].notna()]
+            P = pd.PeriodIndex(tr.index)
+            for trn, ten in _FMS(h, n_val=12).split(tr, groups=P):
+                v = P[ten].min()
+                if v > T_ - h or (P[trn] + h).max() > v:
+                    ok14 = False; det14.append(f"h={h} 검증월 {v}")
+        put("14 중첩 alpha 선택의 내부 폴드가 과거 자료 안에 있음", ok14, "; ".join(det14) if det14 else "검증월 <= T−h, 폴드 훈련 <= 검증월−h")
+        # 15 경보 컷오프 = 훈련 예측확률의 (1 − k×사건비율) 분위 (h=6, 2017-12 한 시점)
+        h = 6
+        pdn, _, _ = E.panel_run(s, pf, spec, h, pd.period_range("2017-12", "2017-12", freq="M"), target="down", info="A", prior_state=True, alert_rates=[1, 2])
+        ok15 = len(pdn) > 0 and {"컷오프_1x", "컷오프_2x"} <= set(pdn.columns) and (pdn["컷오프_2x"] <= pdn["컷오프_1x"] + 1e-12).all()
+        put("15 경보 컷오프 열 생성(2배 컷오프 <= 1배 컷오프)", bool(ok15), f"행 {len(pdn)}, 훈련 사건비율 {pdn['훈련사건비율'].iloc[0]:.3f}" if len(pdn) else "예측 없음")
+        # 16 별도 입력(실거래)의 과거 절단 불변은 3번 점검(spec 전체)에 포함됨
+        put("16 별도 입력 과거 절단 불변", True, "3번 점검의 spec 에 RT_mix·RT_act 포함(" + str(int((spec.block == 'extra').sum())) + "열)")
+
     res = pd.DataFrame(rows)
     res.to_csv(os.path.join(out, "stage5_점검.csv"), index=False, encoding="utf-8-sig")
     print(f"\n실패 {(res['결과'] == '실패').sum()}건")

@@ -139,7 +139,10 @@ def main():
         step = rmpi_step(ct, f"RMPI{blk}")
         Z = (tr[step.keep_] - step.mu_) / step.sd_ * step.sign_
         idx_full = step._indices(tr)
-        for d, groups in step.struct_.items():
+        def _flat(groups):   # v9: 묶음 -> 개념 -> 구성변수 (8차: 묶음 -> 구성변수) 모두 지원
+            return {g: (sum(v.values(), []) if isinstance(v, dict) else list(v)) for g, v in groups.items()}
+        for d, groups_raw in step.struct_.items():
+            groups = _flat(groups_raw)
             dm = DRIVER_MARK[d]
             cols = sum(groups.values(), [])
             if len(cols) >= 2:
@@ -169,8 +172,12 @@ def main():
                            step.group_min_share, step.driver_min_share)
                 sub.keep_ = [k for k in step.keep_ if k != c]
                 sub.mu_, sub.sd_, sub.sign_ = step.mu_.drop(c), step.sd_.drop(c), step.sign_.drop(c)
-                sub.struct_ = {dd: {g: [k for k in gc if k != c] for g, gc in gr.items() if [k for k in gc if k != c]}
-                               for dd, gr in step.struct_.items()}
+                def _drop(v):
+                    if isinstance(v, dict):
+                        o = {cp: [k for k in ks if k != c] for cp, ks in v.items()}
+                        return {cp: ks for cp, ks in o.items() if ks}
+                    return [k for k in v if k != c]
+                sub.struct_ = {dd: {g: _drop(gc) for g, gc in gr.items() if _drop(gc)} for dd, gr in step.struct_.items()}
                 sub.struct_ = {dd: gr for dd, gr in sub.struct_.items() if gr}
                 if d not in sub.struct_:
                     loo_rows.append({"블록": blk, "동인": dm, "뺀 변수": c, "지수 상관": np.nan, "비고": "유일한 구성변수"})

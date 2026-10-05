@@ -351,7 +351,7 @@ def _corr_inputs(s, sp, model, nf_or_pf, panel=False, extra=False):
     return A, M.features(s, sp, A, common_cols=ccols, regional_cols=dcols, prefix_c="C|", prefix_d="D|", extra_cols=xcols)
 
 
-def correction_run(s, frame_in, spec, h, origins, model="M2", panel=False, alpha_rule="cv_min", label=None, exclude_ids=()):
+def correction_run(s, frame_in, spec, h, origins, model="M2", panel=False, alpha_rule="cv_min", label=None, exclude_ids=(), alpha_value=None):
     """학습 목표 = G − mom1 (mom1 = h × past1), 최종 예측 = mom1 + 보정값.
     model: 'M0'(mom1), 'M1'(절편만), 'M1s'(mom1 계수 학습), 'M2'(가격추세+RMPI), 'M2+past36', 'M3'(패널: +별도 입력).
     전국: frame_in = 결정월 index 의 nf.  패널: frame_in = pf(region, P 열), 통합 패널 G, 지역별 mom1.
@@ -394,6 +394,8 @@ def correction_run(s, frame_in, spec, h, origins, model="M2", panel=False, alpha
                 if alpha_rule in ("cv_min", "one_se"):
                     cur_alpha, info = choose_alpha_cv(p, Xtr, ytr, Xtr["P"], h, s, rule=alpha_rule)
                     alog.append({"시점": str(T), "h": h, "모형": model, **info})
+                elif alpha_rule == "fixed" and alpha_value is not None:
+                    cur_alpha = float(alpha_value)
                 else:
                     cur_alpha = float(s["models"]["ridge_national"]["nested"]["fallback_alpha"])
                 p.set_params(model__alpha=cur_alpha)

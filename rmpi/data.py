@@ -97,12 +97,13 @@ def lag_adjust(s, ml, extra=False):
         c = colname(s, vid)
         if c in ml.columns:
             ml[c] = g[c].shift(k)
-    if extra:
+    if extra and extra != "rt":
         for vid in s["robustness_extra_lag"]["columns"]:
             c = colname(s, vid)
             if c in ml.columns:
                 ml[c] = ml.groupby("region")[c].shift(1)
-        if s["robustness_extra_lag"].get("rt_raw_columns") and "rt_columns" in s:   # v9: 실거래 원열
+    if extra and s["robustness_extra_lag"].get("rt_raw_columns") and "rt_columns" in s:   # v9: 실거래 원열 (extra='rt' 면 이것만)
+        if True:
             for c in s["rt_columns"].values():
                 if c in ml.columns:
                     ml[c] = ml.groupby("region")[c].shift(1)
