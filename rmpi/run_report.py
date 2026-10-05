@@ -211,6 +211,24 @@ def main():
         drop = comp4[(~comp4["유지"]) | (~comp4["동인지수유지"])][["h", "블록", "입력", "제외이유", "동인제외이유"]].drop_duplicates()
         A("RMPI 구성에서 제외된 항목(최초 훈련기간 기준, stage4_구성명세.csv):\n")
         A(md_table(drop, nd=2))
+    sim = rd("../../analysis/output/plan_v7_inference_sim.csv") if False else (pd.read_csv(os.path.join(BASE, "analysis", "output", "plan_v7_inference_sim.csv"))
+                                                                              if os.path.exists(os.path.join(BASE, "analysis", "output", "plan_v7_inference_sim.csv")) else pd.DataFrame())
+    if len(sim):
+        A("### 6.1 판정 규칙의 모의실험 (analysis/plan_v7_inference_sim.py, 2026-10-05 재작성)\n")
+        A("원래 스크립트는 저장소에 없어 계획서의 설정 설명대로 다시 만들었다. 차이가 없을 때(귀무) 각 규칙이 ‘개선’ 또는 기각으로 판정하는 비율(%), AR(1) φ별:\n")
+        null = sim[(sim["효과(σ)"] == 0) & (sim["과정"] == "AR(1)")].pivot_table(index="규칙", columns="φ", values="비율") * 100
+        null = null.reset_index()
+        A(md_table(null, nd=1))
+        ar = sim[(sim["효과(σ)"] == 0) & (sim["과정"] == "AR(1)")]
+        def rng_(mask):
+            v = ar[mask]["비율"] * 100
+            return f"{v.min():.1f}~{v.max():.1f}%"
+        A("계획서 1장 문장과의 대조(φ 0.6~0.9, 차이 없음): 연평균 구간만 " + rng_(ar["규칙"].str.startswith("R1")) + " (계획서 3.0~9.5%), 두 구간 결합 "
+          + rng_(ar["규칙"].str.startswith("R2")) + " (1.4~4.0%), 연평균 t구간 양측 " + rng_(ar["규칙"].str.startswith("T2")) + " (6.6~18.2%), 블록 부트스트랩 양측 "
+          + rng_(ar["규칙"].str.startswith("B") & ar["규칙"].str.contains("양측")) + " (12.6~36.5%). 재작성한 스크립트의 수치로 계획서 1장을 고쳐 적어야 한다.\n")
+        power = sim[(sim["효과(σ)"] == -0.5) & (sim["과정"] == "AR(1)") & sim["규칙"].str.match(r"^(R1|R2|B12 블록 12 상한)")].pivot_table(index="규칙", columns="φ", values="비율") * 100
+        A("평균을 −0.5σ 옮긴 대립에서의 판정 비율(검정력, %):\n")
+        A(md_table(power.reset_index(), nd=1))
     A("- 하이퍼파라미터는 설정 파일에 사전 고정했다(Ridge 전국 alpha 10, 패널 170, 로지스틱 C 1/170). 평가 결과를 본 뒤 바꾸지 않았고, 매년 1월 전진 검증으로 다시 고르는 재튜닝은 민감도로만 보고한다.\n")
     A("- 2018~2025년은 설계 전에 일부 통계가 열람된 구간이므로 ‘설계 동결 후 역사적 재검증’이다(계획 부록 A).\n")
     A("- 입력은 최신 개정자료에 공표 시차를 적용한 의사 실시간 자료다. V013·V015·V017·V021~V023·V066·V074 는 공표 당시 값과 다를 수 있어 제외 민감도를 함께 보고했다.\n")
