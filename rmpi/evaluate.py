@@ -132,7 +132,7 @@ def within_month_auc(df, ycol="y", pcol="yhat", month="P", min_regions=10):
 
 
 def episode_lead_times(df, cut_col, ycol="y", pcol="yhat", quiet=6, window=6, state_col="기존급락상태", history=None):
-    """국면 시작(지역별로 quiet 개 결정월 연속 비사건 뒤 첫 사건) 마다, 시작 전 window 개월 안에서 처음 경보가 켜진 시점까지의 개월 수.
+    """국면 시작(지역별로 quiet 개 결정월 연속 비사건 뒤 첫 사건) 마다, 시작 (window−1)개월 전부터 시작 달까지의 window 개 결정월 안에서 처음 경보가 켜진 시점까지의 개월 수(0 = 시작 달).
     history: 예측표 이전 구간의 사건 열(region, P, y). 붙이면 평가 첫 달 앞의 quiet 개월도 판정에 쓴다(없으면 첫 quiet 개월의 시작은 못 찾는다).
     경보는 결정월에 급락 상태가 아닌 행(state_col == 0)에서만 센다(경보 모집단과 같게).
     반환 DataFrame(region, 시작, 경보첫시점, 선행개월; 경보 없으면 NaN, 창 안 가용 결정월 수)"""
