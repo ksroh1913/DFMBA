@@ -7,5 +7,7 @@ __pycache__/
 # collect/collect_molit.py 로 언제든 다시 받을 수 있다. 나머지 raw(KOSIS·R-ONE·ECOS 등)는 올린다.
 raw/*/V006_*/
 raw/*/V007_*/
+# 예외: V006 을 시도별로 취합해 gzip 압축한 파일(17개, 약 220MB)은 올린다.
+!raw/*/V006_아파트전월세실거래_시도별/
 raw/_수집로그_*.txt
 raw/_수집오류_*.txt
