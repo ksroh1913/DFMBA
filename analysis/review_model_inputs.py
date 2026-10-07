@@ -60,6 +60,58 @@ FORMULA = {"수준": "x", "Δ12": "x − x[−12]", "로그Δ12": "100·(ln x �
            "12개월합_천명당": "1000·Σ(최근 12개월 x) / 인구(V009)", "6개월%": "100·(x / x[−6] − 1)"}
 RT_FORMULA = {"RT_mix|Δ12": "100·Δ12[ ln(월세 3개월합 / (전체 3개월합 − 월세 3개월합)) ]  (V006, 신고제 경계 14행 결측)",
               "RT_act|Δ12": "100·Δ12[ ln(1000·전체 3개월합 / 세대수(V010)) ]  (V006, 신고제 경계 14행 결측)"}
+# 읽기용 열 이름 'ID_변수명_전처리' 에 쓰는 전처리 이름과 변수명 보정
+TR_KO = {"수준": "수준", "Δ12": "12개월차분", "로그Δ12": "12개월로그변화율(%)", "12개월합_천세대당": "12개월합_천세대당",
+         "잔량_천세대당_log1p": "천세대당잔량_log1p", "12개월합_천명당": "12개월순이동_천명당", "6개월%": "6개월변화율(%)"}
+NAME_FIX = {"V011a": "주민등록인구 20-29세", "V011b": "주민등록인구 30-39세", "V011c": "20-39세 인구비중", "CSI": "주택가격전망CSI(지역유형별)",
+            "RT_mix": "전월세 실거래 월세비중로짓 3개월합", "RT_act": "전월세 실거래 천세대당건수로그 3개월합"}
+ID_TXT = {"CSI": "V061-63", "RT_mix": "V006", "RT_act": "V006"}
+
+
+def readable_name(col, table, sp, s):
+    """열 이름 -> 'ID_변수명_전처리 (원래 열 이름)'. 패널 표의 C|·D| 접두사는 '공통_'·'지역편차_' 로 옮긴다."""
+    pre, base = "", col
+    for p in ("C|", "D|"):
+        if col.startswith(p):
+            pre, base = p, col[len(p):]
+    rent = "V001_아파트 월세통합가격지수"
+    fixed = {"region": "시도", "P": "결정월", "R_last": f"{rent}_수준 R(t-1)"}
+    if col in fixed:
+        return f"{fixed[col]} ({col})"
+    m = re.match(r"^(G|Gbar|Gnat|r|g|down|up|state_down|state_up|label_month)(\d)$", col)
+    if m:
+        k, h = m.group(1), m.group(2)
+        txt = {"G": f"{h}개월앞변화율(%) 타깃", "Gbar": f"{h}개월앞변화율 17시도평균", "Gnat": f"{h}개월앞변화율 전국(부호결정용)",
+               "r": f"{h}개월앞상대변화율 타깃", "g": f"{h}개월앞변화율 R(t)기준(민감도)", "down": f"{h}개월 급락여부(0/1)",
+               "up": f"{h}개월 급등여부(0/1)", "state_down": f"기존급락상태 {h}개월", "state_up": f"기존급등상태 {h}개월"}.get(k)
+        return f"정답확인월 h={h} ({col})" if k == "label_month" else f"{rent}_{txt} ({col})"
+    m = re.match(r"^(rel_)?past(\d)$", col)
+    if m:
+        return f"{rent}_과거{m.group(2)}개월변화율(%){'_17시도평균대비' if m.group(1) else ''} ({col})"
+    if base in sp.index:
+        r = sp.loc[base]
+        vid, blk, suf = r["ID"], r["block"], base.split("|", 1)[1]
+        mid = ALIAS.get(vid, vid)
+        nm = NAME_FIX.get(vid) or BY_ID.get(mid, {}).get("name", vid)
+        core = f"{ID_TXT.get(vid, vid)}_{nm}_{TR_KO.get(suf, suf)}"
+        if blk == "price_trend":
+            return f"{core} ({col})"
+        if pre == "D|":
+            return f"지역편차_{core}_시도-기준지역평균 ({col})" if blk == "regional" else f"지역편차_{core} ({col})"
+        tail = "_기준지역평균" if blk == "regional" else "_전국"
+        return f"{'공통_' if pre == 'C|' else ''}{core}{tail} ({col})"
+    if base.endswith("|월내편차"):
+        inner = base[:-len("|월내편차")]
+        return readable_name(inner, table, sp, s).replace(f" ({inner})", "") + f"_17시도평균대비 ({col})"
+    m = re.match(r"^(RMPI공통|RMPI지역)\|([①-⑥])(\|결측)?$", col)
+    if m:
+        dn = {v.split(" ")[0]: v.replace(" ", "") for v in s["driver_names"].values()}.get(m.group(2), m.group(2))
+        return f"{m.group(1)}_{dn}_동인지수{'_결측표시' if m.group(3) else ''} ({col})"
+    return col
+
+
+def rename_cols(df, table, sp, s):
+    return df.rename(columns={c: readable_name(c, table, sp, s) for c in df.columns})
 
 
 # ============================================================ 자료 (run_v9_stage6.py 와 같은 순서)
@@ -530,17 +582,22 @@ def main():
     roles_nat = dict(zip(tab.loc[tab["표"] == "전국", "열이름"], tab.loc[tab["표"] == "전국", "역할"]))
     roles_pan = dict(zip(tab.loc[tab["표"] == "패널", "열이름"], tab.loc[tab["표"] == "패널", "역할"]))
 
-    # ---- 2·3 입력표 (값 그대로)
+    # ---- 읽기용 열 이름 'ID_변수명_전처리 (원래 이름)'
+    spi = spec.set_index("입력")
+    tab.insert(1, "읽기용 열이름", [readable_name(c, t, spi, s) for c, t in zip(tab["열이름"], tab["표"])])
+
+    # ---- 2·3 입력표 (값 그대로, 열 이름은 읽기용)
     nf_out = nf.loc[lo:post].copy()
     nf_out.insert(0, "P", [str(p) for p in nf_out.index])
-    nf_out = _str_periods(nf_out.reset_index(drop=True))
-    pf_out = _str_periods(pf[(pf["P"] >= lo) & (pf["P"] <= post)].reset_index(drop=True))
+    nf_out = rename_cols(_str_periods(nf_out.reset_index(drop=True)), "전국", spi, s)
+    pf_out = rename_cols(_str_periods(pf[(pf["P"] >= lo) & (pf["P"] <= post)].reset_index(drop=True)), "패널", spi, s)
     nf_out.to_csv(os.path.join(OUT, "review_전국_입력표.csv"), index=False, encoding="utf-8-sig")
     pf_out.to_csv(os.path.join(OUT, "review_패널_입력표.csv"), index=False, encoding="utf-8-sig")
 
     # ---- 4 설계행렬
     Znat, Zpan, comps = design_cases(s, spec, nf, pf)
     print(f"설계행렬: 전국 {Znat.shape}, 패널 {Zpan.shape}, 구성명세 {comps.shape}", flush=True)
+    Znat_out, Zpan_out = rename_cols(Znat, "전국", spi, s), rename_cols(Zpan, "패널", spi, s)
 
     # ---- 5 정상성 전국: nf 수치 열(식별·정답시점·0/1 제외) + 전국 동인 지수(h=1, 2025-12 적합)
     skip = {"식별", "정답 시점", "상태", "타깃(사건)"}
@@ -571,6 +628,9 @@ def main():
                          for c, t in zip(tab["열이름"], tab["표"])]
     tab["ADF기각비율_시도"] = [v_pan.loc[c, "ADF기각비율"] if (t == "패널" and c in v_pan.index and "ADF기각비율" in v_pan.columns) else np.nan for c, t in zip(tab["열이름"], tab["표"])]
 
+    for df_, t_ in ((st_nat, "전국"), (st_pan, "패널"), (st_pan_detail, "패널")):
+        df_.insert(1, "읽기용 열이름", [readable_name(c, t_, spi, s) for c in df_["열이름"]])
+
     # ---- 7 요약
     nat_model = st_nat[st_nat["창"].str.startswith("모형창")]
     cnt = nat_model.groupby(["역할", "판정"]).size().rename("열수").reset_index()
@@ -587,8 +647,8 @@ def main():
         tab.to_excel(w, sheet_name="1_열목록", index=False)
         nf_out.to_excel(w, sheet_name="2_전국_입력표", index=False)
         pf_out.to_excel(w, sheet_name="3_패널_입력표", index=False)
-        Znat.to_excel(w, sheet_name="4a_설계행렬_전국", index=False)
-        Zpan.to_excel(w, sheet_name="4b_설계행렬_패널", index=False)
+        Znat_out.to_excel(w, sheet_name="4a_설계행렬_전국", index=False)
+        Zpan_out.to_excel(w, sheet_name="4b_설계행렬_패널", index=False)
         comps.to_excel(w, sheet_name="4c_구성명세", index=False)
         st_nat.to_excel(w, sheet_name="5_정상성_전국", index=False)
         st_pan.to_excel(w, sheet_name="6_정상성_패널", index=False)
