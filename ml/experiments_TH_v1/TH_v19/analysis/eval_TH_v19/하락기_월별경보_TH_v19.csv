@@ -1,0 +1,1081 @@
+﻿version,model,month,실제급락,경보,헛경보
+V18,Extra Trees,201807,7.0,10,4
+V18,Extra Trees,201808,6.0,9,4
+V18,Extra Trees,201809,5.0,10,5
+V18,Extra Trees,201810,5.0,9,4
+V18,Extra Trees,201811,5.0,9,4
+V18,Extra Trees,201812,5.0,9,4
+V18,Extra Trees,201901,5.0,9,4
+V18,Extra Trees,201902,8.0,10,3
+V18,Extra Trees,201903,8.0,11,4
+V18,Extra Trees,201904,7.0,10,3
+V18,Extra Trees,201905,5.0,11,6
+V18,Extra Trees,201906,5.0,11,6
+V18,Extra Trees,201907,5.0,8,3
+V18,Extra Trees,201908,3.0,8,5
+V18,Extra Trees,201909,1.0,8,7
+V18,Extra Trees,201910,1.0,8,7
+V18,Extra Trees,201911,1.0,7,6
+V18,Extra Trees,201912,0.0,7,7
+V18,Extra Trees,202001,0.0,7,7
+V18,Extra Trees,202002,0.0,5,5
+V18,Extra Trees,202003,0.0,5,5
+V18,Extra Trees,202004,0.0,1,1
+V18,Extra Trees,202005,0.0,1,1
+V18,Extra Trees,202006,0.0,1,1
+V18,Extra Trees,202007,0.0,0,0
+V18,Extra Trees,202008,0.0,0,0
+V18,Extra Trees,202009,0.0,0,0
+V18,Extra Trees,202010,0.0,0,0
+V18,Extra Trees,202011,0.0,0,0
+V18,Extra Trees,202012,0.0,0,0
+V18,Extra Trees,202101,0.0,0,0
+V18,Extra Trees,202102,0.0,0,0
+V18,Extra Trees,202103,0.0,0,0
+V18,Extra Trees,202104,0.0,0,0
+V18,Extra Trees,202105,0.0,0,0
+V18,Extra Trees,202106,0.0,0,0
+V18,Extra Trees,202107,0.0,0,0
+V18,Extra Trees,202108,1.0,0,0
+V18,Extra Trees,202109,1.0,0,0
+V18,Extra Trees,202110,1.0,0,0
+V18,Extra Trees,202111,1.0,0,0
+V18,Extra Trees,202112,1.0,1,0
+V18,Extra Trees,202201,1.0,1,0
+V18,Extra Trees,202202,1.0,1,0
+V18,Extra Trees,202203,2.0,1,0
+V18,Extra Trees,202204,2.0,2,0
+V18,Extra Trees,202205,2.0,2,0
+V18,Extra Trees,202206,2.0,2,0
+V18,Extra Trees,202207,2.0,3,1
+V18,Extra Trees,202208,4.0,4,2
+V18,Extra Trees,202209,7.0,6,2
+V18,Extra Trees,202210,8.0,9,2
+V18,Extra Trees,202211,9.0,15,6
+V18,Extra Trees,202212,9.0,17,8
+V18,Extra Trees,202301,9.0,17,8
+V18,Extra Trees,202302,6.0,17,11
+V18,Extra Trees,202303,5.0,17,12
+V18,Extra Trees,202304,2.0,17,15
+V18,Extra Trees,202305,1.0,17,16
+V18,Extra Trees,202306,1.0,17,16
+V18,Extra Trees,202307,1.0,12,11
+V18,Extra Trees,202308,1.0,9,8
+V18,Extra Trees,202309,1.0,3,2
+V18,Extra Trees,202310,1.0,0,0
+V18,Extra Trees,202311,1.0,0,0
+V18,Extra Trees,202312,2.0,0,0
+V18,Extra Trees,202401,2.0,1,0
+V18,Extra Trees,202402,2.0,0,0
+V18,Extra Trees,202403,2.0,0,0
+V18,Extra Trees,202404,2.0,1,0
+V18,Extra Trees,202405,2.0,2,0
+V18,Extra Trees,202406,2.0,1,0
+V18,Extra Trees,202407,2.0,2,0
+V18,Extra Trees,202408,1.0,2,1
+V18,Extra Trees,202409,0.0,1,1
+V18,Extra Trees,202410,0.0,1,1
+V18,Extra Trees,202411,0.0,1,1
+V18,Extra Trees,202412,0.0,1,1
+V18,Extra Trees,202501,0.0,2,2
+V18,Extra Trees,202502,0.0,1,1
+V18,Extra Trees,202503,0.0,2,2
+V18,Extra Trees,202504,0.0,0,0
+V18,Extra Trees,202505,0.0,0,0
+V18,Extra Trees,202506,0.0,0,0
+V18,Extra Trees,202507,0.0,0,0
+V18,Extra Trees,202508,0.0,0,0
+V18,Extra Trees,202509,0.0,0,0
+V18,Extra Trees,202510,0.0,0,0
+V18,Extra Trees,202511,0.0,0,0
+V18,Extra Trees,202512,0.0,0,0
+V18,Linear,201807,7.0,5,1
+V18,Linear,201808,6.0,4,0
+V18,Linear,201809,5.0,7,2
+V18,Linear,201810,5.0,9,4
+V18,Linear,201811,5.0,9,4
+V18,Linear,201812,5.0,8,3
+V18,Linear,201901,5.0,7,2
+V18,Linear,201902,8.0,7,1
+V18,Linear,201903,8.0,7,1
+V18,Linear,201904,7.0,6,0
+V18,Linear,201905,5.0,7,2
+V18,Linear,201906,5.0,7,2
+V18,Linear,201907,5.0,3,1
+V18,Linear,201908,3.0,1,0
+V18,Linear,201909,1.0,1,1
+V18,Linear,201910,1.0,4,3
+V18,Linear,201911,1.0,4,3
+V18,Linear,201912,0.0,2,2
+V18,Linear,202001,0.0,1,1
+V18,Linear,202002,0.0,0,0
+V18,Linear,202003,0.0,0,0
+V18,Linear,202004,0.0,0,0
+V18,Linear,202005,0.0,0,0
+V18,Linear,202006,0.0,0,0
+V18,Linear,202007,0.0,0,0
+V18,Linear,202008,0.0,0,0
+V18,Linear,202009,0.0,0,0
+V18,Linear,202010,0.0,0,0
+V18,Linear,202011,0.0,0,0
+V18,Linear,202012,0.0,0,0
+V18,Linear,202101,0.0,0,0
+V18,Linear,202102,0.0,0,0
+V18,Linear,202103,0.0,0,0
+V18,Linear,202104,0.0,0,0
+V18,Linear,202105,0.0,0,0
+V18,Linear,202106,0.0,0,0
+V18,Linear,202107,0.0,0,0
+V18,Linear,202108,1.0,0,0
+V18,Linear,202109,1.0,0,0
+V18,Linear,202110,1.0,0,0
+V18,Linear,202111,1.0,0,0
+V18,Linear,202112,1.0,1,0
+V18,Linear,202201,1.0,1,0
+V18,Linear,202202,1.0,4,3
+V18,Linear,202203,2.0,3,2
+V18,Linear,202204,2.0,16,14
+V18,Linear,202205,2.0,16,14
+V18,Linear,202206,2.0,17,15
+V18,Linear,202207,2.0,16,14
+V18,Linear,202208,4.0,17,13
+V18,Linear,202209,7.0,17,10
+V18,Linear,202210,8.0,17,9
+V18,Linear,202211,9.0,17,8
+V18,Linear,202212,9.0,17,8
+V18,Linear,202301,9.0,17,8
+V18,Linear,202302,6.0,17,11
+V18,Linear,202303,5.0,17,12
+V18,Linear,202304,2.0,17,15
+V18,Linear,202305,1.0,15,14
+V18,Linear,202306,1.0,15,14
+V18,Linear,202307,1.0,1,1
+V18,Linear,202308,1.0,0,0
+V18,Linear,202309,1.0,0,0
+V18,Linear,202310,1.0,0,0
+V18,Linear,202311,1.0,0,0
+V18,Linear,202312,2.0,0,0
+V18,Linear,202401,2.0,0,0
+V18,Linear,202402,2.0,0,0
+V18,Linear,202403,2.0,0,0
+V18,Linear,202404,2.0,1,0
+V18,Linear,202405,2.0,1,0
+V18,Linear,202406,2.0,1,0
+V18,Linear,202407,2.0,2,0
+V18,Linear,202408,1.0,1,1
+V18,Linear,202409,0.0,0,0
+V18,Linear,202410,0.0,0,0
+V18,Linear,202411,0.0,0,0
+V18,Linear,202412,0.0,0,0
+V18,Linear,202501,0.0,0,0
+V18,Linear,202502,0.0,1,1
+V18,Linear,202503,0.0,1,1
+V18,Linear,202504,0.0,0,0
+V18,Linear,202505,0.0,0,0
+V18,Linear,202506,0.0,0,0
+V18,Linear,202507,0.0,0,0
+V18,Linear,202508,0.0,0,0
+V18,Linear,202509,0.0,0,0
+V18,Linear,202510,0.0,0,0
+V18,Linear,202511,0.0,0,0
+V18,Linear,202512,0.0,0,0
+V18,Random Forest,201807,7.0,10,3
+V18,Random Forest,201808,6.0,10,4
+V18,Random Forest,201809,5.0,10,5
+V18,Random Forest,201810,5.0,9,4
+V18,Random Forest,201811,5.0,9,4
+V18,Random Forest,201812,5.0,9,4
+V18,Random Forest,201901,5.0,10,5
+V18,Random Forest,201902,8.0,12,4
+V18,Random Forest,201903,8.0,11,4
+V18,Random Forest,201904,7.0,11,4
+V18,Random Forest,201905,5.0,12,7
+V18,Random Forest,201906,5.0,11,6
+V18,Random Forest,201907,5.0,10,5
+V18,Random Forest,201908,3.0,9,6
+V18,Random Forest,201909,1.0,8,7
+V18,Random Forest,201910,1.0,8,7
+V18,Random Forest,201911,1.0,7,6
+V18,Random Forest,201912,0.0,7,7
+V18,Random Forest,202001,0.0,4,4
+V18,Random Forest,202002,0.0,3,3
+V18,Random Forest,202003,0.0,2,2
+V18,Random Forest,202004,0.0,2,2
+V18,Random Forest,202005,0.0,2,2
+V18,Random Forest,202006,0.0,2,2
+V18,Random Forest,202007,0.0,0,0
+V18,Random Forest,202008,0.0,0,0
+V18,Random Forest,202009,0.0,0,0
+V18,Random Forest,202010,0.0,0,0
+V18,Random Forest,202011,0.0,0,0
+V18,Random Forest,202012,0.0,0,0
+V18,Random Forest,202101,0.0,0,0
+V18,Random Forest,202102,0.0,0,0
+V18,Random Forest,202103,0.0,0,0
+V18,Random Forest,202104,0.0,0,0
+V18,Random Forest,202105,0.0,0,0
+V18,Random Forest,202106,0.0,0,0
+V18,Random Forest,202107,0.0,0,0
+V18,Random Forest,202108,1.0,1,0
+V18,Random Forest,202109,1.0,1,0
+V18,Random Forest,202110,1.0,0,0
+V18,Random Forest,202111,1.0,0,0
+V18,Random Forest,202112,1.0,1,0
+V18,Random Forest,202201,1.0,1,0
+V18,Random Forest,202202,1.0,1,0
+V18,Random Forest,202203,2.0,1,0
+V18,Random Forest,202204,2.0,3,1
+V18,Random Forest,202205,2.0,3,1
+V18,Random Forest,202206,2.0,3,1
+V18,Random Forest,202207,2.0,3,1
+V18,Random Forest,202208,4.0,5,3
+V18,Random Forest,202209,7.0,9,3
+V18,Random Forest,202210,8.0,10,2
+V18,Random Forest,202211,9.0,16,7
+V18,Random Forest,202212,9.0,17,8
+V18,Random Forest,202301,9.0,17,8
+V18,Random Forest,202302,6.0,17,11
+V18,Random Forest,202303,5.0,17,12
+V18,Random Forest,202304,2.0,17,15
+V18,Random Forest,202305,1.0,17,16
+V18,Random Forest,202306,1.0,14,13
+V18,Random Forest,202307,1.0,7,6
+V18,Random Forest,202308,1.0,4,3
+V18,Random Forest,202309,1.0,0,0
+V18,Random Forest,202310,1.0,0,0
+V18,Random Forest,202311,1.0,0,0
+V18,Random Forest,202312,2.0,0,0
+V18,Random Forest,202401,2.0,1,0
+V18,Random Forest,202402,2.0,1,0
+V18,Random Forest,202403,2.0,1,0
+V18,Random Forest,202404,2.0,2,0
+V18,Random Forest,202405,2.0,2,0
+V18,Random Forest,202406,2.0,2,0
+V18,Random Forest,202407,2.0,2,0
+V18,Random Forest,202408,1.0,2,1
+V18,Random Forest,202409,0.0,2,2
+V18,Random Forest,202410,0.0,1,1
+V18,Random Forest,202411,0.0,1,1
+V18,Random Forest,202412,0.0,0,0
+V18,Random Forest,202501,0.0,0,0
+V18,Random Forest,202502,0.0,0,0
+V18,Random Forest,202503,0.0,0,0
+V18,Random Forest,202504,0.0,1,1
+V18,Random Forest,202505,0.0,0,0
+V18,Random Forest,202506,0.0,0,0
+V18,Random Forest,202507,0.0,0,0
+V18,Random Forest,202508,0.0,0,0
+V18,Random Forest,202509,0.0,1,1
+V18,Random Forest,202510,0.0,0,0
+V18,Random Forest,202511,0.0,0,0
+V18,Random Forest,202512,0.0,0,0
+V18,XGBoost,201807,7.0,7,2
+V18,XGBoost,201808,6.0,7,3
+V18,XGBoost,201809,5.0,6,2
+V18,XGBoost,201810,5.0,8,3
+V18,XGBoost,201811,5.0,8,3
+V18,XGBoost,201812,5.0,9,4
+V18,XGBoost,201901,5.0,8,3
+V18,XGBoost,201902,8.0,8,2
+V18,XGBoost,201903,8.0,8,2
+V18,XGBoost,201904,7.0,8,2
+V18,XGBoost,201905,5.0,7,2
+V18,XGBoost,201906,5.0,8,3
+V18,XGBoost,201907,5.0,7,3
+V18,XGBoost,201908,3.0,6,3
+V18,XGBoost,201909,1.0,5,4
+V18,XGBoost,201910,1.0,5,4
+V18,XGBoost,201911,1.0,4,3
+V18,XGBoost,201912,0.0,2,2
+V18,XGBoost,202001,0.0,2,2
+V18,XGBoost,202002,0.0,1,1
+V18,XGBoost,202003,0.0,1,1
+V18,XGBoost,202004,0.0,0,0
+V18,XGBoost,202005,0.0,1,1
+V18,XGBoost,202006,0.0,1,1
+V18,XGBoost,202007,0.0,0,0
+V18,XGBoost,202008,0.0,0,0
+V18,XGBoost,202009,0.0,0,0
+V18,XGBoost,202010,0.0,0,0
+V18,XGBoost,202011,0.0,0,0
+V18,XGBoost,202012,0.0,0,0
+V18,XGBoost,202101,0.0,0,0
+V18,XGBoost,202102,0.0,0,0
+V18,XGBoost,202103,0.0,0,0
+V18,XGBoost,202104,0.0,0,0
+V18,XGBoost,202105,0.0,0,0
+V18,XGBoost,202106,0.0,0,0
+V18,XGBoost,202107,0.0,0,0
+V18,XGBoost,202108,1.0,0,0
+V18,XGBoost,202109,1.0,0,0
+V18,XGBoost,202110,1.0,0,0
+V18,XGBoost,202111,1.0,0,0
+V18,XGBoost,202112,1.0,1,0
+V18,XGBoost,202201,1.0,1,0
+V18,XGBoost,202202,1.0,1,0
+V18,XGBoost,202203,2.0,1,0
+V18,XGBoost,202204,2.0,1,0
+V18,XGBoost,202205,2.0,1,0
+V18,XGBoost,202206,2.0,1,0
+V18,XGBoost,202207,2.0,3,1
+V18,XGBoost,202208,4.0,4,2
+V18,XGBoost,202209,7.0,7,4
+V18,XGBoost,202210,8.0,15,7
+V18,XGBoost,202211,9.0,16,7
+V18,XGBoost,202212,9.0,16,8
+V18,XGBoost,202301,9.0,17,8
+V18,XGBoost,202302,6.0,17,11
+V18,XGBoost,202303,5.0,17,12
+V18,XGBoost,202304,2.0,17,15
+V18,XGBoost,202305,1.0,15,14
+V18,XGBoost,202306,1.0,10,9
+V18,XGBoost,202307,1.0,2,1
+V18,XGBoost,202308,1.0,1,1
+V18,XGBoost,202309,1.0,0,0
+V18,XGBoost,202310,1.0,0,0
+V18,XGBoost,202311,1.0,0,0
+V18,XGBoost,202312,2.0,0,0
+V18,XGBoost,202401,2.0,0,0
+V18,XGBoost,202402,2.0,0,0
+V18,XGBoost,202403,2.0,0,0
+V18,XGBoost,202404,2.0,2,0
+V18,XGBoost,202405,2.0,2,0
+V18,XGBoost,202406,2.0,1,0
+V18,XGBoost,202407,2.0,1,0
+V18,XGBoost,202408,1.0,0,0
+V18,XGBoost,202409,0.0,0,0
+V18,XGBoost,202410,0.0,0,0
+V18,XGBoost,202411,0.0,0,0
+V18,XGBoost,202412,0.0,0,0
+V18,XGBoost,202501,0.0,0,0
+V18,XGBoost,202502,0.0,0,0
+V18,XGBoost,202503,0.0,0,0
+V18,XGBoost,202504,0.0,0,0
+V18,XGBoost,202505,0.0,0,0
+V18,XGBoost,202506,0.0,0,0
+V18,XGBoost,202507,0.0,0,0
+V18,XGBoost,202508,0.0,0,0
+V18,XGBoost,202509,0.0,0,0
+V18,XGBoost,202510,0.0,0,0
+V18,XGBoost,202511,0.0,0,0
+V18,XGBoost,202512,0.0,0,0
+V19a,Extra Trees,201807,7.0,8,3
+V19a,Extra Trees,201808,6.0,7,3
+V19a,Extra Trees,201809,5.0,7,3
+V19a,Extra Trees,201810,5.0,9,4
+V19a,Extra Trees,201811,5.0,9,4
+V19a,Extra Trees,201812,5.0,8,3
+V19a,Extra Trees,201901,5.0,9,4
+V19a,Extra Trees,201902,8.0,10,3
+V19a,Extra Trees,201903,8.0,11,4
+V19a,Extra Trees,201904,7.0,10,3
+V19a,Extra Trees,201905,5.0,11,6
+V19a,Extra Trees,201906,5.0,11,6
+V19a,Extra Trees,201907,5.0,9,4
+V19a,Extra Trees,201908,3.0,8,5
+V19a,Extra Trees,201909,1.0,8,7
+V19a,Extra Trees,201910,1.0,7,6
+V19a,Extra Trees,201911,1.0,6,5
+V19a,Extra Trees,201912,0.0,7,7
+V19a,Extra Trees,202001,0.0,7,7
+V19a,Extra Trees,202002,0.0,5,5
+V19a,Extra Trees,202003,0.0,3,3
+V19a,Extra Trees,202004,0.0,2,2
+V19a,Extra Trees,202005,0.0,2,2
+V19a,Extra Trees,202006,0.0,1,1
+V19a,Extra Trees,202007,0.0,1,1
+V19a,Extra Trees,202008,0.0,0,0
+V19a,Extra Trees,202009,0.0,0,0
+V19a,Extra Trees,202010,0.0,0,0
+V19a,Extra Trees,202011,0.0,0,0
+V19a,Extra Trees,202012,0.0,0,0
+V19a,Extra Trees,202101,0.0,0,0
+V19a,Extra Trees,202102,0.0,0,0
+V19a,Extra Trees,202103,0.0,0,0
+V19a,Extra Trees,202104,0.0,0,0
+V19a,Extra Trees,202105,0.0,0,0
+V19a,Extra Trees,202106,0.0,0,0
+V19a,Extra Trees,202107,0.0,0,0
+V19a,Extra Trees,202108,1.0,0,0
+V19a,Extra Trees,202109,1.0,0,0
+V19a,Extra Trees,202110,1.0,0,0
+V19a,Extra Trees,202111,1.0,0,0
+V19a,Extra Trees,202112,1.0,1,0
+V19a,Extra Trees,202201,1.0,1,0
+V19a,Extra Trees,202202,1.0,1,0
+V19a,Extra Trees,202203,2.0,1,0
+V19a,Extra Trees,202204,2.0,2,0
+V19a,Extra Trees,202205,2.0,2,0
+V19a,Extra Trees,202206,2.0,2,0
+V19a,Extra Trees,202207,2.0,3,1
+V19a,Extra Trees,202208,4.0,2,0
+V19a,Extra Trees,202209,7.0,5,2
+V19a,Extra Trees,202210,8.0,10,2
+V19a,Extra Trees,202211,9.0,16,7
+V19a,Extra Trees,202212,9.0,17,8
+V19a,Extra Trees,202301,9.0,17,8
+V19a,Extra Trees,202302,6.0,17,11
+V19a,Extra Trees,202303,5.0,17,12
+V19a,Extra Trees,202304,2.0,17,15
+V19a,Extra Trees,202305,1.0,17,16
+V19a,Extra Trees,202306,1.0,16,15
+V19a,Extra Trees,202307,1.0,12,11
+V19a,Extra Trees,202308,1.0,9,8
+V19a,Extra Trees,202309,1.0,3,2
+V19a,Extra Trees,202310,1.0,0,0
+V19a,Extra Trees,202311,1.0,0,0
+V19a,Extra Trees,202312,2.0,1,0
+V19a,Extra Trees,202401,2.0,1,0
+V19a,Extra Trees,202402,2.0,0,0
+V19a,Extra Trees,202403,2.0,1,0
+V19a,Extra Trees,202404,2.0,2,0
+V19a,Extra Trees,202405,2.0,2,0
+V19a,Extra Trees,202406,2.0,2,0
+V19a,Extra Trees,202407,2.0,2,0
+V19a,Extra Trees,202408,1.0,2,1
+V19a,Extra Trees,202409,0.0,1,1
+V19a,Extra Trees,202410,0.0,1,1
+V19a,Extra Trees,202411,0.0,1,1
+V19a,Extra Trees,202412,0.0,1,1
+V19a,Extra Trees,202501,0.0,1,1
+V19a,Extra Trees,202502,0.0,1,1
+V19a,Extra Trees,202503,0.0,1,1
+V19a,Extra Trees,202504,0.0,1,1
+V19a,Extra Trees,202505,0.0,0,0
+V19a,Extra Trees,202506,0.0,0,0
+V19a,Extra Trees,202507,0.0,0,0
+V19a,Extra Trees,202508,0.0,0,0
+V19a,Extra Trees,202509,0.0,0,0
+V19a,Extra Trees,202510,0.0,0,0
+V19a,Extra Trees,202511,0.0,0,0
+V19a,Extra Trees,202512,0.0,0,0
+V19a,Linear,201807,7.0,5,1
+V19a,Linear,201808,6.0,4,0
+V19a,Linear,201809,5.0,4,0
+V19a,Linear,201810,5.0,7,2
+V19a,Linear,201811,5.0,7,2
+V19a,Linear,201812,5.0,7,2
+V19a,Linear,201901,5.0,7,2
+V19a,Linear,201902,8.0,6,0
+V19a,Linear,201903,8.0,7,1
+V19a,Linear,201904,7.0,8,1
+V19a,Linear,201905,5.0,8,3
+V19a,Linear,201906,5.0,8,3
+V19a,Linear,201907,5.0,5,2
+V19a,Linear,201908,3.0,1,0
+V19a,Linear,201909,1.0,1,1
+V19a,Linear,201910,1.0,1,1
+V19a,Linear,201911,1.0,1,1
+V19a,Linear,201912,0.0,0,0
+V19a,Linear,202001,0.0,1,1
+V19a,Linear,202002,0.0,1,1
+V19a,Linear,202003,0.0,1,1
+V19a,Linear,202004,0.0,0,0
+V19a,Linear,202005,0.0,0,0
+V19a,Linear,202006,0.0,1,1
+V19a,Linear,202007,0.0,0,0
+V19a,Linear,202008,0.0,0,0
+V19a,Linear,202009,0.0,0,0
+V19a,Linear,202010,0.0,0,0
+V19a,Linear,202011,0.0,0,0
+V19a,Linear,202012,0.0,0,0
+V19a,Linear,202101,0.0,0,0
+V19a,Linear,202102,0.0,0,0
+V19a,Linear,202103,0.0,0,0
+V19a,Linear,202104,0.0,0,0
+V19a,Linear,202105,0.0,0,0
+V19a,Linear,202106,0.0,0,0
+V19a,Linear,202107,0.0,0,0
+V19a,Linear,202108,1.0,0,0
+V19a,Linear,202109,1.0,0,0
+V19a,Linear,202110,1.0,0,0
+V19a,Linear,202111,1.0,0,0
+V19a,Linear,202112,1.0,1,0
+V19a,Linear,202201,1.0,2,1
+V19a,Linear,202202,1.0,4,3
+V19a,Linear,202203,2.0,8,6
+V19a,Linear,202204,2.0,15,13
+V19a,Linear,202205,2.0,14,12
+V19a,Linear,202206,2.0,16,14
+V19a,Linear,202207,2.0,16,14
+V19a,Linear,202208,4.0,16,12
+V19a,Linear,202209,7.0,17,10
+V19a,Linear,202210,8.0,17,9
+V19a,Linear,202211,9.0,17,8
+V19a,Linear,202212,9.0,17,8
+V19a,Linear,202301,9.0,17,8
+V19a,Linear,202302,6.0,17,11
+V19a,Linear,202303,5.0,17,12
+V19a,Linear,202304,2.0,12,10
+V19a,Linear,202305,1.0,9,8
+V19a,Linear,202306,1.0,8,7
+V19a,Linear,202307,1.0,1,1
+V19a,Linear,202308,1.0,0,0
+V19a,Linear,202309,1.0,0,0
+V19a,Linear,202310,1.0,0,0
+V19a,Linear,202311,1.0,0,0
+V19a,Linear,202312,2.0,0,0
+V19a,Linear,202401,2.0,0,0
+V19a,Linear,202402,2.0,0,0
+V19a,Linear,202403,2.0,0,0
+V19a,Linear,202404,2.0,0,0
+V19a,Linear,202405,2.0,0,0
+V19a,Linear,202406,2.0,0,0
+V19a,Linear,202407,2.0,1,0
+V19a,Linear,202408,1.0,1,0
+V19a,Linear,202409,0.0,1,1
+V19a,Linear,202410,0.0,1,1
+V19a,Linear,202411,0.0,1,1
+V19a,Linear,202412,0.0,0,0
+V19a,Linear,202501,0.0,0,0
+V19a,Linear,202502,0.0,1,1
+V19a,Linear,202503,0.0,1,1
+V19a,Linear,202504,0.0,0,0
+V19a,Linear,202505,0.0,0,0
+V19a,Linear,202506,0.0,0,0
+V19a,Linear,202507,0.0,0,0
+V19a,Linear,202508,0.0,0,0
+V19a,Linear,202509,0.0,0,0
+V19a,Linear,202510,0.0,0,0
+V19a,Linear,202511,0.0,0,0
+V19a,Linear,202512,0.0,0,0
+V19a,Random Forest,201807,7.0,11,4
+V19a,Random Forest,201808,6.0,11,5
+V19a,Random Forest,201809,5.0,10,5
+V19a,Random Forest,201810,5.0,9,4
+V19a,Random Forest,201811,5.0,9,4
+V19a,Random Forest,201812,5.0,9,4
+V19a,Random Forest,201901,5.0,8,3
+V19a,Random Forest,201902,8.0,11,4
+V19a,Random Forest,201903,8.0,12,4
+V19a,Random Forest,201904,7.0,12,5
+V19a,Random Forest,201905,5.0,12,7
+V19a,Random Forest,201906,5.0,11,6
+V19a,Random Forest,201907,5.0,10,5
+V19a,Random Forest,201908,3.0,9,6
+V19a,Random Forest,201909,1.0,8,7
+V19a,Random Forest,201910,1.0,8,7
+V19a,Random Forest,201911,1.0,7,6
+V19a,Random Forest,201912,0.0,7,7
+V19a,Random Forest,202001,0.0,6,6
+V19a,Random Forest,202002,0.0,5,5
+V19a,Random Forest,202003,0.0,3,3
+V19a,Random Forest,202004,0.0,2,2
+V19a,Random Forest,202005,0.0,2,2
+V19a,Random Forest,202006,0.0,2,2
+V19a,Random Forest,202007,0.0,1,1
+V19a,Random Forest,202008,0.0,0,0
+V19a,Random Forest,202009,0.0,0,0
+V19a,Random Forest,202010,0.0,0,0
+V19a,Random Forest,202011,0.0,0,0
+V19a,Random Forest,202012,0.0,0,0
+V19a,Random Forest,202101,0.0,0,0
+V19a,Random Forest,202102,0.0,0,0
+V19a,Random Forest,202103,0.0,0,0
+V19a,Random Forest,202104,0.0,0,0
+V19a,Random Forest,202105,0.0,0,0
+V19a,Random Forest,202106,0.0,0,0
+V19a,Random Forest,202107,0.0,0,0
+V19a,Random Forest,202108,1.0,0,0
+V19a,Random Forest,202109,1.0,0,0
+V19a,Random Forest,202110,1.0,0,0
+V19a,Random Forest,202111,1.0,0,0
+V19a,Random Forest,202112,1.0,1,0
+V19a,Random Forest,202201,1.0,1,0
+V19a,Random Forest,202202,1.0,1,0
+V19a,Random Forest,202203,2.0,1,0
+V19a,Random Forest,202204,2.0,3,1
+V19a,Random Forest,202205,2.0,3,1
+V19a,Random Forest,202206,2.0,2,0
+V19a,Random Forest,202207,2.0,3,1
+V19a,Random Forest,202208,4.0,6,3
+V19a,Random Forest,202209,7.0,9,3
+V19a,Random Forest,202210,8.0,10,2
+V19a,Random Forest,202211,9.0,16,7
+V19a,Random Forest,202212,9.0,17,8
+V19a,Random Forest,202301,9.0,17,8
+V19a,Random Forest,202302,6.0,17,11
+V19a,Random Forest,202303,5.0,17,12
+V19a,Random Forest,202304,2.0,17,15
+V19a,Random Forest,202305,1.0,17,16
+V19a,Random Forest,202306,1.0,12,11
+V19a,Random Forest,202307,1.0,8,7
+V19a,Random Forest,202308,1.0,2,1
+V19a,Random Forest,202309,1.0,0,0
+V19a,Random Forest,202310,1.0,0,0
+V19a,Random Forest,202311,1.0,0,0
+V19a,Random Forest,202312,2.0,0,0
+V19a,Random Forest,202401,2.0,1,0
+V19a,Random Forest,202402,2.0,1,0
+V19a,Random Forest,202403,2.0,1,0
+V19a,Random Forest,202404,2.0,2,0
+V19a,Random Forest,202405,2.0,2,0
+V19a,Random Forest,202406,2.0,2,0
+V19a,Random Forest,202407,2.0,1,0
+V19a,Random Forest,202408,1.0,1,0
+V19a,Random Forest,202409,0.0,0,0
+V19a,Random Forest,202410,0.0,1,1
+V19a,Random Forest,202411,0.0,1,1
+V19a,Random Forest,202412,0.0,0,0
+V19a,Random Forest,202501,0.0,0,0
+V19a,Random Forest,202502,0.0,1,1
+V19a,Random Forest,202503,0.0,0,0
+V19a,Random Forest,202504,0.0,1,1
+V19a,Random Forest,202505,0.0,0,0
+V19a,Random Forest,202506,0.0,0,0
+V19a,Random Forest,202507,0.0,0,0
+V19a,Random Forest,202508,0.0,0,0
+V19a,Random Forest,202509,0.0,1,1
+V19a,Random Forest,202510,0.0,0,0
+V19a,Random Forest,202511,0.0,0,0
+V19a,Random Forest,202512,0.0,0,0
+V19a,XGBoost,201807,7.0,8,2
+V19a,XGBoost,201808,6.0,7,3
+V19a,XGBoost,201809,5.0,5,2
+V19a,XGBoost,201810,5.0,7,3
+V19a,XGBoost,201811,5.0,8,3
+V19a,XGBoost,201812,5.0,9,4
+V19a,XGBoost,201901,5.0,8,3
+V19a,XGBoost,201902,8.0,8,2
+V19a,XGBoost,201903,8.0,8,2
+V19a,XGBoost,201904,7.0,8,2
+V19a,XGBoost,201905,5.0,8,3
+V19a,XGBoost,201906,5.0,9,4
+V19a,XGBoost,201907,5.0,8,3
+V19a,XGBoost,201908,3.0,6,3
+V19a,XGBoost,201909,1.0,6,5
+V19a,XGBoost,201910,1.0,5,4
+V19a,XGBoost,201911,1.0,3,2
+V19a,XGBoost,201912,0.0,2,2
+V19a,XGBoost,202001,0.0,2,2
+V19a,XGBoost,202002,0.0,1,1
+V19a,XGBoost,202003,0.0,2,2
+V19a,XGBoost,202004,0.0,1,1
+V19a,XGBoost,202005,0.0,1,1
+V19a,XGBoost,202006,0.0,1,1
+V19a,XGBoost,202007,0.0,0,0
+V19a,XGBoost,202008,0.0,0,0
+V19a,XGBoost,202009,0.0,0,0
+V19a,XGBoost,202010,0.0,0,0
+V19a,XGBoost,202011,0.0,0,0
+V19a,XGBoost,202012,0.0,0,0
+V19a,XGBoost,202101,0.0,0,0
+V19a,XGBoost,202102,0.0,0,0
+V19a,XGBoost,202103,0.0,0,0
+V19a,XGBoost,202104,0.0,1,1
+V19a,XGBoost,202105,0.0,1,1
+V19a,XGBoost,202106,0.0,0,0
+V19a,XGBoost,202107,0.0,0,0
+V19a,XGBoost,202108,1.0,0,0
+V19a,XGBoost,202109,1.0,0,0
+V19a,XGBoost,202110,1.0,0,0
+V19a,XGBoost,202111,1.0,0,0
+V19a,XGBoost,202112,1.0,1,0
+V19a,XGBoost,202201,1.0,1,0
+V19a,XGBoost,202202,1.0,1,0
+V19a,XGBoost,202203,2.0,1,0
+V19a,XGBoost,202204,2.0,1,0
+V19a,XGBoost,202205,2.0,1,0
+V19a,XGBoost,202206,2.0,2,0
+V19a,XGBoost,202207,2.0,3,1
+V19a,XGBoost,202208,4.0,4,2
+V19a,XGBoost,202209,7.0,8,4
+V19a,XGBoost,202210,8.0,15,7
+V19a,XGBoost,202211,9.0,16,7
+V19a,XGBoost,202212,9.0,17,8
+V19a,XGBoost,202301,9.0,17,8
+V19a,XGBoost,202302,6.0,17,11
+V19a,XGBoost,202303,5.0,17,12
+V19a,XGBoost,202304,2.0,17,15
+V19a,XGBoost,202305,1.0,9,8
+V19a,XGBoost,202306,1.0,5,4
+V19a,XGBoost,202307,1.0,2,1
+V19a,XGBoost,202308,1.0,2,1
+V19a,XGBoost,202309,1.0,0,0
+V19a,XGBoost,202310,1.0,0,0
+V19a,XGBoost,202311,1.0,0,0
+V19a,XGBoost,202312,2.0,0,0
+V19a,XGBoost,202401,2.0,1,0
+V19a,XGBoost,202402,2.0,0,0
+V19a,XGBoost,202403,2.0,0,0
+V19a,XGBoost,202404,2.0,0,0
+V19a,XGBoost,202405,2.0,1,0
+V19a,XGBoost,202406,2.0,0,0
+V19a,XGBoost,202407,2.0,0,0
+V19a,XGBoost,202408,1.0,0,0
+V19a,XGBoost,202409,0.0,0,0
+V19a,XGBoost,202410,0.0,0,0
+V19a,XGBoost,202411,0.0,0,0
+V19a,XGBoost,202412,0.0,0,0
+V19a,XGBoost,202501,0.0,0,0
+V19a,XGBoost,202502,0.0,0,0
+V19a,XGBoost,202503,0.0,0,0
+V19a,XGBoost,202504,0.0,0,0
+V19a,XGBoost,202505,0.0,0,0
+V19a,XGBoost,202506,0.0,0,0
+V19a,XGBoost,202507,0.0,0,0
+V19a,XGBoost,202508,0.0,0,0
+V19a,XGBoost,202509,0.0,0,0
+V19a,XGBoost,202510,0.0,0,0
+V19a,XGBoost,202511,0.0,0,0
+V19a,XGBoost,202512,0.0,0,0
+V19b,Extra Trees,201807,7.0,6,2
+V19b,Extra Trees,201808,6.0,6,2
+V19b,Extra Trees,201809,5.0,5,1
+V19b,Extra Trees,201810,5.0,9,4
+V19b,Extra Trees,201811,5.0,8,3
+V19b,Extra Trees,201812,5.0,8,3
+V19b,Extra Trees,201901,5.0,9,4
+V19b,Extra Trees,201902,8.0,10,3
+V19b,Extra Trees,201903,8.0,11,4
+V19b,Extra Trees,201904,7.0,12,5
+V19b,Extra Trees,201905,5.0,12,7
+V19b,Extra Trees,201906,5.0,11,6
+V19b,Extra Trees,201907,5.0,9,4
+V19b,Extra Trees,201908,3.0,9,6
+V19b,Extra Trees,201909,1.0,9,8
+V19b,Extra Trees,201910,1.0,8,7
+V19b,Extra Trees,201911,1.0,6,5
+V19b,Extra Trees,201912,0.0,7,7
+V19b,Extra Trees,202001,0.0,6,6
+V19b,Extra Trees,202002,0.0,5,5
+V19b,Extra Trees,202003,0.0,3,3
+V19b,Extra Trees,202004,0.0,2,2
+V19b,Extra Trees,202005,0.0,2,2
+V19b,Extra Trees,202006,0.0,1,1
+V19b,Extra Trees,202007,0.0,0,0
+V19b,Extra Trees,202008,0.0,0,0
+V19b,Extra Trees,202009,0.0,0,0
+V19b,Extra Trees,202010,0.0,0,0
+V19b,Extra Trees,202011,0.0,0,0
+V19b,Extra Trees,202012,0.0,0,0
+V19b,Extra Trees,202101,0.0,0,0
+V19b,Extra Trees,202102,0.0,0,0
+V19b,Extra Trees,202103,0.0,0,0
+V19b,Extra Trees,202104,0.0,0,0
+V19b,Extra Trees,202105,0.0,0,0
+V19b,Extra Trees,202106,0.0,0,0
+V19b,Extra Trees,202107,0.0,0,0
+V19b,Extra Trees,202108,1.0,0,0
+V19b,Extra Trees,202109,1.0,0,0
+V19b,Extra Trees,202110,1.0,0,0
+V19b,Extra Trees,202111,1.0,0,0
+V19b,Extra Trees,202112,1.0,1,0
+V19b,Extra Trees,202201,1.0,1,0
+V19b,Extra Trees,202202,1.0,1,0
+V19b,Extra Trees,202203,2.0,1,0
+V19b,Extra Trees,202204,2.0,2,0
+V19b,Extra Trees,202205,2.0,2,0
+V19b,Extra Trees,202206,2.0,2,0
+V19b,Extra Trees,202207,2.0,3,1
+V19b,Extra Trees,202208,4.0,5,3
+V19b,Extra Trees,202209,7.0,5,2
+V19b,Extra Trees,202210,8.0,10,2
+V19b,Extra Trees,202211,9.0,15,6
+V19b,Extra Trees,202212,9.0,16,7
+V19b,Extra Trees,202301,9.0,17,8
+V19b,Extra Trees,202302,6.0,17,11
+V19b,Extra Trees,202303,5.0,17,12
+V19b,Extra Trees,202304,2.0,17,15
+V19b,Extra Trees,202305,1.0,17,16
+V19b,Extra Trees,202306,1.0,16,15
+V19b,Extra Trees,202307,1.0,8,7
+V19b,Extra Trees,202308,1.0,4,3
+V19b,Extra Trees,202309,1.0,2,1
+V19b,Extra Trees,202310,1.0,0,0
+V19b,Extra Trees,202311,1.0,0,0
+V19b,Extra Trees,202312,2.0,0,0
+V19b,Extra Trees,202401,2.0,0,0
+V19b,Extra Trees,202402,2.0,0,0
+V19b,Extra Trees,202403,2.0,0,0
+V19b,Extra Trees,202404,2.0,2,0
+V19b,Extra Trees,202405,2.0,2,0
+V19b,Extra Trees,202406,2.0,1,0
+V19b,Extra Trees,202407,2.0,1,0
+V19b,Extra Trees,202408,1.0,0,0
+V19b,Extra Trees,202409,0.0,1,1
+V19b,Extra Trees,202410,0.0,1,1
+V19b,Extra Trees,202411,0.0,1,1
+V19b,Extra Trees,202412,0.0,1,1
+V19b,Extra Trees,202501,0.0,1,1
+V19b,Extra Trees,202502,0.0,1,1
+V19b,Extra Trees,202503,0.0,1,1
+V19b,Extra Trees,202504,0.0,1,1
+V19b,Extra Trees,202505,0.0,0,0
+V19b,Extra Trees,202506,0.0,0,0
+V19b,Extra Trees,202507,0.0,0,0
+V19b,Extra Trees,202508,0.0,0,0
+V19b,Extra Trees,202509,0.0,0,0
+V19b,Extra Trees,202510,0.0,0,0
+V19b,Extra Trees,202511,0.0,0,0
+V19b,Extra Trees,202512,0.0,0,0
+V19b,Linear,201807,7.0,5,1
+V19b,Linear,201808,6.0,4,0
+V19b,Linear,201809,5.0,4,0
+V19b,Linear,201810,5.0,7,2
+V19b,Linear,201811,5.0,7,2
+V19b,Linear,201812,5.0,7,2
+V19b,Linear,201901,5.0,7,2
+V19b,Linear,201902,8.0,6,0
+V19b,Linear,201903,8.0,7,1
+V19b,Linear,201904,7.0,8,1
+V19b,Linear,201905,5.0,8,3
+V19b,Linear,201906,5.0,8,3
+V19b,Linear,201907,5.0,6,2
+V19b,Linear,201908,3.0,1,0
+V19b,Linear,201909,1.0,1,1
+V19b,Linear,201910,1.0,1,1
+V19b,Linear,201911,1.0,1,1
+V19b,Linear,201912,0.0,1,1
+V19b,Linear,202001,0.0,1,1
+V19b,Linear,202002,0.0,2,2
+V19b,Linear,202003,0.0,1,1
+V19b,Linear,202004,0.0,1,1
+V19b,Linear,202005,0.0,1,1
+V19b,Linear,202006,0.0,1,1
+V19b,Linear,202007,0.0,0,0
+V19b,Linear,202008,0.0,0,0
+V19b,Linear,202009,0.0,0,0
+V19b,Linear,202010,0.0,0,0
+V19b,Linear,202011,0.0,0,0
+V19b,Linear,202012,0.0,0,0
+V19b,Linear,202101,0.0,0,0
+V19b,Linear,202102,0.0,0,0
+V19b,Linear,202103,0.0,0,0
+V19b,Linear,202104,0.0,0,0
+V19b,Linear,202105,0.0,0,0
+V19b,Linear,202106,0.0,0,0
+V19b,Linear,202107,0.0,0,0
+V19b,Linear,202108,1.0,0,0
+V19b,Linear,202109,1.0,0,0
+V19b,Linear,202110,1.0,0,0
+V19b,Linear,202111,1.0,0,0
+V19b,Linear,202112,1.0,1,0
+V19b,Linear,202201,1.0,2,1
+V19b,Linear,202202,1.0,4,3
+V19b,Linear,202203,2.0,8,6
+V19b,Linear,202204,2.0,13,11
+V19b,Linear,202205,2.0,13,11
+V19b,Linear,202206,2.0,16,14
+V19b,Linear,202207,2.0,15,13
+V19b,Linear,202208,4.0,16,12
+V19b,Linear,202209,7.0,16,9
+V19b,Linear,202210,8.0,17,9
+V19b,Linear,202211,9.0,17,8
+V19b,Linear,202212,9.0,17,8
+V19b,Linear,202301,9.0,17,8
+V19b,Linear,202302,6.0,17,11
+V19b,Linear,202303,5.0,17,12
+V19b,Linear,202304,2.0,12,10
+V19b,Linear,202305,1.0,7,6
+V19b,Linear,202306,1.0,8,7
+V19b,Linear,202307,1.0,1,1
+V19b,Linear,202308,1.0,0,0
+V19b,Linear,202309,1.0,0,0
+V19b,Linear,202310,1.0,0,0
+V19b,Linear,202311,1.0,0,0
+V19b,Linear,202312,2.0,0,0
+V19b,Linear,202401,2.0,0,0
+V19b,Linear,202402,2.0,0,0
+V19b,Linear,202403,2.0,0,0
+V19b,Linear,202404,2.0,0,0
+V19b,Linear,202405,2.0,0,0
+V19b,Linear,202406,2.0,0,0
+V19b,Linear,202407,2.0,1,0
+V19b,Linear,202408,1.0,1,0
+V19b,Linear,202409,0.0,1,1
+V19b,Linear,202410,0.0,1,1
+V19b,Linear,202411,0.0,1,1
+V19b,Linear,202412,0.0,0,0
+V19b,Linear,202501,0.0,0,0
+V19b,Linear,202502,0.0,1,1
+V19b,Linear,202503,0.0,1,1
+V19b,Linear,202504,0.0,0,0
+V19b,Linear,202505,0.0,0,0
+V19b,Linear,202506,0.0,0,0
+V19b,Linear,202507,0.0,0,0
+V19b,Linear,202508,0.0,0,0
+V19b,Linear,202509,0.0,0,0
+V19b,Linear,202510,0.0,0,0
+V19b,Linear,202511,0.0,0,0
+V19b,Linear,202512,0.0,0,0
+V19b,Random Forest,201807,7.0,9,3
+V19b,Random Forest,201808,6.0,9,4
+V19b,Random Forest,201809,5.0,10,5
+V19b,Random Forest,201810,5.0,9,4
+V19b,Random Forest,201811,5.0,9,4
+V19b,Random Forest,201812,5.0,9,4
+V19b,Random Forest,201901,5.0,8,3
+V19b,Random Forest,201902,8.0,11,4
+V19b,Random Forest,201903,8.0,11,4
+V19b,Random Forest,201904,7.0,12,5
+V19b,Random Forest,201905,5.0,12,7
+V19b,Random Forest,201906,5.0,11,6
+V19b,Random Forest,201907,5.0,10,5
+V19b,Random Forest,201908,3.0,9,6
+V19b,Random Forest,201909,1.0,8,7
+V19b,Random Forest,201910,1.0,8,7
+V19b,Random Forest,201911,1.0,5,4
+V19b,Random Forest,201912,0.0,7,7
+V19b,Random Forest,202001,0.0,5,5
+V19b,Random Forest,202002,0.0,3,3
+V19b,Random Forest,202003,0.0,3,3
+V19b,Random Forest,202004,0.0,3,3
+V19b,Random Forest,202005,0.0,3,3
+V19b,Random Forest,202006,0.0,1,1
+V19b,Random Forest,202007,0.0,1,1
+V19b,Random Forest,202008,0.0,1,1
+V19b,Random Forest,202009,0.0,0,0
+V19b,Random Forest,202010,0.0,0,0
+V19b,Random Forest,202011,0.0,0,0
+V19b,Random Forest,202012,0.0,0,0
+V19b,Random Forest,202101,0.0,0,0
+V19b,Random Forest,202102,0.0,0,0
+V19b,Random Forest,202103,0.0,0,0
+V19b,Random Forest,202104,0.0,0,0
+V19b,Random Forest,202105,0.0,0,0
+V19b,Random Forest,202106,0.0,0,0
+V19b,Random Forest,202107,0.0,0,0
+V19b,Random Forest,202108,1.0,0,0
+V19b,Random Forest,202109,1.0,1,0
+V19b,Random Forest,202110,1.0,0,0
+V19b,Random Forest,202111,1.0,0,0
+V19b,Random Forest,202112,1.0,1,0
+V19b,Random Forest,202201,1.0,1,0
+V19b,Random Forest,202202,1.0,1,0
+V19b,Random Forest,202203,2.0,1,0
+V19b,Random Forest,202204,2.0,3,1
+V19b,Random Forest,202205,2.0,2,0
+V19b,Random Forest,202206,2.0,2,0
+V19b,Random Forest,202207,2.0,3,1
+V19b,Random Forest,202208,4.0,5,3
+V19b,Random Forest,202209,7.0,7,2
+V19b,Random Forest,202210,8.0,10,2
+V19b,Random Forest,202211,9.0,15,6
+V19b,Random Forest,202212,9.0,17,8
+V19b,Random Forest,202301,9.0,17,8
+V19b,Random Forest,202302,6.0,17,11
+V19b,Random Forest,202303,5.0,17,12
+V19b,Random Forest,202304,2.0,17,15
+V19b,Random Forest,202305,1.0,16,15
+V19b,Random Forest,202306,1.0,11,10
+V19b,Random Forest,202307,1.0,6,5
+V19b,Random Forest,202308,1.0,2,1
+V19b,Random Forest,202309,1.0,0,0
+V19b,Random Forest,202310,1.0,0,0
+V19b,Random Forest,202311,1.0,0,0
+V19b,Random Forest,202312,2.0,0,0
+V19b,Random Forest,202401,2.0,1,0
+V19b,Random Forest,202402,2.0,1,0
+V19b,Random Forest,202403,2.0,1,0
+V19b,Random Forest,202404,2.0,2,0
+V19b,Random Forest,202405,2.0,2,0
+V19b,Random Forest,202406,2.0,2,0
+V19b,Random Forest,202407,2.0,1,0
+V19b,Random Forest,202408,1.0,1,1
+V19b,Random Forest,202409,0.0,0,0
+V19b,Random Forest,202410,0.0,1,1
+V19b,Random Forest,202411,0.0,1,1
+V19b,Random Forest,202412,0.0,0,0
+V19b,Random Forest,202501,0.0,1,1
+V19b,Random Forest,202502,0.0,0,0
+V19b,Random Forest,202503,0.0,0,0
+V19b,Random Forest,202504,0.0,1,1
+V19b,Random Forest,202505,0.0,0,0
+V19b,Random Forest,202506,0.0,0,0
+V19b,Random Forest,202507,0.0,0,0
+V19b,Random Forest,202508,0.0,0,0
+V19b,Random Forest,202509,0.0,1,1
+V19b,Random Forest,202510,0.0,0,0
+V19b,Random Forest,202511,0.0,0,0
+V19b,Random Forest,202512,0.0,0,0
+V19b,XGBoost,201807,7.0,8,2
+V19b,XGBoost,201808,6.0,6,2
+V19b,XGBoost,201809,5.0,6,2
+V19b,XGBoost,201810,5.0,7,3
+V19b,XGBoost,201811,5.0,8,3
+V19b,XGBoost,201812,5.0,9,4
+V19b,XGBoost,201901,5.0,8,3
+V19b,XGBoost,201902,8.0,8,2
+V19b,XGBoost,201903,8.0,8,2
+V19b,XGBoost,201904,7.0,9,2
+V19b,XGBoost,201905,5.0,9,4
+V19b,XGBoost,201906,5.0,9,4
+V19b,XGBoost,201907,5.0,8,3
+V19b,XGBoost,201908,3.0,7,4
+V19b,XGBoost,201909,1.0,6,5
+V19b,XGBoost,201910,1.0,5,4
+V19b,XGBoost,201911,1.0,3,2
+V19b,XGBoost,201912,0.0,2,2
+V19b,XGBoost,202001,0.0,2,2
+V19b,XGBoost,202002,0.0,1,1
+V19b,XGBoost,202003,0.0,1,1
+V19b,XGBoost,202004,0.0,1,1
+V19b,XGBoost,202005,0.0,1,1
+V19b,XGBoost,202006,0.0,1,1
+V19b,XGBoost,202007,0.0,0,0
+V19b,XGBoost,202008,0.0,0,0
+V19b,XGBoost,202009,0.0,0,0
+V19b,XGBoost,202010,0.0,0,0
+V19b,XGBoost,202011,0.0,0,0
+V19b,XGBoost,202012,0.0,0,0
+V19b,XGBoost,202101,0.0,0,0
+V19b,XGBoost,202102,0.0,0,0
+V19b,XGBoost,202103,0.0,0,0
+V19b,XGBoost,202104,0.0,1,1
+V19b,XGBoost,202105,0.0,1,1
+V19b,XGBoost,202106,0.0,0,0
+V19b,XGBoost,202107,0.0,0,0
+V19b,XGBoost,202108,1.0,0,0
+V19b,XGBoost,202109,1.0,0,0
+V19b,XGBoost,202110,1.0,0,0
+V19b,XGBoost,202111,1.0,0,0
+V19b,XGBoost,202112,1.0,1,0
+V19b,XGBoost,202201,1.0,1,0
+V19b,XGBoost,202202,1.0,1,0
+V19b,XGBoost,202203,2.0,1,0
+V19b,XGBoost,202204,2.0,1,0
+V19b,XGBoost,202205,2.0,1,0
+V19b,XGBoost,202206,2.0,2,0
+V19b,XGBoost,202207,2.0,3,1
+V19b,XGBoost,202208,4.0,3,1
+V19b,XGBoost,202209,7.0,9,5
+V19b,XGBoost,202210,8.0,14,7
+V19b,XGBoost,202211,9.0,16,7
+V19b,XGBoost,202212,9.0,17,8
+V19b,XGBoost,202301,9.0,17,8
+V19b,XGBoost,202302,6.0,17,11
+V19b,XGBoost,202303,5.0,17,12
+V19b,XGBoost,202304,2.0,16,14
+V19b,XGBoost,202305,1.0,6,5
+V19b,XGBoost,202306,1.0,4,3
+V19b,XGBoost,202307,1.0,2,1
+V19b,XGBoost,202308,1.0,1,1
+V19b,XGBoost,202309,1.0,0,0
+V19b,XGBoost,202310,1.0,0,0
+V19b,XGBoost,202311,1.0,0,0
+V19b,XGBoost,202312,2.0,0,0
+V19b,XGBoost,202401,2.0,1,0
+V19b,XGBoost,202402,2.0,1,0
+V19b,XGBoost,202403,2.0,1,0
+V19b,XGBoost,202404,2.0,0,0
+V19b,XGBoost,202405,2.0,1,0
+V19b,XGBoost,202406,2.0,0,0
+V19b,XGBoost,202407,2.0,0,0
+V19b,XGBoost,202408,1.0,0,0
+V19b,XGBoost,202409,0.0,0,0
+V19b,XGBoost,202410,0.0,0,0
+V19b,XGBoost,202411,0.0,0,0
+V19b,XGBoost,202412,0.0,0,0
+V19b,XGBoost,202501,0.0,0,0
+V19b,XGBoost,202502,0.0,0,0
+V19b,XGBoost,202503,0.0,0,0
+V19b,XGBoost,202504,0.0,0,0
+V19b,XGBoost,202505,0.0,0,0
+V19b,XGBoost,202506,0.0,0,0
+V19b,XGBoost,202507,0.0,0,0
+V19b,XGBoost,202508,0.0,0,0
+V19b,XGBoost,202509,0.0,0,0
+V19b,XGBoost,202510,0.0,0,0
+V19b,XGBoost,202511,0.0,0,0
+V19b,XGBoost,202512,0.0,0,0

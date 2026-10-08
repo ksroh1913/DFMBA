@@ -1,0 +1,21 @@
+{
+  "version": "TH_v18-A",
+  "features": "momentum",
+  "change": "no class weighting",
+  "input_hashes": {
+    "provinces_aligned_candidates_TH_v11.csv": "fe41218257559178b817b3595a67ac3c4fc0bad75c18c504094565e54129b249",
+    "seoul_aligned_candidates_TH_v11.csv": "50a0ceea3a8619cfbb28ba6e8b9b034412b62798ea2a44ce78374488f2523a48"
+  },
+  "code_hashes": {
+    "features_TH_v18.py": "09f6e4a55f395610af2d8c2cf5c1232acc473a2d73b3b7618102b3a45c1bd358",
+    "train_TH_v18.py": "8e696f2a974194d194354d4b3840476ed9e7c10eeb50c9338300a080299e9452"
+  },
+  "rows": 24504,
+  "seconds": 19.8606014251709,
+  "versions": {
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "sklearn": "1.6.1",
+    "xgboost": "3.2.0"
+  }
+}
