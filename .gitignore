@@ -16,3 +16,6 @@ analysis/output/_th_v19_cache/
 
 # 변수 카드 생성기 캐시 (analysis/variable_card.py)
 analysis/output/변수카드/_cache.pkl
+
+# 롤링 모형 예측 원자료(크기 10MB+, 재생성 가능)
+analysis/output/모형결과_10차*/predictions_*.csv
