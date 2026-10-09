@@ -27,9 +27,29 @@ BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VALUES = os.path.join(BASE, "analysis", "output", "모형입력표_10차_values.csv")
 C = dict(surface="#fcfcfb", ink="#0b0b0b", ink2="#52514e", muted="#898781", grid="#e1e0d9", axis="#c3c2b7", blue="#2a78d6", orange="#eb6834", aqua="#1baf7a", violet="#4a3aa7")
 MODEL_COLOR = {"AR(Ridge)": C["ink"], "AR(Logit)": C["ink"], "Ridge": C["blue"], "Logit": C["blue"], "RF": C["orange"], "ET": C["aqua"], "XGB": C["violet"],
-               "Zero": C["muted"], "Mom(past_h)": C["muted"], "Clim": C["muted"]}
-MODEL_STYLE = {"AR(Ridge)": "--", "AR(Logit)": "--", "Zero": ":", "Mom(past_h)": "-.", "Clim": ":"}
-ORDER = ["AR(Ridge)", "AR(Logit)", "Ridge", "Logit", "RF", "ET", "XGB", "RF(튜닝)", "ET(튜닝)", "XGB(튜닝)", "Mom(past_h)", "Zero", "Clim"]
+               "Zero": C["muted"], "Mom(past_h)": C["muted"], "Mom1(h×past1)": C["ink2"], "Clim": C["muted"]}
+MODEL_STYLE = {"AR(Ridge)": "--", "AR(Logit)": "--", "Zero": ":", "Mom(past_h)": "-.", "Mom1(h×past1)": (0, (1, 1)), "Clim": ":"}
+ORDER = ["AR(Ridge)", "AR(Logit)", "Mom1(h×past1)", "Ridge", "Logit", "RF", "ET", "XGB", "RF(튜닝)", "ET(튜닝)", "XGB(튜닝)", "Mom(past_h)", "Zero", "Clim"]
+
+
+def add_mom1(pred):
+    """예측 파일에 9차·TH 와 같은 단순 기준 mom1 = h × past1 (최근 1개월 변화의 h개월 연장) 참고 행을 더한다 (없을 때만)"""
+    if "Mom1(h×past1)" in set(pred["model"]):
+        return pred
+    v = pd.read_csv(VALUES, encoding="utf-8-sig")[["region", "결정월", "past1"]]
+    base = pred[pred["model"] == "Zero"].merge(v, left_on=["region", "t"], right_on=["region", "결정월"], how="left")
+    base["model"] = "Mom1(h×past1)"
+    base["pred"] = base["h"] * base["past1"]
+    return pd.concat([pred, base.drop(columns=["결정월", "past1"])], ignore_index=True)
+
+
+def load_results(d):
+    """예측 파일이 있으면 mom1 을 더해 지표를 다시 계산, 없으면 저장된 요약을 쓴다"""
+    files = [os.path.join(d, f) for f in os.listdir(d) if f.startswith("predictions_h") and f.endswith(".csv")]
+    if files:
+        pred = add_mom1(pd.concat([pd.read_csv(f, encoding="utf-8-sig") for f in files], ignore_index=True))
+        return summarize(pred)
+    return (pd.read_csv(os.path.join(d, "metrics_summary.csv"), encoding="utf-8-sig"), pd.read_csv(os.path.join(d, "rolling_metrics.csv"), encoding="utf-8-sig"))
 TASK_KR = {"reg": "회귀(G_h, %)", "up": "급등(G_h ≥ +1%)", "dn": "급락(G_h ≤ −1%)"}
 plt.rcParams.update({"font.family": "Malgun Gothic", "axes.unicode_minus": False, "figure.facecolor": C["surface"], "axes.facecolor": C["surface"],
                      "axes.edgecolor": C["axis"], "axes.labelcolor": C["ink2"], "xtick.color": C["muted"], "ytick.color": C["muted"], "grid.color": C["grid"],
@@ -160,7 +180,7 @@ def sensitivity_table(summ, h):
 # ------------------------------------------------------------ ④ 개선
 def improvement_table(summ):
     rows = []
-    cands = [m for m in ORDER if m not in ("AR(Ridge)", "AR(Logit)", "Zero", "Mom(past_h)", "Clim")]
+    cands = [m for m in ORDER if m not in ("AR(Ridge)", "AR(Logit)", "Zero", "Mom(past_h)", "Mom1(h×past1)", "Clim")]
     for (h, W), g in summ.groupby(["h", "W"]):
         reg = g[g["task"] == "reg"].set_index("model")
         if "AR(Ridge)" in reg.index:
@@ -183,9 +203,11 @@ def improvement_table(summ):
 def best_table(summ):
     rows = []
     for h, g in summ.groupby("h"):
-        r = g[(g["task"] == "reg") & (~g["model"].isin(["Zero", "Mom(past_h)"]))].sort_values("MAE")
+        r = g[(g["task"] == "reg") & (~g["model"].isin(["Zero", "Mom(past_h)", "Mom1(h×past1)"]))].sort_values("MAE")
         ar = g[(g["task"] == "reg") & (g["model"] == "AR(Ridge)")]["MAE"].min()
-        rows.append(dict(h=h, 과제="회귀 MAE", 최선=f"{r.iloc[0]['model']} (W={r.iloc[0]['W']}년) {r.iloc[0]['MAE']:.3f}", AR베이스라인=f"{ar:.3f} (최선 창)", 개선=f"{100 * (ar - r.iloc[0]['MAE']) / ar:+.1f}%"))
+        m1 = g[(g["task"] == "reg") & (g["model"] == "Mom1(h×past1)")]["MAE"].min()
+        rows.append(dict(h=h, 과제="회귀 MAE", 최선=f"{r.iloc[0]['model']} (W={r.iloc[0]['W']}년) {r.iloc[0]['MAE']:.3f}", AR베이스라인=f"{ar:.3f} (최선 창)", 개선=f"{100 * (ar - r.iloc[0]['MAE']) / ar:+.1f}%",
+                         **{"mom1(h×past1) 대비": f"mom1 {m1:.3f} → {100 * (m1 - r.iloc[0]['MAE']) / m1:+.1f}%" if pd.notna(m1) else ""}))
         for ev in ("up", "dn"):
             c = g[(g["task"] == ev) & (g["model"] != "Clim")].sort_values("PR_AUC", ascending=False)
             ar = g[(g["task"] == ev) & (g["model"] == "AR(Logit)")]["PR_AUC"].max()
@@ -205,7 +227,7 @@ def tuned_comparison(fixed_dir, tuned_dir, st_t):
         pf = pd.read_csv(os.path.join(fixed_dir, f"predictions_h{h}.csv"), encoding="utf-8-sig")
         pf = pf[pf["t"].isin(set(pt["t"])) & pf["W"].isin(set(pt["W"]))]
         preds += [pf, pt]
-    pred = pd.concat(preds, ignore_index=True)
+    pred = add_mom1(pd.concat(preds, ignore_index=True))
     summ, roll = summarize(pred)
     return summ, roll
 
@@ -265,8 +287,7 @@ def rolling_figs(roll, h, reg_win=12, clf_win=24, title_extra=""):
 
 # ------------------------------------------------------------ html
 def build(d, tuned_dir=None, notes=None):
-    summ = pd.read_csv(os.path.join(d, "metrics_summary.csv"), encoding="utf-8-sig")
-    roll = pd.read_csv(os.path.join(d, "rolling_metrics.csv"), encoding="utf-8-sig")
+    summ, roll = load_results(d)
     st = json.load(open(os.path.join(d, "settings.json"), encoding="utf-8"))
     hs = sorted(summ["h"].unique(), reverse=True)
     has_tuned = bool(tuned_dir) and os.path.exists(os.path.join(tuned_dir, "metrics_summary.csv"))

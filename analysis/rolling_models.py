@@ -123,7 +123,7 @@ def run(h, windows, start, quick, df, X, feats, tune=(), step=1):
             ytr, yte = y_all.loc[tr].values, y_all[te].values
             base = dict(h=h, W=W, t=str(t), region=df.loc[te, "region"].values, y=yte, n_train=int(len(tr)))
             # 참고 예측(모형 아님)
-            for nm, pred in (("Zero", np.zeros(te.sum())), ("Mom(past_h)", df.loc[te, f"past{h}"].values)):
+            for nm, pred in (("Zero", np.zeros(te.sum())), ("Mom(past_h)", df.loc[te, f"past{h}"].values), ("Mom1(h×past1)", h * df.loc[te, "past1"].values)):
                 rows.append(pd.DataFrame({**base, "task": "reg", "model": nm, "pred": pred}))
             for nm, (fs, mk) in reg_models.items():
                 m = mk().fit(X.loc[tr, feats[fs]].values, ytr)
