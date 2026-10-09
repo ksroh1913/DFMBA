@@ -405,7 +405,22 @@ def _v077_link(parsed_list, level="sido"):
     return w
 
 
-DERIVED_RAW = {"V011": {"fn": _v011_share, "label": "20-39세비중(%)", "desc": "raw 1세 단위 항목 20세~39세 합 ÷ 계 × 100 (지역·달마다 21개 항목 합산)"},
+def _v006_share(parsed_list, level="sido"):
+    """V006: 건별 집계의 월세 건수(월세금>0) ÷ 전체 전월세 신고건수 × 100 = 월세 비중(%). 반환 wide(달력월 × 지역)"""
+    src = "items" if level == "sido" else "items_gu"
+    items = {}
+    for p in parsed_list:
+        items.update(p.get(src, {}))
+    tot, mon = items.get("신고건수(해제 제외)"), items.get("월세 건수(월세금>0)")
+    if tot is None or mon is None:
+        return pd.DataFrame()
+    w = 100 * mon.reindex(index=tot.index, columns=tot.columns) / tot.where(tot > 0)
+    w.attrs["kind"] = "M"
+    return w
+
+
+DERIVED_RAW = {"V006": {"fn": _v006_share, "label": "월세비중(%)", "desc": "건별 집계: 월세 건수(월세금>0) ÷ 전체 전월세 신고건수 × 100 (지역·달마다). 전세→월세 전환 구조. 건수 자체(활동량)는 V007·V035·V036 이 맡음"},
+               "V011": {"fn": _v011_share, "label": "20-39세비중(%)", "desc": "raw 1세 단위 항목 20세~39세 합 ÷ 계 × 100 (지역·달마다 21개 항목 합산)"},
                "V077": {"fn": _v077_link, "label": "연결(5560+6827)",
                         "desc": "DT_MLTM_5560 총계(2012~2019) 뒤에 V076 DT_MLTM_6827 민간임대 등록 공급의 전 구분(12) × 주택유형(8) 합(2020~)을 이어 한 계열 = 시도별 연간 임대주택 공급량(호). "
                                 "6827 전국 = 17개 시도 합(전국 행 없음). 2019→2020 연결점은 5560(공공 포함 추정)→6827(민간만) 정의 차이로 하향 단절 포함 — 학습 전 재검토"}}
@@ -550,6 +565,8 @@ def missing_section(vid, items, kind, parsed_list):
 
 # ============================================================ 5 후보 변환·정상성
 def vtype_of(vid):
+    if vid == "V006":                                       # 파생 원값(월세 비중 %) → 비율로 취급
+        return "비율·금리"
     if vid in DUMMY:
         return "더미"
     if vid == "V012":
