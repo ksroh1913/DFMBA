@@ -126,6 +126,8 @@ def _kosis_region(row):
 
 def parse_raw_file(path, vid):
     """raw 파일 하나 → dict(info, sample, kind, items{item: wide(시도×기간)}, gu_count, notes)"""
+    if vid in MOLIT_DIRS:
+        return _molit_parsed(vid)
     df = pd.read_csv(path, low_memory=False)
     cols = set(df.columns)
     info = {"파일": os.path.relpath(path, BASE), "행수": len(df)}
@@ -242,7 +244,89 @@ def parse_raw_file(path, vid):
     return {"info": info, "sample": sample, "kind": kind, "items": items_w, "items_gu": items_gu, "gu": gu, "notes": notes}
 
 
+# ============================================================ 국토부 실거래 건별 raw(V006·V007) → 월별 신고건수. 건별 파일(수 GB)은 git 제외라 집계 결과를 CSV 로 저장해 둔다
+MOLIT_DIRS = {"V006": "V006_아파트전월세실거래", "V007": "V007_아파트매매실거래"}
+
+
+def _molit_cache(vid):
+    return os.path.join(OUT, f"{vid}_월별건수_raw집계.csv")
+
+
+def _molit_counts(vid, refresh=False):
+    """건별 raw(시도 폴더/시군구 파일) → long(지역, 수준, 월, 항목, 건수). 해제(cdealType=='O') 건 제외. 서울 구는 파일 이름의 구 이름.
+    캐시 analysis/output/변수카드/<vid>_월별건수_raw집계.csv (저장소에 커밋 — 건별 raw 가 없는 환경에서도 입력표를 만들 수 있게)"""
+    cache = _molit_cache(vid)
+    dirs = glob.glob(os.path.join(RAW, "*", MOLIT_DIRS[vid]))
+    files = sorted(glob.glob(os.path.join(dirs[0], "*", "*.csv"))) if dirs else []
+    if os.path.exists(cache) and not refresh:
+        return pd.read_csv(cache, encoding="utf-8-sig", dtype={"월": str}), len(files)
+    if not files:
+        return pd.DataFrame(), 0
+    rows, use = [], {"cdealType", "_dealYmd", "monthlyRent"}
+    for f in files:
+        sido = os.path.basename(os.path.dirname(f))
+        gu = os.path.basename(f)[:-4].split("_", 2)[-1]
+        df = pd.read_csv(f, usecols=lambda c: c in use, dtype=str, low_memory=False)
+        if "cdealType" in df.columns:
+            df = df[df["cdealType"].fillna("").str.strip() != "O"]          # 해제 신고 건 제외
+        g = df.groupby("_dealYmd").size()
+        rows += [{"지역": sido, "수준": "sido", "월": ym, "항목": "신고건수(해제 제외)", "건수": int(n)} for ym, n in g.items()]
+        if sido == "서울":
+            rows += [{"지역": gu, "수준": "gu", "월": ym, "항목": "신고건수(해제 제외)", "건수": int(n)} for ym, n in g.items()]
+        if "monthlyRent" in df.columns:                                      # 전월세(V006): 월세금 > 0 인 건 = 월세 계약
+            mr = pd.to_numeric(df["monthlyRent"].astype(str).str.replace(",", ""), errors="coerce").fillna(0)
+            g2 = df[mr > 0].groupby("_dealYmd").size()
+            rows += [{"지역": sido, "수준": "sido", "월": ym, "항목": "월세 건수(월세금>0)", "건수": int(n)} for ym, n in g2.items()]
+            if sido == "서울":
+                rows += [{"지역": gu, "수준": "gu", "월": ym, "항목": "월세 건수(월세금>0)", "건수": int(n)} for ym, n in g2.items()]
+    long = pd.DataFrame(rows).groupby(["지역", "수준", "월", "항목"], as_index=False)["건수"].sum()
+    long.to_csv(cache, index=False, encoding="utf-8-sig")
+    return long, len(files)
+
+
+def _molit_parsed(vid):
+    """parse_raw_file 과 같은 dict 를 건별 집계에서 만든다"""
+    long, nfiles = _molit_counts(vid)
+    rel = os.path.relpath(_molit_cache(vid), BASE)
+    if long.empty:
+        return {"info": {"파일": MOLIT_DIRS[vid], "형식": "국토부 실거래 건별(없음)"}, "sample": pd.DataFrame(), "kind": "M", "items": {}, "items_gu": {}, "gu": set(),
+                "notes": ["건별 raw 와 집계 캐시(" + rel + ")가 모두 없음"]}
+
+    def items_of(level):
+        out, sub = {}, long[long["수준"] == level]
+        keep = REGIONS + ["전국"] if level == "sido" else GU_LIST
+        for item in sorted(sub["항목"].unique(), key=lambda x: 0 if x.startswith("신고") else 1):
+            g = sub[sub["항목"] == item]
+            w = g.pivot_table(index="월", columns="지역", values="건수", aggfunc="sum")
+            w.index = pd.PeriodIndex([pd.Period(m[:4] + "-" + m[4:6], "M") for m in w.index], freq="M")
+            w = w.sort_index()
+            for c in w.columns:                                              # 건별 집계라 첫~마지막 관측 사이 빈 달 = 거래 0
+                f, l = w[c].first_valid_index(), w[c].last_valid_index()
+                if f is not None:
+                    w.loc[f:l, c] = w.loc[f:l, c].fillna(0)
+            if level == "sido":
+                regs = [c for c in w.columns if c in REGIONS]
+                w["전국"] = w[regs].sum(axis=1, min_count=1)                   # 전국 = 시도 합(세종은 2012-07~ 만 포함)
+            w = w[[c for c in keep if c in w.columns]]
+            w.attrs["kind"], w.attrs["file"] = "M", MOLIT_DIRS[vid]
+            out[item] = w
+        return out
+    items, items_gu = items_of("sido"), items_of("gu")
+    main = long[(long["수준"] == "sido") & long["항목"].str.startswith("신고")]
+    info = {"파일": f"raw/*/{MOLIT_DIRS[vid]}/<시도>/<시군구>.csv (건별 {nfiles}개 파일, git 제외) → 집계 캐시 {rel}", "행수": int(main["건수"].sum()),
+            "형식": "국토부 실거래 건별(로컬 집계)", "주기": "월", "단위": "건",
+            "집계 규칙": "계약년월(_dealYmd)별 건수. 해제(cdealType='O') 건 제외. 시도 = 폴더, 서울 구 = 시군구 파일. 첫~마지막 관측 사이 빈 달은 0",
+            "항목(행수)": "; ".join(f"{k} ({len(long[long['항목'] == k])})" for k in items), "기간": f"{main['월'].min()} ~ {main['월'].max()} ({main['월'].nunique()}개)",
+            "시도 수(전국 제외)": int(main["지역"].nunique()), "서울 구 수": int(long.loc[long["수준"] == "gu", "지역"].nunique())}
+    return {"info": info, "sample": long.head(5), "kind": "M", "items": items, "items_gu": items_gu, "gu": set(items_gu[list(items_gu)[0]].columns) if items_gu else set(),
+            "notes": ["건별 raw 집계(공식 거래량 통계가 아니라 신고 건수). 최근 달은 신고 기한(30일) 때문에 미완성"]}
+
+
 def find_raw_files(vid):
+    if vid in MOLIT_DIRS:                                      # 건별 폴더의 수집기록 또는 집계 캐시 하나를 '파일' 로 돌려준다
+        d = glob.glob(os.path.join(RAW, "*", MOLIT_DIRS[vid]))
+        cands = ([os.path.join(d[0], f"_{vid}_수집기록.csv")] if d else []) + [_molit_cache(vid)]
+        return [p for p in cands if os.path.exists(p)][:1]
     files = []
     for f in glob.glob(os.path.join(RAW, "*", "*.csv")):
         b = os.path.basename(f)[:-4]
@@ -1016,9 +1100,6 @@ def build_card(vid, ctx):
     name = dinfo.get("변수명") or cinfo.get("variables.py 이름") or vid
     parts = [("① 데이터사전", _kv(dinfo)), ("① variables.py · 공표시차", _kv(cinfo))]
     files = find_raw_files(vid)
-    if vid in ("V006", "V007"):
-        parts.append(("② raw 원자료", "<p class='note'>국토부 실거래 건별 원자료는 git 제외(수 GB)라 이 작업 폴더에 없음. 재수집: collect/collect_molit.py (API 키 필요)</p>"))
-        return name, render(vid, parts), None
     if not files:
         parts.append(("② raw 원자료", "<p class='note'>raw 파일을 찾지 못함</p>"))
         return name, render(vid, parts), None
