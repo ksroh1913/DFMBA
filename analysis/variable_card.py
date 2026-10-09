@@ -419,7 +419,36 @@ def _v006_share(parsed_list, level="sido"):
     return w
 
 
-DERIVED_RAW = {"V006": {"fn": _v006_share, "label": "월세비중(%)", "desc": "건별 집계: 월세 건수(월세금>0) ÷ 전체 전월세 신고건수 × 100 (지역·달마다). 전세→월세 전환 구조. 건수 자체(활동량)는 V007·V035·V036 이 맡음"},
+CSI_METRO = ["부산", "대구", "인천", "광주", "대전", "울산"]          # 소비자동향조사 '6대광역시' 권역. 세종·경기·도 지역은 '기타도시'
+
+
+def _v061_region_csi(parsed_list, level="sido"):
+    """V061: 주택가격전망CSI 권역 3값(V061 서울, V062 6대광역시, V063 기타도시)을 시도별로 해당 권역 값으로 매핑 → 17개 시도 패널(달력월 × 지역).
+    보완 파일(2008-07~2012-12 주택·상가가치전망CSI)은 문항이 달라 잇지 않음"""
+    if level != "sido":
+        return pd.DataFrame()
+
+    def series_of(vid):
+        for f in find_raw_files(vid):
+            if "보완_" in os.path.basename(f):
+                continue
+            for item, w in parse_raw_file(f, vid)["items"].items():
+                if "주택가격전망" in item and len(w.columns):
+                    col = "서울" if "서울" in w.columns else ("전국" if "전국" in w.columns else w.columns[0])
+                    return w[col]
+        return None
+    seoul, metro, other = series_of("V061"), series_of("V062"), series_of("V063")
+    if seoul is None or metro is None or other is None:
+        return pd.DataFrame()
+    idx = seoul.index.union(metro.index).union(other.index)
+    w = pd.DataFrame({r: (seoul if r == "서울" else metro if r in CSI_METRO else other).reindex(idx) for r in REGIONS})
+    w.attrs["kind"] = "M"
+    return w
+
+
+DERIVED_RAW = {"V061": {"fn": _v061_region_csi, "label": "권역매핑",
+                        "desc": "주택가격전망CSI 권역 3값을 시도에 매핑: 서울 = V061(서울), 부산·대구·인천·광주·대전·울산 = V062(6대광역시), 나머지 10개 시도 = V063(기타도시). V062·V063 은 이 패널에 흡수"},
+               "V006": {"fn": _v006_share, "label": "월세비중(%)", "desc": "건별 집계: 월세 건수(월세금>0) ÷ 전체 전월세 신고건수 × 100 (지역·달마다). 전세→월세 전환 구조. 건수 자체(활동량)는 V007·V035·V036 이 맡음"},
                "V011": {"fn": _v011_share, "label": "20-39세비중(%)", "desc": "raw 1세 단위 항목 20세~39세 합 ÷ 계 × 100 (지역·달마다 21개 항목 합산)"},
                "V077": {"fn": _v077_link, "label": "연결(5560+6827)",
                         "desc": "DT_MLTM_5560 총계(2012~2019) 뒤에 V076 DT_MLTM_6827 민간임대 등록 공급의 전 구분(12) × 주택유형(8) 합(2020~)을 이어 한 계열 = 시도별 연간 임대주택 공급량(호). "
