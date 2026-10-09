@@ -113,6 +113,14 @@ TABLES = [
          obj={"objL1": "ALL", "objL2": "ALL"}, desc="민간임대주택공급현황_2020-"),
     dict(tbl="DT_MLTM_7174", org="116", itm="ALL", prd="Y", start=2024, end=None, chunk=1,
          obj={"objL1": "ALL", "objL2": "ALL", "objL3": "ALL"}, desc="임대주택공급현황_2024-"),
+    # V077 연결용 공공+민간 공급현황 (연도마다 표가 바뀜). 6826·7141 은 총계 행이 없어 전 유형(레벨01) × 사업주체(항목) 합 = 총계,
+    # 7163 은 7174 와 같은 구조('임대주택 총계 (공공+민간)' 행 있음)
+    dict(tbl="DT_MLTM_6826", org="116", itm="ALL", prd="Y", start=2020, end=2021, chunk=1,
+         obj={"objL1": "ALL", "objL2": "ALL"}, desc="임대주택공급현황_공공민간_2020-2021"),
+    dict(tbl="DT_MLTM_7141", org="116", itm="ALL", prd="Y", start=2022, end=2022, chunk=1,
+         obj={"objL1": "ALL", "objL2": "ALL"}, desc="임대주택공급현황_공공민간_2022"),
+    dict(tbl="DT_MLTM_7163", org="116", itm="ALL", prd="Y", start=2023, end=2023, chunk=1,
+         obj={"objL1": "ALL", "objL2": "ALL", "objL3": "ALL"}, desc="임대주택공급현황_공공민간_2023"),
     # --- 사업체노동력조사 임금 (V066) 과거 계열: 2020~ 는 ECOS(901Y052·901Y148)에서 받는다 ---
     # 전체산업·전규모(1인이상)·전체임금총액. 산업분류 9차 표(2011~2019). 10차 KOSIS 표 값 = ECOS 값 (2020 전월 일치 확인)
     dict(tbl="DT_118N_MON041", org="118", itm="13103110311MD_12+", prd="M", start=2011, end=2019,

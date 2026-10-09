@@ -375,33 +375,39 @@ def _v011_share(parsed_list, level="sido"):
 
 
 def _v077_link(parsed_list, level="sido"):
-    """V077: DT_MLTM_5560 총계(2012~2019) 뒤에 V076 DT_MLTM_6827(민간임대 등록 공급, 2020~) 의 전 구분(개인·법인 × 단기·장기일반·공공지원 × 건설·매입 = 12)
-    × 주택유형(아파트·다세대·다가구·단독·오피스텔·연립·도시형생활주택·기타 = 8) 합을 이어 한 계열(연, 호)로 만든다 = 시도별 연간 임대주택 공급량.
-    6827 에는 전국 행이 없어 17개 시도 합을 전국으로 둔다. 반환 wide(연 × 지역), attrs kind='Y'"""
+    """V077: 임대주택 공급(공공+민간, 사업승인 기준, 호)을 연도마다 바뀐 KOSIS 표를 이어 한 계열로 만든다.
+    2012~2019 DT_MLTM_5560 총계 → 2020~2021 DT_MLTM_6826·2022 DT_MLTM_7141(총계 행이 없어 전 유형(레벨01) × 사업주체(항목) 합)
+    → 2023 DT_MLTM_7163·2024~ DT_MLTM_7174('임대주택 총계 (공공+민간)' 행). 전국 행이 없는 표는 17개 시도 합을 전국으로 둔다.
+    6826·7141·7163 의 전국 합이 통계누리 공표값(2020 408,349 / 2021 301,662 / 2022 214,204 / 2023 156,686)과 일치함을 확인(2026-10-09).
+    6827(민간만)은 이 계열에 쓰지 않는다. 반환 wide(연 × 지역), attrs kind='Y'"""
     if level != "sido":
         return pd.DataFrame()
-    base = select_items("V077", parsed_list, "sido")
-    if not base:
-        return pd.DataFrame()
-    old = base[list(base)[0]]
-    old = old[old.index <= pd.Period("2019", "Y")]
-    new = None
-    for f in find_raw_files("V076"):
-        if "6827" not in os.path.basename(f):
+    parts = []
+    files = [f for f in find_raw_files("V077") + find_raw_files("V076") if "5560" in os.path.basename(f) or "공공민간" in os.path.basename(f)]
+    for f in files:
+        items = parse_raw_file(f, "V077")["items"]
+        if not items:
             continue
-        ws = list(parse_raw_file(f, "V076")["items"].values())
-        if ws:
-            new = pd.concat(ws, keys=range(len(ws))).groupby(level=1).sum(min_count=1)     # 구분 × 유형 전 항목 합 (빈 항목은 무시, 전부 비면 결측)
-    if new is None or new.empty:
+        strict = [k for k in items if all("총계" in s for s in k.split(" | "))]                                   # 7163·7174: '총계 | 임대주택 총계 (공공+민간) | 총계'
+        loose = [k for k in items if all(("총계" in s or s.strip() in ("합계", "계")) for s in k.split(" | "))]   # 5560: '합계'
+        key = (strict or loose or [None])[0]
+        if key is not None:
+            w = items[key].copy()
+        else:                                                                                                  # 6826·7141: 총계 행 없음 → 전 항목 합
+            ws = list(items.values())
+            w = pd.concat(ws, keys=range(len(ws))).groupby(level=1).sum(min_count=1)
+        regs = [c for c in w.columns if c in REGIONS]
+        if "전국" not in w.columns:
+            w["전국"] = w[regs].sum(axis=1, min_count=len(regs))
+        parts.append(w)
+    if not parts:
         return pd.DataFrame()
-    regs = [c for c in new.columns if c in REGIONS]
-    new["전국"] = new[regs].sum(axis=1, min_count=len(regs))
-    new = new[new.index >= pd.Period("2020", "Y")]
-    w = pd.concat([old, new]).sort_index()
+    w = pd.concat(parts).sort_index()
+    w = w[~w.index.duplicated(keep="last")]
     w = w[[c for c in REGIONS + ["전국"] if c in w.columns]]
     w.index = pd.PeriodIndex(w.index, freq="Y")
     w.attrs["kind"] = "Y"
-    w.attrs["file"] = "DT_MLTM_5560 + DT_MLTM_6827"
+    w.attrs["file"] = "DT_MLTM_5560 + 6826 + 7141 + 7163 + 7174 (공공+민간)"
     return w
 
 
@@ -516,9 +522,9 @@ DERIVED_RAW = {"V066": {"fn": _v066_link, "label": "연결(9차+10차+11차)", "
                         "desc": "주택가격전망CSI 권역 3값을 시도에 매핑: 서울 = V061(서울), 부산·대구·인천·광주·대전·울산 = V062(6대광역시), 나머지 10개 시도 = V063(기타도시). V062·V063 은 이 패널에 흡수"},
                "V006": {"fn": _v006_share, "label": "월세비중(%)", "desc": "건별 집계: 월세 건수(월세금>0) ÷ 전체 전월세 신고건수 × 100 (지역·달마다). 전세→월세 전환 구조. 건수 자체(활동량)는 V007·V035·V036 이 맡음"},
                "V011": {"fn": _v011_share, "label": "20-39세비중(%)", "desc": "raw 1세 단위 항목 20세~39세 합 ÷ 계 × 100 (지역·달마다 21개 항목 합산)"},
-               "V077": {"fn": _v077_link, "label": "연결(5560+6827)",
-                        "desc": "DT_MLTM_5560 총계(2012~2019) 뒤에 V076 DT_MLTM_6827 민간임대 등록 공급의 전 구분(12) × 주택유형(8) 합(2020~)을 이어 한 계열 = 시도별 연간 임대주택 공급량(호). "
-                                "6827 전국 = 17개 시도 합(전국 행 없음). 2019→2020 연결점은 5560(공공 포함 추정)→6827(민간만) 정의 차이로 하향 단절 포함 — 학습 전 재검토"}}
+               "V077": {"fn": _v077_link, "label": "연결(공공+민간)",
+                        "desc": "임대주택 공급(공공+민간, 사업승인 기준, 호): DT_MLTM_5560 총계(2012~2019) → 6826(2020~2021)·7141(2022) 전 유형 × 사업주체 합 → 7163(2023)·7174(2024~) '임대주택 총계 (공공+민간)' 행. "
+                                "전국 행이 없는 표는 17개 시도 합. 세 표의 전국 합이 통계누리 공표값과 일치(2020 408,349 / 2021 301,662 / 2022 214,204 / 2023 156,686). 6827(민간만)은 미사용"}}
 
 
 def derived_raw(vid, parsed_list, level="sido"):
@@ -1027,7 +1033,7 @@ def recommend(vid, vtype, kind, st, tr, dinfo, cinfo, nat_only):
            "V015": "V017 과 같은 표·같은 움직임", "V017": "V015 와 같은 표", "V061": "V062·V063 과 권역 3값", "V062": "권역 3값", "V063": "권역 3값"}
     if vid in dup:
         notes.append("중복: " + dup[vid])
-    ended = {"V034": "2015.06 종료", "V077": "5560(2012~2019) 뒤에 6827 민간 등록 공급 전 유형 합(2020~)을 이어 붙인 연결 계열. 2019→2020 은 공공 포함→민간만 정의 차이로 하향 단절(전국 405,377→280,853)", "V074": "구계열(~2019Q4)과 신계열 보완(2019Q1~)을 2019 겹침 비율로 조정해 연결", "V066": "9차(2011~2019 KOSIS)·10차(2020~2025)·11차(2026~ ECOS) 분류 개정 파일 3개를 이은 계열", "V024": "서울 구 전용(시도 없음)", "V076": "6827 전 유형 합이 V077 의 2020~ 구간으로 흡수됨(한 계열). 7174 는 2024 만(대조용: 민간 계 51,956 = 6827 합)"}
+    ended = {"V034": "2015.06 종료", "V077": "공공+민간 임대주택 공급을 표가 바뀐 연도별로 이은 계열(5560 → 6826·7141 → 7163·7174). 정의 일관(사업승인 기준 공공+민간)", "V074": "구계열(~2019Q4)과 신계열 보완(2019Q1~)을 2019 겹침 비율로 조정해 연결", "V066": "9차(2011~2019 KOSIS)·10차(2020~2025)·11차(2026~ ECOS) 분류 개정 파일 3개를 이은 계열", "V024": "서울 구 전용(시도 없음)", "V076": "6827(민간 등록 공급, 2020~)은 V077 공공+민간 계열의 일부라 별도 변수로 쓰지 않음(연 관측 5개). 7174 는 V077 의 2024~ 구간에 사용"}
     if vid in ended:
         notes.append("기간·범위: " + ended[vid])
     if nat_only:
