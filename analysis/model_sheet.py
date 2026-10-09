@@ -243,7 +243,7 @@ def _write_x(wb, title, regions, months, dec, vc, ctx, level, desc):
                 replicated = True
         else:
             items_sido = vc.select_items(vid, parsed, "sido")
-            force_rep = level == "gu" and "복제" in str(row.get("지역단위", ""))    # 결정 로그에서 '구는 서울 값 복제' 로 정한 변수
+            force_rep = level == "gu" and "서울 값 복제" in str(row.get("지역단위", ""))    # 결정 로그 지역단위에 '→ 서울 값 복제' 라고 적은 변수만 ('복제 불필요' 는 해당 없음)
             items = items_sido if (level == "sido" or force_rep) else vc.select_items(vid, parsed, "gu")
             if force_rep and items_sido:
                 replicated = True
