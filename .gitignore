@@ -13,3 +13,6 @@ rmpi/output_v9_smoke/
 
 # TH 브랜치 리뷰용 내려받기 캐시 (analysis/review_th_v19_inputs.py)
 analysis/output/_th_v19_cache/
+
+# 변수 카드 생성기 캐시 (analysis/variable_card.py)
+analysis/output/변수카드/_cache.pkl
