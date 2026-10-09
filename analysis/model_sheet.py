@@ -106,6 +106,11 @@ def formula_x(key, i, X, lag, n_first, n_last, H=None, P=None, M=None):
     if m:
         k = int(m.group(1))
         return f'=IF(AND({same(j - k)},ISNUMBER({X}{j}),ISNUMBER({X}{j - k})),{X}{j}-{X}{j - k},"")' if ok(j, j - k) else ""
+    m = re.fullmatch(r"Δ(\d+)_천세대당", key)
+    if m:
+        k = int(m.group(1))
+        return (f'=IF(AND({same(j - k)},ISNUMBER({X}{j}),ISNUMBER({X}{j - k}),ISNUMBER({H}{j}),ISNUMBER({H}{j - k})),1000*{X}{j}/{H}{j}-1000*{X}{j - k}/{H}{j - k},"")'
+                if (ok(j, j - k) and H) else "")
     m = re.fullmatch(r"100·로그Δ(\d+)", key)
     if m:
         k = int(m.group(1))
@@ -113,6 +118,19 @@ def formula_x(key, i, X, lag, n_first, n_last, H=None, P=None, M=None):
     if key == "12개월합_천세대당":
         src = M or X
         return f'=IF(AND({same(j - 11)},COUNT({src}{j - 11}:{src}{j})=12,ISNUMBER({H}{j})),1000*SUM({src}{j - 11}:{src}{j})/{H}{j},"")' if (ok(j, j - 11) and H) else ""
+    if key == "log1p(12개월합_천세대당)":
+        src = M or X
+        return f'=IF(AND({same(j - 11)},COUNT({src}{j - 11}:{src}{j})=12,ISNUMBER({H}{j})),LN(1+1000*SUM({src}{j - 11}:{src}{j})/{H}{j}),"")' if (ok(j, j - 11) and H) else ""
+    if key == "12개월합 전년비(%)":
+        src = M or X
+        cur, prv = f"SUM({src}{j - 11}:{src}{j})", f"SUM({src}{j - 23}:{src}{j - 12})"
+        return f'=IF(AND({same(j - 23)},COUNT({src}{j - 11}:{src}{j})=12,COUNT({src}{j - 23}:{src}{j - 12})=12,{prv}>0),100*({cur}/{prv}-1),"")' if ok(j, j - 23) else ""
+    if key == "3개월합_천세대당":
+        src = M or X
+        return f'=IF(AND({same(j - 2)},COUNT({src}{j - 2}:{src}{j})=3,ISNUMBER({H}{j})),1000*SUM({src}{j - 2}:{src}{j})/{H}{j},"")' if (ok(j, j - 2) and H) else ""
+    if key == "월값_천세대당":
+        src = M or X
+        return f'=IF(AND({same(j)},ISNUMBER({src}{j}),ISNUMBER({H}{j})),1000*{src}{j}/{H}{j},"")' if (ok(j) and H) else ""
     if key.startswith("log1p(천세대당"):
         return f'=IF(AND({same(j)},ISNUMBER({X}{j}),ISNUMBER({H}{j})),LN(1+1000*MAX({X}{j},0)/{H}{j}),"")' if (ok(j) and H) else ""
     m = re.fullmatch(r"(\d+)개월합_천명당", key)
@@ -267,9 +285,20 @@ def _write_x(wb, title, regions, months, dec, vc, ctx, level, desc):
         X = add_values(raw_label, _calendar_values(wm, regions, months, replicate_from=("전국" if nat_only else ("서울" if replicated else None))))
         desc.append({"시트": title, "열": raw_label, "뜻": (derived_desc + "; " if derived_desc else "") + "raw 원값(달력월 기준" + (", 저빈도는 기간 끝 달에 두고 다음 공표까지 유지" if kind != "M" else "") + (", 전국 값을 모든 지역에 복제" if nat_only else "") + (", 구 자료가 없어 서울 시도 값을 복제" if replicated else "") + ")"})
         M = None
+        if vid in vc.ZERO_GAPS and "0" in str(row.get("결측처리", "")):
+            # KOSIS 가 값 0인 행을 생략한 표: 그 지역의 첫~마지막 관측 사이 빈 셀은 0 (보완 소분류 합계로 확인). 범위 밖 빈 셀은 결측 유지
+            nm = len(months)
+
+            def _zero_fill(i, X0=X):
+                bs = n_first + ((i - n_first) // nm) * nm
+                be = bs + nm - 1
+                return f'=IF(ISNUMBER({X0}{i}),{X0}{i},IF(AND(COUNT({X0}{bs}:{X0}{i})>0,COUNT({X0}{i}:{X0}{be})>0),0,""))'
+            zlabel = f"{vid}_{name}_raw(빈셀0)"
+            X = add_formulas(zlabel, _zero_fill)
+            desc.append({"시트": title, "열": zlabel, "뜻": "raw 빈 셀 중 그 지역의 첫~마지막 관측 사이에 있는 것은 0 (KOSIS 가 0인 행을 생략; 보완 소분류 파일의 합계 항등식으로 확인). 시작 전·종료 후 빈 셀은 그대로 결측"})
         if vid in vc.CUMULATIVE:
-            M = add_formulas(f"{vid}_{name}_월값(누계차분)", lambda i: formula_x("월값(누계", i, X, 0, n_first, n_last))
-            desc.append({"시트": title, "열": f"{vid}_{name}_월값(누계차분)", "뜻": "1월은 누계 그대로, 2월부터 전월 누계와의 차"})
+            M = add_formulas(f"{vid}_{name}_월값(누계차분)", lambda i, Xc=X: formula_x("월값(누계", i, Xc, 0, n_first, n_last))
+            desc.append({"시트": title, "열": f"{vid}_{name}_월값(누계차분)", "뜻": "1월은 누계 그대로, 2월부터 전월 누계와의 차 (빈 셀은 앞 열에서 이미 0)"})
         H = helper("hh") if "천세대당" in key else None
         P = helper("pop") if "천명당" in key else None
         flabel = f"{vid}_{name}_{key}"
@@ -313,5 +342,11 @@ def write_workbook(ctx, log, vc):
         wd.append([d["시트"], d["열"], d["뜻"]])
     wd.column_dimensions["C"].width = 110
     os.makedirs(os.path.dirname(SHEET_PATH), exist_ok=True)
-    wb.save(SHEET_PATH)
+    try:
+        wb.save(SHEET_PATH)
+    except PermissionError:
+        # Excel 에 열려 있으면 잠김 → 옆에 '_새본' 으로 저장해 두고, 닫힌 뒤 --apply 로 다시 쓴다
+        alt = SHEET_PATH.replace(".xlsx", "_새본.xlsx")
+        wb.save(alt)
+        print(f"[경고] {os.path.relpath(SHEET_PATH, BASE)} 가 Excel 에 열려 있어 쓰지 못함 → {os.path.relpath(alt, BASE)} 로 저장. Excel 을 닫고 'variable_card.py --apply <ID>' 를 다시 실행하면 본 파일이 갱신됨")
     return {"행": len(vc.REGIONS) * len(months), "결정월": f"{months[0]}~{months[-1]}", "타깃 열": tcols, "설명변수 열": xcols, "보조": gu_summary}

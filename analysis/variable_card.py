@@ -65,7 +65,9 @@ DRIVER_IDS = {1: ["V009", "V010", "V011", "V012", "V013", "V015", "V017"],
               4: ["V005", "V006", "V032", "V033", "V034", "V035"],
               5: ["V001", "V037", "V061", "V062", "V063"],
               6: ["V043", "V044", "V045", "V046", "V047", "V048", "V049", "V064", "V066", "V067", "V070", "V074", "V078"]}
-FLOW, STOCK, DUMMY, CUMULATIVE = {"V021", "V022", "V023", "V035", "V036", "V006", "V007"}, {"V038"}, {"V078"}, {"V021", "V022", "V023"}
+FLOW, STOCK, DUMMY = {"V021", "V022", "V023", "V035", "V036", "V006", "V007"}, {"V038"}, {"V078"}
+CUMULATIVE = {"V021"}                     # raw 가 연초 누계(월별 누적)인 표: 인허가(DT_MLTM_1948). 착공·준공(5387·5373)은 월값 (총계가 달마다 오르내리고 12월값 ≠ 연합)
+ZERO_GAPS = {"V021", "V022", "V023"}      # 주택건설실적: KOSIS 가 값 0인 행을 생략 → 첫~마지막 관측 사이 빈 셀 = 0. 보완 소분류 파일의 합계 항등식으로 검증(zero_check)
 DIFFUSION = {"V005", "V031", "V032", "V033", "V034", "V037", "V060", "V061", "V062", "V063", "V067"}
 RATE = {"V003", "V004", "V013", "V043", "V044", "V045", "V056", "V057", "V059", "V072"}
 INTEREST = {"V043", "V044", "V045", "V056", "V057", "V059"}
@@ -105,11 +107,13 @@ def _kosis_region(row):
     s = sido_short(nm)
     if s:
         return s, "sido"
-    if nm in ("전국", "계", "전체") or c1 in ("00", "0"):
+    if nm in ("전국", "계", "전체", "총계", "합계") or c1 in ("00", "0"):
         return "전국", "nat"
     if nm.startswith("서울 ") and nm.endswith("구"):
         return nm[3:], "gu"
     if len(c1) == 5 and c1.isdigit() and c1[:2] == "11":
+        return nm, "gu"
+    if nm in GU_LIST and re.fullmatch(r"10\d\d", c1):       # 서울통계(orgId 201) 표: 구 코드 1001~1025, 이름 '종로구' 등
         return nm, "gu"
     if c1 == "12" or nm in ("전남광주", "광주전남"):
         return "광주전남(통합)", "merged"
@@ -286,7 +290,41 @@ def _v011_share(parsed_list, level="sido"):
     return 100 * young / tot
 
 
-DERIVED_RAW = {"V011": {"fn": _v011_share, "label": "20-39세비중(%)", "desc": "raw 1세 단위 항목 20세~39세 합 ÷ 계 × 100 (지역·달마다 21개 항목 합산)"}}
+def _v077_link(parsed_list, level="sido"):
+    """V077: DT_MLTM_5560 총계(2012~2019) 뒤에 V076 DT_MLTM_6827(민간임대 등록 공급, 2020~) 의 전 구분(개인·법인 × 단기·장기일반·공공지원 × 건설·매입 = 12)
+    × 주택유형(아파트·다세대·다가구·단독·오피스텔·연립·도시형생활주택·기타 = 8) 합을 이어 한 계열(연, 호)로 만든다 = 시도별 연간 임대주택 공급량.
+    6827 에는 전국 행이 없어 17개 시도 합을 전국으로 둔다. 반환 wide(연 × 지역), attrs kind='Y'"""
+    if level != "sido":
+        return pd.DataFrame()
+    base = select_items("V077", parsed_list, "sido")
+    if not base:
+        return pd.DataFrame()
+    old = base[list(base)[0]]
+    old = old[old.index <= pd.Period("2019", "Y")]
+    new = None
+    for f in find_raw_files("V076"):
+        if "6827" not in os.path.basename(f):
+            continue
+        ws = list(parse_raw_file(f, "V076")["items"].values())
+        if ws:
+            new = pd.concat(ws, keys=range(len(ws))).groupby(level=1).sum(min_count=1)     # 구분 × 유형 전 항목 합 (빈 항목은 무시, 전부 비면 결측)
+    if new is None or new.empty:
+        return pd.DataFrame()
+    regs = [c for c in new.columns if c in REGIONS]
+    new["전국"] = new[regs].sum(axis=1, min_count=len(regs))
+    new = new[new.index >= pd.Period("2020", "Y")]
+    w = pd.concat([old, new]).sort_index()
+    w = w[[c for c in REGIONS + ["전국"] if c in w.columns]]
+    w.index = pd.PeriodIndex(w.index, freq="Y")
+    w.attrs["kind"] = "Y"
+    w.attrs["file"] = "DT_MLTM_5560 + DT_MLTM_6827"
+    return w
+
+
+DERIVED_RAW = {"V011": {"fn": _v011_share, "label": "20-39세비중(%)", "desc": "raw 1세 단위 항목 20세~39세 합 ÷ 계 × 100 (지역·달마다 21개 항목 합산)"},
+               "V077": {"fn": _v077_link, "label": "연결(5560+6827)",
+                        "desc": "DT_MLTM_5560 총계(2012~2019) 뒤에 V076 DT_MLTM_6827 민간임대 등록 공급의 전 구분(12) × 주택유형(8) 합(2020~)을 이어 한 계열 = 시도별 연간 임대주택 공급량(호). "
+                                "6827 전국 = 17개 시도 합(전국 행 없음). 2019→2020 연결점은 5560(공공 포함 추정)→6827(민간만) 정의 차이로 하향 단절 포함 — 학습 전 재검토"}}
 
 
 def derived_raw(vid, parsed_list, level="sido"):
@@ -351,7 +389,26 @@ def dict_info(vid, ctx):
     r = row.iloc[0]
     keep = ["Master ID", "변수명", "1차 동인", "2차 동인", "변수 역할", "정보유형", "예상 부호", "기대 선행성", "Leakage Risk", "권장 가공/파생변수",
             "수록기간", "빈도", "발표·가용 시점", "지역 범위", "서울25구", "17개시도", "출처기관", "표ID/CODE", "원본 주의사항", "중복/유사 표시", "분류 비고", "분류 근거"]
-    return {k: ("" if pd.isna(r.get(k, "")) else r.get(k, "")) for k in keep if k in vm.columns}
+    out = {k: ("" if pd.isna(r.get(k, "")) else r.get(k, "")) for k in keep if k in vm.columns}
+    out["발표·가용 시점"] = release_text(vid)                  # 사전 원문 대신 9차에서 확인한 공표시차(variables.py RELEASE) 를 쓴다
+    return out
+
+
+def release_text(vid):
+    """variables.py 의 공표시차 기록을 한 줄로: 'N개월 — 근거 (판정)'"""
+    rel = RELEASE_MONTHLY.get(vid) or RELEASE.get(vid) or {}
+    if not rel:
+        return "공표시차 기록 없음 (variables.py 에 없는 변수)"
+    lag = rel.get("lag", "")
+    txt = f"{lag}개월" + (f" (공표 {rel['day']}일 전후)" if rel.get("day") else "")
+    if rel.get("evidence"):
+        txt += f" — {rel['evidence']}"
+    txt += f" [판정: {rel.get('verdict', '')}]"
+    if rel.get("known_delay"):
+        txt += " · 수집원(R-ONE·ECOS) 게시가 공식 공표보다 늦음"
+    if rel.get("ended"):
+        txt += " · 종료된 통계"
+    return txt
 
 
 def code_info(vid):
@@ -359,7 +416,8 @@ def code_info(vid):
     rel = RELEASE_MONTHLY.get(vid) or RELEASE.get(vid) or {}
     return {"variables.py 이름": v.get("name", ""), "빈도": v.get("freq", ""), "지역단위": v.get("level", ""), "출처": v.get("source", ""), "표ID": v.get("table", ""),
             "항목(variables.py)": ", ".join(v.get("items", []) or []), "상태": v.get("status", ""), "같은 변수": v.get("same_as", "") or "", "주석": v.get("note", ""),
-            "공표시차(개월)": rel.get("lag", ""), "공표 근거": f"{rel.get('dict', '')} ({rel.get('verdict', '')})" if rel else "", "known_delay": rel.get("known_delay", "")}
+            "공표시차(개월)": rel.get("lag", ""), "공표시차 근거(9차 확인)": rel.get("evidence", ""), "근거 출처": rel.get("source", ""),
+            "사전에 적힌 시점(참고)": rel.get("dict", ""), "판정(사전 대비)": rel.get("verdict", ""), "known_delay": rel.get("known_delay", "")}
 
 
 # ============================================================ 4 결측 진단
@@ -382,21 +440,27 @@ def missing_section(vid, items, kind, parsed_list):
     late = tab.loc[(tab["첫 관측"] != "") & (tab["첫 관측"] != firsts.min()), ["지역", "첫 관측"]] if len(firsts) else pd.DataFrame()
     lasts = tab["마지막 관측"].replace("", np.nan).dropna()
     early_end = tab.loc[(tab["마지막 관측"] != "") & (tab["마지막 관측"] != lasts.max()), ["지역", "마지막 관측"]] if len(lasts) else pd.DataFrame()
-    missing_regions = [r for r in REGIONS if r not in w.columns]
-    notes = [n for p in parsed_list for n in p["notes"]]
-    prop = []
+    is_gu = any(c in GU_LIST for c in w.columns)
+    missing_regions = [r for r in (GU_LIST if is_gu else REGIONS) if r not in w.columns]
+    notes = list(dict.fromkeys(n for p in parsed_list for n in p["notes"]))      # 주 파일·보완 파일이 같은 주석을 내면 한 번만
+    prop, extra_html = [], ""
     if missing_regions:
         prop.append(f"raw 에 없는 시도: {', '.join(missing_regions)} → 결측 유지(대체 자료 여부 결정)")
     if len(late):
         prop.append("시작이 늦은 시도(" + ", ".join(f"{r['지역']} {r['첫 관측']}" for _, r in late.iterrows()) + ")는 그 전 구간을 채우지 않고 결측으로 둠")
     if len(early_end):
         prop.append("끝이 이른 시도(" + ", ".join(f"{r['지역']} {r['마지막 관측']}" for _, r in early_end.iterrows()) + "): 공표 중단·통합 여부 확인")
-    if (gaps > 0).any():
+    if vid in ZERO_GAPS:
+        zc = zero_check(vid, w)
+        prop.append("합계 대조: " + zc["요약"] + (" → 첫~마지막 관측 사이 빈 셀은 0 으로 채움 (결정 시 결측처리에 '빈 셀 0' 기재)" if zc["ok"] else " → 0 으로 확인되지 않은 빈 셀은 결측 유지"))
+        if zc["표"] is not None:
+            extra_html = "<p class='note'><b>보완 소분류 파일 합계 대조</b> (" + zc["파일"] + ")</p>" + zc["표"].to_html(index=False)
+    elif (gaps > 0).any():
         prop.append(f"중간 결측 {int(gaps.sum())}셀: KOSIS 는 값이 0인 행을 생략하기도 함 → 상위 합계와 대조해 0 이 확인되면 0, 아니면 직전 공표값 유지 또는 결측 유지. 전후 보간(미래 값)은 금지")
     prop += notes
     if not prop:
         prop.append("결측 없음 — 처리 불필요")
-    html = tab.to_html(index=False) + "<p class='note'><b>처리 제안(초안):</b> " + " / ".join(prop) + "</p>"
+    html = tab.to_html(index=False) + extra_html + "<p class='note'><b>처리 제안(초안):</b> " + " / ".join(prop) + "</p>"
     return html, " / ".join(prop)
 
 
@@ -417,8 +481,96 @@ def vtype_of(vid):
     return "지수·금액·수량"
 
 
+_ZERO_CACHE = {}
+
+
+def zero_check(vid, wide):
+    """주택건설실적(ZERO_GAPS) 주 파일의 빈 셀이 '아파트 = 0' 인지 보완 소분류 파일로 확인.
+    항등식 계 = 단독 + 다가구(동수) + 아파트 + 다세대 + 연립 (KOSIS 합계가 다가구를 동수로 세므로) 이 성립하면,
+    아파트가 빈 (시도, 달) 에서 계 − 나머지 == 0 ⇔ 아파트 0. 반환: ok(첫~마지막 관측 사이 빈 셀이 전부 0 확인), 요약, 표, 파일"""
+    if vid in _ZERO_CACHE:
+        return _ZERO_CACHE[vid]
+    res = {"ok": False, "요약": "보완 소분류 파일 없음 → 합계 대조 불가", "표": None, "파일": ""}
+    files = [f for f in find_raw_files(vid) if "보완_" in os.path.basename(f) and "소분류" in os.path.basename(f)]
+    if not files:
+        _ZERO_CACHE[vid] = res
+        return res
+    b = pd.read_csv(files[0], low_memory=False, dtype={"PRD_DE": str})
+    b["DT"] = pd.to_numeric(b["DT"], errors="coerce")
+    ccols = [c for c in ("C2_NM", "C3_NM") if c in b.columns]
+
+    def cat(r):
+        a = [str(r[c]).strip() for c in ccols]
+        if a[0].startswith(("계", "합계")):
+            return "계"
+        if a[0] == "단독" and len(a) > 1 and a[1] == "다가구":
+            return "다가구동수"
+        return a[0]
+    b["_cat"] = b.apply(cat, axis=1)
+    reg = b.apply(_kosis_region, axis=1, result_type="expand")
+    b["_reg"], b["_lv"] = reg[0], reg[1]
+    b = b[b["_lv"] == "sido"].copy()
+    b["_P"] = b["PRD_DE"].map(lambda v: _period(v, "M"))
+    p = b.pivot_table(index=["_reg", "_P"], columns="_cat", values="DT", aggfunc="first")
+    res["파일"] = os.path.relpath(files[0], BASE)
+    if "계" not in p.columns or "아파트" not in p.columns:
+        res["요약"] = f"보완 파일에 계·아파트 항목이 없음({list(p.columns)}) → 대조 불가"
+        _ZERO_CACHE[vid] = res
+        return res
+    parts = [c for c in p.columns if c != "계"]
+    full = p.dropna(subset=["계"] + parts)
+    ident = float(((full["계"] - full[parts].sum(axis=1)) == 0).mean()) if len(full) else np.nan
+    others = [c for c in parts if c != "아파트"]
+    regs = [c for c in wide.columns if c in REGIONS]
+    inner_gaps = inner_ok = outer_ok = jan_ok = 0
+    unexplained, no_row = [], 0
+    for c in regs:
+        x = wide[c]
+        if not x.notna().any():
+            continue
+        f, l = x.first_valid_index(), x.last_valid_index()
+        inner_gaps += int(x.loc[f:l].isna().sum())
+        for P in x.index[x.isna()]:
+            if (c, P) not in p.index or pd.isna(p.loc[(c, P), "계"]):
+                no_row += int(f <= P <= l)
+                continue
+            r = p.loc[(c, P)]
+            zero = float(r["계"] - r[others].fillna(0).sum()) == 0.0
+            inside = f <= P <= l
+            if zero and inside:
+                inner_ok += 1
+                jan_ok += int(P.month == 1)
+            elif zero:
+                outer_ok += 1
+            elif inside:
+                unexplained.append(f"{c} {P}")
+    ok = inner_gaps > 0 and inner_ok == inner_gaps and not unexplained
+    res["ok"] = ok
+    res["요약"] = (f"항등식 계 = {' + '.join(parts)} 성립 {ident:.1%} (시도, 항목 모두 있는 {len(full)}행); "
+                 f"첫~마지막 관측 사이 빈 셀 {inner_gaps} 중 아파트 0 확인 {inner_ok}(1월 {jan_ok}, 그 외 {inner_ok - jan_ok})"
+                 + (f", 미확인 {len(unexplained)}({', '.join(unexplained[:6])})" if unexplained else "")
+                 + (f", 보완에도 행 없음 {no_row}" if no_row else "")
+                 + (f"; 관측 범위 밖 0 확인 {outer_ok}(채우지 않음)" if outer_ok else ""))
+    res["표"] = pd.DataFrame([{"항등식 성립 비율": round(ident, 4), "검사 행수": len(full), "첫~마지막 사이 빈 셀": inner_gaps, "아파트 0 확인": inner_ok,
+                              "그중 1월": jan_ok, "미확인": len(unexplained), "보완에도 행 없음": no_row, "범위 밖 0 확인": outer_ok, "판정": "빈 셀 = 0 채움" if ok else "결측 유지"}])
+    _ZERO_CACHE[vid] = res
+    return res
+
+
+def fill_gaps_zero(w):
+    """각 열(지역)의 첫~마지막 관측 사이 빈 셀을 0 으로. 범위 밖(시작 전·종료 후)은 결측 유지"""
+    out = w.copy()
+    for c in out.columns:
+        x = out[c]
+        if x.notna().any():
+            f, l = x.first_valid_index(), x.last_valid_index()
+            out.loc[f:l, c] = x.loc[f:l].fillna(0.0)
+    return out
+
+
 def monthly_flow_from_cumulative(w):
-    """KOSIS 연초누계(월별 누계) → 월값: 1월은 누계 그대로, 그 뒤는 전월 누계와의 차"""
+    """KOSIS 연초누계(월별 누계) → 월값: 1월은 누계 그대로, 그 뒤는 전월 누계와의 차 (빈 셀은 fill_gaps_zero 로 먼저 0 처리)"""
+    w = w.copy()
     out = w.copy()
     prev = w.shift(1)
     same_year = pd.Series(w.index.year, index=w.index) == pd.Series(w.index.year, index=w.index).shift(1)
@@ -428,8 +580,8 @@ def monthly_flow_from_cumulative(w):
 
 # 변환 선호 순서(작을수록 원형에 가까움). 정상성을 통과한 후보 중 이 값이 가장 작은 것을 권고한다
 PREF = {"수준": 0, "수준(저빈도 그대로)": 0, "수준−100": 0, "월값(누계 차분)": 0, "수준(0/±1)": 0, "수준_천명당": 0, "수준_천세대당": 0,
-        "Δ12": 1, "100·로그Δ12": 1, "12개월합_천세대당": 1, "log1p(천세대당 잔량)": 1, "12개월합_천명당": 1, "전기 대비 차분": 1, "전기 대비 로그변화(%)": 1,
-        "Δ3": 2, "100·로그Δ3": 2, "3개월합_천명당": 2, "최근12개월 내 변경(상태화)": 2,
+        "Δ12": 1, "100·로그Δ12": 1, "12개월합_천세대당": 1, "log1p(12개월합_천세대당)": 1, "12개월합 전년비(%)": 1, "log1p(천세대당 잔량)": 1, "12개월합_천명당": 1, "전기 대비 차분": 1, "전기 대비 로그변화(%)": 1,
+        "Δ12_천세대당": 1, "Δ3": 2, "Δ3_천세대당": 2, "100·로그Δ3": 2, "3개월합_천명당": 2, "3개월합_천세대당": 2, "최근12개월 내 변경(상태화)": 2, "월값_천세대당": 3,
         "Δ1": 3, "100·로그Δ1": 3, "6개월 이동SD(월변화)": 3,
         "전국대비": 4, "시도평균대비": 4, "전국대비(저빈도)": 4,
         "추세제거(과거36개월 평균 대비)": 5, "가속도(12개월 변화의 12개월 차)": 6, "12개월 변화의 1개월 차": 6, "z(과거36개월 표준화)": 7}
@@ -468,6 +620,8 @@ def candidates(vid, wide, kind, vtype, ctx):
     x = wide
     nat = x["전국"] if "전국" in x.columns else None
     regs = [c for c in x.columns if c in REGIONS]
+    if vid in ZERO_GAPS and zero_check(vid, x)["ok"]:
+        x = fill_gaps_zero(x)                                   # KOSIS 0행 생략 → 보완 합계로 0 이 확인된 빈 셀을 0 으로
     if vid in CUMULATIVE:
         out["누계(raw 그대로)"] = x
         x = monthly_flow_from_cumulative(x)
@@ -488,10 +642,18 @@ def candidates(vid, wide, kind, vtype, ctx):
     hh = ctx["hh"].reindex(x.index) if len(ctx["hh"]) else pd.DataFrame(index=x.index)
     ch = [c for c in x.columns if c in hh.columns]
     if vtype == "흐름" and ch:
+        out["월값_천세대당"] = 1000 * x[ch] / hh[ch]
+        out["3개월합_천세대당"] = 1000 * x[ch].rolling(3, min_periods=3).sum() / hh[ch]
         out["12개월합_천세대당"] = 1000 * x[ch].rolling(12, min_periods=12).sum() / hh[ch]
+        out["log1p(12개월합_천세대당)"] = np.log1p(out["12개월합_천세대당"])      # 대형 사업 달의 극단값을 눌러 분포를 대칭에 가깝게
+        s12 = x[ch].rolling(12, min_periods=12).sum()
+        out["12개월합 전년비(%)"] = 100 * (s12 / s12.shift(12).where(s12.shift(12) > 0) - 1)   # YoY: 최근 12개월 합 ÷ 1년 전 12개월 합 − 1 (월값 Δ12 보다 매끈)
         base, base_name = out["12개월합_천세대당"], "12개월합_천세대당"
     if vtype == "재고" and ch:
         out["log1p(천세대당 잔량)"] = np.log1p(1000 * x[ch].clip(lower=0) / hh[ch])
+        per = 1000 * x[ch] / hh[ch]
+        out["수준_천세대당"] = per
+        out["Δ3_천세대당"], out["Δ12_천세대당"] = per - per.shift(3), per - per.shift(12)     # 호 단위 차분은 지역 규모에 좌우되므로 세대당으로
         base, base_name = out["log1p(천세대당 잔량)"], "log1p(천세대당 잔량)"
     if vtype == "순이동" and len(ctx["pop"]):
         pop = ctx["pop"].reindex(x.index)
@@ -519,7 +681,7 @@ def rank_candidates(st, tr=None):
     st = st.copy()
     st["선호"] = st["변환"].map(lambda k: PREF.get(k, 8))
     st["변환 성격"] = st["선호"].map(PREF_DESC).fillna("기타")
-    passed = st["다수판정"].astype(str).str.startswith("I(0)")
+    passed = st["다수판정"].astype(str).str.startswith("I(0)") & (st["변환"] != "누계(raw 그대로)")   # 연초 누계 톱니는 참고용이라 권고 대상에서 제외
     ar1 = pd.to_numeric(st["AR1중앙"], errors="coerce").fillna(0)
     st["정상성 통과"] = passed & (ar1 >= 0.3)                   # 통과했어도 AR(1) < 0.3 이면 잡음에 가까워 '유효 통과'로 보지 않음
     st["잡음 주의"] = passed & (ar1 < 0.3)
@@ -543,6 +705,12 @@ def _agg_series(w):
     return w.mean(axis=1).where(w.notna().sum(axis=1) >= min(MIN_REGIONS, w.shape[1]))
 
 
+def _nanmedian(vals):
+    """NaN 을 뺀 중앙값. 전부 NaN(또는 빈 목록)이면 NaN — np.nanmedian 의 All-NaN 경고를 피한다"""
+    v = np.asarray([x for x in vals if x is not None and np.isfinite(x)], dtype=float)
+    return round(float(np.median(v)), 3) if v.size else np.nan
+
+
 def stationarity(cands, kind):
     rows = []
     for name, w in cands.items():
@@ -558,7 +726,7 @@ def stationarity(cands, kind):
                "ADF기각비율": round(float(np.mean([r["ADF_c_p"] < 0.05 for r in tested])), 2) if tested else np.nan,
                "KPSS기각비율": round(float(np.mean([r["KPSS_c_기각"] for r in tested])), 2) if tested else np.nan,
                "다수판정": (pd.Series([r["판정"] for r in tested]).mode().iloc[0] if tested else "생략: " + (res[0]["처리"][:28] if res else "")),
-               "AR1중앙": round(float(np.nanmedian([r["AR1"] for r in res])), 3) if res else np.nan,
+               "AR1중앙": _nanmedian([r.get("AR1", np.nan) for r in res]),      # 전부 결측인 지역은 AR1 키가 없음
                "평균": round(float(agg.mean()), 3) if len(agg) else np.nan, "SD": round(float(agg.std()), 3) if len(agg) > 1 else np.nan,
                "왜도": round(float(stats.skew(agg)), 2) if len(agg) > 3 else np.nan}
         if kind == "M" and len(agg) > 24:
@@ -597,8 +765,8 @@ def target_relation(cands, kind, lag, ctx):
         for k in (3, 6, 12):
             rho, _ = _sp(common.shift(k)[ok6].values, g6[ok6].values)
             rec[f"선행{k}개월 ρ_G6"] = round(rho, 2) if np.isfinite(rho) else np.nan
-        regs = [c for c in known.columns if c in REGIONS]
-        if len(regs) > 1:
+        regs = [c for c in known.columns if c in REGIONS or c in GU_LIST]
+        if len(regs) > 1 and "r6_panel" in tg:
             dev = known[regs].sub(known[regs].mean(axis=1).where(known[regs].notna().sum(axis=1) >= min(MIN_REGIONS, len(regs))), axis=0)
             r6 = tg["r6_panel"].reindex(dev.index)
             a = dev.stack(future_stack=True).rename("x").reset_index()
@@ -648,7 +816,9 @@ def recommend(vid, vtype, kind, st, tr, dinfo, cinfo, nat_only):
         if noisy:
             notes.append("통과했으나 잡음(AR1<0.3)이라 제외: " + ", ".join(noisy)[:100])
         if vid in CUMULATIVE:
-            notes.append("raw 는 연초 누계 → 월값(누계 차분) 뒤에 변환")
+            notes.append("raw 는 연초 누계 → 빈 셀 0(보완 합계로 확인) → 월값(누계 차분) 뒤에 변환")
+        elif vid in ZERO_GAPS:
+            notes.append("raw 는 월값(누계 아님) → 빈 셀 0(보완 합계로 확인) 뒤에 변환")
     else:
         rec, why = "", ""
     notes.insert(0, why) if why else None
@@ -658,7 +828,7 @@ def recommend(vid, vtype, kind, st, tr, dinfo, cinfo, nat_only):
            "V015": "V017 과 같은 표·같은 움직임", "V017": "V015 와 같은 표", "V061": "V062·V063 과 권역 3값", "V062": "권역 3값", "V063": "권역 3값"}
     if vid in dup:
         notes.append("중복: " + dup[vid])
-    ended = {"V034": "2015.06 종료", "V077": "2019 종료", "V074": "구계열 2019Q4 종료(신계열 보완 파일 별도)", "V024": "서울 구 전용(시도 없음)", "V076": "2020~ 민간만, 7174 는 2024 만"}
+    ended = {"V034": "2015.06 종료", "V077": "5560(2012~2019) 뒤에 6827 민간 등록 공급 전 유형 합(2020~)을 이어 붙인 연결 계열. 2019→2020 은 공공 포함→민간만 정의 차이로 하향 단절(전국 405,377→280,853)", "V074": "구계열 2019Q4 종료(신계열 보완 파일 별도)", "V024": "서울 구 전용(시도 없음)", "V076": "6827 전 유형 합이 V077 의 2020~ 구간으로 흡수됨(한 계열). 7174 는 2024 만(대조용: 민간 계 51,956 = 6827 합)"}
     if vid in ended:
         notes.append("기간·범위: " + ended[vid])
     if nat_only:
@@ -819,7 +989,7 @@ def log_upsert(row, decide=False):
     i = df.index[df["ID"] == row["ID"]]
     if len(i):
         i = i[0]
-        if df.at[i, "상태"] == "결정" and not decide:
+        if df.at[i, "상태"] not in ("", "초안") and not decide:      # 결정·보류·흡수 등 사람이 정한 상태는 카드 재생성이 덮어쓰지 않음
             return df
         for k, v in row.items():
             if v != "" or decide:
@@ -855,7 +1025,21 @@ def build_card(vid, ctx):
     parsed = [parse_raw_file(f, vid) for f in files]
     for p in parsed:
         parts.append((f"② raw 원자료 — {os.path.basename(p['info']['파일'])}", _kv(p["info"]) + p["sample"].to_html(index=False) + ("".join(f"<p class='note'>{n}</p>" for n in p["notes"]))))
-    items = select_items(vid, parsed)
+    der = derived_raw(vid, parsed)
+    if der is not None:                                      # raw 항목을 묶어 만드는 파생 원값(V011 비중, V077 연결 계열): 카드도 입력표와 같은 계열을 본다
+        dw, dlabel, ddesc = der
+        items = {dlabel: dw}
+        parts.append(("③ 파생 원값 — 집계 규칙 (입력표도 같은 규칙으로 만듦)", f"<p class='note'>{ddesc}</p>"))
+    else:
+        items = select_items(vid, parsed)
+    items_gu = select_items(vid, parsed, "gu")
+    level = "sido"
+    if items_gu and (not items or all(set(w.columns) <= {"서울", "전국"} for w in items.values())):
+        # 서울 구 전용 변수(시도 자료 없음): 25개 구 패널로 본다. 타깃·세대수·인구도 구 패널로 바꿔 끼움
+        items, level = items_gu, "gu"
+        ctx = dict(ctx, targets={**ctx["targets"], **(ctx.get("targets_gu") or {})},      # G_nat 는 전국 그대로, 패널(G·r)은 구 기준
+                   hh=ctx.get("hh_gu", ctx["hh"]), pop=ctx.get("pop_gu", ctx["pop"]))
+        parts.append(("③ 지역 단위", "<p class='note'>시도 자료가 없는 서울 구 전용 변수 → 아래는 서울 25개 구 패널 기준 (시도 입력표에는 서울 행에만 값이 들어감)</p>"))
     if not items:
         parts.append(("③ raw → 시도×기간 표", "<p class='note'>시도 단위 계열을 만들지 못함</p>"))
         return name, render(vid, parts), None
@@ -920,7 +1104,8 @@ def main():
         for a in args.ids:
             k, _, v = a.partition("=")
             kv[k] = v
-        kv.update({"ID": args.decide, "상태": "결정", "결정일": dt.date.today().isoformat()})
+        kv.update({"ID": args.decide, "결정일": dt.date.today().isoformat()})
+        kv.setdefault("상태", "결정")                          # '상태=보류' 를 주면 로그에만 남기고 입력표에는 넣지 않음
         df = log_upsert(kv, decide=True)
         print(df[df["ID"] == args.decide].T.to_string())
         args.apply = args.decide
