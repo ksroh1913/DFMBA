@@ -167,6 +167,12 @@ VARIABLES = [
       note="2020~ 민간(6827), 2024~ 공공+민간(7174). 표마다 범위가 달라 항목을 나눠 둠"),
     V("V077", "임대주택건설공급현황", "Y", "시도", "KOSIS", "116/DT_MLTM_5560",
       "prep_kosis_annual", ANNUAL, "임대주택건설공급현황", note="2012~2019, 총계"),
+    # ------------------------------------------------------------------ 사용자 추가 (사전 Variable_Master 미수록, 추가검토 '정책 더미')
+    V("V078", "LTV·DSTI 규제 변경 더미(사용자 제공)", "M", "전국", "사용자 CSV",
+      "V078_Korea_LTV_DSTI_monthly_dummies_1990_2026.csv", "", "", "LTV_DSTI_규제더미", items=["Demand_index"],
+      status="사용자 제공",
+      note="열: Month(MMM-YY), LTV_dummy, DSTI_dummy, Demand_index(= 두 더미 합). +1 강화 / −1 완화 / 0 변경 없음, 1990-01~2026-10, 비영 35개월. "
+           "10차 결정: Demand_index 의 최근 12개월 내 변경(상태화)"),
 ]
 
 # ============================================================================
@@ -216,6 +222,9 @@ RELEASE = {
     "V076": dict(lag=12, dict="익년 10월", verdict="수정",
                  evidence="국토교통 통계누리 임대주택통계 메타: 공표주기 '매년', 공표시기 '익년 12월'",
                  source="https://stat.molit.go.kr/portal/cate/statMetaView.do?hRsId=37"),
+    "V078": dict(lag=0, dict="정책 발표 즉시", verdict="일치",
+                 evidence="LTV·DSTI 규제 변경은 발표 즉시 알려짐. 사용자 제공 월 더미는 발표월 기준이라 결정월 말에 그 달 값까지 앎",
+                 source="raw/6_거시경기금융시장여건/V078_Korea_LTV_DSTI_monthly_dummies_1990_2026.csv"),
     "V077": dict(lag=12, ended=True, dict="익년 10월", verdict="수정",
                  evidence="국토교통 통계누리 임대주택통계 메타: 공표주기 '매년', 공표시기 '익년 12월' (2012~2019 표도 같은 통계)",
                  source="https://stat.molit.go.kr/portal/cate/statMetaView.do?hRsId=37"),
