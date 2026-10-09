@@ -419,6 +419,69 @@ def _v006_share(parsed_list, level="sido"):
     return w
 
 
+def _v066_link(parsed_list, level="sido"):
+    """V066: 임금총액(전체 산업·전규모 1인이상, 원) 세 파일 — KOSIS 9차 분류(2011~2019)·ECOS 10차(2020~2025)·ECOS 11차(2026~) — 를 기간순으로 이어 전국 한 계열.
+    분류 개정 전후 값이 같은 통계(사업체노동력조사)라 그대로 잇는다(9차 수집 시 2020 전월 일치 확인)"""
+    if level != "sido":
+        return pd.DataFrame()
+    parts = []
+    for p in parsed_list:
+        if "보완_" in p["info"]["파일"]:
+            continue
+        for item, w in p["items"].items():
+            if "임금총액" in item and "전국" in w.columns:
+                parts.append(w["전국"].dropna())
+    if not parts:
+        return pd.DataFrame()
+    s = pd.concat(parts).sort_index()
+    s = s[~s.index.duplicated(keep="last")]
+    w = s.to_frame("전국")
+    w.index = pd.PeriodIndex(w.index, freq="M")
+    w.attrs["kind"] = "M"
+    return w
+
+
+def _v074_link(parsed_list, level="sido"):
+    """V074: 가계동향 소득(도시 2인이상, 명목, 분기) 구계열(1990Q1~2019Q4)과 신계열 보완 파일(2019Q1~)을 잇는다.
+    겹치는 2019년 4개 분기의 평균 비율(신/구)로 구계열을 조정한 뒤 2018Q4 까지는 구계열, 2019Q1 부터는 신계열. 전국 단일"""
+    if level != "sido":
+        return pd.DataFrame()
+
+    def read(path):
+        df = pd.read_csv(path, dtype=str, low_memory=False)
+        df = df[df["ITM_NM"].astype(str).str.contains("전체가구")]
+        idx = pd.PeriodIndex([pd.Period(f"{v[:4]}Q{int(v[4:6])}", "Q") for v in df["PRD_DE"]], freq="Q")
+        return pd.Series(pd.to_numeric(df["DT"], errors="coerce").values, index=idx).sort_index()
+    old = new = None
+    for p in parsed_list:
+        path = os.path.join(BASE, p["info"]["파일"])
+        if "보완_" in p["info"]["파일"]:
+            new = read(path)
+        else:
+            old = read(path)
+    if old is None or new is None:
+        return pd.DataFrame()
+    ov = old.index.intersection(new.index)
+    ratio = float(new[ov].mean() / old[ov].mean()) if len(ov) else 1.0
+    s = pd.concat([old[old.index < new.index.min()] * ratio, new]).sort_index()
+    w = s.to_frame("전국")
+    w.attrs["kind"], w.attrs["ratio"] = "Q", ratio
+    return w
+
+
+def _v078_index(parsed_list, level="sido"):
+    """V078: 사용자 CSV 의 Demand_index(= LTV_dummy + DSTI_dummy, +1 강화/−1 완화) 를 대표 항목으로"""
+    if level != "sido":
+        return pd.DataFrame()
+    for p in parsed_list:
+        w = p["items"].get("Demand_index")
+        if w is not None:
+            w = w.copy()
+            w.attrs["kind"] = "M"
+            return w
+    return pd.DataFrame()
+
+
 CSI_METRO = ["부산", "대구", "인천", "광주", "대전", "울산"]          # 소비자동향조사 '6대광역시' 권역. 세종·경기·도 지역은 '기타도시'
 
 
@@ -446,7 +509,10 @@ def _v061_region_csi(parsed_list, level="sido"):
     return w
 
 
-DERIVED_RAW = {"V061": {"fn": _v061_region_csi, "label": "권역매핑",
+DERIVED_RAW = {"V066": {"fn": _v066_link, "label": "연결(9차+10차+11차)", "desc": "임금총액(전체·전규모) 분류 개정 파일 3개(KOSIS 9차 2011~2019, ECOS 10차 2020~2025, ECOS 11차 2026~)를 기간순으로 이어 한 계열"},
+               "V074": {"fn": _v074_link, "label": "연결(구+신계열)", "desc": "가계동향 소득 구계열(1990Q1~2019Q4)을 2019년 겹침 4개 분기의 평균 비율(신/구)로 조정해 2018Q4 까지 쓰고 2019Q1 부터 신계열(보완 파일)"},
+               "V078": {"fn": _v078_index, "label": "Demand_index", "desc": "사용자 CSV 의 Demand_index = LTV_dummy + DSTI_dummy (+1 강화, −1 완화, 그 외 0)"},
+               "V061": {"fn": _v061_region_csi, "label": "권역매핑",
                         "desc": "주택가격전망CSI 권역 3값을 시도에 매핑: 서울 = V061(서울), 부산·대구·인천·광주·대전·울산 = V062(6대광역시), 나머지 10개 시도 = V063(기타도시). V062·V063 은 이 패널에 흡수"},
                "V006": {"fn": _v006_share, "label": "월세비중(%)", "desc": "건별 집계: 월세 건수(월세금>0) ÷ 전체 전월세 신고건수 × 100 (지역·달마다). 전세→월세 전환 구조. 건수 자체(활동량)는 V007·V035·V036 이 맡음"},
                "V011": {"fn": _v011_share, "label": "20-39세비중(%)", "desc": "raw 1세 단위 항목 20세~39세 합 ÷ 계 × 100 (지역·달마다 21개 항목 합산)"},
@@ -743,6 +809,9 @@ def candidates(vid, wide, kind, vtype, ctx):
         positive = bool(((wide > 0) | wide.isna()).all().all()) and wide.notna().any().any()
         if positive:
             out["전기 대비 로그변화(%)"] = 100 * (np.log(wide) - np.log(wide).shift(1))
+            k = {"Q": 4, "H": 2}.get(kind)
+            if k:                                                   # 분기·반기: 계절성을 피하는 전년동기 대비 변화
+                out["전년동기 대비 로그변화(%)"] = 100 * (np.log(wide) - np.log(wide).shift(k))
         regs = [c for c in wide.columns if c in REGIONS]
         if "전국" in wide.columns and regs:
             out["전국대비(저빈도)"] = wide[regs].sub(wide["전국"], axis=0)
@@ -958,7 +1027,7 @@ def recommend(vid, vtype, kind, st, tr, dinfo, cinfo, nat_only):
            "V015": "V017 과 같은 표·같은 움직임", "V017": "V015 와 같은 표", "V061": "V062·V063 과 권역 3값", "V062": "권역 3값", "V063": "권역 3값"}
     if vid in dup:
         notes.append("중복: " + dup[vid])
-    ended = {"V034": "2015.06 종료", "V077": "5560(2012~2019) 뒤에 6827 민간 등록 공급 전 유형 합(2020~)을 이어 붙인 연결 계열. 2019→2020 은 공공 포함→민간만 정의 차이로 하향 단절(전국 405,377→280,853)", "V074": "구계열 2019Q4 종료(신계열 보완 파일 별도)", "V024": "서울 구 전용(시도 없음)", "V076": "6827 전 유형 합이 V077 의 2020~ 구간으로 흡수됨(한 계열). 7174 는 2024 만(대조용: 민간 계 51,956 = 6827 합)"}
+    ended = {"V034": "2015.06 종료", "V077": "5560(2012~2019) 뒤에 6827 민간 등록 공급 전 유형 합(2020~)을 이어 붙인 연결 계열. 2019→2020 은 공공 포함→민간만 정의 차이로 하향 단절(전국 405,377→280,853)", "V074": "구계열(~2019Q4)과 신계열 보완(2019Q1~)을 2019 겹침 비율로 조정해 연결", "V066": "9차(2011~2019 KOSIS)·10차(2020~2025)·11차(2026~ ECOS) 분류 개정 파일 3개를 이은 계열", "V024": "서울 구 전용(시도 없음)", "V076": "6827 전 유형 합이 V077 의 2020~ 구간으로 흡수됨(한 계열). 7174 는 2024 만(대조용: 민간 계 51,956 = 6827 합)"}
     if vid in ended:
         notes.append("기간·범위: " + ended[vid])
     if nat_only:
