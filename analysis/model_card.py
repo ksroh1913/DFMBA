@@ -88,6 +88,21 @@ def tbl(df, **kw):
     return df.to_html(float_format=lambda x: f"{x:.3f}", na_rep="", **kw)
 
 
+# ------------------------------------------------------------ ① 설정: 기준·모형 정의 표
+def definitions_table():
+    rows = [
+        ("Zero", "참고 기준", "Ĝ_h = 0 (변화 없음)", "학습 없음", "zero"),
+        ("Mom1(h×past1)", "참고 기준", "Ĝ_h = h × past1 (최근 1개월 변화율을 h개월 연장)", "학습 없음", "mom1 — 9차 주 분석의 기준(M0), TH_v19 의 mom1 과 같음"),
+        ("Mom(past_h)", "참고 기준", "Ĝ_h = past_h (최근 h개월 변화율이 그대로 이어진다)", "학습 없음", "lasth"),
+        ("AR(Ridge)", "베이스라인(회귀)", "Ĝ_h = b0 + b1·past1 + b3·past3 + b6·past6", "학습창(직전 W년, 17개 시도 풀링)에서 매월 Ridge 로 추정. alpha 는 학습창 안 LOO 로 0.01~1000 중 선택. 설명변수·지역 더미 없음", "없음(9차 A 정보군은 past1·3·6 에 V002·V026 6개월 변화를 더한 것)"),
+        ("AR(Logit)", "베이스라인(분류)", "P(사건) = σ(b0 + b1·past1 + b3·past3 + b6·past6)", "학습창에서 매월 로지스틱(C=1) 추정", "없음"),
+        ("Clim", "참고 기준(분류)", "P(사건) = 학습창의 사건 비율", "학습 없음", "BSS 의 기준(9차도 학습 사건비율 기준)"),
+        ("Ridge / Logit", "비교 모형", "모멘텀 3열 + 설명변수 47열 + 지역 더미 17열의 선형 모형", "Ridge: alpha LOO 선택 / Logit: C=1", "9차 B·C 정보군에 해당(단, 9차는 동인 지수로 압축)"),
+        ("RF / ET / XGB", "비교 모형", "같은 특성의 트리 모형(랜덤포레스트·엑스트라트리·XGBoost)", "1차 고정, 2차 '(튜닝)' 은 학습창 안 중첩 시계열 CV 로 격자 선택", "TH_v19 의 RF·ET·XGB 와 같은 계열(설정값은 다름)"),
+    ]
+    return pd.DataFrame(rows, columns=["카드 이름", "구분", "예측식", "학습·파라미터", "9차·TH 대응"]).to_html(index=False)
+
+
 # ------------------------------------------------------------ ① 설정: 집합 구성 그림
 def split_fig(h=6, W=4, t="2022-06"):
     t = pd.Period(t, "M")
@@ -304,7 +319,7 @@ t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 �
 <tr><th>지표</th><td>MAE(%p) / F1(임계 0.5·학습창 기준율) / PR-AUC(평균정밀도, 하한 = 양성 비율) / BSS = 1 − Brier ÷ Brier(기준율). 전체 평가 기간 값 + 이동 창 값(MAE 12개월, 분류 24개월)</td></tr>
 <tr><th>1차 설정</th><td>{st['note']}. 트리 {('100' if st.get('quick') else '300')}개, RF·ET leaf 5·max_features 0.5, XGB depth 3·학습률 0.05·subsample 0.8, Logit C=1</td></tr>"""
              + (f"<tr><th>2차 튜닝</th><td>모형 {', '.join(st_t['tune'])}, 학습창 {st_t['windows']}년, 평가 결정월 간격 {st_t['step']}개월(시간 절약). 격자: " + "; ".join(f"{m} {g}" for m, g in st_t["grids"].items()) + "</td></tr>" if has_tuned else "")
-             + "</table>" + split_fig(h=hs[0], W=4)]
+             + "</table><h3>기준·모형 정의 (past_k = 100·[R(t−1)/R(t−1−k) − 1], 결정월 t 에 아는 타깃 자신의 최근 k개월 변화율)</h3>" + definitions_table() + split_fig(h=hs[0], W=4)]
     # ② 사건 수
     ev, yearly = event_tables(VALUES, st["start"], hs, st["event_thr"])
     fb = summ[(summ["task"] != "reg") & (summ["model"] == "RF")].groupby(["h", "W", "task"])["기준율예측비율"].first().unstack("task")
