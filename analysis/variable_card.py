@@ -872,7 +872,8 @@ def candidates(vid, wide, kind, vtype, ctx):
     if vtype in ("비율·금리", "확산지수"):
         out["6개월 이동SD(월변화)"] = x.diff().rolling(6, min_periods=6).std()
     if vtype == "더미":
-        out = {"수준(0/±1)": x, "최근12개월 내 변경(상태화)": x.rolling(12, min_periods=1).sum().clip(-1, 1)}
+        out = {"수준(원값 −2~+2)": x, "최근12개월 내 변경(상태화)": x.rolling(12, min_periods=1).sum().clip(-1, 1),
+               "최근12개월 변경 합": x.rolling(12, min_periods=1).sum()}        # 원값: 발표 당월만 ±1(두 규제 동시면 ±2). 상태화: ±1 로 자름. 합: 자르지 않음(−2~+5)
         return out
     nat_base = None
     if nat is not None and base_name in ("Δ12", "100·로그Δ12") and "전국" in base.columns:

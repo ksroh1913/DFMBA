@@ -29,7 +29,7 @@ C = dict(surface="#fcfcfb", ink="#0b0b0b", ink2="#52514e", muted="#898781", grid
 MODEL_COLOR = {"AR(Ridge)": C["ink"], "AR(Logit)": C["ink"], "Ridge": C["blue"], "Logit": C["blue"], "RF": C["orange"], "ET": C["aqua"], "XGB": C["violet"],
                "Zero": C["muted"], "Mom(past_h)": C["muted"], "Mom1(h×past1)": C["ink2"], "Clim": C["muted"]}
 MODEL_STYLE = {"AR(Ridge)": "--", "AR(Logit)": "--", "Zero": ":", "Mom(past_h)": "-.", "Mom1(h×past1)": (0, (1, 1)), "Clim": ":"}
-ORDER = ["AR(Ridge)", "AR(Logit)", "Mom1(h×past1)", "Ridge", "Logit", "RF", "ET", "XGB", "RF(튜닝)", "ET(튜닝)", "XGB(튜닝)", "Mom(past_h)", "Zero", "Clim"]
+ORDER = ["AR(Ridge)", "AR(Logit)", "Mom1(h×past1)", "Ridge", "Logit", "RF", "ET", "XGB", "RF(튜닝)", "ET(튜닝)", "XGB(튜닝)", "Mom(past_h)", "Zero"]   # Clim(기준율 예측)은 BSS 계산에만 쓰고 표·그림에는 표시하지 않음(사용자 요청)
 
 
 def add_mom1(pred):
@@ -96,7 +96,6 @@ def definitions_table():
         ("Mom(past_h)", "참고 기준", "Ĝ_h = past_h (최근 h개월 변화율이 그대로 이어진다)", "학습 없음", "lasth"),
         ("AR(Ridge)", "베이스라인(회귀)", "Ĝ_h = b0 + b1·past1 + b3·past3 + b6·past6", "학습창(직전 W년, 17개 시도 풀링)에서 매월 Ridge 로 추정. alpha 는 학습창 안 LOO 로 0.01~1000 중 선택. 설명변수·지역 더미 없음", "없음(9차 A 정보군은 past1·3·6 에 V002·V026 6개월 변화를 더한 것)"),
         ("AR(Logit)", "베이스라인(분류)", "P(사건) = σ(b0 + b1·past1 + b3·past3 + b6·past6)", "학습창에서 매월 로지스틱(C=1) 추정", "없음"),
-        ("Clim", "참고 기준(분류)", "P(사건) = 학습창의 사건 비율", "학습 없음", "BSS 의 기준(9차도 학습 사건비율 기준)"),
         ("Ridge / Logit", "비교 모형", "모멘텀 3열 + 설명변수 47열 + 지역 더미 17열의 선형 모형", "Ridge: alpha LOO 선택 / Logit: C=1", "9차 B·C 정보군에 해당(단, 9차는 동인 지수로 압축)"),
         ("RF / ET / XGB", "비교 모형", "같은 특성의 트리 모형(랜덤포레스트·엑스트라트리·XGBoost)", "1차 고정, 2차 '(튜닝)' 은 학습창 안 중첩 시계열 CV 로 격자 선택", "TH_v19 의 RF·ET·XGB 와 같은 계열(설정값은 다름)"),
     ]
@@ -396,7 +395,7 @@ t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 �
 <b>검증(validation)</b>은 2차 튜닝 모형에만: 학습 블록 안을 시간 순 3겹(검증 3개월, 겹 사이 h−1개월 간격)으로 나눠 격자를 고르고 전체 학습 블록으로 재학습. 1차(고정 파라미터)는 검증 집합 없음(Ridge alpha 만 학습 블록 안 LOO)</td></tr>
 <tr><th>롤링</th><td>학습창 W = {st['windows']}년 각각 전체 반복(민감도). 평가 기간은 창과 무관하게 같음 → 창끼리 직접 비교 가능</td></tr>
 <tr><th>모형</th><td>회귀: AR(Ridge) 베이스라인(모멘텀 3열만) / 참고 Zero·Mom(past_h) / Ridge·RF·ET·XGB(모든 특성). 분류: AR(Logit) 베이스라인 / Logit·RF·ET·XGB. 학습창 양성 {st['min_pos']}건 미만이면 분류기는 학습창 기준율 예측(표의 기준율예측비율)</td></tr>
-<tr><th>지표</th><td>MAE(%p) / F1(임계 0.5·학습창 기준율) / PR-AUC(평균정밀도, 하한 = 양성 비율) / BSS = 1 − Brier ÷ Brier(기준율). 전체 평가 기간 값 + 이동 창 값(MAE 12개월, 분류 24개월)</td></tr>
+<tr><th>지표</th><td>MAE(%p) / F1(임계 0.5·학습창 기준율) / PR-AUC(평균정밀도, 하한 = 양성 비율) / BSS = 1 − Brier ÷ Brier(기준율 예측). 기준율 예측 = 학습창의 사건 비율을 모든 시도에 같은 확률로 내는 것(표·그림에는 따로 표시하지 않음; BSS 0 = 기준율 예측과 같음, 음수 = 그보다 못함). 전체 평가 기간 값 + 이동 창 값(MAE 12개월, 분류 24개월)</td></tr>
 <tr><th>1차 설정</th><td>{st['note']}. 트리 {('100' if st.get('quick') else '300')}개, RF·ET leaf 5·max_features 0.5, XGB depth 3·학습률 0.05·subsample 0.8, Logit C=1</td></tr>"""
              + (f"<tr><th>2차 튜닝</th><td>모형 {', '.join(st_t['tune'])}, 학습창 {st_t['windows']}년, 평가 결정월 간격 {st_t['step']}개월(시간 절약). 격자: " + "; ".join(f"{m} {g}" for m, g in st_t["grids"].items()) + "</td></tr>" if has_tuned else "")
              + "</table><h3>기준·모형 정의 (past_k = 100·[R(t−1)/R(t−1−k) − 1], 결정월 t 에 아는 타깃 자신의 최근 k개월 변화율)</h3>" + definitions_table() + split_fig(h=hs[0], W=4)
@@ -431,12 +430,16 @@ t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 �
         parts.append(rolling_figs(roll, h))
     # ⑦ 과적합 진단
     parts.append("<h2>⑦ 과적합 진단 — 적합(학습창 안) 성능 vs 시험 성능</h2>" + overfit_section(d, summ, tuned_dir if has_tuned else None, summ_c if has_tuned else None, st_t))
-    # ⑧ 분석
+    # ⑧ 변수·동인 기여도 (contrib_analysis.py 가 만든 본문)
+    contrib = os.path.join(d, "기여도_section.html")
+    if os.path.exists(contrib):
+        parts.append("<h2>⑧ 변수·동인별 기여도 (SHAP·순열 중요도)</h2>" + open(contrib, encoding="utf-8").read())
+    # ⑨ 분석
     if notes and os.path.exists(notes):
-        parts.append("<h2>⑧ 결과 분석 — 전반적 평가·한계·보완사항</h2>" + open(notes, encoding="utf-8").read())
-    parts.append("""<h2>⑨ 읽는 법·주의</h2><ul>
+        parts.append("<h2>⑨ 결과 분석 — 전반적 평가·한계·보완사항</h2>" + open(notes, encoding="utf-8").read())
+    parts.append("""<h2>⑩ 읽는 법·주의</h2><ul>
 <li>베이스라인 AR 은 타깃 자신의 과거 1·3·6개월 변화만 쓴다. 설명변수 모형이 이보다 좋아야 변수에 정보가 있다는 뜻.</li>
-<li>분류 BSS 의 기준은 학습창 기준율이라 0 이면 기준율과 같고, 음수면 기준율보다 못하다(과신). PR-AUC 는 임계값과 무관한 순위 성능이며 양성 비율(Clim 행)이 하한.</li>
+<li>분류 BSS 의 기준은 학습창 기준율이라 0 이면 기준율과 같고, 음수면 기준율보다 못하다(과신). PR-AUC 는 임계값과 무관한 순위 성능이며 양성 비율(② 사건 수 표)이 하한.</li>
 <li>하이퍼파라미터: 1차 고정, 2차는 RF·ET·XGB 만 학습창 안 중첩 시계열 CV. 창마다 평가 기간이 같으므로 창끼리 직접 비교 가능. 튜닝 비교는 같은 결정월 표본으로 다시 계산.</li></ul>""")
     css = ("<style>body{font-family:'Malgun Gothic',system-ui,sans-serif;font-size:13px;color:#0b0b0b;background:#f9f9f7;margin:24px;max-width:1500px}"
            "h1{font-size:21px}h2{font-size:16px;border-bottom:1px solid #c3c2b7;margin-top:32px;padding-bottom:4px}h3{font-size:14px;color:#52514e;margin-top:20px}"

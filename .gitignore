@@ -19,3 +19,5 @@ analysis/output/변수카드/_cache.pkl
 
 # 롤링 모형 예측 원자료(크기 10MB+, 재생성 가능)
 analysis/output/모형결과_10차*/predictions_*.csv
+analysis/output/모형결과_10차*/contrib_shap_long.csv
+analysis/output/모형결과_10차*/contrib_perm_long.csv

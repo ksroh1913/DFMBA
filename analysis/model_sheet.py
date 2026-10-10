@@ -96,7 +96,7 @@ def formula_x(key, i, X, lag, n_first, n_last, H=None, P=None, M=None):
         return all(_ok(r, n_first, n_last) for r in rows)
     def same(r):
         return f"A{r}=A{i}"
-    if key in ("수준", "수준(0/±1)"):
+    if key in ("수준", "수준(0/±1)", "수준(원값 −2~+2)"):
         return f'=IF(AND({same(j)},ISNUMBER({X}{j})),{X}{j},"")' if ok(j) else ""
     if key == "수준_천명당":
         return f'=IF(AND({same(j)},ISNUMBER({X}{j}),ISNUMBER({P}{j})),1000*{X}{j}/{P}{j},"")' if (ok(j) and P) else ""
