@@ -17,8 +17,7 @@ analysis/output/_th_v19_cache/
 # 변수 카드 생성기 캐시 (analysis/variable_card.py)
 analysis/output/변수카드/_cache.pkl
 
-# 롤링 모형 예측 원자료는 팀 공유를 위해 커밋(10MB 급). 튜닝 실행의 예측만 제외
-analysis/output/모형결과_10차_tuned/predictions_*.csv
+# 롤링 모형 예측 원자료는 팀 공유·재현을 위해 커밋(1차 10MB 급, 튜닝 1.7MB 급)
 analysis/output/모형결과_10차*/contrib_shap_long.csv
 analysis/output/모형결과_10차*/contrib_perm_long.csv
 .playwright-mcp/

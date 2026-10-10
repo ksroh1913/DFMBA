@@ -459,7 +459,9 @@ def build(d, tuned_dir=None, notes=None):
     summ, roll = load_results(d)
     st = json.load(open(os.path.join(d, "settings.json"), encoding="utf-8"))
     hs = sorted(summ["h"].unique(), reverse=True)
-    has_tuned = bool(tuned_dir) and os.path.exists(os.path.join(tuned_dir, "metrics_summary.csv"))
+    has_tuned = bool(tuned_dir) and os.path.exists(os.path.join(tuned_dir, "metrics_summary.csv")) and os.path.exists(os.path.join(tuned_dir, "predictions_h6.csv"))
+    if bool(tuned_dir) and os.path.exists(os.path.join(tuned_dir, "metrics_summary.csv")) and not has_tuned:
+        print("[주의] 튜닝 예측값 파일(predictions_h*.csv)이 없어 ⑤ 튜닝 비교 절을 생략함")
     st_t = json.load(open(os.path.join(tuned_dir, "settings.json"), encoding="utf-8")) if has_tuned else None
     n_months = {h: int(roll[(roll["h"] == h) & (roll["task"] == "reg")]["t"].nunique()) for h in hs}
     parts = [summary_box(summ, d), "<h2>① 설정</h2><p class='note'><b>이 카드가 답하려는 질문</b>: 아파트 월세지수가 앞으로 3·6개월 동안 얼마나 변할지(회귀), 그리고 ±1% 넘게 급등·급락할지(분류)를 "
