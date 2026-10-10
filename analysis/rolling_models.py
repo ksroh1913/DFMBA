@@ -11,7 +11,9 @@
     지표 F1(임계 0.5 와 학습창 기준율), PR-AUC(평균정밀도), BSS = 1 − Brier/Brier(기준율). 학습창에 양성이 MIN_POS 미만이면 모든 분류기가 기준율을 예측(기록).
   - 선형 모형: 중앙값 대치 + 표준화. 트리: 중앙값 대치. 하이퍼파라미터 고정(튜닝 없음).
 출력: analysis/output/모형결과_10차/predictions_h{h}.csv (긴 형식), metrics_summary.csv, rolling_metrics.csv, settings.json
-사용: PYTHONUTF8=1 python analysis/rolling_models.py [--quick] [--horizons 6 3] [--windows 2 3 4 5] [--start 2018-01]
+사용: PYTHONUTF8=1 python analysis/rolling_models.py [--quick] [--horizons 6 3] [--windows 2 3 4 5] [--start 2021-01]
+  --start = 첫 평가 결정월(기본 EVAL_START=2021-01: 자료 첫 정답 2015-07 기준으로 5년 학습창이 처음 꽉 차는 달, 그 전 달은 학습·평가하지 않음).
+  달마다 직전 W년으로 독립 학습하므로 start 를 앞당겨도 뒤쪽 달의 예측은 바뀌지 않는다
 """
 import argparse
 import json
@@ -34,6 +36,7 @@ warnings.filterwarnings("ignore")
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VALUES = os.path.join(BASE, "analysis", "output", "모형입력표_10차_values.csv")
 OUT = os.path.join(BASE, "analysis", "output", "모형결과_10차")
+EVAL_START = "2021-01"      # 첫 평가 결정월 — 자료의 첫 정답(2015-07) 기준으로 가장 긴 학습창(5년)이 처음 꽉 차는 달. 그 전 달은 학습·평가하지 않는다(2026-10-10 결정). 카드·기여도 스크립트도 이 값을 쓴다
 MIN_POS = 5
 EVENT_THR = 1.0
 SEED = 10
@@ -196,7 +199,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--horizons", type=int, nargs="*", default=[6, 3])
     ap.add_argument("--windows", type=int, nargs="*", default=[2, 3, 4, 5])
-    ap.add_argument("--start", default="2018-01")
+    ap.add_argument("--start", default=EVAL_START, help="첫 평가 결정월(기본: 5년 학습창이 처음 꽉 차는 2021-01)")
     ap.add_argument("--quick", action="store_true", help="트리 100개, 학습창 2·5년, 빠른 점검")
     ap.add_argument("--tune", nargs="*", default=[], help="학습창 안 중첩 시계열 CV 로 격자 선택할 모형 이름 (RF ET XGB Logit)")
     ap.add_argument("--step", type=int, default=1, help="평가 결정월 간격(개월). 튜닝 실행 시간 절약용")

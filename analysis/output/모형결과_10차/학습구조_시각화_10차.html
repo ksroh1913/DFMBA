@@ -26,8 +26,8 @@ table{border-collapse:collapse;font-size:12px;margin-top:10px}th,td{border:1px s
 <body>
 <h1>10차 모형의 학습·검증·평가 구조 — 매달 다시 나누는 롤링 전진 평가</h1>
 <p class="note">가로축은 결정월(월말). 결정월 t 에는 그 시점까지 공표된 자료만 쓴다. 학습(train)은 "t 시점에 h개월 뒤 정답이 이미 확정된 달"(s ≤ t−h) 중 <b>직전 W년</b>, 그 뒤 h−1개월은 정답이 아직 없어 비우고, 평가(test)은 t 한 달(17개 시도 행)이다.
-t 를 2018-01부터 매달 한 칸씩 옮겨 모든 달이 한 번씩 평가가 된다. 자료의 첫 정답은 2015-07이라 초기 결정월에는 학습이 W년보다 짧다(2018-01 평가 → 2015-07~2017-07의 25개월). 그래서 <b>지표는 모든 학습창(최대 5년)이 꽉 찬 2021-01 이후의 평가 예측만 모아 계산</b>하고, 2018-01~2020-12 의 예측은 참고(카드 ③ 끝)로만 둔다. 검증(validation)은 2차 튜닝 모형에서만 학습 블록 안을 시간 순 3겹으로 나눠 쓴다.</p>
-<div class="row"><label>예측 시점 t</label><input type="range" id="t" min="0" max="98" step="1" value="54"><span id="tout">2022-07</span><button id="play">▶ 재생</button></div>
+t 를 <b>2021-01부터</b> 매달 한 칸씩 옮겨 모든 달이 한 번씩 평가가 된다. 자료의 첫 정답이 2015-07이라 2021-01 이 가장 긴 학습창(5년)이 처음 꽉 차는 결정월이며, 그 전 달은 학습·평가하지 않는다(2015-07~2020-12 자료는 학습 행으로만 쓰임). 검증(validation)은 2차 튜닝 모형에서만 학습 블록 안을 시간 순 3겹으로 나눠 쓴다.</p>
+<div class="row"><label>예측 시점 t</label><input type="range" id="t" min="0" max="62" step="1" value="18"><span id="tout">2022-07</span><button id="play">▶ 재생</button></div>
 <div class="row"><label>예측 기간</label><button class="hb on" data-h="6">6개월 뒤</button><button class="hb" data-h="3">3개월 뒤</button>
 <label style="margin-left:14px">학습창</label><button class="wb" data-w="2">2년</button><button class="wb" data-w="3">3년</button><button class="wb on" data-w="4">4년</button><button class="wb" data-w="5">5년</button><button class="wb" data-w="0">네 창 비교</button></div>
 <svg id="sv" viewBox="0 0 780 360" role="img"><title>학습·검증·평가 구간</title></svg>
@@ -36,13 +36,13 @@ t 를 2018-01부터 매달 한 칸씩 옮겨 모든 달이 한 번씩 평가가 
 <table><tr><th>구분</th><th>설명</th></tr>
 <tr><td>학습(train)</td><td>직전 W년 × 17개 시도. 설명변수 47 + 타깃 모멘텀 3 + 지역 더미 17. 선형 모형은 학습 행으로 중앙값 대치·표준화, 트리는 중앙값 대치. 매월 다시 학습</td></tr>
 <tr><td>검증(validation)</td><td>2차 튜닝(RF·ET·XGB)에서만. 학습 블록 안에서 시간 순 3겹: 검증 3개월, 겹의 학습 끝과 검증 시작 사이 h−1개월 간격(정답 미확정 규칙과 같음). 격자에서 점수가 가장 좋은 값을 고른 뒤 전체 학습 블록으로 다시 학습</td></tr>
-<tr><td>평가(test)</td><td>결정월 t 의 17개 시도. 정답 G_h 는 t+h−1 달 지수가 공표된 뒤 확정. 모형은 2018-01부터 매달 전진했고, 지표는 2021-01~2026-03(h=6)·~2026-06(h=3)의 평가 예측을 모아 MAE·PR-AUC·BSS 계산(2018~2020 예측은 참고)</td></tr>
+<tr><td>평가(test)</td><td>결정월 t 의 17개 시도. 정답 G_h 는 t+h−1 달 지수가 공표된 뒤 확정. 2021-01~2026-03(h=6)·~2026-06(h=3) 모든 달의 평가 예측을 모아 MAE·PR-AUC·BSS 계산</td></tr>
 <tr><td>1차 vs 2차</td><td>1차(고정 파라미터)는 검증 집합 없음(Ridge alpha 만 학습 블록 안 LOO). 2차는 위 검증 겹으로 격자 선택</td></tr></table>
 <script>
 const M0=2014*12+0, N=153, X0=46, CW=4.6, ns='http://www.w3.org/2000/svg', sv=document.getElementById('sv');
-const FIRST_T=18, TEST0=48, AGG0=84;              // 2015-07 첫 정답, 2018-01 첫 평가(모형 전진 시작), 2021-01 지표 집계 시작(모든 창이 꽉 찬 뒤)
+const FIRST_T=18, TEST0=84;                       // 2015-07 첫 정답, 2021-01 첫 평가(5년 학습창이 처음 꽉 차는 달; 그 전 자료는 학습 행으로만)
 const lab=m=>{const a=M0+m;return Math.floor(a/12)+'-'+String(a%12+1).padStart(2,'0')};
-let h=6, i=54, W=4, timer=null;
+let h=6, i=18, W=4, timer=null;
 const lastTest=()=>h===6?146:149;               // 2026-03 / 2026-06
 function el(t,a,txt){const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!==undefined)e.textContent=txt;sv.appendChild(e);return e}
 function cells(y,hgt,f){for(let m=0;m<N;m++){const c=f(m);if(c)el('rect',{x:X0+m*CW,y:y,width:CW-0.5,height:hgt,fill:c.f,opacity:c.o||1})}}
@@ -52,7 +52,7 @@ function drawRow(y,hgt,tm,Wy,label){
   el('text',{x:X0-6,y:y+hgt/2+4,'text-anchor':'end','font-size':11,fill:'var(--ink)'},label);
   cells(y,hgt,m=>m<FIRST_T?{f:'var(--buffer)'}:(m>=lo&&m<=hi?{f:'var(--train)'}:(m>hi&&m<tm?{f:'var(--gap)'}:(m===tm?{f:'var(--test)'}:null))));
   const nn=hi-lo+1, isShort=nn<12*Wy;
-  el('text',{x:X0+lo*CW,y:y-3,'font-size':10,fill:isShort?'#c0392b':'var(--ink2)'},lab(lo)+'~'+lab(hi)+' ('+nn+'개월 × 17 = '+(nn*17).toLocaleString()+'행)'+(isShort?' ← '+Wy+'년보다 짧음: 이 달은 지표 집계에서 제외':''));
+  el('text',{x:X0+lo*CW,y:y-3,'font-size':10,fill:isShort?'#c0392b':'var(--ink2)'},lab(lo)+'~'+lab(hi)+' ('+nn+'개월 × 17 = '+(nn*17).toLocaleString()+'행)'+(isShort?' ← '+Wy+'년보다 짧음':''));
   return [lo,hi];
 }
 function draw(){
@@ -67,8 +67,8 @@ function draw(){
   el('text',{x:X0,y:14,'font-size':11,fill:'var(--ink2)'},'시장 국면(급등·급락 사건 비율 기준)');
   reg.forEach(r=>{el('rect',{x:X0+r[0]*CW,y:20,width:(r[1]-r[0]+1)*CW-1,height:15,fill:'#f0efec',stroke:'var(--grid)','stroke-width':0.5,rx:3});el('text',{x:X0+(r[0]+r[1]+1)/2*CW,y:31,'text-anchor':'middle','font-size':10,fill:'var(--ink2)'},r[2])});
   // 자료 가용 범위
-  el('text',{x:X0,y:56,'font-size':11,fill:'var(--ink2)'},'자료: 설명변수 2014-01~ (버퍼 포함), 타깃 정답 2015-07~, 평가 결정월 2018-01~'+lab(lastTest())+' (지표 집계는 '+lab(AGG0)+'~, 그 전은 연하게 = 참고)');
-  cells(60,8,m=>m<FIRST_T?{f:'var(--buffer)'}:(m>=AGG0&&m<=lastTest()?{f:'var(--test)',o:0.35}:(m>=TEST0&&m<AGG0?{f:'var(--test)',o:0.12}:{f:'var(--train)',o:0.25})));
+  el('text',{x:X0,y:56,'font-size':11,fill:'var(--ink2)'},'자료: 설명변수 2014-01~ (버퍼 포함), 타깃 정답 2015-07~ (2015-07~2020-12 는 학습 행으로만), 평가 결정월 2021-01~'+lab(lastTest()));
+  cells(60,8,m=>m<FIRST_T?{f:'var(--buffer)'}:(m>=TEST0&&m<=lastTest()?{f:'var(--test)',o:0.35}:{f:'var(--train)',o:0.25}));
   // 학습창 행
   let y=92, info;
   if(W===0){[2,3,4,5].forEach((wy,k)=>{const r=drawRow(y+k*44,18,tm,wy,wy+'년');if(wy===4)info=r})}
@@ -82,9 +82,8 @@ function draw(){
     el('text',{x:X0+(ve+1)*CW+3,y:yy+9,'font-size':9.5,fill:'var(--ink2)'},'학습 '+lab(lo)+'~'+lab(te)+' / 검증 '+lab(vl)+'~'+lab(ve))}
   document.getElementById('tout').textContent=lab(tm);
   const n=info[1]-info[0]+1, short=(n<12*Wy)?' <span style="color:#c0392b">(자료 시작 2015-07 때문에 '+Wy+'년보다 짧음)</span>':'';
-  const agg=(tm>=AGG0)?'<b>지표 집계 포함</b>(집계 기간 '+lab(AGG0)+'~)':'<b style="color:#c0392b">지표 집계 제외</b> — 지표는 모든 창이 꽉 찬 '+lab(AGG0)+'부터 모은다(이 달의 예측은 참고 표·시간 변화 그림에만 남김)';
   document.getElementById('info').innerHTML='<b>결정월 '+lab(tm)+'</b>, '+h+'개월 뒤 예측, 학습창 '+Wy+'년: 학습 '+lab(info[0])+'~'+lab(info[1])+' ('+n+'개월 × 17개 시도 = '+(n*17).toLocaleString()+'행)'+short+
-   ' → 정답 미확정 '+lab(info[1]+1)+'~'+lab(tm-1)+' ('+(h-1)+'개월) 제외 → 평가 '+lab(tm)+'의 17개 시도. 이 평가의 정답은 '+lab(tm+h-1)+' 지수가 공표된 뒤('+lab(tm+h)+' 결정월)에 확정된다. '+agg+'. 달마다 모형을 처음부터 새로 학습하므로 이전 달의 (짧은 창) 모형이 다음 달로 이어지지 않는다.';
+   ' → 정답 미확정 '+lab(info[1]+1)+'~'+lab(tm-1)+' ('+(h-1)+'개월) 제외 → 평가 '+lab(tm)+'의 17개 시도. 이 평가의 정답은 '+lab(tm+h-1)+' 지수가 공표된 뒤('+lab(tm+h)+' 결정월)에 확정된다. 달마다 모형을 처음부터 새로 학습하므로 이전 달의 모형이 다음 달로 이어지지 않는다.';
   document.querySelectorAll('.hb').forEach(b=>b.classList.toggle('on',+b.dataset.h===h));
   document.querySelectorAll('.wb').forEach(b=>b.classList.toggle('on',+b.dataset.w===W));
   document.getElementById('t').max=String(lastTest()-TEST0);

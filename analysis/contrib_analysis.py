@@ -5,7 +5,7 @@
   - ET(회귀)·RF(급등): 표본 외 순열 중요도 — 평가 행의 특성값을 학습창에서 무작위로 뽑은 값으로 바꿨을 때 오차 증가(3회 평균). 전국 공통 변수도 평가 가능
 출력(analysis/output/모형결과_10차/): contrib_shap_long.csv, contrib_var.csv(변수별 요약), contrib_driver.csv, contrib_driver_time.csv, contrib_perm.csv, 기여도_section.html(카드 ⑧ 본문)
 사용: PYTHONUTF8=1 python analysis/contrib_analysis.py [--horizons 6 3] [--W 4] [--step 1] [--from-csv] [--start 2021-01]
-  --start: 변수·동인 요약을 집계하는 첫 결정월(기본 = 결과 카드의 지표 집계 시작 MAIN_START). 계산 자체는 2018-01부터 전진하며 긴 형식 CSV 는 전체를 저장
+  --start: 첫 평가 결정월(기본 = rolling_models.EVAL_START = model_card.MAIN_START, 2021-01). 계산도 요약도 이 달부터
 """
 import argparse
 import base64
@@ -76,10 +76,10 @@ def two_line(feature):
 
 
 # ------------------------------------------------------------ 계산
-def run(h, W, step, df, X, feats, log):
+def run(h, W, step, df, X, feats, log, start=MAIN_START):
     y_all = df[f"G{h}"]
     months = sorted(df["결정월"].unique())
-    test_months = [m for m in months if m >= pd.Period("2018-01", "M") and y_all[df["결정월"] == m].notna().any()][::step]
+    test_months = [m for m in months if m >= pd.Period(start, "M") and y_all[df["결정월"] == m].notna().any()][::step]     # 평가 결정월 = start 부터(rolling_models 와 같은 규칙)
     cols = feats["full"]
     reg_models, clf_models = models_for("reg", False), models_for("clf", False)
     shap_rows, perm_rows = [], []
@@ -207,6 +207,8 @@ def fig_driver_share(drv, h, W):
 
 def fig_driver_time(dt, h, W, start=None):
     tasks = [t for t in ("reg", "up", "dn") if t in set(dt["task"])]
+    if start and pd.PeriodIndex(dt["t"], freq="M").min() >= pd.Period(start, "M"):
+        start = None                                   # start 전 자료가 없으면 회색 표시 없음
     fig, axes = plt.subplots(len(tasks), 1, figsize=(10.5, 2.6 * len(tasks)), sharex=True, squeeze=False)
     for ax, task in zip(axes[:, 0], tasks):
         d = dt[(dt["h"] == h) & (dt["W"] == W) & (dt["task"] == task)].pivot(index="t", columns="driver", values="shap").fillna(0)
@@ -246,8 +248,7 @@ def fig_dependence(shap_df, var, h, W, task="reg", top=6):
 
 def build_section(var, drv, dt, perm, shap_df, hs, W, start=None):
     parts = ["<p class='note'><b>방법</b>: 권고 설정(학습창 4년, 1차 고정 파라미터)의 롤링을 그대로 재현하며 매 결정월 평가 행(17개 시도)에서 XGB 의 TreeSHAP(모형이 그 예측을 낸 데 각 특성이 기여한 양, 회귀는 %p, 분류는 로그오즈)를 모았다. "
-             + (f"지표 집계와 같은 평가 기간({start}~)의 " if start else "전체 평가 기간의 ") + "평균 |SHAP| 가 변수 중요도, 동인별 합의 비중이 동인 기여도다. ET(회귀)·RF(급등)는 표본 외 순열 중요도(평가 행의 특성값을 학습창 값으로 바꿨을 때 오차 증가)로 보완했다."
-             + (" 시간 변화 그림만 모형이 전진한 전체 기간(2018-01~)을 보이며 집계 제외 구간은 회색." if start else "") + "</p>"]
+             + (f"평가 기간({start}~) 평가 행의 " if start else "전체 평가 기간의 ") + "평균 |SHAP| 가 변수 중요도, 동인별 합의 비중이 동인 기여도다. ET(회귀)·RF(급등)는 표본 외 순열 중요도(평가 행의 특성값을 학습창 값으로 바꿨을 때 오차 증가)로 보완했다.</p>"]
     for h in hs:
         parts.append(f"<h3>{h}개월 뒤 예측</h3>" + fig_driver_share(drv, h, W) + fig_top_vars(var, h, W) + fig_driver_time(dt, h, W, start))
         if ((shap_df["h"] == h) & (shap_df["task"] == "reg")).any():
@@ -280,10 +281,10 @@ def main():
         perm_df = pd.read_csv(os.path.join(OUT, "contrib_perm_long.csv"), encoding="utf-8-sig") if os.path.exists(os.path.join(OUT, "contrib_perm_long.csv")) else pd.DataFrame(columns=["h", "W", "t", "task", "model", "feature", "delta"])
         args.horizons = sorted(shap_df["h"].unique(), reverse=True)
     else:
-        df, X, feats, expl = load("2018-01")
+        df, X, feats, expl = load(args.start or MAIN_START)
         shap_all, perm_all = [], []
         for h in args.horizons:
-            s, p = run(h, args.W, args.step, df, X, feats, log)
+            s, p = run(h, args.W, args.step, df, X, feats, log, args.start or MAIN_START)
             shap_all.append(s)
             perm_all.append(p)
         shap_df, perm_df = pd.concat(shap_all, ignore_index=True), pd.concat(perm_all, ignore_index=True)

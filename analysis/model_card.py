@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 롤링 모형 결과 카드 — rolling_models.py 의 1차(고정 파라미터) 결과와 2차(튜닝) 결과를 한 html 로.
-한눈에 보기(최선 모형·개선·평가 기간 변경의 문제점)  ① 설정(학습·검증·평가 집합 구성 그림 포함)  ② 사건 수  ③ 학습창 민감도(주: MAIN_START~, 참고: 전체 기간)  ④ 베이스라인 대비 개선
+한눈에 보기(최선 모형·개선·평가 시작 선택의 문제점)  ① 설정(학습·검증·평가 집합 구성 그림 포함)  ② 사건 수  ③ 학습창 민감도  ④ 베이스라인 대비 개선
 ⑤ 튜닝 전후 비교(같은 결정월에서)와 선택된 파라미터  ⑥ 시간에 따른 롤링 성능  ⑦ 과적합  ⑧ 기여도  ⑨ 결과 분석(--notes 파일)  ⑩ 읽는 법
-지표 집계는 MAIN_START(2021-01, 모든 학습창이 꽉 찬 뒤) 이후의 저장된 예측값으로 다시 계산한다 — 재학습 없음
+평가 결정월은 settings.json 의 start(= rolling_models.EVAL_START, 2021-01: 5년 학습창이 처음 꽉 차는 달)부터이며, 지표는 저장된 예측값에서 계산한다
 사용: PYTHONUTF8=1 python analysis/model_card.py [--dir 결과폴더] [--tuned-dir 튜닝결과폴더] [--notes 분석글.html]
 """
 import argparse
@@ -22,7 +22,7 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from rolling_models import summarize  # noqa: E402
+from rolling_models import summarize, EVAL_START  # noqa: E402
 from card_style import page  # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -45,8 +45,11 @@ def add_mom1(pred):
     return pd.concat([pred, base.drop(columns=["결정월", "past1"])], ignore_index=True)
 
 
-MAIN_START = "2021-01"      # 지표 집계(평가)의 시작 결정월 — 모든 학습창(최대 5년)이 꽉 찬 뒤부터(팀 검토 의견 반영, 2026-10-10).
-#                             모형은 settings.json 의 start(2018-01)부터 매월 전진했고, 그 전 예측은 '전체 기간(참고)'으로만 집계한다(재학습 없음)
+MAIN_START = EVAL_START     # 첫 평가 결정월(2021-01) — 자료의 첫 정답(2015-07) 기준으로 가장 긴 학습창(5년)이 처음 꽉 차는 달. 그 전 달은 학습·평가하지 않는다(2026-10-10 결정)
+# 평가를 2018-01 부터 했던 이전 실행(커밋 c0003b3)의 수치 — '평가 시작을 바꾼 데 따른 문제점' 상자에서 비교용으로만 인용.
+# 달마다 독립 학습이라 2021-01 이후 예측은 그 실행과 동일함(2024-06~ 재실행 14,960행 차이 0 으로 확인)
+PREV_RUN = dict(start="2018-01", n_months={6: 99, 3: 102}, et=0.791, ar=0.872, mom1=0.790, up_best="RF 0.789 / +0.511", up_ar="0.690 / +0.373", dn_best="XGB 0.655 / +0.377", dn_ar="0.589 / +0.353",
+                regimes="5년 창 ET vs mom1: 2018~19 급락기 0.74 vs 0.71, 2020 급등기 1.55 vs 0.88")
 
 
 def load_results(d, start=None):
@@ -135,17 +138,15 @@ def definitions_table():
 
 
 # ------------------------------------------------------------ ① 설정: 집합의 실제 기간 표
-def period_table(roll_full, h, windows, tuned_windows=(), sample_ts=None, agg_start=MAIN_START):
-    """예측 기간 h 에서 모형이 전진한 결정월 범위·지표 집계 범위와, 대표 결정월 t 마다 학습 구간(실제 자료 기준)·튜닝 검증 겹 기간을 표로"""
+def period_table(roll, h, windows, tuned_windows=(), sample_ts=None):
+    """예측 기간 h 에서 평가 결정월 범위와, 대표 결정월 t 마다 학습 구간(실제 자료 기준)·튜닝 검증 겹 기간을 표로"""
     v = pd.read_csv(VALUES, encoding="utf-8-sig")
     y0 = pd.Period(v.dropna(subset=[f"G{h}"])["결정월"].min(), "M")                     # 정답이 있는 첫 결정월
-    r = roll_full[(roll_full["h"] == h) & (roll_full["task"] == "reg")]
+    r = roll[(roll["h"] == h) & (roll["task"] == "reg")]
     ts = sorted(pd.PeriodIndex(r["t"].unique(), freq="M"))
     t_first, t_last = ts[0], ts[-1]
-    a0 = pd.Period(agg_start, "M")
-    n_agg = sum(1 for p in ts if p >= a0)
-    sample_ts = sample_ts or [t_first] + [p for p in (a0, pd.Period("2024-01", "M")) if t_first < p < t_last] + [t_last]
-    rows = []
+    sample_ts = sample_ts or [t_first] + [p for p in (pd.Period("2022-01", "M"), pd.Period("2024-01", "M")) if t_first < p < t_last] + [t_last]
+    rows, short = [], False
     for t in sample_ts:
         s_hi = t - h
         for W in windows:
@@ -159,11 +160,12 @@ def period_table(roll_full, h, windows, tuned_windows=(), sample_ts=None, agg_st
                     v_lo = v_end - 2
                     parts.append(f"겹{k + 1} 학습 {s_lo}~{v_lo - h} / 검증 {v_lo}~{v_end}")
                 folds = "; ".join(parts)
-            rows.append({"평가 결정월 t": str(t), "지표 집계": "포함" if t >= a0 else "제외(참고)", "학습창 W": f"{W}년",
-                         "학습 구간(결정월 s)": f"{s_lo}~{s_hi} ({n}개월 × 17 = {n * 17:,}행)" + (" ← W년보다 짧음" if n < 12 * W else ""), "비움(정답 미확정)": f"{s_hi + 1}~{t - 1} ({h - 1}개월)",
-                         "검증 겹(튜닝 모형만)": folds, "평가": f"{t} 의 17개 시도, 정답은 {t + h - 1} 지수 공표 뒤"})
-    head = (f"<p class='note'><b>h={h}개월</b>: 모형이 전진한 결정월 {t_first}~{t_last} ({len(ts)}개월, 매월) 중 <b>지표 집계는 {a0}~{t_last} ({n_agg}개월)</b>. "
-            f"정답이 있는 첫 결정월이 {y0} 이라 {a0} 전에는 학습 구간이 '최대 W년'보다 짧다(첫 행) — 그래서 그 기간은 집계에서 제외하고 ③ 끝에 참고로만 둔다</p>")
+            short = short or n < 12 * W
+            rows.append({"평가 결정월 t": str(t), "학습창 W": f"{W}년", "학습 구간(결정월 s)": f"{s_lo}~{s_hi} ({n}개월 × 17 = {n * 17:,}행)" + (" ← W년보다 짧음" if n < 12 * W else ""),
+                         "비움(정답 미확정)": f"{s_hi + 1}~{t - 1} ({h - 1}개월)", "검증 겹(튜닝 모형만)": folds, "평가": f"{t} 의 17개 시도, 정답은 {t + h - 1} 지수 공표 뒤"})
+    head = (f"<p class='note'><b>h={h}개월</b>: 평가 결정월 {t_first}~{t_last} ({len(ts)}개월, 매월). 정답이 있는 첫 결정월은 {y0} 이고 {t_first} 은 가장 긴 학습창(5년)이 처음 꽉 차는 달이라 "
+            f"모든 창의 학습 구간이 제 길이(12W개월 × 17행)다. 그 전 달은 학습·평가하지 않았고, {y0}~{t_first - 1} 자료는 학습 행으로만 쓰인다"
+            + (" (주의: 일부 행에서 학습 구간이 W년보다 짧음)" if short else "") + "</p>")
     return head + pd.DataFrame(rows).to_html(index=False)
 
 
@@ -439,40 +441,41 @@ def _bests(g):
     return out
 
 
-def caveat_box(summ, summ_full, ev, ev_full, yearly_full, hs, full_start, n_months, n_full):
-    """평가(지표 집계) 시작을 MAIN_START 로 옮긴 데 따른 문제점 — 숫자는 두 기간의 사건 표·요약에서 직접 계산 (사용자 요청: 바꾼 기준으로 카드를 만들되 문제점을 명시)"""
+def caveat_box(summ, ev, yearly, hs, n_months, thr, start):
+    """평가 시작을 2018-01(이전 실행) 에서 start 로 옮긴 데 따른 문제점 — 사건 수는 자료에서 직접 계산, 이전 실행의 지표는 PREV_RUN(커밋 c0003b3)에서 인용 (사용자 요청: 바꾼 기준으로 카드를 만들되 문제점을 명시)"""
     h = hs[0]
+    pv = PREV_RUN
     col_n = "평가 행(시도×결정월)"
     col_up = [c for c in ev.columns if c.startswith("급등") and c.endswith("건수")][0]
     col_dn = [c for c in ev.columns if c.startswith("급락") and c.endswith("건수")][0]
-    e, ef = ev.set_index("예측 기간"), ev_full.set_index("예측 기간")
+    ev_prev, yearly_prev = event_tables(VALUES, pv["start"], hs, thr)                  # 자료만으로 계산(모형과 무관)
+    e, ef = ev.set_index("예측 기간"), ev_prev.set_index("예측 기간")
     em, efm = e.loc[f"{h}개월"], ef.loc[f"{h}개월"]
     subs = []
     for k in hs[1:]:
         a, b_ = ef.loc[f"{k}개월"], e.loc[f"{k}개월"]
         subs.append(f"; {k}개월 뒤는 {a[col_n]:,}→{b_[col_n]:,}행, 급락 {a[col_dn]}→{b_[col_dn]}건")
-    yrs = yearly_full.index.astype(str)
+    yrs = yearly_prev.index.astype(str)
     dn_col = f"h{h} 급락"
-    dn_all = int(yearly_full[dn_col].sum())
-    dn_pre = int(yearly_full.loc[yrs < MAIN_START[:4], dn_col].sum())
-    dn_in = yearly_full.loc[yrs >= MAIN_START[:4], dn_col].sort_values(ascending=False)
+    dn_all = int(yearly_prev[dn_col].sum())
+    dn_pre = int(yearly_prev.loc[yrs < start[:4], dn_col].sum())
+    dn_in = yearly[dn_col].sort_values(ascending=False)
     top2 = dn_in.head(2)
-    b, bf = _bests(summ[summ["h"] == h]), _bests(summ_full[summ_full["h"] == h])
-    dm_full = "동률" if abs(bf["dm"]) < 1 else f"{bf['dm']:+.0f}%"
+    b = _bests(summ[summ["h"] == h])
     items = [
-        f"<b>평가 자료가 줄어든다.</b> {h}개월 뒤 예측의 평가 행이 {efm[col_n]:,}→{em[col_n]:,}행({n_full[h]}→{n_months[h]}개월), 급등 사건 {efm[col_up]}→{em[col_up]}건, 급락 사건 {efm[col_dn]}→{em[col_dn]}건(비율 {efm['급락 비율']}→{em['급락 비율']}){''.join(subs)}. "
+        f"<b>평가 자료가 줄어든다.</b> 평가를 {pv['start']}부터 했던 이전 실행과 비교하면 {h}개월 뒤 예측의 평가 행이 {efm[col_n]:,}→{em[col_n]:,}행({pv['n_months'][h]}→{n_months[h]}개월), 급등 사건 {efm[col_up]}→{em[col_up]}건, 급락 사건 {efm[col_dn]}→{em[col_dn]}건(비율 {efm['급락 비율']}→{em['급락 비율']}){''.join(subs)}. "
         "17개 시도가 같은 달에 함께 움직이므로 유효 표본은 행 수보다 훨씬 작고, 지표의 우연 변동 폭이 그만큼 커진다(개선폭의 유의성 검정은 하지 않았음).",
-        f"<b>급락 국면이 하나 빠진다.</b> {full_start[:4]}~{int(MAIN_START[:4]) - 1}년의 지방 급락기(급락 {dn_pre}건, 전체 {dn_all}건의 {dn_pre / dn_all:.0%})가 평가에서 제외돼, 남는 급락 {int(dn_in.sum())}건의 {top2.sum() / dn_in.sum():.0%}가 {top2.index[0]}·{top2.index[1]}년에서 나온다. "
+        f"<b>급락 국면이 하나 빠진다.</b> {pv['start'][:4]}~{int(start[:4]) - 1}년의 지방 급락기(급락 {dn_pre}건, {pv['start'][:4]}년 이후 전체 {dn_all}건의 {dn_pre / dn_all:.0%})는 학습 행으로만 쓰이고 평가되지 않아, 평가되는 급락 {int(dn_in.sum())}건의 {top2.sum() / dn_in.sum():.0%}가 {top2.index[0]}·{top2.index[1]}년에서 나온다. "
         "급락 예측 성능은 사실상 2022~23 하락기 하나로 판단하는 셈이고, 성격이 다른 급락(2018~19 처럼 지방 공급 과잉형)에 대한 성능은 이 카드로는 알 수 없다.",
-        f"<b>설명변수의 이득이 커 보인다.</b> 전체 기간에서는 최선 모형이 단순 규칙 mom1 과 {dm_full}({bf['r']['MAE']:.3f} vs {bf['m1']:.3f})이었지만, {MAIN_START} 이후만 보면 {abs(b['dm']):.0f}% {'낫다' if b['dm'] > 0 else '못하다'}({b['r']['MAE']:.3f} vs {b['m1']:.3f}). "
-        "2018~19 급락기에는 설명변수 모형이 mom1 에 졌으므로(⑥ 회색 구간), 이 카드의 개선폭은 '국면 전환기에 강하다'는 특성이 반영된 낙관적 추정으로 읽어야 한다.",
-        f"<b>이전 실험과 직접 비교할 수 없다.</b> 9차(KS)·TH_v19 는 {full_start}~ 평가라 기간이 다르다. 비교가 필요하면 ③ 끝의 전체 기간(참고) 표를 쓴다.",
-        "<b>학습 자료는 줄지 않는다.</b> 학습창(직전 W년)과 모형은 그대로이고 바뀐 것은 지표를 모으는 기간뿐이다. 2018~2020 예측도 버리지 않고 ③ 끝(전체 기간)·⑥(회색 구간)·① 기간 표에 남겨 두었다.",
+        f"<b>설명변수의 이득이 커 보인다.</b> 이전 실행({pv['start']}~ 평가)에서는 최선 모형 ET 의 MAE {pv['et']:.3f} 이 단순 규칙 mom1 {pv['mom1']:.3f} 과 동률(베이스라인 AR {pv['ar']:.3f} 대비 −9%)이었지만, {start} 이후만 평가하면 mom1 보다 {abs(b['dm']):.0f}% {'낫다' if b['dm'] > 0 else '못하다'}({b['r']['MAE']:.3f} vs {b['m1']:.3f}; AR 대비 {abs(b['gain']):.0f}% 감소). "
+        f"평가에서 빠진 기간에는 mom1 이 더 좋았으므로({pv['regimes']}), 이 카드의 개선폭은 '국면 전환기에 강하다'는 특성이 반영된 낙관적 추정으로 읽어야 한다. 분류도 같은 방향이다(이전 실행 급등 {pv['up_best']} vs AR {pv['up_ar']}, 급락 {pv['dn_best']} vs AR {pv['dn_ar']}).",
+        f"<b>이전 실험과 직접 비교할 수 없다.</b> 9차(KS)·TH_v19 와 10차 이전 실행은 {pv['start']}~ 평가라 기간이 다르다. 비교가 필요하면 rolling_models.py 를 --start {pv['start']} 로 돌리거나(달마다 독립 학습이라 {start} 이후 값은 그대로) 커밋 c0003b3 의 예측값을 쓴다.",
+        f"<b>학습 자료는 줄지 않는다.</b> 학습창(직전 W년)과 모형은 그대로이고, 2015-07~{start} 전 자료는 학습 행으로 쓰인다. 바뀐 것은 예측·평가를 시작하는 달뿐이며, 달마다 독립 학습이라 {start} 이후 예측은 이전 실행과 동일하다(재실행으로 확인).",
     ]
-    return (f"<div class='caveat'><span class='t'>평가 기간을 {MAIN_START}부터로 바꾼 데 따른 문제점 (팀 검토 의견 반영)</span><ul>" + "".join(f"<li>{x}</li>" for x in items) + "</ul></div>")
+    return (f"<div class='caveat'><span class='t'>평가 시작을 {start}부터로 잡은 데 따른 문제점</span><ul>" + "".join(f"<li>{x}</li>" for x in items) + "</ul></div>")
 
 
-def summary_box(summ, d, summ_full=None, full_start=None, n_months=None, n_full=None, extra=""):
+def summary_box(summ, d, n_months=None, extra=""):
     """과제별 최선 모형·베이스라인 대비 개선·단순 기준 비교를 숫자에서 바로 만든 요약 (카드 맨 위: 숫자 타일 + 핵심 메시지 + 문제점 상자(extra) + 표)"""
     rows, msgs, main = [], [], None
     for h in sorted(summ["h"].unique(), reverse=True):
@@ -509,13 +512,9 @@ def summary_box(summ, d, summ_full=None, full_start=None, n_months=None, n_full=
                 f"아무 정보가 없을 때의 PR-AUC 는 사건 비율(급등 {upr:.0%}, 급락 {dnr:.0%})이다.")
     msgs.append("학습 기간은 4~5년이 안정적이고, 2년 창은 급락 예측이 무너진다(2020~21년에 급락이 없어 짧은 창에는 급락 사례가 부족). "
                 "모든 변수를 넣은 선형 모형(Ridge·Logit)은 베이스라인보다 못해(과적합) 트리 모형만 쓸 만하고, 하이퍼파라미터 튜닝의 효과는 작다(±0.02).")
-    if summ_full is not None:
-        bf = _bests(summ_full[summ_full["h"] == h])
-        upf, upfb, _ = bf["ev"]["up"]; dnf, dnfb, _ = bf["ev"]["dn"]
-        dm_full = "동률" if abs(bf["dm"]) < 1 else f"{bf['dm']:+.0f}%"
-        msgs.append(f"<b>평가 기간</b>: 모형은 {full_start}부터 매월 전진 학습·예측했지만, 지표는 모든 학습창(2~5년)이 꽉 찬 <b>{MAIN_START} 이후</b>({n_months[h]}개월)의 예측만 모아 계산했다(팀 검토 반영). "
-                    f"{full_start}부터 전체({n_full[h]}개월)로 보면(③ 끝 참고 표) 최선 모형의 순위는 같고 개선폭은 더 작다: {bf['r']['model']} MAE {bf['r']['MAE']:.3f} vs 베이스라인 {bf['ar']:.3f}({abs(bf['gain']):.0f}% 감소), mom1 {bf['m1']:.3f} 대비 {dm_full}; "
-                    f"급등 {upf['model']} PR-AUC {upf['PR_AUC']:.2f} vs {upfb['PR_AUC']:.2f}, 급락 {dnf['model']} {dnf['PR_AUC']:.2f} vs {dnfb['PR_AUC']:.2f}. 이 선택의 문제점은 아래 상자.")
+    if n_months:
+        msgs.append(f"<b>평가 기간</b>: 결정월 {MAIN_START}~ ({n_months[h]}개월). 자료의 첫 정답(2015-07) 기준으로 가장 긴 학습창(5년)이 처음 꽉 차는 달부터 평가했고, 그 전 달은 학습·평가하지 않았다. "
+                    f"평가를 {PREV_RUN['start']}부터 했던 이전 실행보다 개선폭이 크게 나오는 이유와 이 선택의 문제점은 아래 상자.")
     cv, cvv = os.path.join(d, "contrib_driver.csv"), os.path.join(d, "contrib_var.csv")
     if os.path.exists(cv) and os.path.exists(cvv):
         drv, var = pd.read_csv(cv, encoding="utf-8-sig"), pd.read_csv(cvv, encoding="utf-8-sig")
@@ -530,55 +529,45 @@ def summary_box(summ, d, summ_full=None, full_start=None, n_months=None, n_full=
 
 # ------------------------------------------------------------ html
 def build(d, tuned_dir=None, notes=None):
-    summ_full, roll_full = load_results(d)                      # 모형이 전진한 전체 기간(settings.start~) — 참고 표·시간 변화 그림용
-    summ, roll = load_results(d, start=MAIN_START)              # 지표 집계(주 결과): 모든 학습창이 꽉 찬 MAIN_START 이후
+    summ, roll = load_results(d)                                # 평가 결정월 = settings.start(= MAIN_START)부터
     st = json.load(open(os.path.join(d, "settings.json"), encoding="utf-8"))
+    if st["start"] != MAIN_START:
+        print(f"[주의] settings.json 의 start({st['start']})가 카드 상수 MAIN_START({MAIN_START})와 다름")
     hs = sorted(summ["h"].unique(), reverse=True)
     has_tuned = bool(tuned_dir) and os.path.exists(os.path.join(tuned_dir, "metrics_summary.csv")) and os.path.exists(os.path.join(tuned_dir, "predictions_h6.csv"))
     if bool(tuned_dir) and os.path.exists(os.path.join(tuned_dir, "metrics_summary.csv")) and not has_tuned:
         print("[주의] 튜닝 예측값 파일(predictions_h*.csv)이 없어 ⑤ 튜닝 비교 절을 생략함")
     st_t = json.load(open(os.path.join(tuned_dir, "settings.json"), encoding="utf-8")) if has_tuned else None
     n_months = {h: int(roll[(roll["h"] == h) & (roll["task"] == "reg")]["t"].nunique()) for h in hs}
-    n_full = {h: int(roll_full[(roll_full["h"] == h) & (roll_full["task"] == "reg")]["t"].nunique()) for h in hs}
-    ev, yearly = event_tables(VALUES, MAIN_START, hs, st["event_thr"])
-    ev_full, yearly_full = event_tables(VALUES, st["start"], hs, st["event_thr"])
-    caveat = caveat_box(summ, summ_full, ev, ev_full, yearly_full, hs, st["start"], n_months, n_full)
-    parts = [summary_box(summ, d, summ_full, st["start"], n_months, n_full, extra=caveat), "<h2>① 설정</h2><p class='note'><b>이 카드가 답하려는 질문</b>:아파트 월세지수가 앞으로 3·6개월 동안 얼마나 변할지(회귀), 그리고 ±1% 넘게 급등·급락할지(분류)를 "
+    ev, yearly = event_tables(VALUES, st["start"], hs, st["event_thr"])
+    caveat = caveat_box(summ, ev, yearly, hs, n_months, st["event_thr"], st["start"])
+    parts = [summary_box(summ, d, n_months, extra=caveat),"<h2>① 설정</h2><p class='note'><b>이 카드가 답하려는 질문</b>:아파트 월세지수가 앞으로 3·6개월 동안 얼마나 변할지(회귀), 그리고 ±1% 넘게 급등·급락할지(분류)를 "
              "월세지수의 과거 흐름만으로 맞히는 것(베이스라인)보다 경제 설명변수 47개를 더하면 얼마나 더 잘 맞히는가. 학습 기간 길이(2~5년), 튜닝, 시기, 과적합, 변수 기여도까지 차례로 본다.</p>"
              "<h3>용어 정리</h3>" + glossary_table() + f"""<table class='kv'>
 <tr><th>자료</th><td>analysis/output/모형입력표_10차_values.csv — 17개 시도 × 결정월(월말) 패널. 설명변수 {st['n_expl']}열 + 타깃 모멘텀 3열(past1·3·6) + 지역 더미 17열 = {len(st['features_full'])}개 특성</td></tr>
 <tr><th>타깃</th><td>G_h = 100·[R(t+h−1)/R(t−1) − 1]: 결정월 t 에 아는 마지막 지수 R(t−1) 대비 앞으로 h개월 변화율(%). 회귀는 G_h, 분류는 급등(G_h ≥ +{st['event_thr']:.0f}%)·급락(G_h ≤ −{st['event_thr']:.0f}%) 이진 사건</td></tr>
 <tr><th>집합 구성</th><td><b>평가(test)</b> = 결정월 t 의 17개 시도(한 달 17행). <b>학습(train)</b> = t 시점에 정답이 확정된 결정월 s ≤ t−h 중 직전 W년(12W개월 × 17 = {12 * 2 * 17:,}~{12 * 5 * 17:,}행).
-t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 유출 차단). t 를 {st['start']}부터 매월 한 칸씩 옮겨 반복(모형이 전진한 결정월 {', '.join(f'h={h}: {n}개월' for h, n in n_full.items())}).
-<b>지표는 모든 학습창이 꽉 찬 {MAIN_START} 이후의 평가 예측만 모아 계산</b>({', '.join(f'h={h}: {n}개월' for h, n in n_months.items())}; 팀 검토 반영). {st['start']}~{MAIN_START} 전의 예측은 학습창이 아직 짧아 집계에서 빼고 ③ 끝·⑥에 참고로 둠(문제점은 맨 위 상자).
+t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 유출 차단). t 를 {st['start']}부터 매월 한 칸씩 옮겨 반복(평가 결정월 {', '.join(f'h={h}: {n}개월' for h, n in n_months.items())}) → 모든 평가 예측을 모아 지표 계산.
+<b>{st['start']} 은 자료의 첫 정답(2015-07) 기준으로 가장 긴 학습창(5년)이 처음 꽉 차는 결정월</b>이며, 그 전 달은 학습·평가하지 않는다(2015-07~{st['start']} 전 자료는 학습 행으로만 쓰임. 이 선택의 문제점은 맨 위 상자).
 <b>검증(validation)</b>은 2차 튜닝 모형에만: 학습 블록 안을 시간 순 3겹(검증 3개월, 겹 사이 h−1개월 간격)으로 나눠 격자를 고르고 전체 학습 블록으로 재학습. 1차(고정 파라미터)는 검증 집합 없음(Ridge alpha 만 학습 블록 안 LOO)</td></tr>
-<tr><th>롤링</th><td>학습창 W = {st['windows']}년 각각 전체 반복(민감도). 평가 기간은 창과 무관하게 같고 {MAIN_START} 이후는 5년 창도 꽉 차 있음 → 창끼리 직접 비교 가능</td></tr>
+<tr><th>롤링</th><td>학습창 W = {st['windows']}년 각각 전체 반복(민감도). 평가 기간은 창과 무관하게 같고 모든 창이 꽉 차 있음 → 창끼리 직접 비교 가능</td></tr>
 <tr><th>모형</th><td>회귀: AR(Ridge) 베이스라인(모멘텀 3열만) / 참고 Zero·Mom(past_h) / Ridge·RF·ET·XGB(모든 특성). 분류: AR(Logit) 베이스라인 / Logit·RF·ET·XGB. 학습창 양성 {st['min_pos']}건 미만이면 분류기는 학습창 기준율 예측(표의 기준율예측비율)</td></tr>
 <tr><th>지표</th><td>MAE(%p) / F1(임계 0.5·학습창 기준율) / PR-AUC(평균정밀도, 하한 = 양성 비율) / BSS = 1 − Brier ÷ Brier(기준율 예측). 기준율 예측 = 학습창의 사건 비율을 모든 시도에 같은 확률로 내는 것(표·그림에는 따로 표시하지 않음; BSS 0 = 기준율 예측과 같음, 음수 = 그보다 못함). 전체 평가 기간 값 + 이동 창 값(MAE 12개월, 분류 24개월)</td></tr>
 <tr><th>1차 설정</th><td>{st['note']}. 트리 {('100' if st.get('quick') else '300')}개, RF·ET leaf 5·max_features 0.5, XGB depth 3·학습률 0.05·subsample 0.8, Logit C=1</td></tr>"""
              + (f"<tr><th>2차 튜닝</th><td>모형 {', '.join(st_t['tune'])}, 학습창 {st_t['windows']}년, 평가 결정월 간격 {st_t['step']}개월(시간 절약). 격자: " + "; ".join(f"{m} {g}" for m, g in st_t["grids"].items()) + "</td></tr>" if has_tuned else "")
              + "</table><h3>기준·모형 정의 (past_k = 100·[R(t−1)/R(t−1−k) − 1], 결정월 t 에 아는 타깃 자신의 최근 k개월 변화율)</h3>" + definitions_table() + split_fig(h=hs[0], W=4)
-             + f"<p class='note'>위 그림은 한 시점(2022-06, 학습창 4년)의 예시다. 롤링이라 학습창은 '직전 W년'만 쓰며, 2018-01 같은 초기 결정월에는 자료가 시작되는 2015-07부터 25개월만 학습한다(아래 표 첫 행). "
-               f"그래서 지표는 모든 창이 제 길이를 갖춘 {MAIN_START}부터 집계한다. 결정월·예측 기간·학습창을 바꿔 가며 볼 수 있는 대화형 그림: <a href='학습구조_시각화_10차.html'>학습구조_시각화_10차.html</a></p>"
-             + "<h3>집합의 실제 기간 (대표 결정월 기준)</h3>" + "".join(period_table(roll_full, h, st["windows"], tuple(st_t["windows"]) if has_tuned else ()) for h in hs)]
-    # ② 사건 수 (지표 집계 기간 기준 + 연도별은 전체 기간을 보이되 집계 포함 여부 표시)
-    yf = yearly_full.copy()
-    yf.insert(0, "지표 집계", np.where(yf.index.astype(str) >= MAIN_START[:4], "포함", "제외(참고)"))
+             + f"<p class='note'>위 그림은 한 시점(2022-06, 학습창 4년)의 예시다. 롤링이라 학습창은 '직전 W년'만 쓴다. 자료가 2015-07에 시작하므로 5년 창이 처음 꽉 차는 {st['start']}부터 평가한다(아래 표). "
+               "결정월·예측 기간·학습창을 바꿔 가며 볼 수 있는 대화형 그림: <a href='학습구조_시각화_10차.html'>학습구조_시각화_10차.html</a></p>"
+             + "<h3>집합의 실제 기간 (대표 결정월 기준)</h3>" + "".join(period_table(roll, h, st["windows"], tuple(st_t["windows"]) if has_tuned else ()) for h in hs)]
+    # ② 사건 수
     fb = summ[(summ["task"] != "reg") & (summ["model"] == "RF")].groupby(["h", "W", "task"])["기준율예측비율"].first().unstack("task")
-    parts.append(f"<h2>② 급등·급락은 얼마나 자주 일어났나 (평가 기간의 사건 수)</h2><p class='note'>지표를 집계하는 평가 기간 {MAIN_START}~ 기준. 급등·급락 비율은 아무 정보가 없을 때의 PR-AUC(하한)</p>" + ev.to_html(index=False)
-                 + f"<p class='note'>연도별(결정월 기준) 행 수와 사건 수 — 모형이 전진한 전체 기간({st['start']}~)을 보이되 {MAIN_START} 전은 지표 집계에서 제외. 급락이 2018~19 와 2022~23 에 몰려 있어 짧은 학습창은 양성 없는 달이 생김</p>" + yf.to_html()
-                 + f"<details><summary>전체 기간({st['start']}~, 참고)의 사건 수</summary>" + ev_full.to_html(index=False) + "</details>"
-                 + "<p class='note'>학습창에 양성이 부족해 분류기가 기준율을 예측한 달의 비율(행 기준, 평가 기간)</p>" + fb.rename(columns={"up": "급등", "dn": "급락"}).to_html(float_format=lambda x: f"{x:.1%}"))
-    # ③ 민감도 (주 결과: MAIN_START~; 참고: 전체 기간)
-    parts.append(f"<h2>③ 학습 기간(2~5년)에 따라 성능이 어떻게 달라지나 (1차, 고정 파라미터)</h2><p class='note'>평가 {MAIN_START}~. 모든 창이 제 길이를 갖춘 기간이라 창끼리 공정하게 비교된다</p>")
+    parts.append(f"<h2>② 급등·급락은 얼마나 자주 일어났나 (평가 기간의 사건 수)</h2><p class='note'>평가 기간 {st['start']}~ 기준. 급등·급락 비율은 아무 정보가 없을 때의 PR-AUC(하한)</p>" + ev.to_html(index=False)
+                 + "<p class='note'>연도별(결정월 기준) 행 수와 사건 수 — 급락이 2022~23 에 몰려 있고 2020~21 에는 거의 없어 짧은 학습창은 급락 양성이 부족한 달이 생김</p>" + yearly.to_html()
+                 + "<p class='note'>학습창에 양성이 부족해 분류기가 기준율을 예측한 달의 비율(행 기준)</p>" + fb.rename(columns={"up": "급등", "dn": "급락"}).to_html(float_format=lambda x: f"{x:.1%}"))
+    # ③ 민감도
+    parts.append(f"<h2>③ 학습 기간(2~5년)에 따라 성능이 어떻게 달라지나 (1차, 고정 파라미터)</h2><p class='note'>평가 {st['start']}~. 모든 창이 제 길이를 갖춘 기간이라 창끼리 공정하게 비교된다</p>")
     for h in hs:
-        parts.append(f"<h3>{h}개월 뒤 예측</h3>" + sensitivity_figs(summ, h, f" (평가 {MAIN_START}~)") + tbl(sensitivity_table(summ, h)))
-    parts.append(f"<h3>참고: 평가를 {st['start']}부터 한 전체 기간 ({n_full[hs[0]]}개월) — 이전 주 결과, 9차·TH_v19 비교용</h3>"
-                 f"<p class='note'>자료가 2015-07에 시작하는 탓에 2020년 중반까지는 3·4·5년 창이 실제로는 더 짧다(① 기간 표). 창 길이 비교로는 위 표가 공정하고, 이 표는 2018~19 급락기가 들어간 더 긴 기간의 결과로 함께 본다. "
-                 "같은 예측값을 기간만 넓혀 집계한 것이며 재학습은 없다.</p>")
-    for h in hs:
-        parts.append(f"<h4>{h}개월 뒤 예측, 전체 기간 {st['start']}~</h4>" + sensitivity_figs(summ_full, h, f" (전체 기간 {st['start']}~, 참고)") + tbl(sensitivity_table(summ_full, h)))
-    parts.append("<p class='note'>베이스라인 대비(전체 기간, 참고)</p>" + best_table(summ_full).to_html(index=False))
+        parts.append(f"<h3>{h}개월 뒤 예측</h3>" + sensitivity_figs(summ, h, f" (평가 {st['start']}~)") + tbl(sensitivity_table(summ, h)))
     # ④ 개선
     parts.append(f"<h2>④ 설명변수를 넣으면 얼마나 나아지나 (베이스라인 대비, 1차)</h2><p class='note'>평가 {MAIN_START}~. 회귀는 MAE가 몇 % 줄었는지, 분류는 PR-AUC·BSS가 얼마나 올랐는지(모형 − 베이스라인). 마지막 열은 학습 없는 단순 규칙 mom1 과의 비교</p>" + best_table(summ).to_html(index=False)
                  + "<details><summary>학습창·모형별 전체 표</summary>" + improvement_table(summ).to_html(index=False) + "</details>")
@@ -598,12 +587,12 @@ t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 �
         for h in sorted(roll_c["h"].unique(), reverse=True):
             parts.append(rolling_figs(roll_c, h, reg_win=4, clf_win=8, title_extra=f" — 튜닝 비교(표본 {st_t['step']}개월 간격이라 이동 창 = 4·8개 평가점)"))
     # ⑥ 롤링
-    parts.append(f"<h2>⑥ 시기별로 성능이 어떻게 변했나 (1차)</h2><p class='note'>각 점은 그 달까지의 최근 성능(MAE는 12개월, 분류는 24개월 이동 창). 2020~21 급등기, 2022~23 하락기, 2024~25 회복기에서 모형별 차이를 본다. "
-                 f"회색 구간({st['start']}~{MAIN_START} 전)은 모형이 예측은 했지만 학습창이 짧아 지표 집계에서 뺀 기간 — 2018~19 급락기에 설명변수 모형이 단순 규칙 mom1 에 뒤지는 모습도 여기서 볼 수 있다</p>")
+    parts.append("<h2>⑥ 시기별로 성능이 어떻게 변했나 (1차)</h2><p class='note'>각 점은 그 달까지의 최근 성능(MAE는 6개월, 분류는 12개월 이동 창 — 평가 기간이 5년 남짓이라 창을 짧게 잡음). "
+                 "2021 급등기 말, 2022~23 하락기, 2024~26 회복·재상승기에서 모형별 차이를 본다</p>")
     for h in hs:
-        parts.append(rolling_figs(roll_full, h, mark_start=MAIN_START))
+        parts.append(rolling_figs(roll, h, reg_win=6, clf_win=12))
     # ⑦ 과적합 진단
-    parts.append("<h2>⑦ 학습 자료에만 맞춘 것은 아닌가 (과적합 점검: 적합 성능 vs 평가 성능)</h2>" + overfit_section(d, summ, tuned_dir if has_tuned else None, summ_c if has_tuned else None, st_t, start=MAIN_START))
+    parts.append("<h2>⑦ 학습 자료에만 맞춘 것은 아닌가 (과적합 점검: 적합 성능 vs 평가 성능)</h2>" + overfit_section(d, summ, tuned_dir if has_tuned else None, summ_c if has_tuned else None, st_t))
     # ⑧ 변수·동인 기여도 (contrib_analysis.py 가 만든 본문)
     contrib = os.path.join(d, "기여도_section.html")
     if os.path.exists(contrib):
@@ -612,11 +601,11 @@ t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 �
     if notes and os.path.exists(notes):
         parts.append("<h2>⑨ 결과 해석 — 전반적 평가·한계·보완할 점</h2>" + open(notes, encoding="utf-8").read())
     parts.append(f"""<h2>⑩ 읽을 때 주의할 점</h2><ul>
-<li>지표는 평가 결정월 {MAIN_START} 이후만 모아 계산했다(모형은 {st['start']}부터 전진). 그 전 기간은 ③ 끝 참고 표와 ⑥ 의 회색 구간에 있고, 이 선택의 문제점(평가 자료 감소, 급락 국면 하나 제외, 이득 과대 가능)은 맨 위 상자에 적었다.</li>
+<li>평가 결정월은 {st['start']}부터다(5년 학습창이 처음 꽉 차는 달). 그 전 달은 학습·평가하지 않았고 2015-07~{st['start']} 전 자료는 학습 행으로만 쓰인다. 이 선택의 문제점(평가 자료 감소, 급락 국면 하나 제외, 이득 과대 가능, 이전 실험과 비교 불가)은 맨 위 상자에 적었다.</li>
 <li>베이스라인 AR 은 월세지수 자신의 과거 1·3·6개월 변화율만 쓴다. 비교 모형이 이보다 좋아야 설명변수에 정보가 있다는 뜻이다. 학습 없는 단순 규칙(mom1)도 같이 보라 — 6개월 예측에서는 AR 보다 mom1 이 더 강한 기준이다.</li>
 <li>분류 BSS 의 기준은 학습창 기준율이라 0 이면 기준율과 같고, 음수면 기준율보다 못하다(과신). PR-AUC 는 임계값과 무관한 순위 성능이며 양성 비율(② 사건 수 표)이 하한.</li>
 <li>하이퍼파라미터: 1차 고정, 2차는 RF·ET·XGB 만 학습창 안 중첩 시계열 CV. 창마다 평가 기간이 같으므로 창끼리 직접 비교 가능. 튜닝 비교는 같은 결정월 표본으로 다시 계산.</li></ul>""")
-    subtitle = (f"생성 {dt.date.today().isoformat()} · 평가(지표 집계) {MAIN_START}~ (모형 전진 {st['start']}~) · 학습 자료 analysis/output/모형입력표_10차_values.csv · 결과 {os.path.relpath(d, BASE).replace(os.sep, '/')}"
+    subtitle = (f"생성 {dt.date.today().isoformat()} · 평가 결정월 {st['start']}~ · 학습 자료 analysis/output/모형입력표_10차_values.csv · 결과 {os.path.relpath(d, BASE).replace(os.sep, '/')}"
                 + (f" · 튜닝 {os.path.relpath(tuned_dir, BASE).replace(os.sep, '/')}" if has_tuned else ""))
     html = page("10차 월세 변화율·급등급락 예측 모형 — 결과 카드", subtitle, "".join(parts))
     out = os.path.join(d, "모형결과카드_10차.html")
