@@ -51,6 +51,9 @@ def load_results(d):
         return summarize(pred)
     return (pd.read_csv(os.path.join(d, "metrics_summary.csv"), encoding="utf-8-sig"), pd.read_csv(os.path.join(d, "rolling_metrics.csv"), encoding="utf-8-sig"))
 TASK_KR = {"reg": "회귀(G_h, %)", "up": "급등(G_h ≥ +1%)", "dn": "급락(G_h ≤ −1%)"}
+# 2차 튜닝 결과가 1차와 다른 자료 버전으로 계산됐을 때 ⑤ 에 붙이는 주석 (튜닝 재실행 뒤 빈 문자열로)
+TUNED_NOTE = ("2차 튜닝은 V078 을 '최근 12개월 내 변경(상태화, ±1 자름)' 으로 넣은 이전 자료로 계산된 결과다(2026-10-10 V078 을 '최근 12개월 변경 합' 으로 바꾼 뒤 1차·기여도만 재실행, 튜닝은 효과가 작아 보류). "
+              "1차와 자료가 V078 한 열만 다르며, 이 절의 '고정' 행도 당시 1차 예측으로 같은 자료 기준이다")
 plt.rcParams.update({"font.family": "Malgun Gothic", "axes.unicode_minus": False, "figure.facecolor": C["surface"], "axes.facecolor": C["surface"],
                      "axes.edgecolor": C["axis"], "axes.labelcolor": C["ink2"], "xtick.color": C["muted"], "ytick.color": C["muted"], "grid.color": C["grid"],
                      "grid.linewidth": 0.6, "axes.grid": True, "axes.spines.top": False, "axes.spines.right": False, "font.size": 9, "axes.titlesize": 10,
@@ -415,7 +418,8 @@ t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 �
     # ⑤ 튜닝
     if has_tuned:
         summ_c, roll_c = tuned_comparison(d, tuned_dir, st_t)
-        parts.append(f"<h2>⑤ 2차 튜닝 전후 비교 (같은 결정월 {st_t['step']}개월 간격 표본, 학습창 {st_t['windows']}년)</h2>")
+        parts.append(f"<h2>⑤ 2차 튜닝 전후 비교 (같은 결정월 {st_t['step']}개월 간격 표본, 학습창 {st_t['windows']}년)</h2>"
+                     + (f"<p class='note'><b>주의</b>: {TUNED_NOTE}</p>" if TUNED_NOTE else ""))
         for h in sorted(summ_c["h"].unique(), reverse=True):
             parts.append(f"<h3>지평 h={h}개월</h3>" + sensitivity_figs(summ_c, h) + tbl(sensitivity_table(summ_c, h)))
         parts.append("<h3>베이스라인 대비(튜닝 포함, 같은 표본)</h3>" + best_table(summ_c).to_html(index=False)
