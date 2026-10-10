@@ -44,12 +44,19 @@ def add_mom1(pred):
     return pd.concat([pred, base.drop(columns=["결정월", "past1"])], ignore_index=True)
 
 
-def load_results(d):
-    """예측 파일이 있으면 mom1 을 더해 지표를 다시 계산, 없으면 저장된 요약을 쓴다"""
+FAIR_START = "2021-01"      # 모든 학습창(최대 5년)이 꽉 찬 뒤부터의 평가 — 창 길이를 공정하게 비교하는 보조 기간 (팀 검토 의견 반영)
+
+
+def load_results(d, start=None):
+    """예측 파일이 있으면 mom1 을 더해 지표를 다시 계산(start 를 주면 그 결정월부터만), 없으면 저장된 요약을 쓴다"""
     files = [os.path.join(d, f) for f in os.listdir(d) if f.startswith("predictions_h") and f.endswith(".csv")]
     if files:
         pred = add_mom1(pd.concat([pd.read_csv(f, encoding="utf-8-sig") for f in files], ignore_index=True))
+        if start:
+            pred = pred[pred["t"] >= start].copy()
         return summarize(pred)
+    if start:
+        return None, None
     return (pd.read_csv(os.path.join(d, "metrics_summary.csv"), encoding="utf-8-sig"), pd.read_csv(os.path.join(d, "rolling_metrics.csv"), encoding="utf-8-sig"))
 TASK_KR = {"reg": "회귀: 변화율(%p)", "up": "급등 예측(h개월 뒤 +1% 이상)", "dn": "급락 예측(h개월 뒤 −1% 이하)"}
 # 2차 튜닝 결과가 1차와 다른 자료 버전으로 계산됐을 때 ⑤ 에 붙이는 주석 (튜닝 재실행 뒤 빈 문자열로)
@@ -442,6 +449,12 @@ def summary_box(summ, d):
     msgs.append(f"<b>급등·급락 예측</b>에서는 설명변수의 효과가 뚜렷하다. 급등은 {up['model']}(PR-AUC {up['PR_AUC']:.2f} vs 베이스라인 {upb['PR_AUC']:.2f}), 급락은 {dn['model']}(PR-AUC {dn['PR_AUC']:.2f} vs {dnb['PR_AUC']:.2f}). "
                 f"아무 정보가 없을 때의 PR-AUC 는 사건 비율(급등 {upr:.0%}, 급락 {dnr:.0%})이다.")
     msgs.append("학습 기간은 4~5년이 안정적이다. 모든 변수를 넣은 선형 모형(Ridge·Logit)은 베이스라인보다 못해(과적합) 트리 모형만 쓸 만하고, 하이퍼파라미터 튜닝의 효과는 작다(±0.02).")
+    sf, _ = load_results(d, start=FAIR_START)
+    if sf is not None:
+        g = sf[sf["h"] == h]
+        rf = g[(g["task"] == "reg") & (~g["model"].isin(["Zero", "Mom(past_h)", "Mom1(h×past1)"]))].sort_values("MAE").iloc[0]
+        arf = g[(g["task"] == "reg") & (g["model"] == "AR(Ridge)")]["MAE"].min(); m1f = g[(g["task"] == "reg") & (g["model"] == "Mom1(h×past1)")]["MAE"].min()
+        msgs.append(f"<b>모든 학습창이 꽉 찬 {FAIR_START} 이후만 보면</b>(③ 끝 표) 순위는 같고 이득은 더 분명하다: {rf['model']} MAE {rf['MAE']:.3f} vs 베이스라인 {arf:.3f}({100 * (arf - rf['MAE']) / arf:.0f}% 감소), mom1 {m1f:.3f}({100 * (m1f - rf['MAE']) / m1f:.0f}% 감소).")
     cv, cvv = os.path.join(d, "contrib_driver.csv"), os.path.join(d, "contrib_var.csv")
     if os.path.exists(cv) and os.path.exists(cvv):
         drv, var = pd.read_csv(cv, encoding="utf-8-sig"), pd.read_csv(cvv, encoding="utf-8-sig")
@@ -490,6 +503,15 @@ t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 �
     parts.append("<h2>③ 학습 기간(2~5년)에 따라 성능이 어떻게 달라지나 (1차, 고정 파라미터)</h2>")
     for h in hs:
         parts.append(f"<h3>{h}개월 뒤 예측</h3>" + sensitivity_figs(summ, h) + tbl(sensitivity_table(summ, h)))
+    summ_fair, _ = load_results(d, start=FAIR_START)
+    if summ_fair is not None:
+        n_fair = int(summ_fair[(summ_fair["h"] == hs[0]) & (summ_fair["task"] == "reg")]["n"].max() // 17)
+        parts.append(f"<h3>학습창이 모두 꽉 찬 기간만 보면 (평가 {FAIR_START}~, {n_fair}개월)</h3>"
+                     f"<p class='note'>평가를 2018-01부터 시작하면 자료가 2015-07에 시작하는 탓에 2020년 중반까지는 3·4·5년 창이 실제로는 더 짧다(① 기간 표). "
+                     f"그래서 모든 창이 제 길이를 갖춘 {FAIR_START} 이후만 따로 집계했다(재학습 없이 같은 예측값을 기간만 잘라 계산). 창 길이 비교는 이 표가 더 공정하고, 전체 기간 표는 국면이 더 많이 들어간 주 결과다.</p>")
+        for h in hs:
+            parts.append(f"<h4>{h}개월 뒤 예측, {FAIR_START}~</h4>" + sensitivity_figs(summ_fair, h) + tbl(sensitivity_table(summ_fair, h)))
+        parts.append("<p class='note'>베이스라인 대비(이 기간)</p>" + best_table(summ_fair).to_html(index=False))
     # ④ 개선
     parts.append("<h2>④ 설명변수를 넣으면 얼마나 나아지나 (베이스라인 대비, 1차)</h2><p class='note'>회귀는 MAE가 몇 % 줄었는지, 분류는 PR-AUC·BSS가 얼마나 올랐는지(모형 − 베이스라인). 마지막 열은 학습 없는 단순 규칙 mom1 과의 비교</p>" + best_table(summ).to_html(index=False)
                  + "<details><summary>학습창·모형별 전체 표</summary>" + improvement_table(summ).to_html(index=False) + "</details>")
