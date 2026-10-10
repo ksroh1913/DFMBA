@@ -11,9 +11,10 @@
     지표 F1(임계 0.5 와 학습창 기준율), PR-AUC(평균정밀도), BSS = 1 − Brier/Brier(기준율). 학습창에 양성이 MIN_POS 미만이면 모든 분류기가 기준율을 예측(기록).
   - 선형 모형: 중앙값 대치 + 표준화. 트리: 중앙값 대치. 하이퍼파라미터 고정(튜닝 없음).
 출력: analysis/output/모형결과_10차/predictions_h{h}.csv (긴 형식), metrics_summary.csv, rolling_metrics.csv, settings.json
-사용: PYTHONUTF8=1 python analysis/rolling_models.py [--quick] [--horizons 6 3] [--windows 2 3 4 5] [--start 2021-01]
-  --start = 첫 평가 결정월(기본 EVAL_START=2021-01: 자료 첫 정답 2015-07 기준으로 5년 학습창이 처음 꽉 차는 달, 그 전 달은 학습·평가하지 않음).
-  달마다 직전 W년으로 독립 학습하므로 start 를 앞당겨도 뒤쪽 달의 예측은 바뀌지 않는다
+사용: PYTHONUTF8=1 python analysis/rolling_models.py [--quick] [--horizons 6 3] [--windows 2 3 4 5] [--start 2019-01]
+  평가 결정월: 학습창 W 는 자료의 첫 정답(y0=2015-07)으로부터 창이 처음 꽉 차는 달 t_W = y0 + 12W − 1 + h 부터 평가한다(그 전 달은 학습·평가하지 않음;
+  h=6 기준 2년 2017-12, 3년 2018-12, 4년 2019-12, 5년 2020-12). --start 는 그보다 늦게 시작하고 싶을 때의 하한(선택).
+  달마다 직전 W년으로 독립 학습하므로 시작 달을 바꿔도 뒤쪽 달의 예측은 바뀌지 않는다
 """
 import argparse
 import json
@@ -36,7 +37,12 @@ warnings.filterwarnings("ignore")
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VALUES = os.path.join(BASE, "analysis", "output", "모형입력표_10차_values.csv")
 OUT = os.path.join(BASE, "analysis", "output", "모형결과_10차")
-EVAL_START = "2021-01"      # 첫 평가 결정월 — 자료의 첫 정답(2015-07) 기준으로 가장 긴 학습창(5년)이 처음 꽉 차는 달. 그 전 달은 학습·평가하지 않는다(2026-10-10 결정). 카드·기여도 스크립트도 이 값을 쓴다
+
+
+def first_full(h, W, y0):
+    """학습창 W년이 처음 꽉 차는 평가 결정월 t_W: 정답이 있는 첫 결정월 y0 부터 12W개월이 모두 정답 확정(s ≤ t−h)인 첫 t = y0 + 12W − 1 + h.
+    그 전 달은 학습·평가하지 않는다(2026-10-10 결정). 카드·기여도 스크립트도 이 규칙을 쓴다"""
+    return pd.Period(y0, "M") + 12 * W - 1 + h
 MIN_POS = 5
 EVENT_THR = 1.0
 SEED = 10
@@ -103,7 +109,9 @@ def load(start):
 def run(h, windows, start, quick, df, X, feats, tune=(), step=1):
     y_all = df[f"G{h}"]
     months = sorted(df["결정월"].unique())
-    test_months = [m for m in months if m >= pd.Period(start, "M") and y_all[df["결정월"] == m].notna().any()][::step]
+    has_y = [m for m in months if y_all[df["결정월"] == m].notna().any()]
+    y0 = has_y[0]                                                                  # 정답이 있는 첫 결정월(2015-07)
+    all_test = [m for m in has_y if start is None or m >= pd.Period(start, "M")]
     n_reg = df["region"].nunique()
     cv_kw = dict(gap_rows=n_reg * (h - 1), test_rows=n_reg * 3)        # 검증 겹 3개월, 간격 h−1개월 (학습 겹 s ≤ 검증 v − h)
     reg_models, clf_models = models_for("reg", quick, tune, **cv_kw), models_for("clf", quick, tune, **cv_kw)
@@ -123,6 +131,8 @@ def run(h, windows, start, quick, df, X, feats, tune=(), step=1):
                              PR_AUC_train=float(average_precision_score(ytr_, p_)) if ytr_.sum() else np.nan))
     t0 = time.time()
     for W in windows:
+        t_W = first_full(h, W, y0)                                                 # 창이 처음 꽉 차는 달부터 평가
+        test_months = [m for m in all_test if m >= t_W][::step]
         for i, t in enumerate(test_months):
             te = (df["결정월"] == t).values
             s_hi = t - h
@@ -199,7 +209,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--horizons", type=int, nargs="*", default=[6, 3])
     ap.add_argument("--windows", type=int, nargs="*", default=[2, 3, 4, 5])
-    ap.add_argument("--start", default=EVAL_START, help="첫 평가 결정월(기본: 5년 학습창이 처음 꽉 차는 2021-01)")
+    ap.add_argument("--start", default=None, help="평가 시작 하한(선택). 기본은 창별로 '창이 처음 꽉 차는 달'(first_full)부터")
     ap.add_argument("--quick", action="store_true", help="트리 100개, 학습창 2·5년, 빠른 점검")
     ap.add_argument("--tune", nargs="*", default=[], help="학습창 안 중첩 시계열 CV 로 격자 선택할 모형 이름 (RF ET XGB Logit)")
     ap.add_argument("--step", type=int, default=1, help="평가 결정월 간격(개월). 튜닝 실행 시간 절약용")
@@ -210,7 +220,7 @@ def main():
     out_dir = OUT + args.tag
     os.makedirs(out_dir, exist_ok=True)
     df, X, feats, expl = load(args.start)
-    print(f"자료 {df.shape}, 설명변수 {len(expl)}, 특성(full) {len(feats['full'])}, 예측 기간 {args.horizons}, 학습창 {args.windows}년, 평가 시작 {args.start}"
+    print(f"자료 {df.shape}, 설명변수 {len(expl)}, 특성(full) {len(feats['full'])}, 예측 기간 {args.horizons}, 학습창 {args.windows}년, 평가 시작 {args.start or '창별 첫 유효월'}"
           + (f", 튜닝 {args.tune} (격자 {[GRIDS[m] for m in args.tune if m in GRIDS]}), 간격 {args.step}개월" if args.tune else ""))
     preds, params, fits = [], [], []
     for h in args.horizons:
@@ -227,8 +237,11 @@ def main():
     summ, roll = summarize(pred)
     summ.to_csv(os.path.join(out_dir, "metrics_summary.csv"), index=False, encoding="utf-8-sig")
     roll.to_csv(os.path.join(out_dir, "rolling_metrics.csv"), index=False, encoding="utf-8-sig")
+    ev_start = {h: {W: str(first_full(h, W, df.loc[df[f"G{h}"].notna(), "결정월"].min())) for W in args.windows} for h in args.horizons}   # 창별 첫 평가 결정월
     with open(os.path.join(out_dir, "settings.json"), "w", encoding="utf-8") as f:
-        json.dump(dict(horizons=args.horizons, windows=args.windows, start=args.start, quick=args.quick, event_thr=EVENT_THR, min_pos=MIN_POS, step=args.step,
+        json.dump(dict(horizons=args.horizons, windows=args.windows, start=args.start, eval_start=ev_start,
+                       start_rule="학습창 W 는 창이 처음 꽉 차는 달 t_W = y0 + 12W − 1 + h 부터 평가(그 전 달은 학습·평가하지 않음). --start 는 하한",
+                       quick=args.quick, event_thr=EVENT_THR, min_pos=MIN_POS, step=args.step,
                        tune=args.tune, grids={m: GRIDS[m] for m in args.tune if m in GRIDS},
                        n_expl=len(expl), features_full=feats["full"], features_ar=feats["ar"], models_reg=list(models_for("reg", True)), models_clf=list(models_for("clf", True)),
                        note="학습 행 = 결정월 s ≤ t−h (정답 확정) 인 직전 W년. 선형: 중앙값 대치+표준화, 트리: 중앙값 대치. "

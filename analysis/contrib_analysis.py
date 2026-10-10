@@ -5,7 +5,7 @@
   - ET(회귀)·RF(급등): 표본 외 순열 중요도 — 평가 행의 특성값을 학습창에서 무작위로 뽑은 값으로 바꿨을 때 오차 증가(3회 평균). 전국 공통 변수도 평가 가능
 출력(analysis/output/모형결과_10차/): contrib_shap_long.csv, contrib_var.csv(변수별 요약), contrib_driver.csv, contrib_driver_time.csv, contrib_perm.csv, 기여도_section.html(카드 ⑧ 본문)
 사용: PYTHONUTF8=1 python analysis/contrib_analysis.py [--horizons 6 3] [--W 4] [--step 1] [--from-csv] [--start 2021-01]
-  --start: 첫 평가 결정월(기본 = rolling_models.EVAL_START = model_card.MAIN_START, 2021-01). 계산도 요약도 이 달부터
+  --start: 평가 시작 하한(선택). 기본은 학습창 W 가 처음 꽉 차는 달(rolling_models.first_full: y0 + 12W − 1 + h)부터 — 롤링·카드와 같은 규칙
 """
 import argparse
 import base64
@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import variable_card as vc  # noqa: E402
 from rolling_models import EVENT_THR, MIN_POS, load, models_for  # noqa: E402
-from model_card import MAIN_START  # noqa: E402  — 지표 집계 시작 결정월(결과 카드와 같은 기준)
+from rolling_models import first_full  # noqa: E402  — 창이 처음 꽉 차는 달부터 평가(롤링·카드와 같은 규칙)
 
 warnings.filterwarnings("ignore")
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -76,10 +76,14 @@ def two_line(feature):
 
 
 # ------------------------------------------------------------ 계산
-def run(h, W, step, df, X, feats, log, start=MAIN_START):
+def run(h, W, step, df, X, feats, log, start=None):
     y_all = df[f"G{h}"]
     months = sorted(df["결정월"].unique())
-    test_months = [m for m in months if m >= pd.Period(start, "M") and y_all[df["결정월"] == m].notna().any()][::step]     # 평가 결정월 = start 부터(rolling_models 와 같은 규칙)
+    has_y = [m for m in months if y_all[df["결정월"] == m].notna().any()]
+    t_W = first_full(h, W, has_y[0])                                                                  # 창이 처음 꽉 차는 달부터(rolling_models 와 같은 규칙)
+    if start:
+        t_W = max(t_W, pd.Period(start, "M"))
+    test_months = [m for m in has_y if m >= t_W][::step]
     cols = feats["full"]
     reg_models, clf_models = models_for("reg", False), models_for("clf", False)
     shap_rows, perm_rows = [], []
@@ -273,7 +277,7 @@ def main():
     ap.add_argument("--W", type=int, default=4)
     ap.add_argument("--step", type=int, default=1)
     ap.add_argument("--from-csv", action="store_true", help="계산을 건너뛰고 저장된 contrib_*.csv 로 요약·그림만 다시 만든다")
-    ap.add_argument("--start", default=MAIN_START, help="변수·동인 요약을 집계할 첫 결정월(결과 카드의 지표 집계 기간과 같게). 빈 문자열이면 전체")
+    ap.add_argument("--start", default=None, help="평가 시작 하한(선택). 기본은 창이 처음 꽉 차는 달부터(first_full)")
     args = ap.parse_args()
     log = vc.log_load()
     if args.from_csv:
@@ -281,10 +285,10 @@ def main():
         perm_df = pd.read_csv(os.path.join(OUT, "contrib_perm_long.csv"), encoding="utf-8-sig") if os.path.exists(os.path.join(OUT, "contrib_perm_long.csv")) else pd.DataFrame(columns=["h", "W", "t", "task", "model", "feature", "delta"])
         args.horizons = sorted(shap_df["h"].unique(), reverse=True)
     else:
-        df, X, feats, expl = load(args.start or MAIN_START)
+        df, X, feats, expl = load(args.start)
         shap_all, perm_all = [], []
         for h in args.horizons:
-            s, p = run(h, args.W, args.step, df, X, feats, log, args.start or MAIN_START)
+            s, p = run(h, args.W, args.step, df, X, feats, log, args.start)
             shap_all.append(s)
             perm_all.append(p)
         shap_df, perm_df = pd.concat(shap_all, ignore_index=True), pd.concat(perm_all, ignore_index=True)

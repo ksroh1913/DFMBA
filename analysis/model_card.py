@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 롤링 모형 결과 카드 — rolling_models.py 의 1차(고정 파라미터) 결과와 2차(튜닝) 결과를 한 html 로.
-한눈에 보기(최선 모형·개선·평가 시작 선택의 문제점)  ① 설정(학습·검증·평가 집합 구성 그림 포함)  ② 사건 수  ③ 학습창 민감도  ④ 베이스라인 대비 개선
-⑤ 튜닝 전후 비교(같은 결정월에서)와 선택된 파라미터  ⑥ 시간에 따른 롤링 성능  ⑦ 과적합  ⑧ 기여도  ⑨ 결과 분석(--notes 파일)  ⑩ 읽는 법
-평가 결정월은 settings.json 의 start(= rolling_models.EVAL_START, 2021-01: 5년 학습창이 처음 꽉 차는 달)부터이며, 지표는 저장된 예측값에서 계산한다
+한눈에 보기(최선 모형·개선·평가 설계의 한계)  ① 설정(학습·검증·평가 집합 구성 그림 포함)  ② 사건 수(창별)  ③ 학습창 민감도(창별 전체 유효 기간 + 창 비교용 공통 기간)
+④ 베이스라인 대비 개선(창별)  ⑤ 튜닝 전후 비교(같은 결정월에서)와 선택된 파라미터  ⑥ 시간에 따른 롤링 성능  ⑦ 과적합  ⑧ 기여도  ⑨ 결과 분석(--notes 파일)  ⑩ 읽는 법
+평가 결정월: 학습창 W 는 창이 처음 꽉 차는 달 t_W = y0 + 12W − 1 + h 부터(rolling_models.first_full). 최선 창 선택은 공통 기간(가장 긴 창의 첫 달~)에서, 수치는 저장된 예측값에서 계산
 사용: PYTHONUTF8=1 python analysis/model_card.py [--dir 결과폴더] [--tuned-dir 튜닝결과폴더] [--notes 분석글.html]
 """
 import argparse
@@ -22,7 +22,7 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from rolling_models import summarize, EVAL_START  # noqa: E402
+from rolling_models import summarize, first_full  # noqa: E402
 from card_style import page  # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -45,24 +45,50 @@ def add_mom1(pred):
     return pd.concat([pred, base.drop(columns=["결정월", "past1"])], ignore_index=True)
 
 
-MAIN_START = EVAL_START     # 첫 평가 결정월(2021-01) — 자료의 첫 정답(2015-07) 기준으로 가장 긴 학습창(5년)이 처음 꽉 차는 달. 그 전 달은 학습·평가하지 않는다(2026-10-10 결정)
-# 평가를 2018-01 부터 했던 이전 실행(커밋 c0003b3)의 수치 — '평가 시작을 바꾼 데 따른 문제점' 상자에서 비교용으로만 인용.
-# 달마다 독립 학습이라 2021-01 이후 예측은 그 실행과 동일함(2024-06~ 재실행 14,960행 차이 0 으로 확인)
+# 평가 규칙(2026-10-10 결정): 학습창 W 는 자료의 첫 정답 y0(2015-07)으로부터 창이 처음 꽉 차는 달 t_W = y0 + 12W − 1 + h 부터 평가하고, 그 전 달은 그 창으로
+# 학습·평가하지 않는다(rolling_models.first_full). 창끼리 비교(최선 창 선택)는 네 창이 모두 유효한 공통 기간(가장 긴 창의 첫 달~)으로 한다.
+# 평가를 2018-01 부터 모든 창에 적용했던 이전 실행(커밋 c0003b3)의 수치 — 한계 상자에서 비교용으로만 인용(달마다 독립 학습이라 겹치는 달의 예측은 동일, 재실행으로 확인)
 PREV_RUN = dict(start="2018-01", n_months={6: 99, 3: 102}, et=0.791, ar=0.872, mom1=0.790, up_best="RF 0.789 / +0.511", up_ar="0.690 / +0.373", dn_best="XGB 0.655 / +0.377", dn_ar="0.589 / +0.353",
                 regimes="5년 창 ET vs mom1: 2018~19 급락기 0.74 vs 0.71, 2020 급등기 1.55 vs 0.88")
 
 
-def load_results(d, start=None):
-    """예측 파일이 있으면 mom1 을 더해 지표를 다시 계산(start 를 주면 그 결정월부터만), 없으면 저장된 요약을 쓴다"""
+def _y0(h):
+    """정답 G_h 가 있는 첫 결정월"""
+    v = pd.read_csv(VALUES, encoding="utf-8-sig")
+    return pd.Period(v.dropna(subset=[f"G{h}"])["결정월"].min(), "M")
+
+
+def eval_starts(h, windows):
+    """학습창별 첫 평가 결정월 {W: Period}"""
+    y0 = _y0(h)
+    return {int(W): first_full(h, int(W), y0) for W in windows}
+
+
+def common_start(h, windows):
+    """창끼리 비교하는 공통 기간의 시작 = 가장 긴 창의 첫 평가 결정월"""
+    return max(eval_starts(h, windows).values())
+
+
+def restrict_common(pred, windows):
+    """예측 기간 h 마다 모든 창이 유효한 공통 기간만 남긴다"""
+    parts = []
+    for h, g in pred.groupby("h"):
+        parts.append(g[pd.PeriodIndex(g["t"], freq="M") >= common_start(int(h), windows)])
+    return pd.concat(parts, ignore_index=True)
+
+
+def load_pred(d):
+    """예측 파일(모든 h)을 읽고 mom1 참고 행을 더한다"""
     files = [os.path.join(d, f) for f in os.listdir(d) if f.startswith("predictions_h") and f.endswith(".csv")]
-    if files:
-        pred = add_mom1(pd.concat([pd.read_csv(f, encoding="utf-8-sig") for f in files], ignore_index=True))
-        if start:
-            pred = pred[pred["t"] >= start].copy()
-        return summarize(pred)
-    if start:
-        return None, None
-    return (pd.read_csv(os.path.join(d, "metrics_summary.csv"), encoding="utf-8-sig"), pd.read_csv(os.path.join(d, "rolling_metrics.csv"), encoding="utf-8-sig"))
+    return add_mom1(pd.concat([pd.read_csv(f, encoding="utf-8-sig") for f in files], ignore_index=True))
+
+
+def load_results(d, common=False):
+    """저장된 예측값에서 지표를 다시 계산. common=True 면 창 비교용 공통 기간만"""
+    pred = load_pred(d)
+    if common:
+        pred = restrict_common(pred, sorted(pred["W"].unique()))
+    return summarize(pred)
 TASK_KR = {"reg": "회귀: 변화율(%p)", "up": "급등 예측(h개월 뒤 +1% 이상)", "dn": "급락 예측(h개월 뒤 −1% 이하)"}
 # 2차 튜닝 결과가 1차와 다른 자료 버전으로 계산됐을 때 ⑤ 에 붙이는 주석 (튜닝 재실행 뒤 빈 문자열로)
 TUNED_NOTE = ("2차 튜닝은 V078 을 '최근 12개월 내 변경(상태화, ±1 자름)' 으로 넣은 이전 자료로 계산된 결과다(2026-10-10 V078 을 '최근 12개월 변경 합' 으로 바꾼 뒤 1차·기여도만 재실행, 튜닝은 효과가 작아 보류). "
@@ -138,18 +164,18 @@ def definitions_table():
 
 
 # ------------------------------------------------------------ ① 설정: 집합의 실제 기간 표
-def period_table(roll, h, windows, tuned_windows=(), sample_ts=None):
-    """예측 기간 h 에서 평가 결정월 범위와, 대표 결정월 t 마다 학습 구간(실제 자료 기준)·튜닝 검증 겹 기간을 표로"""
-    v = pd.read_csv(VALUES, encoding="utf-8-sig")
-    y0 = pd.Period(v.dropna(subset=[f"G{h}"])["결정월"].min(), "M")                     # 정답이 있는 첫 결정월
+def period_table(roll, h, windows, tuned_windows=()):
+    """예측 기간 h: 창별 첫 평가 결정월과, 창마다 대표 결정월의 학습 구간(실제 자료 기준)·튜닝 검증 겹 기간을 표로"""
+    y0 = _y0(h)
+    starts = eval_starts(h, windows)
     r = roll[(roll["h"] == h) & (roll["task"] == "reg")]
-    ts = sorted(pd.PeriodIndex(r["t"].unique(), freq="M"))
-    t_first, t_last = ts[0], ts[-1]
-    sample_ts = sample_ts or [t_first] + [p for p in (pd.Period("2022-01", "M"), pd.Period("2024-01", "M")) if t_first < p < t_last] + [t_last]
-    rows, short = [], False
-    for t in sample_ts:
-        s_hi = t - h
-        for W in windows:
+    t_last = max(pd.PeriodIndex(r["t"].unique(), freq="M"))
+    rows = []
+    for W in windows:
+        tW = starts[W]
+        n_W = int(r[r["W"] == W]["t"].nunique())
+        for t in [tW] + [p for p in (pd.Period("2022-01", "M"), pd.Period("2024-01", "M")) if tW < p < t_last] + [t_last]:
+            s_hi = t - h
             s_lo = max(s_hi - 12 * W + 1, y0)
             n = (s_hi - s_lo).n + 1
             folds = ""
@@ -160,12 +186,11 @@ def period_table(roll, h, windows, tuned_windows=(), sample_ts=None):
                     v_lo = v_end - 2
                     parts.append(f"겹{k + 1} 학습 {s_lo}~{v_lo - h} / 검증 {v_lo}~{v_end}")
                 folds = "; ".join(parts)
-            short = short or n < 12 * W
-            rows.append({"평가 결정월 t": str(t), "학습창 W": f"{W}년", "학습 구간(결정월 s)": f"{s_lo}~{s_hi} ({n}개월 × 17 = {n * 17:,}행)" + (" ← W년보다 짧음" if n < 12 * W else ""),
+            rows.append({"학습창 W": f"{W}년 (평가 {tW}~{t_last}, {n_W}개월)", "평가 결정월 t": str(t), "학습 구간(결정월 s)": f"{s_lo}~{s_hi} ({n}개월 × 17 = {n * 17:,}행)" + (" ← W년보다 짧음" if n < 12 * W else ""),
                          "비움(정답 미확정)": f"{s_hi + 1}~{t - 1} ({h - 1}개월)", "검증 겹(튜닝 모형만)": folds, "평가": f"{t} 의 17개 시도, 정답은 {t + h - 1} 지수 공표 뒤"})
-    head = (f"<p class='note'><b>h={h}개월</b>: 평가 결정월 {t_first}~{t_last} ({len(ts)}개월, 매월). 정답이 있는 첫 결정월은 {y0} 이고 {t_first} 은 가장 긴 학습창(5년)이 처음 꽉 차는 달이라 "
-            f"모든 창의 학습 구간이 제 길이(12W개월 × 17행)다. 그 전 달은 학습·평가하지 않았고, {y0}~{t_first - 1} 자료는 학습 행으로만 쓰인다"
-            + (" (주의: 일부 행에서 학습 구간이 W년보다 짧음)" if short else "") + "</p>")
+    head = (f"<p class='note'><b>h={h}개월</b>: 정답이 있는 첫 결정월 {y0}. 학습창 W 는 창이 처음 꽉 차는 달 t_W = {y0} + 12W − 1 + {h} 부터 평가 → "
+            + ", ".join(f"{W}년 {starts[W]}~" for W in windows) + f" (마지막 {t_last}). 그 전 달은 그 창으로 학습·평가하지 않으며(자료는 학습 행으로만), "
+            f"창끼리 비교하는 공통 기간은 {common_start(h, windows)}~ 이다</p>")
     return head + pd.DataFrame(rows).to_html(index=False)
 
 
@@ -224,6 +249,41 @@ def overfit_section(d, summ, tuned_dir=None, summ_c=None, st_t=None, start=None)
     return html
 
 
+# ------------------------------------------------------------ ① 설정: 창별 평가 기간 그림
+def eval_design_fig(hs, windows, last):
+    """학습창마다 창이 처음 꽉 차는 달부터 평가하는 설계를 한 장으로 (last = {h: 마지막 평가 결정월})"""
+    ts = lambda p: p.to_timestamp()  # noqa: E731
+    fig, axes = plt.subplots(len(hs), 1, figsize=(12, 3.2 * len(hs)), sharex=True, squeeze=False)
+    for ax, h in zip(axes[:, 0], hs):
+        y0, st = _y0(h), eval_starts(h, windows)
+        cs = max(st.values())
+        for k, W in enumerate(windows):
+            y = len(windows) - 1 - k
+            tW = st[W]
+            ax.broken_barh([(ts(y0), ts(tW) - ts(y0))], (y - 0.3, 0.6), color=C["grid"], alpha=0.9)
+            ax.broken_barh([(ts(tW), ts(last[h] + 1) - ts(tW))], (y - 0.3, 0.6), color=C["orange"], alpha=0.85)
+            ax.text(ts(tW) + pd.Timedelta(days=15), y, f"평가 {tW}~{last[h]} ({(last[h] - tW).n + 1}개월, 매월 롤링)", va="center", fontsize=8.5, color="white", fontweight="bold")
+            s_hi = tW - h
+            ax.broken_barh([(ts(y0), ts(s_hi + 1) - ts(y0))], (y - 0.3, 0.6), facecolor="none", edgecolor=C["blue"], lw=1.6)
+            ax.text(ts(y0) + pd.Timedelta(days=15), y, f"첫 학습창 {y0}~{s_hi} ({12 * W}개월)", va="center", fontsize=8, color=C["blue"])
+            ax.text(ts(y0) - pd.Timedelta(days=40), y, f"{W}년 창", ha="right", va="center", fontsize=10, color=C["ink"], fontweight="bold")
+        ax.axvline(ts(cs), color=C["violet"], ls="--", lw=1.2)
+        ax.text(ts(cs) + pd.Timedelta(days=10), len(windows) - 0.38, f"창끼리 비교하는 공통 기간 {cs}~ (모든 창 유효)", fontsize=8.5, color=C["violet"])
+        ax.set_ylim(-0.7, len(windows) - 0.1)
+        ax.set_yticks([])
+        ax.grid(axis="y", visible=False)
+        ax.set_title(f"{h}개월 뒤 예측 — 첫 평가 결정월 t_W = {y0} + 12W - 1 + {h}", loc="left")
+    ax = axes[-1, 0]
+    ax.xaxis.set_major_locator(mdates.YearLocator())
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
+    ax.set_xlim(ts(pd.Period("2015-01", "M")), ts(max(last.values()) + 4))
+    fig.suptitle("평가 설계: 학습창은 창이 처음 꽉 차는 달부터 평가하고, 그 전 자료는 학습 행으로만 쓴다", x=0.01, y=1.0, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
+    handles = [plt.Rectangle((0, 0), 1, 1, color=C["grid"]), plt.Rectangle((0, 0), 1, 1, color=C["orange"]), plt.Rectangle((0, 0), 1, 1, facecolor="none", edgecolor=C["blue"], lw=1.6)]
+    fig.legend(handles, ["자료 있음(학습 행으로만 쓰임)", "평가 기간(매월 직전 W년으로 새로 학습 → 그 달 예측)", "첫 평가월의 학습창(12W개월)"], loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.02))
+    fig.tight_layout(rect=(0, 0.04, 1, 0.97))
+    return img(fig)
+
+
 # ------------------------------------------------------------ ① 설정: 집합 구성 그림
 def split_fig(h=6, W=4, t="2022-06"):
     t = pd.Period(t, "M")
@@ -272,6 +332,19 @@ def event_tables(values_path, start, horizons, thr):
         g.columns = [f"h{h} {c}" for c in g.columns]
         yearly.append(g)
     return pd.DataFrame(rows), pd.concat(yearly, axis=1)
+
+
+def event_tables_by_window(values_path, h, starts, thr):
+    """예측 기간 h: 학습창별 평가 기간의 행 수·사건 수 (창마다 첫 평가 결정월이 다르므로)"""
+    df = pd.read_csv(values_path, encoding="utf-8-sig")
+    rows = []
+    for W, tW in sorted(starts.items()):
+        a = df[df["결정월"] >= str(tW)]
+        s = a[f"G{h}"].dropna()
+        up, dn = (s >= thr), (s <= -thr)
+        rows.append({"학습창": f"{W}년", "평가 기간": f"{tW}~{a.loc[s.index, '결정월'].max()}", "평가 행(시도×결정월)": len(s),
+                     f"급등(≥+{thr:.0f}%) 건수": int(up.sum()), "급등 비율": f"{up.mean():.1%}", f"급락(≤−{thr:.0f}%) 건수": int(dn.sum()), "급락 비율": f"{dn.mean():.1%}"})
+    return pd.DataFrame(rows)
 
 
 # ------------------------------------------------------------ ③ 민감도
@@ -353,17 +426,16 @@ def best_table(summ):
 
 
 # ------------------------------------------------------------ ⑤ 튜닝 비교
-def tuned_comparison(fixed_dir, tuned_dir, st_t, start=None):
-    """튜닝 실행이 평가한 결정월(간격 step, start 이후)만 골라 고정·튜닝 모형을 같은 표본에서 비교"""
+def tuned_comparison(fixed_dir, tuned_dir, st_t):
+    """튜닝 실행이 평가한 (결정월, 창) 표본만 골라 고정·튜닝 모형을 같은 행에서 비교"""
     preds = []
     for h in st_t["horizons"]:
         pt = pd.read_csv(os.path.join(tuned_dir, f"predictions_h{h}.csv"), encoding="utf-8-sig")
         pt = pt[pt["model"].isin(st_t["tune"])].copy()
-        if start:
-            pt = pt[pt["t"] >= start]
         pt["model"] = pt["model"] + "(튜닝)"
         pf = pd.read_csv(os.path.join(fixed_dir, f"predictions_h{h}.csv"), encoding="utf-8-sig")
-        pf = pf[pf["t"].isin(set(pt["t"])) & pf["W"].isin(set(pt["W"]))]
+        keys = set(zip(pt["t"], pt["W"]))
+        pf = pf[[(t, w) in keys for t, w in zip(pf["t"], pf["W"])]]
         preds += [pf, pt]
     pred = add_mom1(pd.concat(preds, ignore_index=True))
     summ, roll = summarize(pred)
@@ -441,64 +513,85 @@ def _bests(g):
     return out
 
 
-def caveat_box(summ, ev, yearly, hs, n_months, thr, start):
-    """평가 시작을 2018-01(이전 실행) 에서 start 로 옮긴 데 따른 문제점 — 사건 수는 자료에서 직접 계산, 이전 실행의 지표는 PREV_RUN(커밋 c0003b3)에서 인용 (사용자 요청: 바꾼 기준으로 카드를 만들되 문제점을 명시)"""
+def caveat_box(summ, summ_c, starts, hs, thr):
+    """'창별 첫 유효월부터 평가' 설계의 한계 — 사건 수는 자료에서 직접 계산, 이전 실행(2018-01 부터 모든 창)의 지표는 PREV_RUN 에서 인용"""
     h = hs[0]
+    st = starts[h]
+    Ws = sorted(st)
+    cs = max(st.values())
     pv = PREV_RUN
+    ev = event_tables_by_window(VALUES, h, st, thr).set_index("학습창")
     col_n = "평가 행(시도×결정월)"
-    col_up = [c for c in ev.columns if c.startswith("급등") and c.endswith("건수")][0]
     col_dn = [c for c in ev.columns if c.startswith("급락") and c.endswith("건수")][0]
-    ev_prev, yearly_prev = event_tables(VALUES, pv["start"], hs, thr)                  # 자료만으로 계산(모형과 무관)
-    e, ef = ev.set_index("예측 기간"), ev_prev.set_index("예측 기간")
-    em, efm = e.loc[f"{h}개월"], ef.loc[f"{h}개월"]
-    subs = []
-    for k in hs[1:]:
-        a, b_ = ef.loc[f"{k}개월"], e.loc[f"{k}개월"]
-        subs.append(f"; {k}개월 뒤는 {a[col_n]:,}→{b_[col_n]:,}행, 급락 {a[col_dn]}→{b_[col_dn]}건")
-    yrs = yearly_prev.index.astype(str)
+    n_by = {W: int(summ[(summ["h"] == h) & (summ["task"] == "reg") & (summ["W"] == W)]["n"].iloc[0] // 17) for W in Ws}
+    _, yearly = event_tables(VALUES, str(st[Ws[0]]), [h], thr)                          # 가장 이른 창(2년)의 평가 기간부터 연도별
     dn_col = f"h{h} 급락"
-    dn_all = int(yearly_prev[dn_col].sum())
-    dn_pre = int(yearly_prev.loc[yrs < start[:4], dn_col].sum())
-    dn_in = yearly[dn_col].sort_values(ascending=False)
+    yrs = yearly.index.astype(str)
+    dn_pre, dn_all = int(yearly.loc[yrs < str(cs)[:4], dn_col].sum()), int(yearly[dn_col].sum())
+    dn_in = yearly.loc[yrs >= str(cs)[:4], dn_col].sort_values(ascending=False)
     top2 = dn_in.head(2)
-    b = _bests(summ[summ["h"] == h])
+    bc = _bests(summ_c[summ_c["h"] == h])
+    W5 = int(bc["r"]["W"])
+    g = summ[(summ["h"] == h) & (summ["task"] == "reg") & (summ["W"] == W5)].set_index("model")
     items = [
-        f"<b>평가 자료가 줄어든다.</b> 평가를 {pv['start']}부터 했던 이전 실행과 비교하면 {h}개월 뒤 예측의 평가 행이 {efm[col_n]:,}→{em[col_n]:,}행({pv['n_months'][h]}→{n_months[h]}개월), 급등 사건 {efm[col_up]}→{em[col_up]}건, 급락 사건 {efm[col_dn]}→{em[col_dn]}건(비율 {efm['급락 비율']}→{em['급락 비율']}){''.join(subs)}. "
-        "17개 시도가 같은 달에 함께 움직이므로 유효 표본은 행 수보다 훨씬 작고, 지표의 우연 변동 폭이 그만큼 커진다(개선폭의 유의성 검정은 하지 않았음).",
-        f"<b>급락 국면이 하나 빠진다.</b> {pv['start'][:4]}~{int(start[:4]) - 1}년의 지방 급락기(급락 {dn_pre}건, {pv['start'][:4]}년 이후 전체 {dn_all}건의 {dn_pre / dn_all:.0%})는 학습 행으로만 쓰이고 평가되지 않아, 평가되는 급락 {int(dn_in.sum())}건의 {top2.sum() / dn_in.sum():.0%}가 {top2.index[0]}·{top2.index[1]}년에서 나온다. "
-        "급락 예측 성능은 사실상 2022~23 하락기 하나로 판단하는 셈이고, 성격이 다른 급락(2018~19 처럼 지방 공급 과잉형)에 대한 성능은 이 카드로는 알 수 없다.",
-        f"<b>설명변수의 이득이 커 보인다.</b> 이전 실행({pv['start']}~ 평가)에서는 최선 모형 ET 의 MAE {pv['et']:.3f} 이 단순 규칙 mom1 {pv['mom1']:.3f} 과 동률(베이스라인 AR {pv['ar']:.3f} 대비 −9%)이었지만, {start} 이후만 평가하면 mom1 보다 {abs(b['dm']):.0f}% {'낫다' if b['dm'] > 0 else '못하다'}({b['r']['MAE']:.3f} vs {b['m1']:.3f}; AR 대비 {abs(b['gain']):.0f}% 감소). "
-        f"평가에서 빠진 기간에는 mom1 이 더 좋았으므로({pv['regimes']}), 이 카드의 개선폭은 '국면 전환기에 강하다'는 특성이 반영된 낙관적 추정으로 읽어야 한다. 분류도 같은 방향이다(이전 실행 급등 {pv['up_best']} vs AR {pv['up_ar']}, 급락 {pv['dn_best']} vs AR {pv['dn_ar']}).",
-        f"<b>이전 실험과 직접 비교할 수 없다.</b> 9차(KS)·TH_v19 와 10차 이전 실행은 {pv['start']}~ 평가라 기간이 다르다. 비교가 필요하면 rolling_models.py 를 --start {pv['start']} 로 돌리거나(달마다 독립 학습이라 {start} 이후 값은 그대로) 커밋 c0003b3 의 예측값을 쓴다.",
-        f"<b>학습 자료는 줄지 않는다.</b> 학습창(직전 W년)과 모형은 그대로이고, 2015-07~{start} 전 자료는 학습 행으로 쓰인다. 바뀐 것은 예측·평가를 시작하는 달뿐이며, 달마다 독립 학습이라 {start} 이후 예측은 이전 실행과 동일하다(재실행으로 확인).",
+        f"<b>창마다 평가 기간이 다르다.</b> " + ", ".join(f"{W}년 {st[W]}~({n_by[W]}개월)" for W in Ws) + f". 긴 창일수록 평가가 짧고 국면 구성도 다르므로 창 사이의 절대 수치 비교는 공통 기간 {cs}~({n_by[Ws[-1]]}개월)으로만 한다(③ 둘째 표, 맨 위의 최선 창 선택). "
+        "같은 창 안의 모형 비교(베이스라인 대비)는 기간이 같으므로 공정하다.",
+        f"<b>긴 창은 2018~19 급락기를 평가하지 못한다.</b> {cs} 전의 급락 {dn_pre}건({str(st[Ws[0]])[:4]}년 이후 전체 {dn_all}건의 {dn_pre / dn_all:.0%})은 2·3년 창에서만 평가되고 4·5년 창에서는 학습 행으로만 쓰인다. "
+        f"4·5년 창의 급락 성능은 사실상 {top2.index[0]}·{top2.index[1]}년(공통 기간 급락 {int(dn_in.sum())}건의 {top2.sum() / dn_in.sum():.0%}) 하나의 국면으로 판단하는 셈이며, 성격이 다른 급락(지방 공급 과잉형)에 대한 성능은 2·3년 창 결과(④·⑥)로만 가늠할 수 있다.",
+        f"<b>표본이 작고 국면이 적다.</b> 공통 기간은 {ev.loc[f'{Ws[-1]}년', col_n]:,}행, 급락 {ev.loc[f'{Ws[-1]}년', col_dn]}건이다. 17개 시도가 같은 달에 함께 움직이므로 유효 표본은 행 수보다 훨씬 작고, 개선폭의 유의성 검정은 하지 않았다.",
+        f"<b>설명변수의 이득은 국면 전환기에 집중된다.</b> 평가를 {pv['start']}부터 모든 창에 적용했던 이전 실행(커밋 c0003b3)에서는 ET 5년 창 MAE {pv['et']:.3f} 이 단순 규칙 mom1 {pv['mom1']:.3f} 과 동률이었는데, 창이 덜 찬 2018~2020년이 섞인 결과다({pv['regimes']}). "
+        f"지금 규칙에서는 5년 창이 {st[W5]}부터만 평가되므로 ET {g.at['ET', 'MAE']:.3f} vs mom1 {g.at['Mom1(h×past1)', 'MAE']:.3f} 으로 차이가 커 보인다. "
+        "반면 2020 급등기를 평가에 포함하는 짧은 창에서는 mom1 이 ET 보다 낫다(" + ", ".join(
+            f"{W}년 ET {summ[(summ['h'] == h) & (summ['task'] == 'reg') & (summ['W'] == W) & (summ['model'] == 'ET')]['MAE'].iloc[0]:.3f} vs mom1 {summ[(summ['h'] == h) & (summ['task'] == 'reg') & (summ['W'] == W) & (summ['model'] == 'Mom1(h×past1)')]['MAE'].iloc[0]:.3f}"
+            for W in Ws if W != W5) + "). 설명변수의 이득은 2021~23 전환기에 몰려 있고, 급등 초입처럼 모멘텀이 강한 시기에는 단순 규칙이 낫다는 뜻이다(⑥).",
+        f"<b>이전 실험과의 비교.</b> 9차(KS)·TH_v19 는 {pv['start']}~ 평가라 2년 창 결과({st[Ws[0]]}~)와만 기간이 비슷하다. 달마다 독립 학습이라 겹치는 달의 예측은 이전 실행과 동일하고, 바뀐 것은 창이 안 찬 달을 평가에서 뺀 것뿐이다(학습창·자료·모형 불변).",
     ]
-    return (f"<div class='caveat'><span class='t'>평가 시작을 {start}부터로 잡은 데 따른 문제점</span><ul>" + "".join(f"<li>{x}</li>" for x in items) + "</ul></div>")
+    return ("<div class='caveat'><span class='t'>평가 기간 설계의 한계 (각 창을 처음 꽉 차는 달부터 평가)</span><ul>" + "".join(f"<li>{x}</li>" for x in items) + "</ul></div>")
 
 
-def summary_box(summ, d, n_months=None, extra=""):
-    """과제별 최선 모형·베이스라인 대비 개선·단순 기준 비교를 숫자에서 바로 만든 요약 (카드 맨 위: 숫자 타일 + 핵심 메시지 + 문제점 상자(extra) + 표)"""
+def _pick(g, task, model, W):
+    """요약 표에서 (과제, 모형, 창) 한 행"""
+    x = g[(g["task"] == task) & (g["model"] == model) & (g["W"] == W)]
+    return x.iloc[0] if len(x) else None
+
+
+def summary_box(summ, summ_c, d, starts, extra=""):
+    """과제별 최선 모형·창은 공통 기간(summ_c, 모든 창 유효)에서 고르고, 그 창의 전체 유효 기간(summ) 값을 보인다 (카드 맨 위: 숫자 타일 + 핵심 메시지 + 한계 상자(extra) + 표)"""
     rows, msgs, main = [], [], None
     for h in sorted(summ["h"].unique(), reverse=True):
-        b = _bests(summ[summ["h"] == h])
-        r, ar, m1, gain, dm = b["r"], b["ar"], b["m1"], b["gain"], b["dm"]
-        rows.append({"예측": f"{h}개월 뒤 변화율(회귀)", "지표": "MAE(%p, 낮을수록 좋음)", "최선 모형": f"{r['model']} (학습 {r['W']}년)", "최선 값": f"{r['MAE']:.3f}",
-                     "베이스라인 AR": f"{ar:.3f}", "개선": f"오차 {abs(gain):.0f}% {'감소' if gain >= 0 else '증가'}",
-                     "단순 규칙 mom1": (f"{m1:.3f} (동률)" if abs(dm) < 1 else f"{m1:.3f} (최선 모형이 {abs(dm):.0f}% {'낫다' if dm > 0 else '못하다'})") if pd.notna(m1) else ""})
+        bc = _bests(summ_c[summ_c["h"] == h])                                   # 공통 기간에서 최선(모형, 창)
+        g = summ[summ["h"] == h]                                                 # 창별 전체 유효 기간
+        W = int(bc["r"]["W"])
+        r = _pick(g, "reg", bc["r"]["model"], W)
+        ar, m1 = float(_pick(g, "reg", "AR(Ridge)", W)["MAE"]), float(_pick(g, "reg", "Mom1(h×past1)", W)["MAE"])
+        gain, dm = 100 * (ar - r["MAE"]) / ar, 100 * (m1 - r["MAE"]) / m1
+        rows.append({"예측": f"{h}개월 뒤 변화율(회귀)", "지표": "MAE(%p, 낮을수록 좋음)", "최선 모형(창은 공통 기간에서 선택)": f"{r['model']} (학습 {W}년)", "평가 기간": f"{starts[h][W]}~ ({int(r['n'] // 17)}개월)",
+                     "최선 값": f"{r['MAE']:.3f}", "베이스라인 AR(같은 창·기간)": f"{ar:.3f}", "개선": f"오차 {abs(gain):.0f}% {'감소' if gain >= 0 else '증가'}",
+                     "단순 규칙 mom1": f"{m1:.3f} (동률)" if abs(dm) < 1 else f"{m1:.3f} (최선 모형이 {abs(dm):.0f}% {'낫다' if dm > 0 else '못하다'})",
+                     "공통 기간 값": f"{bc['r']['MAE']:.3f} vs AR {bc['ar']:.3f}"})
+        ev_best = {}
         for ev, nm in (("up", "급등"), ("dn", "급락")):
-            c, bb, rate = b["ev"][ev]
-            rows.append({"예측": f"{h}개월 뒤 {nm}(분류)", "지표": "PR-AUC / BSS (높을수록 좋음)", "최선 모형": f"{c['model']} (학습 {c['W']}년)", "최선 값": f"{c['PR_AUC']:.2f} / {c['BSS']:+.2f}",
-                         "베이스라인 AR": f"{bb['PR_AUC']:.2f} / {bb['BSS']:+.2f}", "개선": f"PR-AUC {c['PR_AUC'] - bb['PR_AUC']:+.2f}, BSS {c['BSS'] - bb['BSS']:+.2f}", "단순 규칙 mom1": f"(사건 비율 {rate:.0%})"})
+            cc, _, _ = bc["ev"][ev]
+            Wc = int(cc["W"])
+            c, bb = _pick(g, ev, cc["model"], Wc), _pick(g, ev, "AR(Logit)", Wc)
+            rate = float(c["양성비율"])
+            ev_best[ev] = (c, bb, rate)
+            rows.append({"예측": f"{h}개월 뒤 {nm}(분류)", "지표": "PR-AUC / BSS (높을수록 좋음)", "최선 모형(창은 공통 기간에서 선택)": f"{c['model']} (학습 {Wc}년)", "평가 기간": f"{starts[h][Wc]}~ ({int(c['n'] // 17)}개월)",
+                         "최선 값": f"{c['PR_AUC']:.2f} / {c['BSS']:+.2f}", "베이스라인 AR(같은 창·기간)": f"{bb['PR_AUC']:.2f} / {bb['BSS']:+.2f}",
+                         "개선": f"PR-AUC {c['PR_AUC'] - bb['PR_AUC']:+.2f}, BSS {c['BSS'] - bb['BSS']:+.2f}", "단순 규칙 mom1": f"(사건 비율 {rate:.0%})",
+                         "공통 기간 값": f"{cc['PR_AUC']:.2f} / {cc['BSS']:+.2f}"})
         if h == max(summ["h"]):
-            main = dict(h=h, **b)
+            main = dict(h=h, r=r, ar=ar, m1=m1, gain=gain, dm=dm, ev=ev_best)
     # 숫자 타일 (주 예측 기간)
     h, r, ar, m1, gain, dm = main["h"], main["r"], main["ar"], main["m1"], main["gain"], main["dm"]
     up, upb, upr = main["ev"]["up"]; dn, dnb, dnr = main["ev"]["dn"]
+    per = lambda x: f"{starts[h][int(x['W'])]}~ {int(x['n'] // 17)}개월"  # noqa: E731
     tiles = ("<div class='tiles'>"
-             f"<div class='tile'><div class='lab'>{h}개월 뒤 변화율 예측 오차 (MAE) — 최선 {r['model']}, 학습 {r['W']}년</div><div class='num'>{r['MAE']:.2f}<span style='font-size:14px'> %p</span></div>"
-             f"<div class='sub'>베이스라인 {ar:.2f} → <span class='good'>오차 {abs(gain):.0f}% 감소</span>" + (f" · 단순 규칙 mom1 {m1:.2f}({'동률' if abs(dm) < 1 else f'{dm:+.0f}%'})" if pd.notna(m1) else "") + "</div></div>"
-             f"<div class='tile'><div class='lab'>{h}개월 뒤 급등(+1% 이상) 예측 — 최선 {up['model']}, 학습 {up['W']}년</div><div class='num'>PR-AUC {up['PR_AUC']:.2f}</div>"
+             f"<div class='tile'><div class='lab'>{h}개월 뒤 변화율 예측 오차 (MAE) — 최선 {r['model']}, 학습 {r['W']}년 (평가 {per(r)})</div><div class='num'>{r['MAE']:.2f}<span style='font-size:14px'> %p</span></div>"
+             f"<div class='sub'>베이스라인(같은 창) {ar:.2f} → <span class='good'>오차 {abs(gain):.0f}% 감소</span>" + (f" · 단순 규칙 mom1 {m1:.2f}({'동률' if abs(dm) < 1 else f'{dm:+.0f}%'})" if pd.notna(m1) else "") + "</div></div>"
+             f"<div class='tile'><div class='lab'>{h}개월 뒤 급등(+1% 이상) 예측 — 최선 {up['model']}, 학습 {up['W']}년 (평가 {per(up)})</div><div class='num'>PR-AUC {up['PR_AUC']:.2f}</div>"
              f"<div class='sub'>베이스라인 {upb['PR_AUC']:.2f} → <span class='good'>{up['PR_AUC'] - upb['PR_AUC']:+.2f}</span> · BSS {up['BSS']:+.2f} (베이스라인 {upb['BSS']:+.2f}) · 사건 비율 {upr:.0%}</div></div>"
-             f"<div class='tile'><div class='lab'>{h}개월 뒤 급락(−1% 이하) 예측 — 최선 {dn['model']}, 학습 {dn['W']}년</div><div class='num'>PR-AUC {dn['PR_AUC']:.2f}</div>"
+             f"<div class='tile'><div class='lab'>{h}개월 뒤 급락(−1% 이하) 예측 — 최선 {dn['model']}, 학습 {dn['W']}년 (평가 {per(dn)})</div><div class='num'>PR-AUC {dn['PR_AUC']:.2f}</div>"
              f"<div class='sub'>베이스라인 {dnb['PR_AUC']:.2f} → <span class='good'>{dn['PR_AUC'] - dnb['PR_AUC']:+.2f}</span> · BSS {dn['BSS']:+.2f} (베이스라인 {dnb['BSS']:+.2f}) · 사건 비율 {dnr:.0%}</div></div>"
              "</div>")
     if pd.isna(dm):
@@ -507,92 +600,114 @@ def summary_box(summ, d, n_months=None, extra=""):
         mom_txt = f"학습 없는 단순 규칙 mom1(최근 1개월 변화 × {h})보다도 {abs(dm):.0f}% {'낫다' if dm > 0 else '못하다'}({r['MAE']:.3f} vs {m1:.3f})."
     else:
         mom_txt = f"다만 학습 없는 단순 규칙 mom1(최근 1개월 변화 × {h})과는 비슷하다({r['MAE']:.3f} vs {m1:.3f})."
-    msgs.append(f"<b>{h}개월 뒤 변화율</b>은 {r['model']}이 가장 좋았고, 월세지수의 과거 흐름만 쓴 베이스라인(AR)보다 오차가 {abs(gain):.0f}% 작다. " + mom_txt)
+    msgs.append(f"<b>{h}개월 뒤 변화율</b>은 {r['model']}(학습 {r['W']}년)이 가장 좋았고, 같은 창에서 월세지수의 과거 흐름만 쓴 베이스라인(AR)보다 오차가 {abs(gain):.0f}% 작다. " + mom_txt)
     msgs.append(f"<b>급등·급락 예측</b>에서는 설명변수의 효과가 뚜렷하다. 급등은 {up['model']}(PR-AUC {up['PR_AUC']:.2f} vs 베이스라인 {upb['PR_AUC']:.2f}), 급락은 {dn['model']}(PR-AUC {dn['PR_AUC']:.2f} vs {dnb['PR_AUC']:.2f}). "
                 f"아무 정보가 없을 때의 PR-AUC 는 사건 비율(급등 {upr:.0%}, 급락 {dnr:.0%})이다.")
     msgs.append("학습 기간은 4~5년이 안정적이고, 2년 창은 급락 예측이 무너진다(2020~21년에 급락이 없어 짧은 창에는 급락 사례가 부족). "
-                "모든 변수를 넣은 선형 모형(Ridge·Logit)은 베이스라인보다 못해(과적합) 트리 모형만 쓸 만하고, 하이퍼파라미터 튜닝의 효과는 작다(±0.02).")
-    if n_months:
-        msgs.append(f"<b>평가 기간</b>: 결정월 {MAIN_START}~ ({n_months[h]}개월). 자료의 첫 정답(2015-07) 기준으로 가장 긴 학습창(5년)이 처음 꽉 차는 달부터 평가했고, 그 전 달은 학습·평가하지 않았다. "
-                    f"평가를 {PREV_RUN['start']}부터 했던 이전 실행보다 개선폭이 크게 나오는 이유와 이 선택의 문제점은 아래 상자.")
+                "모든 변수를 넣은 선형 모형(Ridge·Logit)은 베이스라인보다 못해(과적합) 트리 모형만 쓸 만하고, 하이퍼파라미터 튜닝의 효과는 작고 모형마다 방향이 엇갈린다(⑤).")
+    cs = max(starts[h].values())
+    msgs.append(f"<b>평가 기간</b>: 각 학습창은 창이 처음 꽉 차는 달부터 평가했다({', '.join(f'{W}년 {starts[h][W]}~' for W in sorted(starts[h]))}; h={h}). 그 전 달은 그 창으로 학습·평가하지 않았다. "
+                f"창끼리 비교(최선 창 선택)는 네 창이 모두 유효한 공통 기간 {cs}~ 로 했고(③ 둘째 표), 위 수치는 선택된 창의 전체 유효 기간 값이다. 설계의 한계는 아래 상자.")
     cv, cvv = os.path.join(d, "contrib_driver.csv"), os.path.join(d, "contrib_var.csv")
     if os.path.exists(cv) and os.path.exists(cvv):
         drv, var = pd.read_csv(cv, encoding="utf-8-sig"), pd.read_csv(cvv, encoding="utf-8-sig")
+    else:
+        drv = pd.DataFrame()
+    if len(drv):
         h0 = max(drv["h"])
         d6 = drv[(drv["h"] == h0) & (drv["task"] == "reg")].sort_values("share", ascending=False)
         v6 = var[(var["h"] == h0) & (var["task"] == "reg")].sort_values("rank").head(3)
         msgs.append(f"<b>예측에 가장 크게 기여한 것</b>({h0}개월 뒤 변화율, SHAP 기준): 동인은 {d6.iloc[0]['동인']}({d6.iloc[0]['share']:.0%})·{d6.iloc[1]['동인']}({d6.iloc[1]['share']:.0%})·{d6.iloc[2]['동인']}({d6.iloc[2]['share']:.0%}), "
                     f"변수는 {', '.join(v6['변수'])} (⑧).")
-    return (f"<h2>한눈에 보기 (평가 {MAIN_START}~)</h2>" + tiles + "<ul>" + "".join(f"<li>{m}</li>" for m in msgs) + "</ul>" + extra
+    return ("<h2>한눈에 보기</h2>" + tiles + "<ul>" + "".join(f"<li>{m}</li>" for m in msgs) + "</ul>" + extra
             + "<p class='note'>과제별 최선 모형과 베이스라인(월세지수 과거 흐름만 쓴 AR) 대비 개선폭. 자세한 내용은 ③~⑨.</p>" + pd.DataFrame(rows).to_html(index=False))
 
 
 # ------------------------------------------------------------ html
 def build(d, tuned_dir=None, notes=None):
-    summ, roll = load_results(d)                                # 평가 결정월 = settings.start(= MAIN_START)부터
     st = json.load(open(os.path.join(d, "settings.json"), encoding="utf-8"))
-    if st["start"] != MAIN_START:
-        print(f"[주의] settings.json 의 start({st['start']})가 카드 상수 MAIN_START({MAIN_START})와 다름")
+    pred = load_pred(d)
+    summ, roll = summarize(pred.copy())                                          # 창별 전체 유효 기간(주)
     hs = sorted(summ["h"].unique(), reverse=True)
+    Ws = sorted(int(w) for w in summ["W"].unique())
+    starts = {h: eval_starts(h, Ws) for h in hs}
+    cs = {h: common_start(h, Ws) for h in hs}
+    summ_c, _ = summarize(restrict_common(pred, Ws))                              # 공통 기간(창 비교용)
+    for h in hs:
+        for W in Ws:
+            t0 = pred[(pred["h"] == h) & (pred["W"] == W)]["t"].min()
+            if str(starts[h][W]) != str(t0):
+                print(f"[주의] h={h} W={W}: 예측 파일의 첫 결정월 {t0} 이 규칙(first_full) {starts[h][W]} 과 다름")
     has_tuned = bool(tuned_dir) and os.path.exists(os.path.join(tuned_dir, "metrics_summary.csv")) and os.path.exists(os.path.join(tuned_dir, "predictions_h6.csv"))
     if bool(tuned_dir) and os.path.exists(os.path.join(tuned_dir, "metrics_summary.csv")) and not has_tuned:
         print("[주의] 튜닝 예측값 파일(predictions_h*.csv)이 없어 ⑤ 튜닝 비교 절을 생략함")
     st_t = json.load(open(os.path.join(tuned_dir, "settings.json"), encoding="utf-8")) if has_tuned else None
-    n_months = {h: int(roll[(roll["h"] == h) & (roll["task"] == "reg")]["t"].nunique()) for h in hs}
-    ev, yearly = event_tables(VALUES, st["start"], hs, st["event_thr"])
-    caveat = caveat_box(summ, ev, yearly, hs, n_months, st["event_thr"], st["start"])
-    parts = [summary_box(summ, d, n_months, extra=caveat),"<h2>① 설정</h2><p class='note'><b>이 카드가 답하려는 질문</b>:아파트 월세지수가 앞으로 3·6개월 동안 얼마나 변할지(회귀), 그리고 ±1% 넘게 급등·급락할지(분류)를 "
+    n_months = {h: {W: int(roll[(roll["h"] == h) & (roll["task"] == "reg") & (roll["W"] == W)]["t"].nunique()) for W in Ws} for h in hs}
+    starts_txt = "; ".join(f"h={h}: " + ", ".join(f"{W}년 {starts[h][W]}" for W in Ws) for h in hs)
+    n_txt = "; ".join(f"h={h}: " + ", ".join(f"{W}년 {n_months[h][W]}" for W in Ws) for h in hs)
+    cs_txt = ", ".join(f"h={h} {cs[h]}~" for h in hs)
+    caveat = caveat_box(summ, summ_c, starts, hs, st["event_thr"])
+    parts = [summary_box(summ, summ_c, d, starts, extra=caveat), "<h2>① 설정</h2><p class='note'><b>이 카드가 답하려는 질문</b>:아파트 월세지수가 앞으로 3·6개월 동안 얼마나 변할지(회귀), 그리고 ±1% 넘게 급등·급락할지(분류)를 "
              "월세지수의 과거 흐름만으로 맞히는 것(베이스라인)보다 경제 설명변수 47개를 더하면 얼마나 더 잘 맞히는가. 학습 기간 길이(2~5년), 튜닝, 시기, 과적합, 변수 기여도까지 차례로 본다.</p>"
              "<h3>용어 정리</h3>" + glossary_table() + f"""<table class='kv'>
 <tr><th>자료</th><td>analysis/output/모형입력표_10차_values.csv — 17개 시도 × 결정월(월말) 패널. 설명변수 {st['n_expl']}열 + 타깃 모멘텀 3열(past1·3·6) + 지역 더미 17열 = {len(st['features_full'])}개 특성</td></tr>
 <tr><th>타깃</th><td>G_h = 100·[R(t+h−1)/R(t−1) − 1]: 결정월 t 에 아는 마지막 지수 R(t−1) 대비 앞으로 h개월 변화율(%). 회귀는 G_h, 분류는 급등(G_h ≥ +{st['event_thr']:.0f}%)·급락(G_h ≤ −{st['event_thr']:.0f}%) 이진 사건</td></tr>
 <tr><th>집합 구성</th><td><b>평가(test)</b> = 결정월 t 의 17개 시도(한 달 17행). <b>학습(train)</b> = t 시점에 정답이 확정된 결정월 s ≤ t−h 중 직전 W년(12W개월 × 17 = {12 * 2 * 17:,}~{12 * 5 * 17:,}행).
-t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 유출 차단). t 를 {st['start']}부터 매월 한 칸씩 옮겨 반복(평가 결정월 {', '.join(f'h={h}: {n}개월' for h, n in n_months.items())}) → 모든 평가 예측을 모아 지표 계산.
-<b>{st['start']} 은 자료의 첫 정답(2015-07) 기준으로 가장 긴 학습창(5년)이 처음 꽉 차는 결정월</b>이며, 그 전 달은 학습·평가하지 않는다(2015-07~{st['start']} 전 자료는 학습 행으로만 쓰임. 이 선택의 문제점은 맨 위 상자).
+t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 유출 차단). <b>학습창 W 는 창이 처음 꽉 차는 달 t_W = y0 + 12W − 1 + h 부터 평가</b>(y0 = 정답이 있는 첫 결정월 2015-07; {starts_txt}).
+그 전 달은 그 창으로 학습·평가하지 않고 자료는 학습 행으로만 쓴다. t 를 거기서부터 매월 한 칸씩 옮겨 모든 평가 예측을 모아 지표 계산(평가 결정월 수 — {n_txt}). 설계의 한계는 맨 위 상자.
 <b>검증(validation)</b>은 2차 튜닝 모형에만: 학습 블록 안을 시간 순 3겹(검증 3개월, 겹 사이 h−1개월 간격)으로 나눠 격자를 고르고 전체 학습 블록으로 재학습. 1차(고정 파라미터)는 검증 집합 없음(Ridge alpha 만 학습 블록 안 LOO)</td></tr>
-<tr><th>롤링</th><td>학습창 W = {st['windows']}년 각각 전체 반복(민감도). 평가 기간은 창과 무관하게 같고 모든 창이 꽉 차 있음 → 창끼리 직접 비교 가능</td></tr>
+<tr><th>롤링</th><td>학습창 W = {st['windows']}년 각각 전체 반복(민감도). 평가 기간이 창마다 다르므로 창끼리 비교는 네 창이 모두 유효한 공통 기간({cs_txt})으로 하고, 같은 창 안의 모형 비교(베이스라인 대비)는 기간이 같아 그대로 한다</td></tr>
 <tr><th>모형</th><td>회귀: AR(Ridge) 베이스라인(모멘텀 3열만) / 참고 Zero·Mom(past_h) / Ridge·RF·ET·XGB(모든 특성). 분류: AR(Logit) 베이스라인 / Logit·RF·ET·XGB. 학습창 양성 {st['min_pos']}건 미만이면 분류기는 학습창 기준율 예측(표의 기준율예측비율)</td></tr>
 <tr><th>지표</th><td>MAE(%p) / F1(임계 0.5·학습창 기준율) / PR-AUC(평균정밀도, 하한 = 양성 비율) / BSS = 1 − Brier ÷ Brier(기준율 예측). 기준율 예측 = 학습창의 사건 비율을 모든 시도에 같은 확률로 내는 것(표·그림에는 따로 표시하지 않음; BSS 0 = 기준율 예측과 같음, 음수 = 그보다 못함). 전체 평가 기간 값 + 이동 창 값(MAE 12개월, 분류 24개월)</td></tr>
 <tr><th>1차 설정</th><td>{st['note']}. 트리 {('100' if st.get('quick') else '300')}개, RF·ET leaf 5·max_features 0.5, XGB depth 3·학습률 0.05·subsample 0.8, Logit C=1</td></tr>"""
              + (f"<tr><th>2차 튜닝</th><td>모형 {', '.join(st_t['tune'])}, 학습창 {st_t['windows']}년, 평가 결정월 간격 {st_t['step']}개월(시간 절약). 격자: " + "; ".join(f"{m} {g}" for m, g in st_t["grids"].items()) + "</td></tr>" if has_tuned else "")
-             + "</table><h3>기준·모형 정의 (past_k = 100·[R(t−1)/R(t−1−k) − 1], 결정월 t 에 아는 타깃 자신의 최근 k개월 변화율)</h3>" + definitions_table() + split_fig(h=hs[0], W=4)
-             + f"<p class='note'>위 그림은 한 시점(2022-06, 학습창 4년)의 예시다. 롤링이라 학습창은 '직전 W년'만 쓴다. 자료가 2015-07에 시작하므로 5년 창이 처음 꽉 차는 {st['start']}부터 평가한다(아래 표). "
+             + "</table><h3>기준·모형 정의 (past_k = 100·[R(t−1)/R(t−1−k) − 1], 결정월 t 에 아는 타깃 자신의 최근 k개월 변화율)</h3>" + definitions_table()
+             + "<h3>학습창별 평가 기간</h3>" + eval_design_fig(hs, Ws, {h: max(pd.PeriodIndex(roll[roll["h"] == h]["t"].unique(), freq="M")) for h in hs})
+             + "<h3>한 시점의 학습·검증·평가 구성</h3>" + split_fig(h=hs[0], W=4)
+             + "<p class='note'>위 그림은 한 시점(2022-06, 학습창 4년)의 예시다. 롤링이라 학습창은 '직전 W년'만 쓴다. 자료가 2015-07에 시작하므로 각 창은 처음 꽉 차는 달부터 평가한다(아래 표). "
                "결정월·예측 기간·학습창을 바꿔 가며 볼 수 있는 대화형 그림: <a href='학습구조_시각화_10차.html'>학습구조_시각화_10차.html</a></p>"
-             + "<h3>집합의 실제 기간 (대표 결정월 기준)</h3>" + "".join(period_table(roll, h, st["windows"], tuple(st_t["windows"]) if has_tuned else ()) for h in hs)]
-    # ② 사건 수
+             + "<h3>집합의 실제 기간 (창별 첫 평가월과 대표 결정월)</h3>" + "".join(period_table(roll, h, Ws, tuple(st_t["windows"]) if has_tuned else ()) for h in hs)]
+    # ② 사건 수 (창별 평가 기간 + 연도별)
     fb = summ[(summ["task"] != "reg") & (summ["model"] == "RF")].groupby(["h", "W", "task"])["기준율예측비율"].first().unstack("task")
-    parts.append(f"<h2>② 급등·급락은 얼마나 자주 일어났나 (평가 기간의 사건 수)</h2><p class='note'>평가 기간 {st['start']}~ 기준. 급등·급락 비율은 아무 정보가 없을 때의 PR-AUC(하한)</p>" + ev.to_html(index=False)
-                 + "<p class='note'>연도별(결정월 기준) 행 수와 사건 수 — 급락이 2022~23 에 몰려 있고 2020~21 에는 거의 없어 짧은 학습창은 급락 양성이 부족한 달이 생김</p>" + yearly.to_html()
-                 + "<p class='note'>학습창에 양성이 부족해 분류기가 기준율을 예측한 달의 비율(행 기준)</p>" + fb.rename(columns={"up": "급등", "dn": "급락"}).to_html(float_format=lambda x: f"{x:.1%}"))
-    # ③ 민감도
-    parts.append(f"<h2>③ 학습 기간(2~5년)에 따라 성능이 어떻게 달라지나 (1차, 고정 파라미터)</h2><p class='note'>평가 {st['start']}~. 모든 창이 제 길이를 갖춘 기간이라 창끼리 공정하게 비교된다</p>")
+    parts.append("<h2>② 급등·급락은 얼마나 자주 일어났나 (평가 기간의 사건 수)</h2><p class='note'>창마다 평가 기간이 다르므로 창별로 센다. 급등·급락 비율은 아무 정보가 없을 때의 PR-AUC(하한)</p>")
     for h in hs:
-        parts.append(f"<h3>{h}개월 뒤 예측</h3>" + sensitivity_figs(summ, h, f" (평가 {st['start']}~)") + tbl(sensitivity_table(summ, h)))
+        _, yearly = event_tables(VALUES, str(starts[h][Ws[0]]), [h], st["event_thr"])
+        parts.append(f"<h3>{h}개월 뒤 예측</h3>" + event_tables_by_window(VALUES, h, starts[h], st["event_thr"]).to_html(index=False)
+                     + f"<p class='note'>연도별(결정월 기준, 가장 이른 창인 {Ws[0]}년 창의 평가 기간 {starts[h][Ws[0]]}~) 행 수와 사건 수 — 급락은 2018~19 와 2022~23 에 몰려 있고 2020~21 에는 거의 없어 짧은 학습창은 급락 양성이 부족한 달이 생김</p>" + yearly.to_html())
+    parts.append("<p class='note'>학습창에 양성이 부족해 분류기가 기준율을 예측한 달의 비율(행 기준)</p>" + fb.rename(columns={"up": "급등", "dn": "급락"}).to_html(float_format=lambda x: f"{x:.1%}"))
+    # ③ 민감도: 창별 전체 유효 기간 + 창 비교용 공통 기간
+    parts.append("<h2>③ 학습 기간(2~5년)에 따라 성능이 어떻게 달라지나 (1차, 고정 파라미터)</h2>"
+                 "<p class='note'><b>첫째 표·그림</b>은 각 창을 자기 전체 유효 기간(창이 처음 꽉 차는 달~)으로 평가한 값 — 창마다 기간이 달라 같은 창 안에서 모형끼리 비교할 때 쓴다. "
+                 "<b>둘째 표·그림</b>은 네 창이 모두 유효한 공통 기간만으로 다시 계산한 값 — 창 길이끼리 비교하고 최선 창을 고를 때 쓴다.</p>")
+    for h in hs:
+        parts.append(f"<h3>{h}개월 뒤 예측 — 창별 전체 유효 기간 (" + ", ".join(f"{W}년 {starts[h][W]}~" for W in Ws) + ")</h3>" + sensitivity_figs(summ, h, " (창별 전체 유효 기간)") + tbl(sensitivity_table(summ, h)))
+    for h in hs:
+        parts.append(f"<h3>{h}개월 뒤 예측 — 창 비교용 공통 기간 {cs[h]}~ ({n_months[h][Ws[-1]]}개월)</h3>" + sensitivity_figs(summ_c, h, f" (공통 기간 {cs[h]}~)") + tbl(sensitivity_table(summ_c, h)))
+    parts.append("<p class='note'>공통 기간에서 과제별 최선 모형·창 (맨 위 요약의 선택 근거)</p>" + best_table(summ_c).to_html(index=False))
     # ④ 개선
-    parts.append(f"<h2>④ 설명변수를 넣으면 얼마나 나아지나 (베이스라인 대비, 1차)</h2><p class='note'>평가 {MAIN_START}~. 회귀는 MAE가 몇 % 줄었는지, 분류는 PR-AUC·BSS가 얼마나 올랐는지(모형 − 베이스라인). 마지막 열은 학습 없는 단순 규칙 mom1 과의 비교</p>" + best_table(summ).to_html(index=False)
-                 + "<details><summary>학습창·모형별 전체 표</summary>" + improvement_table(summ).to_html(index=False) + "</details>")
+    parts.append("<h2>④ 설명변수를 넣으면 얼마나 나아지나 (베이스라인 대비, 1차)</h2><p class='note'>창별 전체 유효 기간에서 같은 창의 베이스라인과 비교. 회귀는 MAE가 몇 % 줄었는지, 분류는 PR-AUC·BSS가 얼마나 올랐는지(모형 − 베이스라인)</p>"
+                 + improvement_table(summ).to_html(index=False))
     # ⑤ 튜닝
     if has_tuned:
-        summ_c, roll_c = tuned_comparison(d, tuned_dir, st_t, start=MAIN_START)
-        n_c = int(roll_c[(roll_c["h"] == hs[0]) & (roll_c["task"] == "reg")]["t"].nunique())
+        summ_t, roll_t = tuned_comparison(d, tuned_dir, st_t)
+        n_c = {W: int(roll_t[(roll_t["h"] == hs[0]) & (roll_t["task"] == "reg") & (roll_t["W"] == W)]["t"].nunique()) for W in sorted(roll_t["W"].unique())}
         parts.append(f"<h2>⑤ 하이퍼파라미터 튜닝은 효과가 있었나 (2차, 같은 결정월 {st_t['step']}개월 간격 표본, 학습창 {st_t['windows']}년)</h2>"
-                     f"<p class='note'>평가 {MAIN_START} 이후의 튜닝 표본({n_c}개 결정월)에서 고정·튜닝 모형을 같은 행으로 비교</p>"
+                     f"<p class='note'>각 창의 유효 기간 안에서 {st_t['step']}개월 간격으로 튜닝한 표본(h={hs[0]}: " + ", ".join(f"{W}년 {n}개 결정월" for W, n in n_c.items()) + ")에서 고정·튜닝 모형을 같은 행으로 비교</p>"
                      + (f"<p class='note'><b>주의</b>: {TUNED_NOTE}</p>" if TUNED_NOTE else ""))
-        for h in sorted(summ_c["h"].unique(), reverse=True):
-            parts.append(f"<h3>{h}개월 뒤 예측</h3>" + sensitivity_figs(summ_c, h) + tbl(sensitivity_table(summ_c, h)))
-        parts.append("<h3>베이스라인 대비(튜닝 포함, 같은 표본)</h3>" + best_table(summ_c).to_html(index=False)
-                     + "<details><summary>학습창·모형별 전체 표</summary>" + improvement_table(summ_c).to_html(index=False) + "</details>")
+        for h in sorted(summ_t["h"].unique(), reverse=True):
+            parts.append(f"<h3>{h}개월 뒤 예측</h3>" + sensitivity_figs(summ_t, h, " (튜닝 표본)") + tbl(sensitivity_table(summ_t, h)))
+        parts.append("<h3>베이스라인 대비(튜닝 포함, 같은 표본, 창별)</h3>" + improvement_table(summ_t).to_html(index=False))
         parts.append("<h3>선택된 하이퍼파라미터</h3><p class='note'>롤링이라 결정월마다 학습창 안 CV 로 다시 고름 → 가장 자주 뽑힌 값(빈도)과 마지막 결정월의 값을 제시. CV 점수 = 회귀 −MAE, 분류 평균정밀도</p>"
                      + tuned_params_table(tuned_dir).to_html(index=False))
-        for h in sorted(roll_c["h"].unique(), reverse=True):
-            parts.append(rolling_figs(roll_c, h, reg_win=4, clf_win=8, title_extra=f" — 튜닝 비교(표본 {st_t['step']}개월 간격이라 이동 창 = 4·8개 평가점)"))
+        for h in sorted(roll_t["h"].unique(), reverse=True):
+            parts.append(rolling_figs(roll_t, h, reg_win=4, clf_win=8, title_extra=f" — 튜닝 비교(표본 {st_t['step']}개월 간격이라 이동 창 = 4·8개 평가점)"))
     # ⑥ 롤링
-    parts.append("<h2>⑥ 시기별로 성능이 어떻게 변했나 (1차)</h2><p class='note'>각 점은 그 달까지의 최근 성능(MAE는 6개월, 분류는 12개월 이동 창 — 평가 기간이 5년 남짓이라 창을 짧게 잡음). "
-                 "2021 급등기 말, 2022~23 하락기, 2024~26 회복·재상승기에서 모형별 차이를 본다</p>")
+    parts.append("<h2>⑥ 시기별로 성능이 어떻게 변했나 (1차)</h2><p class='note'>각 점은 그 달까지의 최근 성능(MAE는 6개월, 분류는 12개월 이동 창). 창별 행은 그 창이 처음 꽉 차는 달부터 시작하므로 2년 창만 2018~19 급락기를 보여 준다. "
+                 "2018~19 급락기, 2020~21 급등기, 2022~23 하락기, 2024~26 회복·재상승기에서 모형별 차이를 본다</p>")
     for h in hs:
         parts.append(rolling_figs(roll, h, reg_win=6, clf_win=12))
     # ⑦ 과적합 진단
-    parts.append("<h2>⑦ 학습 자료에만 맞춘 것은 아닌가 (과적합 점검: 적합 성능 vs 평가 성능)</h2>" + overfit_section(d, summ, tuned_dir if has_tuned else None, summ_c if has_tuned else None, st_t))
+    parts.append("<h2>⑦ 학습 자료에만 맞춘 것은 아닌가 (과적합 점검: 적합 성능 vs 평가 성능)</h2>" + overfit_section(d, summ, tuned_dir if has_tuned else None, summ_t if has_tuned else None, st_t))
     # ⑧ 변수·동인 기여도 (contrib_analysis.py 가 만든 본문)
     contrib = os.path.join(d, "기여도_section.html")
     if os.path.exists(contrib):
@@ -601,11 +716,11 @@ t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 �
     if notes and os.path.exists(notes):
         parts.append("<h2>⑨ 결과 해석 — 전반적 평가·한계·보완할 점</h2>" + open(notes, encoding="utf-8").read())
     parts.append(f"""<h2>⑩ 읽을 때 주의할 점</h2><ul>
-<li>평가 결정월은 {st['start']}부터다(5년 학습창이 처음 꽉 차는 달). 그 전 달은 학습·평가하지 않았고 2015-07~{st['start']} 전 자료는 학습 행으로만 쓰인다. 이 선택의 문제점(평가 자료 감소, 급락 국면 하나 제외, 이득 과대 가능, 이전 실험과 비교 불가)은 맨 위 상자에 적었다.</li>
+<li>각 학습창은 창이 처음 꽉 차는 달부터 평가했다({starts_txt}). 창마다 평가 기간이 다르므로 창끼리의 절대 수치 비교는 ③ 둘째 표(공통 기간)로만 하고, 설계의 한계(긴 창은 2018~19 급락기 미평가, 표본 적음 등)는 맨 위 상자에 적었다.</li>
 <li>베이스라인 AR 은 월세지수 자신의 과거 1·3·6개월 변화율만 쓴다. 비교 모형이 이보다 좋아야 설명변수에 정보가 있다는 뜻이다. 학습 없는 단순 규칙(mom1)도 같이 보라 — 6개월 예측에서는 AR 보다 mom1 이 더 강한 기준이다.</li>
 <li>분류 BSS 의 기준은 학습창 기준율이라 0 이면 기준율과 같고, 음수면 기준율보다 못하다(과신). PR-AUC 는 임계값과 무관한 순위 성능이며 양성 비율(② 사건 수 표)이 하한.</li>
 <li>하이퍼파라미터: 1차 고정, 2차는 RF·ET·XGB 만 학습창 안 중첩 시계열 CV. 창마다 평가 기간이 같으므로 창끼리 직접 비교 가능. 튜닝 비교는 같은 결정월 표본으로 다시 계산.</li></ul>""")
-    subtitle = (f"생성 {dt.date.today().isoformat()} · 평가 결정월 {st['start']}~ · 학습 자료 analysis/output/모형입력표_10차_values.csv · 결과 {os.path.relpath(d, BASE).replace(os.sep, '/')}"
+    subtitle = (f"생성 {dt.date.today().isoformat()} · 평가 결정월: 각 학습창이 처음 꽉 차는 달부터(h={hs[0]}: " + ", ".join(f"{W}년 {starts[hs[0]][W]}" for W in Ws) + f") · 학습 자료 analysis/output/모형입력표_10차_values.csv · 결과 {os.path.relpath(d, BASE).replace(os.sep, '/')}"
                 + (f" · 튜닝 {os.path.relpath(tuned_dir, BASE).replace(os.sep, '/')}" if has_tuned else ""))
     html = page("10차 월세 변화율·급등급락 예측 모형 — 결과 카드", subtitle, "".join(parts))
     out = os.path.join(d, "모형결과카드_10차.html")
