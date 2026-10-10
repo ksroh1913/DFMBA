@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-변수·동인별 기여도 — 롤링 전진 평가(rolling_models.py 와 같은 학습창·특성)를 재현하면서 매 결정월 시험 행(17개 시도)의 기여도를 모은다.
-  - XGB(회귀·급등·급락): XGBoost 내장 TreeSHAP(pred_contribs) → 시험 행마다 특성별 SHAP (회귀 %p, 분류 로그오즈). shap 패키지 불필요
-  - ET(회귀)·RF(급등): 표본 외 순열 중요도 — 시험 행의 특성값을 학습창에서 무작위로 뽑은 값으로 바꿨을 때 오차 증가(3회 평균). 전국 공통 변수도 평가 가능
+변수·동인별 기여도 — 롤링 전진 평가(rolling_models.py 와 같은 학습창·특성)를 재현하면서 매 결정월 평가 행(17개 시도)의 기여도를 모은다.
+  - XGB(회귀·급등·급락): XGBoost 내장 TreeSHAP(pred_contribs) → 평가 행마다 특성별 SHAP (회귀 %p, 분류 로그오즈). shap 패키지 불필요
+  - ET(회귀)·RF(급등): 표본 외 순열 중요도 — 평가 행의 특성값을 학습창에서 무작위로 뽑은 값으로 바꿨을 때 오차 증가(3회 평균). 전국 공통 변수도 평가 가능
 출력(analysis/output/모형결과_10차/): contrib_shap_long.csv, contrib_var.csv(변수별 요약), contrib_driver.csv, contrib_driver_time.csv, contrib_perm.csv, 기여도_section.html(카드 ⑧ 본문)
 사용: PYTHONUTF8=1 python analysis/contrib_analysis.py [--horizons 6 3] [--W 4] [--step 1]
 """
@@ -39,7 +39,7 @@ plt.rcParams.update({"font.family": "Malgun Gothic", "axes.unicode_minus": False
                      "axes.edgecolor": C["axis"], "axes.labelcolor": C["ink2"], "xtick.color": C["muted"], "ytick.color": C["muted"], "grid.color": C["grid"],
                      "grid.linewidth": 0.6, "axes.grid": True, "axes.spines.top": False, "axes.spines.right": False, "font.size": 9, "axes.titlesize": 10,
                      "axes.titleweight": "bold", "axes.titlecolor": C["ink"], "legend.fontsize": 8, "legend.frameon": False})
-TASK_KR = {"reg": "회귀 G_h(%p)", "up": "급등 확률(로그오즈)", "dn": "급락 확률(로그오즈)"}
+TASK_KR = {"reg": "회귀: 변화율(%p)", "up": "급등 확률(로그오즈)", "dn": "급락 확률(로그오즈)"}
 
 
 def img(fig):
@@ -176,7 +176,7 @@ def fig_top_vars(var, h, W, top=20):
         ax.set_title(f"{TASK_KR[task]} — 평균 |SHAP| 상위 {top}", loc="left")
         ax.grid(axis="y", visible=False)
     handles = [plt.Line2D([], [], color=c, lw=6) for c in DRIVER_COLOR.values()]
-    fig.suptitle(f"지평 h={h}개월, 학습창 {W}년, XGB — 변수별 기여도 (막대 끝 부호: 변수값이 클 때 예측이 커지면 '+', 작아지면 '-', 비선형·혼합 '±')", x=0.01, y=1.0, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
+    fig.suptitle(f"{h}개월 뒤 예측, 학습창 {W}년, XGB — 변수별 기여도 (막대 끝 부호: 변수값이 클 때 예측이 커지면 '+', 작아지면 '-', 비선형·혼합 '±')", x=0.01, y=1.0, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
     fig.tight_layout(rect=(0, 0.06, 1, 0.98))
     fig.legend(handles, [DRIVER_NAME[k] for k in DRIVER_COLOR], loc="lower center", ncol=4, bbox_to_anchor=(0.5, 0.0))
     return img(fig)
@@ -195,7 +195,7 @@ def fig_driver_share(drv, h, W):
         ax.set_xlim(0, max(0.5, d["share"].max() * 1.3))
         ax.set_title(f"{TASK_KR[task]}", loc="left")
         ax.grid(axis="y", visible=False)
-    fig.suptitle(f"지평 h={h}개월 — 동인별 기여 비중 (동인에 속한 변수들의 평균 |SHAP| 합 ÷ 전체, 괄호 = 변수 수)", x=0.01, y=1.04, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
+    fig.suptitle(f"{h}개월 뒤 예측 — 동인별 기여 비중 (동인에 속한 변수들의 평균 |SHAP| 합 ÷ 전체, 괄호 = 변수 수)", x=0.01, y=1.04, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
     fig.tight_layout()
     return img(fig)
 
@@ -216,7 +216,7 @@ def fig_driver_time(dt, h, W):
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
     handles = [plt.Rectangle((0, 0), 1, 1, color=DRIVER_COLOR[k]) for k in DRIVER_COLOR]
     fig.legend(handles, [DRIVER_NAME[k] for k in DRIVER_COLOR], loc="center left", bbox_to_anchor=(1.0, 0.5))
-    fig.suptitle(f"지평 h={h}개월, 학습창 {W}년, XGB — 0 위는 예측을 올리는 기여, 0 아래는 내리는 기여 (기준값 제외)", x=0.01, y=1.01, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
+    fig.suptitle(f"{h}개월 뒤 예측, 학습창 {W}년, XGB — 0 위는 예측을 올리는 기여, 0 아래는 내리는 기여 (기준값 제외)", x=0.01, y=1.01, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
     fig.tight_layout()
     return img(fig)
 
@@ -231,16 +231,16 @@ def fig_dependence(shap_df, var, h, W, task="reg", top=6):
         ax.set_title(two_line(r["feature"]), loc="left", fontsize=8)
         ax.set_xlabel("변수값", fontsize=8)
     axes[0].set_ylabel("SHAP", fontsize=8)
-    fig.suptitle(f"지평 h={h}개월, {TASK_KR[task]} — 상위 {top}개 변수의 값 vs SHAP (시험 행 전부, 비선형 관계 확인)", x=0.01, y=1.04, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
+    fig.suptitle(f"{h}개월 뒤 예측, {TASK_KR[task]} — 상위 {top}개 변수의 값 vs SHAP (평가 행 전부, 비선형 관계 확인)", x=0.01, y=1.04, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
     fig.tight_layout()
     return img(fig)
 
 
 def build_section(var, drv, dt, perm, shap_df, hs, W):
-    parts = ["<p class='note'><b>방법</b>: 권고 설정(학습창 4년, 1차 고정 파라미터)의 롤링을 그대로 재현하며 매 결정월 시험 행(17개 시도)에서 XGB 의 TreeSHAP(모형이 그 예측을 낸 데 각 특성이 기여한 양, 회귀는 %p, 분류는 로그오즈)를 모았다. "
-             "전체 평가 기간의 평균 |SHAP| 가 변수 중요도, 동인별 합의 비중이 동인 기여도다. ET(회귀)·RF(급등)는 표본 외 순열 중요도(시험 행의 특성값을 학습창 값으로 바꿨을 때 오차 증가)로 보완했다.</p>"]
+    parts = ["<p class='note'><b>방법</b>: 권고 설정(학습창 4년, 1차 고정 파라미터)의 롤링을 그대로 재현하며 매 결정월 평가 행(17개 시도)에서 XGB 의 TreeSHAP(모형이 그 예측을 낸 데 각 특성이 기여한 양, 회귀는 %p, 분류는 로그오즈)를 모았다. "
+             "전체 평가 기간의 평균 |SHAP| 가 변수 중요도, 동인별 합의 비중이 동인 기여도다. ET(회귀)·RF(급등)는 표본 외 순열 중요도(평가 행의 특성값을 학습창 값으로 바꿨을 때 오차 증가)로 보완했다.</p>"]
     for h in hs:
-        parts.append(f"<h3>지평 h={h}개월</h3>" + fig_driver_share(drv, h, W) + fig_top_vars(var, h, W) + fig_driver_time(dt, h, W))
+        parts.append(f"<h3>{h}개월 뒤 예측</h3>" + fig_driver_share(drv, h, W) + fig_top_vars(var, h, W) + fig_driver_time(dt, h, W))
         if ((shap_df["h"] == h) & (shap_df["task"] == "reg")).any():
             parts.append(fig_dependence(shap_df, var, h, W, "reg"))
         d = drv[(drv["h"] == h) & (drv["W"] == W)].pivot(index="동인", columns="task", values="share").rename(columns={"reg": "회귀", "up": "급등", "dn": "급락"})

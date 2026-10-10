@@ -24,6 +24,7 @@ import pandas as pd  # noqa: E402
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import variable_card as vc  # noqa: E402  (글꼴·결정 로그 로더 재사용)
+from card_style import page  # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VALUES = os.path.join(BASE, "analysis", "output", "모형입력표_10차_values.csv")
@@ -208,7 +209,7 @@ def build():
         tbl.append({"동인": m["동인"][:14], "ID": m["ID"], "변수명": m["변수명"], "변환(열)": m["변환"], "역할": m["역할"], "공표시차": m["공표시차"],
                     "지역": "전국 공통" if is_national(w) else "시도별", "분석구간 결측률": f"{a[c].isna().mean():.1%}",
                     "ρ_G6 풀링": f"{crm.at[c, '풀링_G6']:+.2f}", "ρ_G6 시도평균": f"{crm.at[c, '시도평균_G6']:+.2f}"})
-    parts.append("<h2>② 변수 목록 (동인별)</h2>" + pd.DataFrame(tbl).to_html(index=False, escape=True))
+    parts.append("<h2>② 변수 목록 (동인별)</h2>" + pd.DataFrame(tbl).to_html(index=False, escape=True, classes="left"))
     # ③ 타깃
     html_t = ""
     for t, lab in (("G3", "앞으로 3개월 변화율 G3 (%)"), ("G6", "앞으로 6개월 변화율 G6 (%)")):
@@ -230,20 +231,14 @@ def build():
     # ⑤ 상관
     hm, pairs = plot_heatmap(df, meta, cols)
     parts.append("<h2>⑤ 타깃과의 상관</h2>" + plot_target_corr(cr, meta) +
-                 "<h2>⑥ 설명변수 간 상관</h2>" + hm + "<p class='note'><b>|ρ| ≥ 0.6 인 쌍</b> (중복 묶음 판단용 — 10차 결정: 전부 유지하고 학습 단계에서 묶음별 비교)</p>" + pairs.to_html(index=False, escape=True))
+                 "<h2>⑥ 설명변수 간 상관</h2>" + hm + "<p class='note'><b>|ρ| ≥ 0.6 인 쌍</b> (중복 묶음 판단용 — 10차 결정: 전부 유지하고 학습 단계에서 묶음별 비교)</p>" + pairs.to_html(index=False, escape=True, classes="left"))
     parts.append("""<h2>⑦ 읽는 법·주의</h2><ul>
 <li>모든 값은 <b>결정월에 알 수 있는 값</b>이다: 월 변수는 공표시차만큼 뒤로 민 값, 연·분기 변수는 기간 끝 달에 두고 공표시차를 더한 뒤 다음 공표까지 유지한 계단(그래서 계단 모양).</li>
 <li>'전국 공통' 변수(금리·M2·CPI·KOSPI 등)는 17개 시도에 같은 값이 들어가 지역 간 차이를 설명하지 못하고 시점 효과와 겹친다.</li>
 <li>V024 서울 구 신축허가는 서울 행에만 값이 있어 결측률이 높다(설계대로). V077 임대주택 공급은 공공+민간 사업승인 기준으로 표가 바뀐 연도를 이은 계열이다.</li>
 <li>상관은 탐색용 Spearman(순위) 상관이며 분석 구간(2016-01~) 전체를 쓴다. 변수 선택은 학습 단계에서 변수 중요도·묶음별 비교로 정한다(10차 결정).</li>
 <li>이 카드는 정적 그림이라 마우스 오버 값은 없다. 숫자는 values CSV 에서 확인한다.</li></ul>""")
-    css = ("<style>body{font-family:'Malgun Gothic',system-ui,sans-serif;font-size:13px;color:#0b0b0b;background:#f9f9f7;margin:24px;max-width:1240px}"
-           "h1{font-size:21px}h2{font-size:16px;border-bottom:1px solid #c3c2b7;margin-top:32px;padding-bottom:4px}h3{font-size:14px;color:#52514e;margin-top:22px}"
-           "table{border-collapse:collapse;font-size:12px;margin:8px 0}th,td{border:1px solid #e1e0d9;padding:3px 7px;text-align:left;vertical-align:top}th{background:#f0efec}"
-           "table.kv th{width:90px}img{display:block;margin:6px 0 14px 0;max-width:100%}p.note{color:#52514e}</style>")
-    html = (f"<!doctype html><html lang='ko'><head><meta charset='utf-8'><title>변수 통합 소개 10차</title>{css}</head><body>"
-            f"<h1>10차 모형 입력 변수 통합 소개 — 타깃·설명변수 시계열과 상관</h1><p class='note'>생성 {dt.date.today().isoformat()} · 자료 {esc(os.path.relpath(VALUES, BASE))}</p>"
-            + "".join(parts) + "</body></html>")
+    html = page("10차 모형 입력 변수 소개 — 시계열과 상관", f"생성 {dt.date.today().isoformat()} · 자료 {esc(os.path.relpath(VALUES, BASE))}", "".join(parts))
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         f.write(html)

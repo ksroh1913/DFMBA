@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 롤링 모형 결과 카드 — rolling_models.py 의 1차(고정 파라미터) 결과와 2차(튜닝) 결과를 한 html 로.
-① 설정(학습·검증·시험 집합 구성 그림 포함)  ② 사건 수  ③ 학습창 민감도  ④ 베이스라인 대비 개선  ⑤ 튜닝 전후 비교(같은 결정월에서)와 선택된 파라미터
+① 설정(학습·검증·평가 집합 구성 그림 포함)  ② 사건 수  ③ 학습창 민감도  ④ 베이스라인 대비 개선  ⑤ 튜닝 전후 비교(같은 결정월에서)와 선택된 파라미터
 ⑥ 시간에 따른 롤링 성능  ⑦ 결과 분석(전반적 평가·한계·보완, --notes 파일)  ⑧ 읽는 법
 사용: PYTHONUTF8=1 python analysis/model_card.py [--dir 결과폴더] [--tuned-dir 튜닝결과폴더] [--notes 분석글.html]
 """
@@ -22,6 +22,7 @@ import pandas as pd  # noqa: E402
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from rolling_models import summarize  # noqa: E402
+from card_style import page  # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VALUES = os.path.join(BASE, "analysis", "output", "모형입력표_10차_values.csv")
@@ -50,7 +51,7 @@ def load_results(d):
         pred = add_mom1(pd.concat([pd.read_csv(f, encoding="utf-8-sig") for f in files], ignore_index=True))
         return summarize(pred)
     return (pd.read_csv(os.path.join(d, "metrics_summary.csv"), encoding="utf-8-sig"), pd.read_csv(os.path.join(d, "rolling_metrics.csv"), encoding="utf-8-sig"))
-TASK_KR = {"reg": "회귀(G_h, %)", "up": "급등(G_h ≥ +1%)", "dn": "급락(G_h ≤ −1%)"}
+TASK_KR = {"reg": "회귀: 변화율(%p)", "up": "급등 예측(h개월 뒤 +1% 이상)", "dn": "급락 예측(h개월 뒤 −1% 이하)"}
 # 2차 튜닝 결과가 1차와 다른 자료 버전으로 계산됐을 때 ⑤ 에 붙이는 주석 (튜닝 재실행 뒤 빈 문자열로)
 TUNED_NOTE = ("2차 튜닝은 V078 을 '최근 12개월 내 변경(상태화, ±1 자름)' 으로 넣은 이전 자료로 계산된 결과다(2026-10-10 V078 을 '최근 12개월 변경 합' 으로 바꾼 뒤 1차·기여도만 재실행, 튜닝은 효과가 작아 보류). "
               "1차와 자료가 V078 한 열만 다르며, 이 절의 '고정' 행도 당시 1차 예측으로 같은 자료 기준이다")
@@ -91,6 +92,25 @@ def tbl(df, **kw):
     return df.to_html(float_format=lambda x: f"{x:.3f}", na_rep="", **kw)
 
 
+def glossary_table():
+    rows = [
+        ("결정월 t", "예측을 내리는 시점(그 달 말). 이때까지 공표된 자료만 쓴다"),
+        ("h개월 뒤 예측 (h=6 주, 3 보조)", "결정월에 아는 마지막 월세지수 R(t−1)에서 h개월 뒤까지의 변화율 G_h = 100·[R(t+h−1)/R(t−1) − 1] 을 맞히는 것. 영어로는 forecast horizon"),
+        ("회귀 / 분류", "회귀 = 변화율(%) 자체를 맞힘. 분류 = 급등(G_h ≥ +1%)·급락(G_h ≤ −1%)이 일어날 확률을 맞힘"),
+        ("베이스라인", "설명변수 없이 월세지수 자신의 과거 1·3·6개월 변화율만 쓰는 단순 모형(AR). 비교 모형이 이걸 못 넘으면 설명변수가 쓸모없다는 뜻"),
+        ("mom1 / Mom(past_h) / Zero", "학습 없이 규칙으로 내는 참고 값: 최근 1개월 변화율 × h / 최근 h개월 변화율 그대로 / 0% (변화 없음)"),
+        ("학습창(W년) · 롤링", "결정월마다 직전 W년 자료로 다시 학습하고 다음 달로 한 칸씩 옮기는 방식. W를 2·3·4·5년으로 바꿔 가며 어느 길이가 좋은지 봄"),
+        ("정답 확정 행", "h개월 뒤 결과가 결정월 시점에 이미 공표된 행(s ≤ t−h). 학습에는 이런 행만 써서 미래 정보가 섞이지 않게 함"),
+        ("MAE", "예측과 실제 변화율의 차이(절댓값)의 평균, 단위 %p. 작을수록 좋음"),
+        ("F1", "'급등이다'라고 찍은 것 중 맞힌 비율(정밀도)과 실제 급등 중 잡아낸 비율(재현율)의 조화평균. 0~1, 클수록 좋음"),
+        ("PR-AUC", "확률 순서만으로 급등·급락을 얼마나 잘 가려내는지. 아무 정보 없으면 사건 비율(예: 0.30)과 같고, 1이면 완벽"),
+        ("BSS", "확률 예측의 정확도(Brier)를 '학습창의 사건 비율만 말하는 예측'과 비교한 점수. 0이면 그와 같고, 양수면 더 낫고, 음수면 더 못함(과신)"),
+        ("적합 vs 평가", "적합 = 모형이 학습한 자료에서의 성능, 평가 = 학습에 안 쓴 다음 달 자료에서의 성능. 둘의 격차로 과적합을 봄"),
+        ("SHAP", "한 예측을 특성별 기여로 쪼갠 값(합하면 예측값). 평균 |SHAP|가 크면 그 변수가 예측을 많이 움직였다는 뜻"),
+    ]
+    return pd.DataFrame(rows, columns=["용어", "뜻"]).to_html(index=False)
+
+
 # ------------------------------------------------------------ ① 설정: 기준·모형 정의 표
 def definitions_table():
     rows = [
@@ -107,7 +127,7 @@ def definitions_table():
 
 # ------------------------------------------------------------ ① 설정: 집합의 실제 기간 표
 def period_table(roll, h, windows, tuned_windows=(), sample_ts=None):
-    """지평 h 에서 시험 결정월 범위와, 대표 결정월 t 마다 학습 구간(실제 자료 기준)·튜닝 검증 겹 기간을 표로"""
+    """예측 기간 h 에서 평가 결정월 범위와, 대표 결정월 t 마다 학습 구간(실제 자료 기준)·튜닝 검증 겹 기간을 표로"""
     v = pd.read_csv(VALUES, encoding="utf-8-sig")
     y0 = pd.Period(v.dropna(subset=[f"G{h}"])["결정월"].min(), "M")                     # 정답이 있는 첫 결정월
     r = roll[(roll["h"] == h) & (roll["task"] == "reg")]
@@ -128,9 +148,9 @@ def period_table(roll, h, windows, tuned_windows=(), sample_ts=None):
                     v_lo = v_end - 2
                     parts.append(f"겹{k + 1} 학습 {s_lo}~{v_lo - h} / 검증 {v_lo}~{v_end}")
                 folds = "; ".join(parts)
-            rows.append({"시험 결정월 t": str(t), "학습창 W": f"{W}년", "학습 구간(결정월 s)": f"{s_lo}~{s_hi} ({n}개월 × 17 = {n * 17:,}행)", "비움(정답 미확정)": f"{s_hi + 1}~{t - 1} ({h - 1}개월)",
-                         "검증 겹(튜닝 모형만)": folds, "시험": f"{t} 의 17개 시도, 정답은 {t + h - 1} 지수 공표 뒤"})
-    head = f"<p class='note'><b>h={h}개월</b>: 시험 결정월 {t_first}~{t_last} ({len(ts)}개월, 매월), 정답이 있는 첫 결정월 {y0} → 학습 구간은 '최대 W년'이며 초기에는 자료가 그만큼 없음</p>"
+            rows.append({"평가 결정월 t": str(t), "학습창 W": f"{W}년", "학습 구간(결정월 s)": f"{s_lo}~{s_hi} ({n}개월 × 17 = {n * 17:,}행)", "비움(정답 미확정)": f"{s_hi + 1}~{t - 1} ({h - 1}개월)",
+                         "검증 겹(튜닝 모형만)": folds, "평가": f"{t} 의 17개 시도, 정답은 {t + h - 1} 지수 공표 뒤"})
+    head = f"<p class='note'><b>h={h}개월</b>: 평가 결정월 {t_first}~{t_last} ({len(ts)}개월, 매월), 정답이 있는 첫 결정월 {y0} → 학습 구간은 '최대 W년'이며 초기에는 자료가 그만큼 없음</p>"
     return head + pd.DataFrame(rows).to_html(index=False)
 
 
@@ -143,15 +163,15 @@ def overfit_section(d, summ, tuned_dir=None, summ_c=None, st_t=None):
     agg = fit.groupby(["h", "W", "task", "model"]).agg(MAE_train=("MAE_train", "mean"), Brier_train=("Brier_train", "mean"), PR_AUC_train=("PR_AUC_train", "mean")).reset_index()
     m = agg.merge(summ[["h", "W", "task", "model", "MAE", "Brier", "PR_AUC", "BSS"]], on=["h", "W", "task", "model"], how="left")
     reg = m[m["task"] == "reg"].copy()
-    reg["시험/적합 비율"] = reg["MAE"] / reg["MAE_train"]
-    reg_t = reg.rename(columns={"MAE_train": "MAE 적합(학습창 안)", "MAE": "MAE 시험"})[["h", "W", "model", "MAE 적합(학습창 안)", "MAE 시험", "시험/적합 비율"]]
+    reg["평가/적합 비율"] = reg["MAE"] / reg["MAE_train"]
+    reg_t = reg.rename(columns={"MAE_train": "MAE 적합(학습창 안)", "MAE": "MAE 평가"})[["h", "W", "model", "MAE 적합(학습창 안)", "MAE 평가", "평가/적합 비율"]]
     clf = m[m["task"] != "reg"].copy()
     clf["과제"] = clf["task"].map({"up": "급등", "dn": "급락"})
-    clf_t = clf.rename(columns={"PR_AUC_train": "PR-AUC 적합", "PR_AUC": "PR-AUC 시험", "Brier_train": "Brier 적합", "Brier": "Brier 시험"})[["h", "W", "과제", "model", "PR-AUC 적합", "PR-AUC 시험", "Brier 적합", "Brier 시험", "BSS"]]
-    # 그림: 지평별로 적합(점선·빈 표식) vs 시험(실선·채운 표식)
+    clf_t = clf.rename(columns={"PR_AUC_train": "PR-AUC 적합", "PR_AUC": "PR-AUC 평가", "Brier_train": "Brier 적합", "Brier": "Brier 평가"})[["h", "W", "과제", "model", "PR-AUC 적합", "PR-AUC 평가", "Brier 적합", "Brier 평가", "BSS"]]
+    # 그림: 예측 기간별로 적합(점선·빈 표식) vs 평가(실선·채운 표식)
     figs = ""
     for h in sorted(m["h"].unique(), reverse=True):
-        panels = [("reg", "MAE_train", "MAE", "MAE: 적합(점선) vs 시험(실선)"), ("up", "PR_AUC_train", "PR_AUC", "급등 PR-AUC: 적합 vs 시험"), ("dn", "PR_AUC_train", "PR_AUC", "급락 PR-AUC: 적합 vs 시험")]
+        panels = [("reg", "MAE_train", "MAE", "MAE: 적합(점선) vs 평가(실선)"), ("up", "PR_AUC_train", "PR_AUC", "급등 PR-AUC: 적합 vs 평가"), ("dn", "PR_AUC_train", "PR_AUC", "급락 PR-AUC: 적합 vs 평가")]
         fig, axes = plt.subplots(1, 3, figsize=(10.5, 3.2))
         for ax, (task, mtr, mte, title) in zip(axes, panels):
             g = m[(m["h"] == h) & (m["task"] == task)]
@@ -163,12 +183,12 @@ def overfit_section(d, summ, tuned_dir=None, summ_c=None, st_t=None):
             ax.set_title(title, loc="left")
             ax.set_xticks(sorted(g["W"].unique()))
             ax.set_xlabel("학습창(년)")
-        fig.suptitle(f"지평 h={h}개월 — 학습창 안 적합 성능과 시험 성능 (격차가 클수록 학습 자료에 맞춘 정도가 큼)", x=0.01, y=1.04, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
+        fig.suptitle(f"{h}개월 뒤 예측 — 학습 자료에서의 성능(적합)과 처음 보는 자료에서의 성능(평가)", x=0.01, y=1.04, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
         fig.tight_layout()
         shared_legend(fig, axes, right=0.86)
         figs += img(fig)
-    html = ("<p class='note'><b>읽는 법</b>: 적합(train)은 모형이 학습한 바로 그 행에서의 성능, 시험(test)은 매월 전진한 표본 외 성능. 트리 모형은 적합 오차가 매우 작은 것이 정상이므로 격차 자체보다 "
-            "(1) 시험 성능이 베이스라인을 넘는지, (2) 학습창이 길어질 때 시험 성능이 나아지고 격차가 줄어드는지, (3) 적합은 좋은데 시험이 베이스라인보다 못한 모형(전형적 과적합)이 무엇인지를 본다.</p>"
+    html = ("<p class='note'><b>읽는 법</b>: 적합(train)은 모형이 학습한 바로 그 행에서의 성능, 평가(test)은 매월 전진한 표본 외 성능. 트리 모형은 적합 오차가 매우 작은 것이 정상이므로 격차 자체보다 "
+            "(1) 평가 성능이 베이스라인을 넘는지, (2) 학습창이 길어질 때 평가 성능이 나아지고 격차가 줄어드는지, (3) 적합은 좋은데 평가이 베이스라인보다 못한 모형(전형적 과적합)이 무엇인지를 본다.</p>"
             + figs + "<h3>회귀</h3>" + tbl(reg_t.sort_values(["h", "W", "model"]).reset_index(drop=True), index=False)
             + "<h3>분류</h3>" + tbl(clf_t.sort_values(["h", "W", "과제", "model"]).reset_index(drop=True), index=False))
     if tuned_dir and os.path.exists(os.path.join(tuned_dir, "tuned_params.csv")) and summ_c is not None:
@@ -177,11 +197,11 @@ def overfit_section(d, summ, tuned_dir=None, summ_c=None, st_t=None):
         cv["model"] = cv["model"] + "(튜닝)"
         cv = cv.merge(summ_c[["h", "W", "task", "model", "MAE", "PR_AUC"]], on=["h", "W", "task", "model"], how="left")
         cv["검증(CV) 점수"] = np.where(cv["task"] == "reg", -cv["cv_score"], cv["cv_score"])
-        cv["시험 점수"] = np.where(cv["task"] == "reg", cv["MAE"], cv["PR_AUC"])
+        cv["평가 점수"] = np.where(cv["task"] == "reg", cv["MAE"], cv["PR_AUC"])
         cv["지표"] = np.where(cv["task"] == "reg", "MAE(낮을수록)", "PR-AUC(높을수록)")
         cv["과제"] = cv["task"].map({"reg": "회귀", "up": "급등", "dn": "급락"})
-        html += ("<h3>튜닝 모형: 학습창 안 검증(CV) 점수 vs 시험 점수</h3><p class='note'>검증 점수 = 격자 선택에 쓴 3겹 평균(결정월 평균). 검증이 시험보다 많이 좋으면 검증 겹에 맞춘 선택(선택 과적합)을 의심</p>"
-                 + tbl(cv[["h", "W", "과제", "model", "지표", "검증(CV) 점수", "시험 점수"]].sort_values(["h", "W", "과제"]).reset_index(drop=True), index=False))
+        html += ("<h3>튜닝 모형: 학습창 안 검증(CV) 점수 vs 평가 점수</h3><p class='note'>검증 점수 = 격자 선택에 쓴 3겹 평균(결정월 평균). 검증이 평가보다 많이 좋으면 검증 겹에 맞춘 선택(선택 과적합)을 의심</p>"
+                 + tbl(cv[["h", "W", "과제", "model", "지표", "검증(CV) 점수", "평가 점수"]].sort_values(["h", "W", "과제"]).reset_index(drop=True), index=False))
     return html
 
 
@@ -196,7 +216,7 @@ def split_fig(h=6, W=4, t="2022-06"):
     ax.broken_barh([(ts(s_hi + 1), ts(t) - ts(s_hi + 1))], (2.6, 0.8), color=C["muted"], alpha=0.45)
     ax.text(ts(s_hi + 1), 2.5, f"정답 미확정 {h - 1}개월(제외)", fontsize=8, color=C["ink2"], va="top")
     ax.broken_barh([(ts(t), ts(t + 1) - ts(t))], (2.6, 0.8), color=C["orange"])
-    ax.text(ts(t + 1), 3.0, f"시험(test): 결정월 t={t} 의 17개 시도 (정답은 {t + h - 1} 지수 공표 뒤 확정)", fontsize=8.5, color=C["ink"], va="center")
+    ax.text(ts(t + 1), 3.0, f"평가(test): 결정월 t={t} 의 17개 시도 (정답은 {t + h - 1} 지수 공표 뒤 확정)", fontsize=8.5, color=C["ink"], va="center")
     # 중첩 CV (튜닝 모형만): 학습 블록 끝 쪽 3겹, 검증 3개월, 간격 h−1
     for k in range(3):
         v_end = s_hi - 3 * (2 - k)
@@ -214,7 +234,7 @@ def split_fig(h=6, W=4, t="2022-06"):
     ax.set_xlim(ts(s_lo) - pd.Timedelta(days=200), ts(t + 8))
     ax.xaxis.set_major_locator(mdates.YearLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
-    ax.set_title(f"예시: 지평 h={h}개월, 학습창 W={W}년, 결정월 t={t} 의 집합 구성 (매월 t 를 한 칸씩 옮기며 반복)", loc="left")
+    ax.set_title(f"예시: {h}개월 뒤 예측, 학습 기간 W={W}년, 결정월 t={t} 의 학습·검증·평가 구성 (매월 t 를 한 칸씩 옮기며 반복)", loc="left")
     return img(fig)
 
 
@@ -226,7 +246,7 @@ def event_tables(values_path, start, horizons, thr):
     for h in horizons:
         s = a[f"G{h}"].dropna()
         up, dn = (s >= thr), (s <= -thr)
-        rows.append({"지평": f"{h}개월", "평가 행(시도×결정월)": len(s), "결정월 범위": f"{a.loc[s.index, '결정월'].min()}~{a.loc[s.index, '결정월'].max()}",
+        rows.append({"예측 기간": f"{h}개월", "평가 행(시도×결정월)": len(s), "결정월 범위": f"{a.loc[s.index, '결정월'].min()}~{a.loc[s.index, '결정월'].max()}",
                      f"급등(≥+{thr:.0f}%) 건수": int(up.sum()), "급등 비율": f"{up.mean():.1%}", f"급락(≤−{thr:.0f}%) 건수": int(dn.sum()), "급락 비율": f"{dn.mean():.1%}",
                      "둘 중 하나": f"{(up | dn).mean():.1%}"})
         g = a.loc[s.index].assign(연도=a.loc[s.index, "결정월"].str[:4], up=up.values, dn=dn.values).groupby("연도").agg(행=("up", "size"), 급등=("up", "sum"), 급락=("dn", "sum"))
@@ -253,7 +273,7 @@ def sensitivity_figs(summ, h):
         ax.set_xlabel("학습창(년)")
         if met == "BSS":
             ax.axhline(0, color=C["axis"], lw=0.8)
-    fig.suptitle(f"지평 h={h}개월 — 학습창 길이별 전체 평가 기간 성능", x=0.01, y=1.04, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
+    fig.suptitle(f"{h}개월 뒤 예측 — 학습 기간(2~5년)별 전체 평가 기간 성능", x=0.01, y=1.04, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
     fig.tight_layout()
     shared_legend(fig, axes, right=0.9)
     return img(fig)
@@ -376,10 +396,62 @@ def rolling_figs(roll, h, reg_win=12, clf_win=24, title_extra=""):
                 ax.set_ylabel(f"학습창 {W}년", fontsize=9, color=C["ink"])
             ax.xaxis.set_major_locator(mdates.YearLocator())
             ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
-    fig.suptitle(f"지평 h={h}개월 — 롤링 평가 성능의 시간 변화{title_extra} (가로축 = 결정월, 이동 창 끝 기준)", x=0.01, y=1.01, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
+    fig.suptitle(f"{h}개월 뒤 예측 — 시기별 성능 변화{title_extra} (가로축 = 결정월, 이동 창 끝 기준)", x=0.01, y=1.01, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
     fig.tight_layout()
     shared_legend(fig, axes, right=0.92)
     return img(fig)
+
+
+# ------------------------------------------------------------ 맨 위 요약
+def summary_box(summ, d):
+    """과제별 최선 모형·베이스라인 대비 개선·단순 기준 비교를 숫자에서 바로 만든 요약 (카드 맨 위: 숫자 타일 + 표 + 핵심 메시지)"""
+    rows, msgs, main = [], [], None
+    for h in sorted(summ["h"].unique(), reverse=True):
+        g = summ[summ["h"] == h]
+        r = g[(g["task"] == "reg") & (~g["model"].isin(["Zero", "Mom(past_h)", "Mom1(h×past1)"]))].sort_values("MAE").iloc[0]
+        ar = g[(g["task"] == "reg") & (g["model"] == "AR(Ridge)")]["MAE"].min()
+        m1 = g[(g["task"] == "reg") & (g["model"] == "Mom1(h×past1)")]["MAE"].min()
+        gain = 100 * (ar - r["MAE"]) / ar
+        dm = 100 * (m1 - r["MAE"]) / m1 if pd.notna(m1) else np.nan
+        rows.append({"예측": f"{h}개월 뒤 변화율(회귀)", "지표": "MAE(%p, 낮을수록 좋음)", "최선 모형": f"{r['model']} (학습 {r['W']}년)", "최선 값": f"{r['MAE']:.3f}",
+                     "베이스라인 AR": f"{ar:.3f}", "개선": f"오차 {abs(gain):.0f}% {'감소' if gain >= 0 else '증가'}",
+                     "단순 규칙 mom1": (f"{m1:.3f} (동률)" if abs(dm) < 1 else f"{m1:.3f} (최선 모형이 {abs(dm):.0f}% {'낫다' if dm > 0 else '못하다'})") if pd.notna(m1) else ""})
+        ev_best = {}
+        for ev, nm in (("up", "급등"), ("dn", "급락")):
+            c = g[(g["task"] == ev) & (g["model"] != "Clim")].sort_values("PR_AUC", ascending=False).iloc[0]
+            b = g[(g["task"] == ev) & (g["model"] == "AR(Logit)")].sort_values("PR_AUC", ascending=False).iloc[0]
+            rate = float(g[(g["task"] == ev)]["양성비율"].iloc[0])
+            ev_best[ev] = (c, b, rate)
+            rows.append({"예측": f"{h}개월 뒤 {nm}(분류)", "지표": "PR-AUC / BSS (높을수록 좋음)", "최선 모형": f"{c['model']} (학습 {c['W']}년)", "최선 값": f"{c['PR_AUC']:.2f} / {c['BSS']:+.2f}",
+                         "베이스라인 AR": f"{b['PR_AUC']:.2f} / {b['BSS']:+.2f}", "개선": f"PR-AUC {c['PR_AUC'] - b['PR_AUC']:+.2f}, BSS {c['BSS'] - b['BSS']:+.2f}", "단순 규칙 mom1": f"(사건 비율 {rate:.0%})"})
+        if h == max(summ["h"]):
+            main = dict(h=h, r=r, ar=ar, m1=m1, gain=gain, dm=dm, ev=ev_best)
+    # 숫자 타일 (주 예측 기간)
+    h, r, ar, m1, gain, dm = main["h"], main["r"], main["ar"], main["m1"], main["gain"], main["dm"]
+    up, upb, upr = main["ev"]["up"]; dn, dnb, dnr = main["ev"]["dn"]
+    tiles = ("<div class='tiles'>"
+             f"<div class='tile'><div class='lab'>{h}개월 뒤 변화율 예측 오차 (MAE) — 최선 {r['model']}, 학습 {r['W']}년</div><div class='num'>{r['MAE']:.2f}<span style='font-size:14px'> %p</span></div>"
+             f"<div class='sub'>베이스라인 {ar:.2f} → <span class='good'>오차 {abs(gain):.0f}% 감소</span>" + (f" · 단순 규칙 mom1 {m1:.2f}({'동률' if abs(dm) < 1 else f'{dm:+.0f}%'})" if pd.notna(m1) else "") + "</div></div>"
+             f"<div class='tile'><div class='lab'>{h}개월 뒤 급등(+1% 이상) 예측 — 최선 {up['model']}, 학습 {up['W']}년</div><div class='num'>PR-AUC {up['PR_AUC']:.2f}</div>"
+             f"<div class='sub'>베이스라인 {upb['PR_AUC']:.2f} → <span class='good'>{up['PR_AUC'] - upb['PR_AUC']:+.2f}</span> · BSS {up['BSS']:+.2f} (베이스라인 {upb['BSS']:+.2f}) · 사건 비율 {upr:.0%}</div></div>"
+             f"<div class='tile'><div class='lab'>{h}개월 뒤 급락(−1% 이하) 예측 — 최선 {dn['model']}, 학습 {dn['W']}년</div><div class='num'>PR-AUC {dn['PR_AUC']:.2f}</div>"
+             f"<div class='sub'>베이스라인 {dnb['PR_AUC']:.2f} → <span class='good'>{dn['PR_AUC'] - dnb['PR_AUC']:+.2f}</span> · BSS {dn['BSS']:+.2f} (베이스라인 {dnb['BSS']:+.2f}) · 사건 비율 {dnr:.0%}</div></div>"
+             "</div>")
+    msgs.append(f"<b>{h}개월 뒤 변화율</b>은 {r['model']}이 가장 좋았고, 월세지수의 과거 흐름만 쓴 베이스라인(AR)보다 오차가 {abs(gain):.0f}% 작다. "
+                + (f"다만 학습 없는 단순 규칙 mom1(최근 1개월 변화 × {h})과는 {'비슷하다' if abs(dm) < 3 else ('더 낫다' if dm > 0 else '못하다')}({r['MAE']:.3f} vs {m1:.3f}) — 설명변수의 이득은 2021~25 국면 전환기에 집중된다(⑥)." if pd.notna(m1) else ""))
+    msgs.append(f"<b>급등·급락 예측</b>에서는 설명변수의 효과가 뚜렷하다. 급등은 {up['model']}(PR-AUC {up['PR_AUC']:.2f} vs 베이스라인 {upb['PR_AUC']:.2f}), 급락은 {dn['model']}(PR-AUC {dn['PR_AUC']:.2f} vs {dnb['PR_AUC']:.2f}). "
+                f"아무 정보가 없을 때의 PR-AUC 는 사건 비율(급등 {upr:.0%}, 급락 {dnr:.0%})이다.")
+    msgs.append("학습 기간은 4~5년이 안정적이다. 모든 변수를 넣은 선형 모형(Ridge·Logit)은 베이스라인보다 못해(과적합) 트리 모형만 쓸 만하고, 하이퍼파라미터 튜닝의 효과는 작다(±0.02).")
+    cv, cvv = os.path.join(d, "contrib_driver.csv"), os.path.join(d, "contrib_var.csv")
+    if os.path.exists(cv) and os.path.exists(cvv):
+        drv, var = pd.read_csv(cv, encoding="utf-8-sig"), pd.read_csv(cvv, encoding="utf-8-sig")
+        h0 = max(drv["h"])
+        d6 = drv[(drv["h"] == h0) & (drv["task"] == "reg")].sort_values("share", ascending=False)
+        v6 = var[(var["h"] == h0) & (var["task"] == "reg")].sort_values("rank").head(3)
+        msgs.append(f"<b>예측에 가장 크게 기여한 것</b>({h0}개월 뒤 변화율, SHAP 기준): 동인은 {d6.iloc[0]['동인']}({d6.iloc[0]['share']:.0%})·{d6.iloc[1]['동인']}({d6.iloc[1]['share']:.0%})·{d6.iloc[2]['동인']}({d6.iloc[2]['share']:.0%}), "
+                    f"변수는 {', '.join(v6['변수'])} (⑧).")
+    return ("<h2>한눈에 보기</h2>" + tiles + "<ul>" + "".join(f"<li>{m}</li>" for m in msgs) + "</ul>"
+            + "<p class='note'>과제별 최선 모형과 베이스라인(월세지수 과거 흐름만 쓴 AR) 대비 개선폭. 자세한 내용은 ③~⑨.</p>" + pd.DataFrame(rows).to_html(index=False))
 
 
 # ------------------------------------------------------------ html
@@ -390,11 +462,13 @@ def build(d, tuned_dir=None, notes=None):
     has_tuned = bool(tuned_dir) and os.path.exists(os.path.join(tuned_dir, "metrics_summary.csv"))
     st_t = json.load(open(os.path.join(tuned_dir, "settings.json"), encoding="utf-8")) if has_tuned else None
     n_months = {h: int(roll[(roll["h"] == h) & (roll["task"] == "reg")]["t"].nunique()) for h in hs}
-    parts = [f"""<h2>① 설정</h2><table class='kv'>
+    parts = [summary_box(summ, d), "<h2>① 설정</h2><p class='note'><b>이 카드가 답하려는 질문</b>: 아파트 월세지수가 앞으로 3·6개월 동안 얼마나 변할지(회귀), 그리고 ±1% 넘게 급등·급락할지(분류)를 "
+             "월세지수의 과거 흐름만으로 맞히는 것(베이스라인)보다 경제 설명변수 47개를 더하면 얼마나 더 잘 맞히는가. 학습 기간 길이(2~5년), 튜닝, 시기, 과적합, 변수 기여도까지 차례로 본다.</p>"
+             "<h3>용어 정리</h3>" + glossary_table() + f"""<table class='kv'>
 <tr><th>자료</th><td>analysis/output/모형입력표_10차_values.csv — 17개 시도 × 결정월(월말) 패널. 설명변수 {st['n_expl']}열 + 타깃 모멘텀 3열(past1·3·6) + 지역 더미 17열 = {len(st['features_full'])}개 특성</td></tr>
 <tr><th>타깃</th><td>G_h = 100·[R(t+h−1)/R(t−1) − 1]: 결정월 t 에 아는 마지막 지수 R(t−1) 대비 앞으로 h개월 변화율(%). 회귀는 G_h, 분류는 급등(G_h ≥ +{st['event_thr']:.0f}%)·급락(G_h ≤ −{st['event_thr']:.0f}%) 이진 사건</td></tr>
-<tr><th>집합 구성</th><td><b>시험(test)</b> = 결정월 t 의 17개 시도(한 달 17행). <b>학습(train)</b> = t 시점에 정답이 확정된 결정월 s ≤ t−h 중 직전 W년(12W개월 × 17 = {12 * 2 * 17:,}~{12 * 5 * 17:,}행).
-t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 유출 차단). t 를 {st['start']}부터 매월 한 칸씩 옮겨 반복(평가 결정월 {', '.join(f'h={h}: {n}개월' for h, n in n_months.items())}) → 모든 시험 예측을 모아 지표 계산.
+<tr><th>집합 구성</th><td><b>평가(test)</b> = 결정월 t 의 17개 시도(한 달 17행). <b>학습(train)</b> = t 시점에 정답이 확정된 결정월 s ≤ t−h 중 직전 W년(12W개월 × 17 = {12 * 2 * 17:,}~{12 * 5 * 17:,}행).
+t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 유출 차단). t 를 {st['start']}부터 매월 한 칸씩 옮겨 반복(평가 결정월 {', '.join(f'h={h}: {n}개월' for h, n in n_months.items())}) → 모든 평가 예측을 모아 지표 계산.
 <b>검증(validation)</b>은 2차 튜닝 모형에만: 학습 블록 안을 시간 순 3겹(검증 3개월, 겹 사이 h−1개월 간격)으로 나눠 격자를 고르고 전체 학습 블록으로 재학습. 1차(고정 파라미터)는 검증 집합 없음(Ridge alpha 만 학습 블록 안 LOO)</td></tr>
 <tr><th>롤링</th><td>학습창 W = {st['windows']}년 각각 전체 반복(민감도). 평가 기간은 창과 무관하게 같음 → 창끼리 직접 비교 가능</td></tr>
 <tr><th>모형</th><td>회귀: AR(Ridge) 베이스라인(모멘텀 3열만) / 참고 Zero·Mom(past_h) / Ridge·RF·ET·XGB(모든 특성). 분류: AR(Logit) 베이스라인 / Logit·RF·ET·XGB. 학습창 양성 {st['min_pos']}건 미만이면 분류기는 학습창 기준율 예측(표의 기준율예측비율)</td></tr>
@@ -402,26 +476,28 @@ t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 �
 <tr><th>1차 설정</th><td>{st['note']}. 트리 {('100' if st.get('quick') else '300')}개, RF·ET leaf 5·max_features 0.5, XGB depth 3·학습률 0.05·subsample 0.8, Logit C=1</td></tr>"""
              + (f"<tr><th>2차 튜닝</th><td>모형 {', '.join(st_t['tune'])}, 학습창 {st_t['windows']}년, 평가 결정월 간격 {st_t['step']}개월(시간 절약). 격자: " + "; ".join(f"{m} {g}" for m, g in st_t["grids"].items()) + "</td></tr>" if has_tuned else "")
              + "</table><h3>기준·모형 정의 (past_k = 100·[R(t−1)/R(t−1−k) − 1], 결정월 t 에 아는 타깃 자신의 최근 k개월 변화율)</h3>" + definitions_table() + split_fig(h=hs[0], W=4)
+             + "<p class='note'>위 그림은 한 시점(2022-06, 학습창 4년)의 예시다. 롤링이라 학습창은 '직전 W년'만 쓰며, 2018-01 같은 초기 결정월에는 자료가 시작되는 2015-07부터 25개월을 학습한다(아래 표). "
+               "결정월·예측 기간·학습창을 바꿔 가며 볼 수 있는 대화형 그림: <a href='학습구조_시각화_10차.html'>학습구조_시각화_10차.html</a></p>"
              + "<h3>집합의 실제 기간 (대표 결정월 기준)</h3>" + "".join(period_table(roll, h, st["windows"], tuple(st_t["windows"]) if has_tuned else ()) for h in hs)]
     # ② 사건 수
     ev, yearly = event_tables(VALUES, st["start"], hs, st["event_thr"])
     fb = summ[(summ["task"] != "reg") & (summ["model"] == "RF")].groupby(["h", "W", "task"])["기준율예측비율"].first().unstack("task")
-    parts.append("<h2>② 평가 기간의 사건 수</h2>" + ev.to_html(index=False) + "<p class='note'>연도별(결정월 기준) 행 수와 사건 수 — 사건이 특정 연도에 몰려 있어 짧은 학습창은 양성 없는 달이 생김</p>" + yearly.to_html()
+    parts.append("<h2>② 급등·급락은 얼마나 자주 일어났나 (평가 기간의 사건 수)</h2>" + ev.to_html(index=False) + "<p class='note'>연도별(결정월 기준) 행 수와 사건 수 — 사건이 특정 연도에 몰려 있어 짧은 학습창은 양성 없는 달이 생김</p>" + yearly.to_html()
                  + "<p class='note'>학습창에 양성이 부족해 분류기가 기준율을 예측한 달의 비율(행 기준)</p>" + fb.rename(columns={"up": "급등", "dn": "급락"}).to_html(float_format=lambda x: f"{x:.1%}"))
     # ③ 민감도
-    parts.append("<h2>③ 학습창 민감도 (1차 고정 파라미터, 전체 평가 기간)</h2>")
+    parts.append("<h2>③ 학습 기간(2~5년)에 따라 성능이 어떻게 달라지나 (1차, 고정 파라미터)</h2>")
     for h in hs:
-        parts.append(f"<h3>지평 h={h}개월</h3>" + sensitivity_figs(summ, h) + tbl(sensitivity_table(summ, h)))
+        parts.append(f"<h3>{h}개월 뒤 예측</h3>" + sensitivity_figs(summ, h) + tbl(sensitivity_table(summ, h)))
     # ④ 개선
-    parts.append("<h2>④ 베이스라인(AR) 대비 개선 (1차)</h2><p class='note'>회귀는 MAE 감소율(%), 분류는 PR-AUC·BSS 차이(모형 − AR)</p>" + best_table(summ).to_html(index=False)
+    parts.append("<h2>④ 설명변수를 넣으면 얼마나 나아지나 (베이스라인 대비, 1차)</h2><p class='note'>회귀는 MAE가 몇 % 줄었는지, 분류는 PR-AUC·BSS가 얼마나 올랐는지(모형 − 베이스라인). 마지막 열은 학습 없는 단순 규칙 mom1 과의 비교</p>" + best_table(summ).to_html(index=False)
                  + "<details><summary>학습창·모형별 전체 표</summary>" + improvement_table(summ).to_html(index=False) + "</details>")
     # ⑤ 튜닝
     if has_tuned:
         summ_c, roll_c = tuned_comparison(d, tuned_dir, st_t)
-        parts.append(f"<h2>⑤ 2차 튜닝 전후 비교 (같은 결정월 {st_t['step']}개월 간격 표본, 학습창 {st_t['windows']}년)</h2>"
+        parts.append(f"<h2>⑤ 하이퍼파라미터 튜닝은 효과가 있었나 (2차, 같은 결정월 {st_t['step']}개월 간격 표본, 학습창 {st_t['windows']}년)</h2>"
                      + (f"<p class='note'><b>주의</b>: {TUNED_NOTE}</p>" if TUNED_NOTE else ""))
         for h in sorted(summ_c["h"].unique(), reverse=True):
-            parts.append(f"<h3>지평 h={h}개월</h3>" + sensitivity_figs(summ_c, h) + tbl(sensitivity_table(summ_c, h)))
+            parts.append(f"<h3>{h}개월 뒤 예측</h3>" + sensitivity_figs(summ_c, h) + tbl(sensitivity_table(summ_c, h)))
         parts.append("<h3>베이스라인 대비(튜닝 포함, 같은 표본)</h3>" + best_table(summ_c).to_html(index=False)
                      + "<details><summary>학습창·모형별 전체 표</summary>" + improvement_table(summ_c).to_html(index=False) + "</details>")
         parts.append("<h3>선택된 하이퍼파라미터</h3><p class='note'>롤링이라 결정월마다 학습창 안 CV 로 다시 고름 → 가장 자주 뽑힌 값(빈도)과 마지막 결정월의 값을 제시. CV 점수 = 회귀 −MAE, 분류 평균정밀도</p>"
@@ -429,30 +505,25 @@ t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 �
         for h in sorted(roll_c["h"].unique(), reverse=True):
             parts.append(rolling_figs(roll_c, h, reg_win=4, clf_win=8, title_extra=f" — 튜닝 비교(표본 {st_t['step']}개월 간격이라 이동 창 = 4·8개 평가점)"))
     # ⑥ 롤링
-    parts.append("<h2>⑥ 시간에 따른 롤링 성능 (1차)</h2><p class='note'>각 점은 그 달까지의 이동 창(MAE 12개월, 분류 24개월) 성능</p>")
+    parts.append("<h2>⑥ 시기별로 성능이 어떻게 변했나 (1차)</h2><p class='note'>각 점은 그 달까지의 최근 성능(MAE는 12개월, 분류는 24개월 이동 창). 2020~21 급등기, 2022~23 하락기, 2024~25 회복기에서 모형별 차이를 본다</p>")
     for h in hs:
         parts.append(rolling_figs(roll, h))
     # ⑦ 과적합 진단
-    parts.append("<h2>⑦ 과적합 진단 — 적합(학습창 안) 성능 vs 시험 성능</h2>" + overfit_section(d, summ, tuned_dir if has_tuned else None, summ_c if has_tuned else None, st_t))
+    parts.append("<h2>⑦ 학습 자료에만 맞춘 것은 아닌가 (과적합 점검: 적합 성능 vs 평가 성능)</h2>" + overfit_section(d, summ, tuned_dir if has_tuned else None, summ_c if has_tuned else None, st_t))
     # ⑧ 변수·동인 기여도 (contrib_analysis.py 가 만든 본문)
     contrib = os.path.join(d, "기여도_section.html")
     if os.path.exists(contrib):
-        parts.append("<h2>⑧ 변수·동인별 기여도 (SHAP·순열 중요도)</h2>" + open(contrib, encoding="utf-8").read())
+        parts.append("<h2>⑧ 어떤 변수·동인이 예측에 기여했나 (SHAP·순열 중요도)</h2>" + open(contrib, encoding="utf-8").read())
     # ⑨ 분석
     if notes and os.path.exists(notes):
-        parts.append("<h2>⑨ 결과 분석 — 전반적 평가·한계·보완사항</h2>" + open(notes, encoding="utf-8").read())
-    parts.append("""<h2>⑩ 읽는 법·주의</h2><ul>
-<li>베이스라인 AR 은 타깃 자신의 과거 1·3·6개월 변화만 쓴다. 설명변수 모형이 이보다 좋아야 변수에 정보가 있다는 뜻.</li>
+        parts.append("<h2>⑨ 결과 해석 — 전반적 평가·한계·보완할 점</h2>" + open(notes, encoding="utf-8").read())
+    parts.append("""<h2>⑩ 읽을 때 주의할 점</h2><ul>
+<li>베이스라인 AR 은 월세지수 자신의 과거 1·3·6개월 변화율만 쓴다. 비교 모형이 이보다 좋아야 설명변수에 정보가 있다는 뜻이다. 학습 없는 단순 규칙(mom1)도 같이 보라 — 6개월 예측에서는 AR 보다 mom1 이 더 강한 기준이다.</li>
 <li>분류 BSS 의 기준은 학습창 기준율이라 0 이면 기준율과 같고, 음수면 기준율보다 못하다(과신). PR-AUC 는 임계값과 무관한 순위 성능이며 양성 비율(② 사건 수 표)이 하한.</li>
 <li>하이퍼파라미터: 1차 고정, 2차는 RF·ET·XGB 만 학습창 안 중첩 시계열 CV. 창마다 평가 기간이 같으므로 창끼리 직접 비교 가능. 튜닝 비교는 같은 결정월 표본으로 다시 계산.</li></ul>""")
-    css = ("<style>body{font-family:'Malgun Gothic',system-ui,sans-serif;font-size:13px;color:#0b0b0b;background:#f9f9f7;margin:24px;max-width:1500px}"
-           "h1{font-size:21px}h2{font-size:16px;border-bottom:1px solid #c3c2b7;margin-top:32px;padding-bottom:4px}h3{font-size:14px;color:#52514e;margin-top:20px}"
-           "table{border-collapse:collapse;font-size:12px;margin:8px 0}th,td{border:1px solid #e1e0d9;padding:3px 7px;text-align:right;vertical-align:top}th{background:#f0efec;text-align:left}"
-           "td:first-child{text-align:left}table.kv th{width:90px}table.kv td{text-align:left}img{display:block;margin:6px 0 14px 0;max-width:100%}p.note{color:#52514e}details{margin:8px 0}"
-           "div.analysis{background:#fcfcfb;border:1px solid #e1e0d9;padding:10px 16px}div.analysis h4{margin:14px 0 6px 0;font-size:13.5px}</style>")
-    html = (f"<!doctype html><html lang='ko'><head><meta charset='utf-8'><title>롤링 모형 결과 10차</title>{css}</head><body>"
-            f"<h1>10차 롤링 모형 결과 — 베이스라인 대비 개선, 학습창 민감도, 튜닝, 시간에 따른 성능</h1><p class='note'>생성 {dt.date.today().isoformat()} · 1차 {os.path.relpath(d, BASE)}"
-            + (f" · 2차 {os.path.relpath(tuned_dir, BASE)}" if has_tuned else "") + "</p>" + "".join(parts) + "</body></html>")
+    subtitle = (f"생성 {dt.date.today().isoformat()} · 학습 자료 analysis/output/모형입력표_10차_values.csv · 결과 {os.path.relpath(d, BASE).replace(os.sep, '/')}"
+                + (f" · 튜닝 {os.path.relpath(tuned_dir, BASE).replace(os.sep, '/')}" if has_tuned else ""))
+    html = page("10차 월세 변화율·급등급락 예측 모형 — 결과 카드", subtitle, "".join(parts))
     out = os.path.join(d, "모형결과카드_10차.html")
     with open(out, "w", encoding="utf-8") as f:
         f.write(html)

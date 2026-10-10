@@ -4,7 +4,7 @@
 
 자료: analysis/output/모형입력표_10차_values.csv (17개 시도 × 결정월, 타깃 G3·G6, 설명변수 47열, model_values.py 가 만듦)
 설계
-  - 결정월 t(월말)마다, t 시점에 정답이 확정된 행만 학습: 지평 h 의 타깃 G_h(s) 는 s ≤ t−h 인 결정월 s 에서만 앎
+  - 결정월 t(월말)마다, t 시점에 정답이 확정된 행만 학습: 예측 기간 h 의 타깃 G_h(s) 는 s ≤ t−h 인 결정월 s 에서만 앎
     (G_h(s) = 100·[R(s+h−1)/R(s−1) − 1], R 은 1개월 뒤 공표). 학습창 = 직전 W년(12W 개 결정월) × 17개 시도, 매월 전진.
   - 회귀: y = G_h (%, MAE). 베이스라인 AR(Ridge) = past1·past3·past6 만. 참고: 0 예측, 모멘텀(past_h). 비교: Ridge·RF·ET·XGB (모멘텀 + 설명변수 + 지역 더미)
   - 분류: 급등 = G_h ≥ +1, 급락 = G_h ≤ −1 (각각 이진). 베이스라인 AR(Logit) = 모멘텀만. 비교: Logit·RF·ET·XGB.
@@ -164,7 +164,7 @@ def run(h, windows, start, quick, df, X, feats, tune=(), step=1):
 
 
 def summarize(pred):
-    """전체 평가 기간 지표(모형 × 학습창 × 지평 × 과제) + 시간에 따른 이동 지표"""
+    """전체 평가 기간 지표(모형 × 학습창 × 예측 기간 × 과제) + 시간에 따른 이동 지표"""
     pred["tP"] = pd.PeriodIndex(pred["t"], freq="M")
     summ, roll = [], []
     for (h, W, task, model), g in pred.groupby(["h", "W", "task", "model"]):
@@ -207,7 +207,7 @@ def main():
     out_dir = OUT + args.tag
     os.makedirs(out_dir, exist_ok=True)
     df, X, feats, expl = load(args.start)
-    print(f"자료 {df.shape}, 설명변수 {len(expl)}, 특성(full) {len(feats['full'])}, 지평 {args.horizons}, 학습창 {args.windows}년, 평가 시작 {args.start}"
+    print(f"자료 {df.shape}, 설명변수 {len(expl)}, 특성(full) {len(feats['full'])}, 예측 기간 {args.horizons}, 학습창 {args.windows}년, 평가 시작 {args.start}"
           + (f", 튜닝 {args.tune} (격자 {[GRIDS[m] for m in args.tune if m in GRIDS]}), 간격 {args.step}개월" if args.tune else ""))
     preds, params, fits = [], [], []
     for h in args.horizons:
@@ -229,7 +229,7 @@ def main():
                        tune=args.tune, grids={m: GRIDS[m] for m in args.tune if m in GRIDS},
                        n_expl=len(expl), features_full=feats["full"], features_ar=feats["ar"], models_reg=list(models_for("reg", True)), models_clf=list(models_for("clf", True)),
                        note="학습 행 = 결정월 s ≤ t−h (정답 확정) 인 직전 W년. 선형: 중앙값 대치+표준화, 트리: 중앙값 대치. "
-                            + ("튜닝 모형은 학습창 안 TimeSeriesSplit(3겹, 지평만큼 간격) 격자 선택 뒤 전체 창 재학습, 나머지는 고정" if args.tune else "하이퍼파라미터 고정(Ridge alpha 만 RidgeCV)")),
+                            + ("튜닝 모형은 학습창 안 TimeSeriesSplit(3겹, 예측 기간만큼 간격) 격자 선택 뒤 전체 창 재학습, 나머지는 고정" if args.tune else "하이퍼파라미터 고정(Ridge alpha 만 RidgeCV)")),
                   f, ensure_ascii=False, indent=1)
     pd.set_option("display.width", 220)
     print("\n== 회귀 MAE (낮을수록 좋음)")

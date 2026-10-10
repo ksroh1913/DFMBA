@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10차 학습 구조 시각화</title>
+<style>
+:root{color-scheme:light;--surface:#fcfcfb;--page:#f9f9f7;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
+ --train:#2a78d6;--valid:#4a3aa7;--test:#eb6834;--gap:#c3c2b7;--buffer:#f0efec;--fold:#9ec5f4}
+body{font-family:'Malgun Gothic',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;color:var(--ink);background:var(--page);margin:0;padding:20px 16px;max-width:1180px}
+h1{font-size:18px;margin:0 0 6px}
+p.note{color:var(--ink2);margin:4px 0 10px;line-height:1.6}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0}
+.row label{color:var(--ink2);min-width:64px}
+input[type=range]{flex:1;min-width:220px}
+button{font:inherit;padding:4px 10px;border:1px solid var(--axis);border-radius:6px;background:var(--surface);color:var(--ink);cursor:pointer}
+button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+#tout{font-weight:700;min-width:70px}
+svg{width:100%;height:auto;background:var(--surface);border:1px solid var(--grid);border-radius:6px;display:block}
+.legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--ink2);margin:8px 0}
+.legend span i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+#info{line-height:1.8;background:var(--surface);border:1px solid var(--grid);border-radius:6px;padding:8px 12px}
+table{border-collapse:collapse;font-size:12px;margin-top:10px}th,td{border:1px solid var(--grid);padding:3px 8px;text-align:left}th{background:#f0efec}
+</style>
+</head>
+<body>
+<h1>10차 모형의 학습·검증·평가 구조 — 매달 다시 나누는 롤링 전진 평가</h1>
+<p class="note">가로축은 결정월(월말). 결정월 t 에는 그 시점까지 공표된 자료만 쓴다. 학습(train)은 "t 시점에 h개월 뒤 정답이 이미 확정된 달"(s ≤ t−h) 중 <b>직전 W년</b>, 그 뒤 h−1개월은 정답이 아직 없어 비우고, 평가(test)은 t 한 달(17개 시도 행)이다.
+t 를 2018-01부터 매달 한 칸씩 옮겨 모든 달이 한 번씩 평가이 된다. 자료의 첫 정답은 2015-07이라 초기 결정월에는 학습이 W년보다 짧다(2018-01 평가 → 2015-07~2017-07의 25개월). 검증(validation)은 2차 튜닝 모형에서만 학습 블록 안을 시간 순 3겹으로 나눠 쓴다.</p>
+<div class="row"><label>예측 시점 t</label><input type="range" id="t" min="0" max="98" step="1" value="54"><span id="tout">2022-07</span><button id="play">▶ 재생</button></div>
+<div class="row"><label>예측 기간</label><button class="hb on" data-h="6">6개월 뒤</button><button class="hb" data-h="3">3개월 뒤</button>
+<label style="margin-left:14px">학습창</label><button class="wb" data-w="2">2년</button><button class="wb" data-w="3">3년</button><button class="wb on" data-w="4">4년</button><button class="wb" data-w="5">5년</button><button class="wb" data-w="0">네 창 비교</button></div>
+<svg id="sv" viewBox="0 0 780 360" role="img"><title>학습·검증·평가 구간</title></svg>
+<div class="legend"><span><i style="background:var(--train)"></i>학습(train)</span><span><i style="background:var(--fold)"></i>검증용 겹의 학습 부분(튜닝 모형만)</span><span><i style="background:var(--valid)"></i>검증(validation, 3개월 × 3겹)</span><span><i style="background:var(--test)"></i>평가(test, 결정월 t)</span><span><i style="background:var(--gap)"></i>정답 미확정(h−1개월, 제외)</span><span><i style="background:var(--buffer);border:1px solid var(--grid)"></i>버퍼(설명변수 12개월 변화 계산용, 타깃 없음)</span></div>
+<div id="info"></div>
+<table><tr><th>구분</th><th>설명</th></tr>
+<tr><td>학습(train)</td><td>직전 W년 × 17개 시도. 설명변수 47 + 타깃 모멘텀 3 + 지역 더미 17. 선형 모형은 학습 행으로 중앙값 대치·표준화, 트리는 중앙값 대치. 매월 다시 학습</td></tr>
+<tr><td>검증(validation)</td><td>2차 튜닝(RF·ET·XGB)에서만. 학습 블록 안에서 시간 순 3겹: 검증 3개월, 겹의 학습 끝과 검증 시작 사이 h−1개월 간격(정답 미확정 규칙과 같음). 격자에서 점수가 가장 좋은 값을 고른 뒤 전체 학습 블록으로 다시 학습</td></tr>
+<tr><td>평가(test)</td><td>결정월 t 의 17개 시도. 정답 G_h 는 t+h−1 달 지수가 공표된 뒤 확정. 2018-01~2026-03(h=6) 모든 달의 평가 예측을 모아 MAE·PR-AUC·BSS 계산</td></tr>
+<tr><td>1차 vs 2차</td><td>1차(고정 파라미터)는 검증 집합 없음(Ridge alpha 만 학습 블록 안 LOO). 2차는 위 검증 겹으로 격자 선택</td></tr></table>
+<script>
+const M0=2014*12+0, N=153, X0=46, CW=4.6, ns='http://www.w3.org/2000/svg', sv=document.getElementById('sv');
+const FIRST_T=18, TEST0=48;                       // 2015-07 첫 정답, 2018-01 첫 평가
+const lab=m=>{const a=M0+m;return Math.floor(a/12)+'-'+String(a%12+1).padStart(2,'0')};
+let h=6, i=54, W=4, timer=null;
+const lastTest=()=>h===6?146:149;               // 2026-03 / 2026-06
+function el(t,a,txt){const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!==undefined)e.textContent=txt;sv.appendChild(e);return e}
+function cells(y,hgt,f){for(let m=0;m<N;m++){const c=f(m);if(c)el('rect',{x:X0+m*CW,y:y,width:CW-0.5,height:hgt,fill:c.f,opacity:c.o||1})}}
+function window_(tm,Wy){const hi=tm-h;const lo=Math.max(tm-h-12*Wy+1,FIRST_T);return [lo,hi]}
+function drawRow(y,hgt,tm,Wy,label){
+  const [lo,hi]=window_(tm,Wy);
+  el('text',{x:X0-6,y:y+hgt/2+4,'text-anchor':'end','font-size':11,fill:'var(--ink)'},label);
+  cells(y,hgt,m=>m<FIRST_T?{f:'var(--buffer)'}:(m>=lo&&m<=hi?{f:'var(--train)'}:(m>hi&&m<tm?{f:'var(--gap)'}:(m===tm?{f:'var(--test)'}:null))));
+  el('text',{x:X0+lo*CW,y:y-3,'font-size':10,fill:'var(--ink2)'},lab(lo)+'~'+lab(hi)+' ('+(hi-lo+1)+'개월 × 17 = '+((hi-lo+1)*17).toLocaleString()+'행)');
+  return [lo,hi];
+}
+function draw(){
+  sv.innerHTML='';
+  sv.setAttribute('viewBox','0 0 780 '+(W===0?360:250));
+  const tm=TEST0+i;
+  // 연도 눈금
+  const H=(W===0?360:250);
+  for(let y=0;y<=12;y++){const x=X0+y*12*CW;el('line',{x1:x,x2:x,y1:18,y2:H-30,stroke:'var(--grid)','stroke-width':0.6});if(y<13)el('text',{x:x+6*12*CW/6,y:H-14,'text-anchor':'middle','font-size':11,fill:'var(--muted)'},String(2014+y))}
+  // 국면
+  const reg=[[48,71,'급락 많음(지방)'],[72,95,'급등기'],[96,119,'하락·전환기'],[120,152,'회복·재상승']];
+  el('text',{x:X0,y:14,'font-size':11,fill:'var(--ink2)'},'시장 국면(급등·급락 사건 비율 기준)');
+  reg.forEach(r=>{el('rect',{x:X0+r[0]*CW,y:20,width:(r[1]-r[0]+1)*CW-1,height:15,fill:'#f0efec',stroke:'var(--grid)','stroke-width':0.5,rx:3});el('text',{x:X0+(r[0]+r[1]+1)/2*CW,y:31,'text-anchor':'middle','font-size':10,fill:'var(--ink2)'},r[2])});
+  // 자료 가용 범위
+  el('text',{x:X0,y:56,'font-size':11,fill:'var(--ink2)'},'자료: 설명변수 2014-01~ (버퍼 포함), 타깃 정답 2015-07~, 평가 결정월 2018-01~'+lab(lastTest()));
+  cells(60,8,m=>m<FIRST_T?{f:'var(--buffer)'}:(m>=TEST0&&m<=lastTest()?{f:'var(--test)',o:0.35}:{f:'var(--train)',o:0.25}));
+  // 학습창 행
+  let y=92, info;
+  if(W===0){[2,3,4,5].forEach((wy,k)=>{const r=drawRow(y+k*44,18,tm,wy,wy+'년');if(wy===4)info=r})}
+  else{info=drawRow(y+20,24,tm,W,W+'년')}
+  // 검증 겹 (선택 창 기준, 비교 모드는 4년)
+  const Wy=W===0?4:W; const [lo,hi]=window_(tm,Wy); const yv=W===0?276:160;
+  el('text',{x:X0,y:yv-6,'font-size':11,fill:'var(--ink2)'},'검증(튜닝 모형만, 학습창 '+Wy+'년 기준): 시간 순 3겹 — 검증 3개월, 겹 학습 끝과 검증 사이 '+(h-1)+'개월 간격');
+  for(let k=0;k<3;k++){const ve=hi-3*(2-k), vl=ve-2, te=vl-h; const yy=yv+k*14;
+    el('text',{x:X0-6,y:yy+10,'text-anchor':'end','font-size':10,fill:'var(--ink2)'},'겹 '+(k+1));
+    cells(yy,11,m=>(m>=lo&&m<=te)?{f:'var(--fold)'}:((m>=vl&&m<=ve)?{f:'var(--valid)'}:null));
+    el('text',{x:X0+(ve+1)*CW+3,y:yy+9,'font-size':9.5,fill:'var(--ink2)'},'학습 '+lab(lo)+'~'+lab(te)+' / 검증 '+lab(vl)+'~'+lab(ve))}
+  document.getElementById('tout').textContent=lab(tm);
+  const n=info[1]-info[0]+1, short=(n<12*Wy)?' (자료 시작 2015-07 때문에 '+Wy+'년보다 짧음)':'';
+  document.getElementById('info').innerHTML='<b>결정월 '+lab(tm)+'</b>, '+h+'개월 뒤 예측, 학습창 '+Wy+'년: 학습 '+lab(info[0])+'~'+lab(info[1])+' ('+n+'개월 × 17개 시도 = '+(n*17).toLocaleString()+'행)'+short+
+   ' → 정답 미확정 '+lab(info[1]+1)+'~'+lab(tm-1)+' ('+(h-1)+'개월) 제외 → 평가 '+lab(tm)+'의 17개 시도. 이 평가의 정답은 '+lab(tm+h-1)+' 지수가 공표된 뒤('+lab(tm+h)+' 결정월)에 확정된다.';
+  document.querySelectorAll('.hb').forEach(b=>b.classList.toggle('on',+b.dataset.h===h));
+  document.querySelectorAll('.wb').forEach(b=>b.classList.toggle('on',+b.dataset.w===W));
+  document.getElementById('t').max=String(lastTest()-TEST0);
+}
+document.getElementById('t').addEventListener('input',e=>{i=+e.target.value;draw()});
+document.querySelectorAll('.hb').forEach(b=>b.addEventListener('click',()=>{h=+b.dataset.h;if(TEST0+i>lastTest())i=lastTest()-TEST0;draw()}));
+document.querySelectorAll('.wb').forEach(b=>b.addEventListener('click',()=>{W=+b.dataset.w;draw()}));
+document.getElementById('play').addEventListener('click',()=>{const b=document.getElementById('play');if(timer){clearInterval(timer);timer=null;b.textContent='▶ 재생';return}b.textContent='❚❚ 멈춤';timer=setInterval(()=>{i=(i+1)%(lastTest()-TEST0+1);document.getElementById('t').value=i;draw()},160)});
+draw();
+</script>
+</body>
+</html>
