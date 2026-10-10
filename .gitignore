@@ -21,3 +21,4 @@ analysis/output/변수카드/_cache.pkl
 analysis/output/모형결과_10차_tuned/predictions_*.csv
 analysis/output/모형결과_10차*/contrib_shap_long.csv
 analysis/output/모형결과_10차*/contrib_perm_long.csv
+.playwright-mcp/
