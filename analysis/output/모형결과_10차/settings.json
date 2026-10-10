@@ -13,6 +13,9 @@
  "quick": false,
  "event_thr": 1.0,
  "min_pos": 5,
+ "step": 1,
+ "tune": [],
+ "grids": {},
  "n_expl": 47,
  "features_full": [
   "past1",
@@ -102,5 +105,5 @@
   "ET",
   "XGB"
  ],
- "note": "학습 행 = 결정월 s ≤ t−h (정답 확정) 인 직전 W년. 선형: 중앙값 대치+표준화, 트리: 중앙값 대치. 하이퍼파라미터 고정"
+ "note": "학습 행 = 결정월 s ≤ t−h (정답 확정) 인 직전 W년. 선형: 중앙값 대치+표준화, 트리: 중앙값 대치. 하이퍼파라미터 고정(Ridge alpha 만 RidgeCV)"
 }

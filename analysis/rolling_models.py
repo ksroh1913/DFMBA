@@ -104,12 +104,20 @@ def run(h, windows, start, quick, df, X, feats, tune=(), step=1):
     n_reg = df["region"].nunique()
     cv_kw = dict(gap_rows=n_reg * (h - 1), test_rows=n_reg * 3)        # 검증 겹 3개월, 간격 h−1개월 (학습 겹 s ≤ 검증 v − h)
     reg_models, clf_models = models_for("reg", quick, tune, **cv_kw), models_for("clf", quick, tune, **cv_kw)
-    rows, params = [], []
+    rows, params, fits = [], [], []
 
     def note_params(m, task, nm, W, t):                                 # 튜닝 모형이면 그 결정월에 선택된 격자값과 CV 점수를 기록
         if hasattr(m, "best_params_"):
             params.append(dict(h=h, W=W, t=str(t), task=task, model=nm, cv_score=float(m.best_score_),
                                **{k.split("__")[-1]: v for k, v in m.best_params_.items()}))
+
+    def note_fit(m, task, nm, W, t, Xtr, ytr_):                           # 과적합 진단용: 학습창 안 적합(train) 성능
+        if task == "reg":
+            fits.append(dict(h=h, W=W, t=str(t), task=task, model=nm, n_train=len(ytr_), MAE_train=float(mean_absolute_error(ytr_, m.predict(Xtr)))))
+        else:
+            p_ = m.predict_proba(Xtr)[:, 1]
+            fits.append(dict(h=h, W=W, t=str(t), task=task, model=nm, n_train=len(ytr_), Brier_train=float(brier_score_loss(ytr_, p_)),
+                             PR_AUC_train=float(average_precision_score(ytr_, p_)) if ytr_.sum() else np.nan))
     t0 = time.time()
     for W in windows:
         for i, t in enumerate(test_months):
@@ -126,8 +134,10 @@ def run(h, windows, start, quick, df, X, feats, tune=(), step=1):
             for nm, pred in (("Zero", np.zeros(te.sum())), ("Mom(past_h)", df.loc[te, f"past{h}"].values), ("Mom1(h×past1)", h * df.loc[te, "past1"].values)):
                 rows.append(pd.DataFrame({**base, "task": "reg", "model": nm, "pred": pred}))
             for nm, (fs, mk) in reg_models.items():
-                m = mk().fit(X.loc[tr, feats[fs]].values, ytr)
+                Xtr = X.loc[tr, feats[fs]].values
+                m = mk().fit(Xtr, ytr)
                 note_params(m, "reg", nm, W, t)
+                note_fit(m, "reg", nm, W, t, Xtr, ytr)
                 rows.append(pd.DataFrame({**base, "task": "reg", "model": nm, "pred": m.predict(X.loc[te, feats[fs]].values)}))
             for ev, ybin_all in (("up", (y_all >= EVENT_THR)), ("dn", (y_all <= -EVENT_THR))):
                 ybin_tr = ybin_all.loc[tr].values.astype(int)
@@ -140,15 +150,17 @@ def run(h, windows, start, quick, df, X, feats, tune=(), step=1):
                         rows.append(pd.DataFrame({**b, "model": nm, "pred": np.full(te.sum(), clim), "fallback": True}))
                     continue
                 for nm, (fs, mk) in clf_models.items():
-                    m = mk().fit(X.loc[tr, feats[fs]].values, ybin_tr)
+                    Xtr = X.loc[tr, feats[fs]].values
+                    m = mk().fit(Xtr, ybin_tr)
                     note_params(m, ev, nm, W, t)
+                    note_fit(m, ev, nm, W, t, Xtr, ybin_tr)
                     rows.append(pd.DataFrame({**b, "model": nm, "pred": m.predict_proba(X.loc[te, feats[fs]].values)[:, 1], "fallback": False}))
             if i % 12 == 0:
                 print(f"  h={h} W={W}: {t} ({i + 1}/{len(test_months)}) {time.time() - t0:.0f}s", flush=True)
     out = pd.concat(rows, ignore_index=True)
     if "fallback" not in out.columns:
         out["fallback"] = np.nan
-    return out, pd.DataFrame(params)
+    return out, pd.DataFrame(params), pd.DataFrame(fits)
 
 
 def summarize(pred):
@@ -197,16 +209,18 @@ def main():
     df, X, feats, expl = load(args.start)
     print(f"자료 {df.shape}, 설명변수 {len(expl)}, 특성(full) {len(feats['full'])}, 지평 {args.horizons}, 학습창 {args.windows}년, 평가 시작 {args.start}"
           + (f", 튜닝 {args.tune} (격자 {[GRIDS[m] for m in args.tune if m in GRIDS]}), 간격 {args.step}개월" if args.tune else ""))
-    preds, params = [], []
+    preds, params, fits = [], [], []
     for h in args.horizons:
-        p, prm = run(h, args.windows, args.start, args.quick, df, X, feats, tune=tuple(args.tune), step=args.step)
+        p, prm, ft = run(h, args.windows, args.start, args.quick, df, X, feats, tune=tuple(args.tune), step=args.step)
         p.to_csv(os.path.join(out_dir, f"predictions_h{h}.csv"), index=False, encoding="utf-8-sig")
         preds.append(p)
         params.append(prm)
+        fits.append(ft)
     pred = pd.concat(preds, ignore_index=True)
     params = pd.concat(params, ignore_index=True)
     if len(params):
         params.to_csv(os.path.join(out_dir, "tuned_params.csv"), index=False, encoding="utf-8-sig")   # 결정월마다 선택된 격자값
+    pd.concat(fits, ignore_index=True).to_csv(os.path.join(out_dir, "fit_metrics.csv"), index=False, encoding="utf-8-sig")   # 학습창 안 적합 성능(과적합 진단)
     summ, roll = summarize(pred)
     summ.to_csv(os.path.join(out_dir, "metrics_summary.csv"), index=False, encoding="utf-8-sig")
     roll.to_csv(os.path.join(out_dir, "rolling_metrics.csv"), index=False, encoding="utf-8-sig")

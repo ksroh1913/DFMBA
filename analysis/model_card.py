@@ -103,6 +103,86 @@ def definitions_table():
     return pd.DataFrame(rows, columns=["카드 이름", "구분", "예측식", "학습·파라미터", "9차·TH 대응"]).to_html(index=False)
 
 
+# ------------------------------------------------------------ ① 설정: 집합의 실제 기간 표
+def period_table(roll, h, windows, tuned_windows=(), sample_ts=None):
+    """지평 h 에서 시험 결정월 범위와, 대표 결정월 t 마다 학습 구간(실제 자료 기준)·튜닝 검증 겹 기간을 표로"""
+    v = pd.read_csv(VALUES, encoding="utf-8-sig")
+    y0 = pd.Period(v.dropna(subset=[f"G{h}"])["결정월"].min(), "M")                     # 정답이 있는 첫 결정월
+    r = roll[(roll["h"] == h) & (roll["task"] == "reg")]
+    ts = sorted(pd.PeriodIndex(r["t"].unique(), freq="M"))
+    t_first, t_last = ts[0], ts[-1]
+    sample_ts = sample_ts or [t_first, pd.Period("2020-01", "M"), pd.Period("2022-01", "M"), pd.Period("2024-01", "M"), t_last]
+    rows = []
+    for t in sample_ts:
+        s_hi = t - h
+        for W in windows:
+            s_lo = max(s_hi - 12 * W + 1, y0)
+            n = (s_hi - s_lo).n + 1
+            folds = ""
+            if W in tuned_windows:
+                parts = []
+                for k in range(3):
+                    v_end = s_hi - 3 * (2 - k)
+                    v_lo = v_end - 2
+                    parts.append(f"겹{k + 1} 학습 {s_lo}~{v_lo - h} / 검증 {v_lo}~{v_end}")
+                folds = "; ".join(parts)
+            rows.append({"시험 결정월 t": str(t), "학습창 W": f"{W}년", "학습 구간(결정월 s)": f"{s_lo}~{s_hi} ({n}개월 × 17 = {n * 17:,}행)", "비움(정답 미확정)": f"{s_hi + 1}~{t - 1} ({h - 1}개월)",
+                         "검증 겹(튜닝 모형만)": folds, "시험": f"{t} 의 17개 시도, 정답은 {t + h - 1} 지수 공표 뒤"})
+    head = f"<p class='note'><b>h={h}개월</b>: 시험 결정월 {t_first}~{t_last} ({len(ts)}개월, 매월), 정답이 있는 첫 결정월 {y0} → 학습 구간은 '최대 W년'이며 초기에는 자료가 그만큼 없음</p>"
+    return head + pd.DataFrame(rows).to_html(index=False)
+
+
+# ------------------------------------------------------------ ⑦ 과적합 진단
+def overfit_section(d, summ, tuned_dir=None, summ_c=None, st_t=None):
+    path = os.path.join(d, "fit_metrics.csv")
+    if not os.path.exists(path):
+        return "<p class='note'>fit_metrics.csv 가 없어 적합 성능을 표시하지 못함 (rolling_models.py 재실행 필요)</p>"
+    fit = pd.read_csv(path, encoding="utf-8-sig")
+    agg = fit.groupby(["h", "W", "task", "model"]).agg(MAE_train=("MAE_train", "mean"), Brier_train=("Brier_train", "mean"), PR_AUC_train=("PR_AUC_train", "mean")).reset_index()
+    m = agg.merge(summ[["h", "W", "task", "model", "MAE", "Brier", "PR_AUC", "BSS"]], on=["h", "W", "task", "model"], how="left")
+    reg = m[m["task"] == "reg"].copy()
+    reg["시험/적합 비율"] = reg["MAE"] / reg["MAE_train"]
+    reg_t = reg.rename(columns={"MAE_train": "MAE 적합(학습창 안)", "MAE": "MAE 시험"})[["h", "W", "model", "MAE 적합(학습창 안)", "MAE 시험", "시험/적합 비율"]]
+    clf = m[m["task"] != "reg"].copy()
+    clf["과제"] = clf["task"].map({"up": "급등", "dn": "급락"})
+    clf_t = clf.rename(columns={"PR_AUC_train": "PR-AUC 적합", "PR_AUC": "PR-AUC 시험", "Brier_train": "Brier 적합", "Brier": "Brier 시험"})[["h", "W", "과제", "model", "PR-AUC 적합", "PR-AUC 시험", "Brier 적합", "Brier 시험", "BSS"]]
+    # 그림: 지평별로 적합(점선·빈 표식) vs 시험(실선·채운 표식)
+    figs = ""
+    for h in sorted(m["h"].unique(), reverse=True):
+        panels = [("reg", "MAE_train", "MAE", "MAE: 적합(점선) vs 시험(실선)"), ("up", "PR_AUC_train", "PR_AUC", "급등 PR-AUC: 적합 vs 시험"), ("dn", "PR_AUC_train", "PR_AUC", "급락 PR-AUC: 적합 vs 시험")]
+        fig, axes = plt.subplots(1, 3, figsize=(10.5, 3.2))
+        for ax, (task, mtr, mte, title) in zip(axes, panels):
+            g = m[(m["h"] == h) & (m["task"] == task)]
+            for model in [x for x in ORDER if x in set(g["model"])]:
+                gg = g[g["model"] == model].sort_values("W")
+                st_ = style_of(model)
+                ax.plot(gg["W"], gg[mtr], color=st_["color"], ls=":", lw=1.4, marker="o", mfc="none", ms=5)
+                ax.plot(gg["W"], gg[mte], color=st_["color"], ls=st_["ls"], lw=st_["lw"], marker="o", ms=4, label=model)
+            ax.set_title(title, loc="left")
+            ax.set_xticks(sorted(g["W"].unique()))
+            ax.set_xlabel("학습창(년)")
+        fig.suptitle(f"지평 h={h}개월 — 학습창 안 적합 성능과 시험 성능 (격차가 클수록 학습 자료에 맞춘 정도가 큼)", x=0.01, y=1.04, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
+        fig.tight_layout()
+        shared_legend(fig, axes, right=0.86)
+        figs += img(fig)
+    html = ("<p class='note'><b>읽는 법</b>: 적합(train)은 모형이 학습한 바로 그 행에서의 성능, 시험(test)은 매월 전진한 표본 외 성능. 트리 모형은 적합 오차가 매우 작은 것이 정상이므로 격차 자체보다 "
+            "(1) 시험 성능이 베이스라인을 넘는지, (2) 학습창이 길어질 때 시험 성능이 나아지고 격차가 줄어드는지, (3) 적합은 좋은데 시험이 베이스라인보다 못한 모형(전형적 과적합)이 무엇인지를 본다.</p>"
+            + figs + "<h3>회귀</h3>" + tbl(reg_t.sort_values(["h", "W", "model"]).reset_index(drop=True), index=False)
+            + "<h3>분류</h3>" + tbl(clf_t.sort_values(["h", "W", "과제", "model"]).reset_index(drop=True), index=False))
+    if tuned_dir and os.path.exists(os.path.join(tuned_dir, "tuned_params.csv")) and summ_c is not None:
+        p = pd.read_csv(os.path.join(tuned_dir, "tuned_params.csv"), encoding="utf-8-sig")
+        cv = p.groupby(["h", "W", "task", "model"])["cv_score"].mean().reset_index()
+        cv["model"] = cv["model"] + "(튜닝)"
+        cv = cv.merge(summ_c[["h", "W", "task", "model", "MAE", "PR_AUC"]], on=["h", "W", "task", "model"], how="left")
+        cv["검증(CV) 점수"] = np.where(cv["task"] == "reg", -cv["cv_score"], cv["cv_score"])
+        cv["시험 점수"] = np.where(cv["task"] == "reg", cv["MAE"], cv["PR_AUC"])
+        cv["지표"] = np.where(cv["task"] == "reg", "MAE(낮을수록)", "PR-AUC(높을수록)")
+        cv["과제"] = cv["task"].map({"reg": "회귀", "up": "급등", "dn": "급락"})
+        html += ("<h3>튜닝 모형: 학습창 안 검증(CV) 점수 vs 시험 점수</h3><p class='note'>검증 점수 = 격자 선택에 쓴 3겹 평균(결정월 평균). 검증이 시험보다 많이 좋으면 검증 겹에 맞춘 선택(선택 과적합)을 의심</p>"
+                 + tbl(cv[["h", "W", "과제", "model", "지표", "검증(CV) 점수", "시험 점수"]].sort_values(["h", "W", "과제"]).reset_index(drop=True), index=False))
+    return html
+
+
 # ------------------------------------------------------------ ① 설정: 집합 구성 그림
 def split_fig(h=6, W=4, t="2022-06"):
     t = pd.Period(t, "M")
@@ -319,7 +399,8 @@ t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 �
 <tr><th>지표</th><td>MAE(%p) / F1(임계 0.5·학습창 기준율) / PR-AUC(평균정밀도, 하한 = 양성 비율) / BSS = 1 − Brier ÷ Brier(기준율). 전체 평가 기간 값 + 이동 창 값(MAE 12개월, 분류 24개월)</td></tr>
 <tr><th>1차 설정</th><td>{st['note']}. 트리 {('100' if st.get('quick') else '300')}개, RF·ET leaf 5·max_features 0.5, XGB depth 3·학습률 0.05·subsample 0.8, Logit C=1</td></tr>"""
              + (f"<tr><th>2차 튜닝</th><td>모형 {', '.join(st_t['tune'])}, 학습창 {st_t['windows']}년, 평가 결정월 간격 {st_t['step']}개월(시간 절약). 격자: " + "; ".join(f"{m} {g}" for m, g in st_t["grids"].items()) + "</td></tr>" if has_tuned else "")
-             + "</table><h3>기준·모형 정의 (past_k = 100·[R(t−1)/R(t−1−k) − 1], 결정월 t 에 아는 타깃 자신의 최근 k개월 변화율)</h3>" + definitions_table() + split_fig(h=hs[0], W=4)]
+             + "</table><h3>기준·모형 정의 (past_k = 100·[R(t−1)/R(t−1−k) − 1], 결정월 t 에 아는 타깃 자신의 최근 k개월 변화율)</h3>" + definitions_table() + split_fig(h=hs[0], W=4)
+             + "<h3>집합의 실제 기간 (대표 결정월 기준)</h3>" + "".join(period_table(roll, h, st["windows"], tuple(st_t["windows"]) if has_tuned else ()) for h in hs)]
     # ② 사건 수
     ev, yearly = event_tables(VALUES, st["start"], hs, st["event_thr"])
     fb = summ[(summ["task"] != "reg") & (summ["model"] == "RF")].groupby(["h", "W", "task"])["기준율예측비율"].first().unstack("task")
@@ -348,10 +429,12 @@ t 와 학습 사이 h−1개월은 정답 미확정이라 비움(미래 정보 �
     parts.append("<h2>⑥ 시간에 따른 롤링 성능 (1차)</h2><p class='note'>각 점은 그 달까지의 이동 창(MAE 12개월, 분류 24개월) 성능</p>")
     for h in hs:
         parts.append(rolling_figs(roll, h))
-    # ⑦ 분석
+    # ⑦ 과적합 진단
+    parts.append("<h2>⑦ 과적합 진단 — 적합(학습창 안) 성능 vs 시험 성능</h2>" + overfit_section(d, summ, tuned_dir if has_tuned else None, summ_c if has_tuned else None, st_t))
+    # ⑧ 분석
     if notes and os.path.exists(notes):
-        parts.append("<h2>⑦ 결과 분석 — 전반적 평가·한계·보완사항</h2>" + open(notes, encoding="utf-8").read())
-    parts.append("""<h2>⑧ 읽는 법·주의</h2><ul>
+        parts.append("<h2>⑧ 결과 분석 — 전반적 평가·한계·보완사항</h2>" + open(notes, encoding="utf-8").read())
+    parts.append("""<h2>⑨ 읽는 법·주의</h2><ul>
 <li>베이스라인 AR 은 타깃 자신의 과거 1·3·6개월 변화만 쓴다. 설명변수 모형이 이보다 좋아야 변수에 정보가 있다는 뜻.</li>
 <li>분류 BSS 의 기준은 학습창 기준율이라 0 이면 기준율과 같고, 음수면 기준율보다 못하다(과신). PR-AUC 는 임계값과 무관한 순위 성능이며 양성 비율(Clim 행)이 하한.</li>
 <li>하이퍼파라미터: 1차 고정, 2차는 RF·ET·XGB 만 학습창 안 중첩 시계열 CV. 창마다 평가 기간이 같으므로 창끼리 직접 비교 가능. 튜닝 비교는 같은 결정월 표본으로 다시 계산.</li></ul>""")
