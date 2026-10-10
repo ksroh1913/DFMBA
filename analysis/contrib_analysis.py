@@ -4,7 +4,8 @@
   - XGB(회귀·급등·급락): XGBoost 내장 TreeSHAP(pred_contribs) → 평가 행마다 특성별 SHAP (회귀 %p, 분류 로그오즈). shap 패키지 불필요
   - ET(회귀)·RF(급등): 표본 외 순열 중요도 — 평가 행의 특성값을 학습창에서 무작위로 뽑은 값으로 바꿨을 때 오차 증가(3회 평균). 전국 공통 변수도 평가 가능
 출력(analysis/output/모형결과_10차/): contrib_shap_long.csv, contrib_var.csv(변수별 요약), contrib_driver.csv, contrib_driver_time.csv, contrib_perm.csv, 기여도_section.html(카드 ⑧ 본문)
-사용: PYTHONUTF8=1 python analysis/contrib_analysis.py [--horizons 6 3] [--W 4] [--step 1]
+사용: PYTHONUTF8=1 python analysis/contrib_analysis.py [--horizons 6 3] [--W 4] [--step 1] [--from-csv] [--start 2021-01]
+  --start: 변수·동인 요약을 집계하는 첫 결정월(기본 = 결과 카드의 지표 집계 시작 MAIN_START). 계산 자체는 2018-01부터 전진하며 긴 형식 CSV 는 전체를 저장
 """
 import argparse
 import base64
@@ -27,6 +28,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import variable_card as vc  # noqa: E402
 from rolling_models import EVENT_THR, MIN_POS, load, models_for  # noqa: E402
+from model_card import MAIN_START  # noqa: E402  — 지표 집계 시작 결정월(결과 카드와 같은 기준)
 
 warnings.filterwarnings("ignore")
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -133,13 +135,16 @@ def run(h, W, step, df, X, feats, log):
 
 
 # ------------------------------------------------------------ 요약·그림
-def summarize(shap_df, perm_df, log):
+def summarize(shap_df, perm_df, log, start=None):
+    """변수별·동인별 요약. start 를 주면 변수·동인 비중과 순열 중요도는 그 결정월 이후(지표 집계 기간)만 집계하고, 시간 변화(dt)는 전체 기간을 둔다"""
     shap_df["driver"] = shap_df["feature"].map(lambda f: driver_of(f, log))
     perm_df["driver"] = perm_df["feature"].map(lambda f: driver_of(f, log))
+    s = shap_df[shap_df["t"] >= start] if start else shap_df
+    perm_df = perm_df[perm_df["t"] >= start] if (start and not perm_df.empty) else perm_df
     # 변수별
-    g = shap_df.groupby(["h", "W", "task", "feature", "driver"])
-    var = g.agg(mean_abs_shap=("shap", lambda s: float(np.abs(s).mean())), mean_shap=("shap", "mean"),
-                sign_corr=("shap", lambda s: float(np.corrcoef(s, shap_df.loc[s.index, "x"])[0, 1]) if s.std() > 0 and shap_df.loc[s.index, "x"].std() > 0 else np.nan)).reset_index()
+    g = s.groupby(["h", "W", "task", "feature", "driver"])
+    var = g.agg(mean_abs_shap=("shap", lambda v: float(np.abs(v).mean())), mean_shap=("shap", "mean"),
+                sign_corr=("shap", lambda v: float(np.corrcoef(v, s.loc[v.index, "x"])[0, 1]) if v.std() > 0 and s.loc[v.index, "x"].std() > 0 else np.nan)).reset_index()
     var["share"] = var["mean_abs_shap"] / var.groupby(["h", "W", "task"])["mean_abs_shap"].transform("sum")
     var["rank"] = var.groupby(["h", "W", "task"])["mean_abs_shap"].rank(ascending=False).astype(int)
     var["변수"] = var["feature"].map(short_name)
@@ -200,7 +205,7 @@ def fig_driver_share(drv, h, W):
     return img(fig)
 
 
-def fig_driver_time(dt, h, W):
+def fig_driver_time(dt, h, W, start=None):
     tasks = [t for t in ("reg", "up", "dn") if t in set(dt["task"])]
     fig, axes = plt.subplots(len(tasks), 1, figsize=(10.5, 2.6 * len(tasks)), sharex=True, squeeze=False)
     for ax, task in zip(axes[:, 0], tasks):
@@ -211,12 +216,15 @@ def fig_driver_time(dt, h, W):
         ax.stackplot(d.index, [d[k].clip(lower=0) for k in order], colors=[DRIVER_COLOR[k] for k in order], alpha=0.85)
         ax.stackplot(d.index, [d[k].clip(upper=0) for k in order], colors=[DRIVER_COLOR[k] for k in order], alpha=0.85)
         ax.axhline(0, color=C["axis"], lw=0.8)
+        if start:
+            ax.axvspan(d.index.min(), pd.Period(start, "M").to_timestamp(), color=C["grid"], alpha=0.55, lw=0, zorder=0)
         ax.set_title(f"{TASK_KR[task]} — 동인별 기여(17개 시도 평균 SHAP, 3개월 이동평균)의 시간 변화", loc="left")
         ax.xaxis.set_major_locator(mdates.YearLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
     handles = [plt.Rectangle((0, 0), 1, 1, color=DRIVER_COLOR[k]) for k in DRIVER_COLOR]
     fig.legend(handles, [DRIVER_NAME[k] for k in DRIVER_COLOR], loc="center left", bbox_to_anchor=(1.0, 0.5))
-    fig.suptitle(f"{h}개월 뒤 예측, 학습창 {W}년, XGB — 0 위는 예측을 올리는 기여, 0 아래는 내리는 기여 (기준값 제외)", x=0.01, y=1.01, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
+    fig.suptitle(f"{h}개월 뒤 예측, 학습창 {W}년, XGB — 0 위는 예측을 올리는 기여, 0 아래는 내리는 기여 (기준값 제외" + (f"; 회색 = {start} 전, 집계 제외)" if start else ")"),
+                 x=0.01, y=1.01, ha="left", fontsize=11, fontweight="bold", color=C["ink"])
     fig.tight_layout()
     return img(fig)
 
@@ -236,11 +244,12 @@ def fig_dependence(shap_df, var, h, W, task="reg", top=6):
     return img(fig)
 
 
-def build_section(var, drv, dt, perm, shap_df, hs, W):
+def build_section(var, drv, dt, perm, shap_df, hs, W, start=None):
     parts = ["<p class='note'><b>방법</b>: 권고 설정(학습창 4년, 1차 고정 파라미터)의 롤링을 그대로 재현하며 매 결정월 평가 행(17개 시도)에서 XGB 의 TreeSHAP(모형이 그 예측을 낸 데 각 특성이 기여한 양, 회귀는 %p, 분류는 로그오즈)를 모았다. "
-             "전체 평가 기간의 평균 |SHAP| 가 변수 중요도, 동인별 합의 비중이 동인 기여도다. ET(회귀)·RF(급등)는 표본 외 순열 중요도(평가 행의 특성값을 학습창 값으로 바꿨을 때 오차 증가)로 보완했다.</p>"]
+             + (f"지표 집계와 같은 평가 기간({start}~)의 " if start else "전체 평가 기간의 ") + "평균 |SHAP| 가 변수 중요도, 동인별 합의 비중이 동인 기여도다. ET(회귀)·RF(급등)는 표본 외 순열 중요도(평가 행의 특성값을 학습창 값으로 바꿨을 때 오차 증가)로 보완했다."
+             + (" 시간 변화 그림만 모형이 전진한 전체 기간(2018-01~)을 보이며 집계 제외 구간은 회색." if start else "") + "</p>"]
     for h in hs:
-        parts.append(f"<h3>{h}개월 뒤 예측</h3>" + fig_driver_share(drv, h, W) + fig_top_vars(var, h, W) + fig_driver_time(dt, h, W))
+        parts.append(f"<h3>{h}개월 뒤 예측</h3>" + fig_driver_share(drv, h, W) + fig_top_vars(var, h, W) + fig_driver_time(dt, h, W, start))
         if ((shap_df["h"] == h) & (shap_df["task"] == "reg")).any():
             parts.append(fig_dependence(shap_df, var, h, W, "reg"))
         d = drv[(drv["h"] == h) & (drv["W"] == W)].pivot(index="동인", columns="task", values="share").rename(columns={"reg": "회귀", "up": "급등", "dn": "급락"})
@@ -263,6 +272,7 @@ def main():
     ap.add_argument("--W", type=int, default=4)
     ap.add_argument("--step", type=int, default=1)
     ap.add_argument("--from-csv", action="store_true", help="계산을 건너뛰고 저장된 contrib_*.csv 로 요약·그림만 다시 만든다")
+    ap.add_argument("--start", default=MAIN_START, help="변수·동인 요약을 집계할 첫 결정월(결과 카드의 지표 집계 기간과 같게). 빈 문자열이면 전체")
     args = ap.parse_args()
     log = vc.log_load()
     if args.from_csv:
@@ -278,16 +288,17 @@ def main():
             perm_all.append(p)
         shap_df, perm_df = pd.concat(shap_all, ignore_index=True), pd.concat(perm_all, ignore_index=True)
         perm_df.to_csv(os.path.join(OUT, "contrib_perm_long.csv"), index=False, encoding="utf-8-sig")
-    var, drv, dt, perm = summarize(shap_df, perm_df, log)
+    start = args.start or None
+    var, drv, dt, perm = summarize(shap_df, perm_df, log, start)
     if args.from_csv and perm.empty and os.path.exists(os.path.join(OUT, "contrib_perm.csv")):      # 긴 형식이 없으면 저장된 요약을 그대로 씀
         perm = pd.read_csv(os.path.join(OUT, "contrib_perm.csv"), encoding="utf-8-sig")
         perm["변수"] = perm["변수"].str.replace("−", "-")
-    shap_df.to_csv(os.path.join(OUT, "contrib_shap_long.csv"), index=False, encoding="utf-8-sig")
-    var.to_csv(os.path.join(OUT, "contrib_var.csv"), index=False, encoding="utf-8-sig")
+    shap_df.to_csv(os.path.join(OUT, "contrib_shap_long.csv"), index=False, encoding="utf-8-sig")        # 긴 형식은 전체 기간 그대로 저장
+    var.to_csv(os.path.join(OUT, "contrib_var.csv"), index=False, encoding="utf-8-sig")                  # 요약 CSV 는 start 이후 집계
     drv.to_csv(os.path.join(OUT, "contrib_driver.csv"), index=False, encoding="utf-8-sig")
     dt.to_csv(os.path.join(OUT, "contrib_driver_time.csv"), index=False, encoding="utf-8-sig")
     perm.to_csv(os.path.join(OUT, "contrib_perm.csv"), index=False, encoding="utf-8-sig")
-    html = build_section(var, drv, dt, perm, shap_df, args.horizons, args.W)
+    html = build_section(var, drv, dt, perm, shap_df[shap_df["t"] >= start] if start else shap_df, args.horizons, args.W, start)
     with open(os.path.join(OUT, "기여도_section.html"), "w", encoding="utf-8") as f:
         f.write(html)
     pd.set_option("display.width", 220)

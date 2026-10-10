@@ -21,6 +21,7 @@ p.note{color:var(--ink2);margin:6px 0 10px}details{margin:8px 0}summary{cursor:p
 .tile{flex:1 1 230px;border:1px solid var(--grid);border-radius:10px;padding:12px 14px;background:#fff}
 .tile .lab{font-size:12px;color:var(--ink2)}.tile .num{font-size:26px;font-weight:700;margin:2px 0;letter-spacing:-0.02em}.tile .sub{font-size:12px;color:var(--ink2)}.tile .good{color:var(--accent)}
 div.analysis h4{margin:14px 0 6px}ul{padding-left:20px}li{margin:3px 0}
+.caveat{border:1px solid #e6c48f;background:#fff7e8;border-radius:10px;padding:10px 14px;margin:12px 0}.caveat .t{display:block;font-weight:700;margin-bottom:4px}.caveat ul{margin:4px 0}
 a{color:var(--accent)}
 </style>"""
 
